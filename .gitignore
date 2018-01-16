@@ -2,4 +2,6 @@
 /.vscode/chrome
 /.vs/
 
+/client/node_modules
+
 package-lock.json
