@@ -2,21 +2,30 @@ import { Case } from './case';
 
 export class GridManager {
 
+    private grid : Case[][];
+
     constructor() { 
 
     }
 
-    public generateGrid(length : number, width : number) {
-        var cases: Case[][];
-        cases = [];
-        for (var i : number = 0; i < length; i++){
-            cases[i] = [];
-            for (var j : number = 0; j < width; j++){
-                cases[i][j] = new Case();
-            }
-        }
-        return cases
+    public getCases(){
+        return this.grid;
     }
 
-    //TODO : create negative exception
+    public generateGrid(length : number, width : number) {
+        //TODO : create negative exception for generate grid
+        this.grid = [];
+        for (let i : number = 0; i < length; i++){
+            this.grid[i] = [];
+            for (let j : number = 0; j < width; j++){
+                this.grid[i][j] = new Case();
+            }
+        }
+        return this.grid
+    }
+
+    public randomGreyCaseGenerator(percentage : number){
+        //let maxNumberOfCase : number = Math.floor();
+    }
+
 }
