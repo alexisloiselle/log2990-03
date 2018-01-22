@@ -1,5 +1,5 @@
 export class Case {
-  private color: string;
+  private isBlack: boolean;
   private letterTyped : string
   private rightLetter : string
 }
