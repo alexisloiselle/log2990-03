@@ -1,3 +1,5 @@
 export class Case {
-  color: string;
+  private color: string;
+  private letterTyped : string
+  private rightLetter : string
 }
