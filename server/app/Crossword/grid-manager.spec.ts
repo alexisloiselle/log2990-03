@@ -10,18 +10,20 @@ describe("Grid-Generator", () => {
     gridGenerator = new GridManager;
     
     let cases: Case[][];
-    cases = gridGenerator.generateGrid(8,5); 
+    const width = 8;
+    const height = 5;
+    cases = gridGenerator.generateGrid(width,height); 
 
     beforeEach(() => {
         
     });
 
-    describe("Constructor", () => {
-        it("should exist and have words", () => {
-            expect(cases.length).to.equal(8);
+    describe("Grid Generation", () => {
+        it("Should have the right width", () => {
+            expect(cases.length).to.equal(width);
         });
-        it("should exist and have words", () => {
-            expect(cases[0].length).to.equal(5);
+        it("Should have the right height", () => {
+            expect(cases[0].length).to.equal(height);
         });
     });
 });
