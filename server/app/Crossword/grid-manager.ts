@@ -1,14 +1,12 @@
 import { Case } from './case';
 
-export class GridCreator {
-
-    private grid : Case[][];
+export class GridManager {
 
     constructor() { 
 
     }
 
-    public gridInit(length : number, width : number) {
+    public generateGrid(length : number, width : number) {
         var cases: Case[][];
         cases = [];
         for (var i : number = 0; i < length; i++){
@@ -17,10 +15,7 @@ export class GridCreator {
                 cases[i][j] = new Case();
             }
         }
-    }
-
-    public getGrid() : Case[][] {
-        return this.grid;
+        return cases
     }
 
     //TODO : create negative exception
