@@ -40,4 +40,23 @@ describe("Lexicon", () => {
             expect(wordsTwoLong.length).to.be.equal(0);
         });
     });
+
+    // commented, to not bust the requests limit
+    // describe("getDefs", () => {
+    //     it("should contain 2 or less defs", (done: Function) => {
+    //         lexicon.getDefinitions("cat").then((res: string[]) => {
+    //             expect(res.length).to.be.below(3);
+    //             done();
+    //         });
+    //     });
+    // });
+
+    // describe("getFrequency", () => {
+    //     it("table should have 41 frequencies", (done: Function) => {
+    //         lexicon.getFrequency("table").then((res: number) => {
+    //             expect(res).to.be.equal(41);
+    //             done();
+    //         });
+    //     });
+    // });
 });
