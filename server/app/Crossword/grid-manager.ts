@@ -1,8 +1,10 @@
 import { Case } from "./case";
+import { BlackCaseManager } from "./black-case-manager"
 
 export class GridManager {
 
     private grid: Case[][];
+    private blackCaseManager;
 
     constructor() {}
 
@@ -19,26 +21,8 @@ export class GridManager {
                 this.grid[i][j] = new Case();
             }
         }
-    }
-
-    public populateArray(): [number, number][] {
-        const array: [number, number][] = [];
-        for (let i: number = 0; i < this.grid.length; i++) {
-            for (let j: number = 0; j < this.grid[0].length; j++) {
-                array.push([i, j]);
-            }
-        }
-
-        return array;
-    }
-
-    public randomBlackCaseGenerator(percentage: number): void {
-        /* tslint:disable: no-magic-numbers */
-        const maxNumberOfCase: number = Math.floor(percentage / 100 * this.grid.length * this.grid[0].length);
-        let possibleCase: [number, number][] = this.populateArray();
-
-        for (let i: number = 0; i < maxNumberOfCase; i++) {
-            // TODO
-        }
+        this.blackCaseManager = new BlackCaseManager(height, width, this.grid);
+        const percentage: number = 30;
+        this.blackCaseManager.generateBlackCases(percentage);
     }
 }
