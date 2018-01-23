@@ -1,31 +1,44 @@
-import { Case } from './case';
+import { Case } from "./case";
 
 export class GridManager {
 
-    private grid : Case[][];
+    private grid: Case[][];
 
-    constructor() { 
+    constructor() {}
 
-    }
-
-    public getCases(){
+    public getCases(): Case[][] {
         return this.grid;
     }
 
-    public generateGrid(length : number, width : number) {
-        //TODO : create negative exception for generate grid
+    public generateGrid(height: number, width: number): void {
+        // TODO : create negative exception for generate grid
         this.grid = [];
-        for (let i : number = 0; i < length; i++){
+        for (let i: number = 0; i < height; i++) {
             this.grid[i] = [];
-            for (let j : number = 0; j < width; j++){
+            for (let j: number = 0; j < width; j++) {
                 this.grid[i][j] = new Case();
             }
         }
-        return this.grid
     }
 
-    public randomGreyCaseGenerator(percentage : number){
-        //let maxNumberOfCase : number = Math.floor();
+    public populateArray(): [number, number][] {
+        const array: [number, number][] = [];
+        for (let i: number = 0; i < this.grid.length; i++) {
+            for (let j: number = 0; j < this.grid[0].length; j++) {
+                array.push([i, j]);
+            }
+        }
+
+        return array;
     }
 
+    public randomBlackCaseGenerator(percentage: number): void {
+        /* tslint:disable: no-magic-numbers */
+        const maxNumberOfCase: number = Math.floor(percentage / 100 * this.grid.length * this.grid[0].length);
+        let possibleCase: [number, number][] = this.populateArray();
+
+        for (let i: number = 0; i < maxNumberOfCase; i++) {
+
+        }
+    }
 }
