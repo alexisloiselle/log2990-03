@@ -6,15 +6,15 @@ import { Case } from "./case"
 
 describe("Grid-Generator", () => {
 
-    var gridManager: GridManager;
-    gridManager = new GridManager;
+    var gridGenerator: GridManager;
+    gridGenerator = new GridManager;
     
-    const height = 5;
     const width = 8;
-    gridManager.generateGrid(height, width);
+    const height = 5;
+    gridGenerator.generateGrid(width,height);
 
     let cases: Case[][];
-    cases = gridManager.getCases();
+    cases = gridGenerator.getCases();
 
     beforeEach(() => {
         
@@ -22,22 +22,10 @@ describe("Grid-Generator", () => {
 
     describe("Grid Generation", () => {
         it("Should have the right width", () => {
-            expect(cases.length).to.equal(height);
+            expect(cases.length).to.equal(width);
         });
         it("Should have the right height", () => {
-            expect(cases[0].length).to.equal(width);
-        });
-    });
-
-    let array: [number, number][] = gridManager.populateArray();
-
-    describe("Array Population", () => {
-        it("Should have the right tuple", () => {
-            expect(array[0]).to.equal([0,0]);
-        });
-
-        it("Should have the right tuple", () => {
-            expect(array[9]).to.equal([1,1]);
+            expect(cases[0].length).to.equal(height);
         });
     });
 });
