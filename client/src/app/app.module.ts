@@ -8,12 +8,14 @@ import { GameComponent } from "./game-component/game.component";
 import { RenderService } from "./render-service/render.service";
 import { BasicService } from "./basic.service";
 import { GridComponent } from './grid/grid.component';
+import { TrackEditorComponent } from './track-editor/track-editor.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         GameComponent,
-        GridComponent
+        GridComponent,
+        TrackEditorComponent
     ],
     imports: [
         BrowserModule,
