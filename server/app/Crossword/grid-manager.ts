@@ -38,7 +38,7 @@ export class GridManager {
         let possibleCase: [number, number][] = this.populateArray();
 
         for (let i: number = 0; i < maxNumberOfCase; i++) {
-
+            // TODO
         }
     }
 }
