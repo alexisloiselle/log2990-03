@@ -9,13 +9,17 @@ import { RenderService } from "./render-service/render.service";
 import { BasicService } from "./basic.service";
 import { GridComponent } from './grid/grid.component';
 import { TrackEditorComponent } from './track-editor/track-editor.component';
+import { RaceTrackComponent } from './race-track/race-track.component';
+
+import { GameService} from './game.service';
 
 @NgModule({
     declarations: [
         AppComponent,
         GameComponent,
         GridComponent,
-        TrackEditorComponent
+        TrackEditorComponent,
+        RaceTrackComponent
     ],
     imports: [
         BrowserModule,
@@ -23,7 +27,8 @@ import { TrackEditorComponent } from './track-editor/track-editor.component';
     ],
     providers: [
         RenderService,
-        BasicService
+        BasicService,
+        GameService
     ],
     bootstrap: [AppComponent]
 })
