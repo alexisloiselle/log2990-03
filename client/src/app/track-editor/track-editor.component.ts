@@ -1,11 +1,7 @@
-<<<<<<< HEAD
 import { Component, OnInit, ElementRef, ViewChild} from "@angular/core";
 import { Event } from "_debugger";
 //We need to import the pointCoordinates class
 import { pointCoordinates } from "./pointCoordinates";
-=======
-import { Component, OnInit } from "@angular/core";
->>>>>>> b62e974b238c86ad09953429f293e2c58a3aca20
 
 @Component({
   selector: "app-track-editor",
