@@ -41,7 +41,9 @@ describe("Lexicon", () => {
         });
     });
 
-    // commented, to not bust the requests limit
+    // COMMENTED, TO NOT BUST THE REQUESTS LIMIT
+
+
     // describe("getDefs", () => {
     //     it("should contain 2 or less defs", (done: Function) => {
     //         lexicon.getDefinitions("cat").then((res: string[]) => {
@@ -59,4 +61,23 @@ describe("Lexicon", () => {
     //         });
     //     });
     // });
+
+    describe("isUncommun", () => {
+        it ("Word should be common", function(done) {
+            const uncommon: boolean = lexicon.isUncommon("table");
+            expect(uncommon).to.be.equal(false);
+            done();
+         });
+    });
+
+    describe("isUncommun", () => {
+        it ("Word should be uncommon", function(done) {
+            const uncommon: boolean = lexicon.isUncommon("alcazar");
+            expect(uncommon).to.be.equal(false);
+            done();
+         });
+    });
+                
+     
+    
 });

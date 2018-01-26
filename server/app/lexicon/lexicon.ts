@@ -25,7 +25,7 @@ export class Lexicon {
         const defs: string[] = [];
 
         return new Promise<string[]>((resolve: Function) => {
-            request(API_URL + word + API_DEFS + API_KEY, (error, response, body) => {
+            request(API_URL + word + API_DEFS + API_KEY, (error:any, response:any, body:any) => { // Alexis jai mis any pour type mais je sais pas sa devrait etre quoi cest pour tsLint
                 body = JSON.parse(body);
                 for (let i = 0; i < body.length && i < MAX_DEFS; i++) {
                     defs.push(body[i].text);
@@ -37,14 +37,25 @@ export class Lexicon {
 
     // see lexicon.spec.ts to see how to use this function
     public async getFrequency(word: string): Promise<number> {
-        let freq: number = 0;
+        let freq = 0;
 
         return new Promise<number>((resolve: Function) => {
-            request(API_URL + word + API_FREQ + API_KEY + FREQ_OPTS, (error, response, body) => {
+            request(API_URL + word + API_FREQ + API_KEY + FREQ_OPTS, (error:any, response:any, body:any) => {
                 body = JSON.parse(body);
                 freq = body.totalCount;
                 resolve(freq);
             });
         });
+    }
+
+     public  isUncommon(word : string):boolean {
+        let uncommon : boolean= false;
+        this.getFrequency(word).then((frequence: Number) => {
+            if (frequence === 0 ) {
+                uncommon = true;
+            }  
+        });
+
+        return uncommon;  
     }
 }
