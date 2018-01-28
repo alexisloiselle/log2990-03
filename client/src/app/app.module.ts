@@ -9,9 +9,10 @@ import { RenderService } from "./render-service/render.service";
 import { BasicService } from "./basic.service";
 import { GridComponent } from './grid/grid.component';
 import { TrackEditorComponent } from './track-editor/track-editor.component';
-import { RaceTrackComponent } from './race-track/race-track.component';
 
 import { GameService} from './game.service';
+import { TrackListComponent } from './track-list/track-list.component';
+import { RaceTrackComponent } from './race-track/race-track.component';
 
 @NgModule({
     declarations: [
@@ -19,6 +20,7 @@ import { GameService} from './game.service';
         GameComponent,
         GridComponent,
         TrackEditorComponent,
+        TrackListComponent,
         RaceTrackComponent
     ],
     imports: [

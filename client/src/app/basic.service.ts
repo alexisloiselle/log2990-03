@@ -10,7 +10,7 @@ import { Message } from "../../../common/communication/message";
 @Injectable()
 export class BasicService {
 
-    private readonly BASE_URL: string = "http://localhost:3000/";
+    private readonly BASE_URL: string = "http://localhost:4200/";
     public constructor(private http: HttpClient) { }
 
     public basicGet(): Observable<Message> {

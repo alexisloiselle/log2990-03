@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild} from "@angular/core";
-import { Event } from "_debugger";
+import * as THREE from 'three';
 //We need to import the pointCoordinates class
 import { pointCoordinates } from "./pointCoordinates";
 
@@ -8,14 +8,16 @@ import { pointCoordinates } from "./pointCoordinates";
   templateUrl: "./track-editor.component.html",
   styleUrls: ["./track-editor.component.css"]
 })
+ 
 export class TrackEditorComponent implements OnInit {
   @ViewChild("canvas") 
   private canvasRef: ElementRef;
   private pointArray: pointCoordinates[] = [];
   private ctx : any;
-  
+
+  public display = new THREE.Object3D();
   constructor() { 
-    
+     
   }
 
   ngOnInit() {
@@ -26,7 +28,7 @@ export class TrackEditorComponent implements OnInit {
     this.canvasRef.nativeElement.width = 800;
   }
 
-  canvasClicked(event : Event){
+  canvasClicked(event : any){
     //console.log(this.canvasRef.nativeElement.offsetTop + " " +this.canvasRef.nativeElement.offsetLeft)
     //console.log(event);
     //We draw the dots on the canvas using the event's layerX and layerY properties
