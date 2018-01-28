@@ -13,4 +13,10 @@ export class pointCoordinates {
     getY(){
         return this.y;
     }
+    setX(x: number){
+        this.x = x;
+    }
+    setY(y: number){
+        this.y = y;
+    }
 }
