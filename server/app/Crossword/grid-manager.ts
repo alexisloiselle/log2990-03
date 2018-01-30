@@ -8,12 +8,11 @@ export class GridManager {
 
     constructor() {}
 
-    public getCases(): Case[][] {
+    public getGrid(): Case[][] {
         return this.grid;
     }
 
-    public generateGrid(height: number, width: number): void {
-        // TODO : create negative exception for generate grid
+    private createGrid(height: number, width: number){
         this.grid = [];
         for (let i: number = 0; i < height; i++) {
             this.grid[i] = [];
@@ -25,8 +24,13 @@ export class GridManager {
                 this.grid[i][j].setVerticalWordLength(height);
             }
         }
-        this.blackCasePlacer = new BlackCasePlacer(height, width, this.grid);
+    }
+
+    public generateGrid(height: number, width: number): void {
+        // TODO : create negative exception for generate grid
+        this. createGrid(height, width);
+        this.blackCasePlacer = new BlackCasePlacer(height, width);
         const percentage: number = 30;
-        this.blackCasePlacer.generateBlackCases(percentage);
+        this.blackCasePlacer.generateBlackCases(this.grid, percentage);
     }
 }
