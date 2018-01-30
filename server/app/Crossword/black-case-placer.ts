@@ -1,16 +1,16 @@
 import { Case } from "./case";
-import { PossibleCasesArrayManager } from "./possible-cases-array-manager"; 
+import { PossibleCasesArrayManager } from "./possible-cases-array-manager";
 
 export class BlackCasePlacer {
-    private possibleCasesArrayManager: PossibleCasesArrayManager; 
+    private possibleCasesArrayManager: PossibleCasesArrayManager;
 
     constructor(numberOfLine: number, numberOfColumns: number) {
         this.possibleCasesArrayManager = new PossibleCasesArrayManager(numberOfLine, numberOfColumns);
     }
 
-    public getColum(grid : Case[][], pos : number) {
-        let column = [];
-        for (let i = 0; i < grid.length; i++){
+    public getColum(grid: Case[][], pos: number) {
+        const column = [];
+        for (let i = 0; i < grid.length; i++) {
             column.push(grid[i][pos]);
         }
         return column;
@@ -23,7 +23,7 @@ export class BlackCasePlacer {
             const caseIsFound: boolean = false;
             while (!caseIsFound && !this.possibleCasesArrayManager.isArrayEmpty()) {
                 const position: [number, number] = this.possibleCasesArrayManager.findRandomCase();
-                let caseIsFound: boolean = this.placeBlackCase(grid, position[0], position[1]);
+                const caseIsFound: boolean = this.placeBlackCase(grid, position[0], position[1]);
             }
             if (this.possibleCasesArrayManager.isArrayEmpty()) {
                 break;
@@ -31,10 +31,10 @@ export class BlackCasePlacer {
         }
     }
 
-    public placeBlackCase(grid : Case[][], line : number, row : number) : boolean {
+    public placeBlackCase(grid: Case[][], line: number, row: number): boolean {
         // We place a black case if the row and line still have at least a word and
         //  if we don't create 1 or 2 char words
-        if (this.tableHas1Word(this.getColum(grid, row), line) && this.tableHas1Word(grid[line], row) 
+        if (this.tableHas1Word(this.getColum(grid, row), line) && this.tableHas1Word(grid[line], row)
         && this.doesntCreateShortWords(grid, line, row)) {
             this.updateCases(grid, line, row);
             return true;
@@ -42,7 +42,7 @@ export class BlackCasePlacer {
         return false;
     }
 
-    public updateCases(grid : Case[][], line : number, row : number) {
+    public updateCases(grid: Case[][], line: number, row: number) {
         // Update newly created word cases info
         let newWordLength = grid[line][row].getHorizontalWordLength() - grid[line][row].getHorizontalPositionInWord() - 1;
         for (let i = 1; i <= grid[line][row].getHorizontalPositionInWord(); i++) {
@@ -59,7 +59,7 @@ export class BlackCasePlacer {
         }
         for (let j = 0; j < newWordLength; j++) {
             grid[line + j + 1][row].setVerticalPositionInWord(j);
-            grid[line + j + 1][row].setVerticalWordLength(newWordLength);            
+            grid[line + j + 1][row].setVerticalWordLength(newWordLength);
         }
 
         // Update the new black case info
@@ -71,11 +71,11 @@ export class BlackCasePlacer {
     }
 
     // **Currently doesnt allow 2 letters word but could be changed !
-    public doesntCreateShortWords(grid : Case[][], line : number, row : number) : boolean {
+    public doesntCreateShortWords(grid: Case[][], line: number, row: number): boolean {
         // Newly created horizontal word length if we place a black case
-        let leftWordLength = grid[line][row].getHorizontalPositionInWord();
-        let rightWordLength = grid[line][row].getHorizontalWordLength() - grid[line][row].getHorizontalPositionInWord() - 1;
-        
+        const leftWordLength = grid[line][row].getHorizontalPositionInWord();
+        const rightWordLength = grid[line][row].getHorizontalWordLength() - grid[line][row].getHorizontalPositionInWord() - 1;
+
         // Making sure that if we create 1 or 2 char horizontal words, they can still form 3+ char word vertically
         if (leftWordLength == 1 || leftWordLength == 2) {
             for (let i = 1; i <= leftWordLength; i++) {
@@ -91,10 +91,10 @@ export class BlackCasePlacer {
                 }
             }
         }
-        
+
         // Newly created vertical word length if we place a black case
-        let upperWordLength = grid[line][row].getVerticalPositionInWord();
-        let lowerWordLength = grid[line][row].getVerticalWordLength() - grid[line][row].getVerticalPositionInWord() - 1;
+        const upperWordLength = grid[line][row].getVerticalPositionInWord();
+        const lowerWordLength = grid[line][row].getVerticalWordLength() - grid[line][row].getVerticalPositionInWord() - 1;
 
         // Making sure that if we create 1 or 2 char vertical words, they can still form 3+ char word horizontally
         if (upperWordLength == 1 || upperWordLength == 2) {
@@ -115,7 +115,7 @@ export class BlackCasePlacer {
         return true;
     }
 
-    public tableHas1Word(table : Case[], pos : number) : boolean {
+    public tableHas1Word(table: Case[], pos: number): boolean {
         let nbWhiteCase = 0;
 
         // Looping on the table to make sure there's at least one word of more than 2 char

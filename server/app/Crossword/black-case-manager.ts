@@ -5,7 +5,7 @@ export class BlackCaseManager {
     private height: number;
     private width: number;
     private possibleCasesArrayManager: PossibleCasesArrayManager;
-    
+
     private grid: Case[][];
 
     constructor(height: number, width: number, grid: Case[][]) {

@@ -1,3 +1,3 @@
-export abstract class AbstractArrayManager{
-    abstract removeFromArray(index: number): void;
+export abstract class AbstractArrayManager {
+    public abstract removeFromArray(index: number): void;
 }

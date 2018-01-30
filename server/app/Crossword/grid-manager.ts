@@ -1,10 +1,11 @@
 import { Case } from "./case";
-import { BlackCasePlacer } from "./black-case-placer"
+import { BlackCasePlacer } from "./black-case-placer";
 
 export class GridManager {
 
     private grid: Case[][];
-    private blackCasePlacer : BlackCasePlacer;
+    private blackCasePlacer: BlackCasePlacer;
+    private difficulty: string;
 
     constructor() {}
 
@@ -12,7 +13,7 @@ export class GridManager {
         return this.grid;
     }
 
-    private createGrid(height: number, width: number){
+    private createGrid(height: number, width: number) {
         this.grid = [];
         for (let i: number = 0; i < height; i++) {
             this.grid[i] = [];
@@ -26,9 +27,10 @@ export class GridManager {
         }
     }
 
-    public generateGrid(height: number, width: number): void {
+    public generateGrid(height: number, width: number, difficulty: string): void {
         // TODO : create negative exception for generate grid
         this.createGrid(height, width);
+        this.difficulty = difficulty;
         this.blackCasePlacer = new BlackCasePlacer(height, width);
         const percentage: number = 30;
         this.blackCasePlacer.generateBlackCases(this.grid, percentage);

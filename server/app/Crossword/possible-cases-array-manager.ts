@@ -3,8 +3,8 @@ import { AbstractArrayManager } from "./abstract-array-manager";
 export class PossibleCasesArrayManager extends AbstractArrayManager {
 
     private possibleCase: [number, number][];
-    
-    constructor(numberOfLines: number, numberOfRows: number){
+
+    constructor(numberOfLines: number, numberOfRows: number) {
         super();
         this.possibleCase = [];
         for (let i: number = 0; i < numberOfLines; i++) {
@@ -33,7 +33,7 @@ export class PossibleCasesArrayManager extends AbstractArrayManager {
     }
 
     public findRandomCase(): [number, number] {
-        let position: [number, number] = this.possibleCase[Math.floor(Math.random() * (this.possibleCase.length - 1))];
+        const position: [number, number] = this.possibleCase[Math.floor(Math.random() * (this.possibleCase.length - 1))];
         this.removeFromArray(this.findCaseByPosition(position));
         return position;
     }
