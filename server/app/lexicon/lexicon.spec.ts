@@ -44,23 +44,23 @@ describe("Lexicon", () => {
     // COMMENTED, TO NOT BUST THE REQUESTS LIMIT
 
 
-    // describe("getDefs", () => {
-    //     it("should contain 2 or less defs", (done: Function) => {
-    //         lexicon.getDefinitions("cat").then((res: string[]) => {
-    //             expect(res.length).to.be.below(3);
-    //             done();
-    //         });
-    //     });
-    // });
+    describe("getDefs", () => {
+        it("should contain 2 or less defs", (done: Function) => {
+            lexicon.getDefinitions("cat").then((res: string[]) => {
+                expect(res.length).to.be.below(3);
+                done();
+            });
+        });
+    });
 
-    // describe("getFrequency", () => {
-    //     it("table should have 41 frequencies", (done: Function) => {
-    //         lexicon.getFrequency("table").then((res: number) => {
-    //             expect(res).to.be.equal(41);
-    //             done();
-    //         });
-    //     });
-    // });
+    describe("getFrequency", () => {
+        it("table should have 41 frequencies", (done: Function) => {
+            lexicon.getFrequency("table").then((res: number) => {
+                expect(res).to.be.equal(41);
+                done();
+            });
+        });
+    });
 
     describe("isUncommun", () => {
         it ("Word should be common", function(done) {
