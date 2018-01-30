@@ -18,10 +18,6 @@ export class PossibleCasesArrayManager extends AbstractArrayManager {
         return this.possibleCase.length == 0;
     }
 
-    public findRandomCase(): [number, number] {
-        return this.possibleCase[Math.floor(Math.random() * (this.possibleCase.length - 1))];
-    }
-
     public findCaseByPosition(position: [number, number]): number {
         for (let i: number = 0; i < this.possibleCase.length; i++) {
             if (this.possibleCase[i] == position) {
@@ -34,5 +30,11 @@ export class PossibleCasesArrayManager extends AbstractArrayManager {
     public removeFromArray(index: number): void {
         this.possibleCase[index] = this.possibleCase[this.possibleCase.length - 1];
         this.possibleCase.pop();
+    }
+
+    public findRandomCase(): [number, number] {
+        let position: [number, number] = this.possibleCase[Math.floor(Math.random() * (this.possibleCase.length - 1))];
+        this.removeFromArray(this.findCaseByPosition(position));
+        return position;
     }
 }

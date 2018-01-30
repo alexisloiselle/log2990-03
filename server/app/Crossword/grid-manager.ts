@@ -28,7 +28,7 @@ export class GridManager {
 
     public generateGrid(height: number, width: number): void {
         // TODO : create negative exception for generate grid
-        this. createGrid(height, width);
+        this.createGrid(height, width);
         this.blackCasePlacer = new BlackCasePlacer(height, width);
         const percentage: number = 30;
         this.blackCasePlacer.generateBlackCases(this.grid, percentage);

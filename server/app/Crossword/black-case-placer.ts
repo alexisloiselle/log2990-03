@@ -23,8 +23,7 @@ export class BlackCasePlacer {
             const caseIsFound: boolean = false;
             while (!caseIsFound && !this.possibleCasesArrayManager.isArrayEmpty()) {
                 const position: [number, number] = this.possibleCasesArrayManager.findRandomCase();
-                let caseIsFound: boolean = this.placeBlackCase(this.grid, position[0], position[1]);
-                this.possibleCasesArrayManager.removeFromArray(this.possibleCasesArrayManager.findCaseByPosition(position)); //try catch si position = -1
+                let caseIsFound: boolean = this.placeBlackCase(grid, position[0], position[1]);
             }
             if (this.possibleCasesArrayManager.isArrayEmpty()) {
                 break;
