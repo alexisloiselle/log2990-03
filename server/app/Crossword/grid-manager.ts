@@ -1,14 +1,14 @@
-import { Case } from './case';
+import { Case } from "./case";
+import { BlackCaseManager } from "./black-case-manager"
 
 export class GridManager {
 
-    private grid : Case[][];
+    private grid: Case[][];
+    private blackCaseManager;
 
-    constructor() { 
+    constructor() {}
 
-    }
-
-    public getCases() {
+    public getCases(): Case[][] {
         return this.grid;
     }
 
@@ -20,24 +20,22 @@ export class GridManager {
         return column;
     }
 
-    public generateGrid(length : number, width : number) {
-        //TODO : create negative exception for generate grid
+    public generateGrid(height: number, width: number): void {
+        // TODO : create negative exception for generate grid
         this.grid = [];
-        for (let i = 0; i < length; i++){
+        for (let i: number = 0; i < height; i++) {
             this.grid[i] = [];
-            for (let j : number = 0; j < width; j++){
+            for (let j: number = 0; j < width; j++) {
                 this.grid[i][j] = new Case();
-                this.grid[i][j].setHorizontalPositionInWord(i);
+                this.grid[i][j].setHorizontalPositionInWord(j);
                 this.grid[i][j].setHorizontalWordLength(width);
-                this.grid[i][j].setVerticalPositionInWord(j);
-                this.grid[i][j].setVerticalWordLength(length);
+                this.grid[i][j].setVerticalPositionInWord(i);
+                this.grid[i][j].setVerticalWordLength(height);
             }
         }
-        return this.grid
-    }
-
-    public randomGreyCaseGenerator(percentage : number){
-        //let maxNumberOfCase : number = Math.floor();
+        this.blackCaseManager = new BlackCaseManager(height, width, this.grid);
+        const percentage: number = 30;
+        this.blackCaseManager.generateBlackCases(percentage);
     }
     
     public placeBlackCase(grid : Case[][], line : number, row : number) : boolean {
