@@ -41,9 +41,6 @@ describe("Lexicon", () => {
         });
     });
 
-    // COMMENTED, TO NOT BUST THE REQUESTS LIMIT
-
-
     describe("getDefs", () => {
         it("should contain 2 or less defs, ('cat')", (done: Function) => {
             Lexicon.getDefinitions("cat").then((defs: string[]) => {
