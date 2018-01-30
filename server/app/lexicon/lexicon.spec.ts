@@ -15,9 +15,10 @@ describe("Lexicon", () => {
     describe("Constructor", () => {
         it("should exist and have words", () => {
             expect(lexicon.allWords);
+            console.log(lexicon.allWords);
         });
-        it("should contain 6 words", () => {
-            expect(lexicon.allWords.length).to.be.equal(6);
+        it("should contain 7 words", () => {
+            expect(lexicon.allWords.length).to.be.equal(7);
         });
     });
 
@@ -78,6 +79,19 @@ describe("Lexicon", () => {
          });
     });
                 
-     
+     describe("get words from pattern", () => {
+        it("should contain 2 words (house and hello) with pattern: 'h    '", () => {
+            const wordsWithPattern: string[] = lexicon.getWordsFromPattern('h    ');
+            expect(wordsWithPattern.length).to.be.equal(2);
+            expect(wordsWithPattern).to.contain('hello');
+            expect(wordsWithPattern).to.contain('house');
+        });
+        it("should contain 2 words (lavage and garage) with pattern: ' a age'", () => {
+            const wordsWithPattern: string[] = lexicon.getWordsFromPattern(' a age');
+            expect(wordsWithPattern.length).to.be.equal(2);
+            expect(wordsWithPattern).to.contain('garage');
+            expect(wordsWithPattern).to.contain('lavage');
+        });
+     });
     
 });

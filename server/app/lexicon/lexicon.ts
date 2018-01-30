@@ -60,7 +60,21 @@ export class Lexicon {
         return uncommon;  
     }
 
+    // pattern example -> '  e at  '
     public getWordsFromPattern(pattern: string): string[] {
-        return[];
+        let res: string[] = [];
+        let wordsOfSameLength = this.getWordsByLength(pattern.length);
+
+        wordsOfSameLength.forEach(word => {
+            let wordMatches = true;
+            for(let i = 0; i < word.length; i++) {
+                if(word[i] !== pattern[i] && pattern[i] !== ' ' )
+                    wordMatches = false;
+            }
+            if(wordMatches)
+                res.push(word);
+        });
+
+        return res;
     }
 }
