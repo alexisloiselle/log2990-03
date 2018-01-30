@@ -59,4 +59,8 @@ export class Lexicon {
 
         return uncommon;  
     }
+
+    public getWordsFromPattern(pattern: string): string[] {
+        return[];
+    }
 }
