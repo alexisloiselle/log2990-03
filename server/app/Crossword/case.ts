@@ -10,6 +10,14 @@
         private letterTyped : string;
         private rightLetter : string;
 
+        private isAConstraint : boolean;
+
+        constructor() {
+            this.isBlack = false;
+            this.isAConstraint = false;
+            this.rightLetter = "";
+        }
+
         public getIsBlack() {
             return this.isBlack;
         }
@@ -30,6 +38,14 @@
             return this.verticalPositionInWord;
         }
 
+        public getRightLetter() {
+            return this.rightLetter;
+        }
+
+        public getIsAConstraint() {
+            return this.isAConstraint;
+        }
+
         public setIsBlack(value : boolean) {
             this.isBlack = value;
         }
@@ -48,5 +64,13 @@
 
         public setVerticalPositionInWord(value : number) {
             this.verticalPositionInWord = value;
+        }
+
+        public setRightLetter(value : string) {
+            this.rightLetter = value;
+        }
+
+        public setConstraint(value : boolean) {
+            this.isAConstraint = value;
         }
     }
