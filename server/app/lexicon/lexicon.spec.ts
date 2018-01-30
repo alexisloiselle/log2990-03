@@ -15,7 +15,6 @@ describe("Lexicon", () => {
     describe("Constructor", () => {
         it("should exist and have words", () => {
             expect(lexicon.allWords);
-            console.log(lexicon.allWords);
         });
         it("should contain 7 words", () => {
             expect(lexicon.allWords.length).to.be.equal(7);
@@ -46,9 +45,11 @@ describe("Lexicon", () => {
 
 
     describe("getDefs", () => {
-        it("should contain 2 or less defs", (done: Function) => {
-            lexicon.getDefinitions("cat").then((res: string[]) => {
-                expect(res.length).to.be.below(3);
+        it("should contain 2 or less defs, ('cat')", (done: Function) => {
+            Lexicon.getDefinitions("cat").then((defs: string[]) => {
+                expect(defs.length).to.be.below(3);
+                expect(defs[0].includes("carnivorous")).to.be.true;
+                expect(defs[0].includes("dog")).to.be.false;
                 done();
             });
         });
@@ -56,7 +57,7 @@ describe("Lexicon", () => {
 
     describe("getFrequency", () => {
         it("table should have 41 frequencies", (done: Function) => {
-            lexicon.getFrequency("table").then((res: number) => {
+            Lexicon.getFrequency("table").then((res: number) => {
                 expect(res).to.be.equal(41);
                 done();
             });
@@ -65,7 +66,7 @@ describe("Lexicon", () => {
 
     describe("isUncommun", () => {
         it ("Word should be common", function(done) {
-            const uncommon: boolean = lexicon.isUncommon("table");
+            const uncommon: boolean = Lexicon.isUncommon("table");
             expect(uncommon).to.be.equal(false);
             done();
          });
@@ -73,7 +74,7 @@ describe("Lexicon", () => {
 
     describe("isUncommun", () => {
         it ("Word should be uncommon", function(done) {
-            const uncommon: boolean = lexicon.isUncommon("alcazar");
+            const uncommon: boolean = Lexicon.isUncommon("alcazar");
             expect(uncommon).to.be.equal(false);
             done();
          });
