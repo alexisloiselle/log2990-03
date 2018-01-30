@@ -36,14 +36,15 @@ export class Lexicon {
 
         return res;
     }
-    
+
     // see lexicon.spec.ts to see how to use this function
     public static async getDefinitions(word: string): Promise<string[]> {
         const defs: string[] = [];
-        const url = `${API_URL}${word}/${API_DEFS}?api_key=${API_KEY}`;
+        const url = `${API_URL}${word}/${API_DEFS}`;
+        const ops = `?api_key=${API_KEY}`;
 
         return new Promise<string[]>((resolve: Function) => {
-            request(url, (error:any, response:any, body:any) => {
+            request(`${url}${ops}`, (error:any, response:any, body:any) => {
                 body = JSON.parse(body);
                 for (let i = 0; i < body.length && i < MAX_DEFS; i++) {
                     defs.push(body[i].text);
@@ -56,10 +57,11 @@ export class Lexicon {
     // see lexicon.spec.ts to see how to use this function
     public static async getFrequency(word: string): Promise<number> {
         let freq = 0;
-        const url = `${API_URL}${word}/${API_FREQ}?api_key=${API_KEY}&startYear=${YEAR}`;
+        const url = `${API_URL}${word}/${API_FREQ}`;
+        const ops = `?api_key=${API_KEY}&startYear=${YEAR}`;
 
         return new Promise<number>((resolve: Function) => {
-            request(url, (error:any, response:any, body:any) => {
+            request(`${url}${ops}`, (error:any, response:any, body:any) => {
                 body = JSON.parse(body);
                 freq = body.totalCount;
                 resolve(freq);
