@@ -4,7 +4,7 @@ import { BlackCaseManager } from "./black-case-manager"
 export class GridManager {
 
     private grid: Case[][];
-    private blackCaseManager;
+    private blackCaseManager : BlackCaseManager;
 
     constructor() {}
 
@@ -12,10 +12,10 @@ export class GridManager {
         return this.grid;
     }
 
-    public getColum(matrix : Case[][], pos : number) {
+    public getColum(grid : Case[][], pos : number) {
         let column = [];
-        for (let i = 0; i < matrix.length; i++){
-            column.push(matrix[i][pos]);
+        for (let i = 0; i < grid.length; i++){
+            column.push(grid[i][pos]);
         }
         return column;
     }
@@ -137,6 +137,16 @@ export class GridManager {
         }
 
         return false;
+    }
+
+    public identifyConstraint(grid : Case[][]) : void {
+        for (let i = 0; i < grid.length; i++) {
+            for (let j = 0; j < grid[0].length; j++) {
+                if (grid[i][j].getHorizontalWordLength() > 2 && grid[i][j].getVerticalWordLength() > 2) {
+                    grid[i][j].setConstraint(true);
+                }
+            }
+        }
     }
 
     public placeWord(table : Case[], pos : number, wordLength : number, word : string) : boolean {

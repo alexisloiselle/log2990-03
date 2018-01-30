@@ -6,7 +6,7 @@ import { Case } from "./case"
 
 describe("Grid-Generator", () => {
 
-    var gridManager: GridManager;
+    let gridManager: GridManager;
     gridManager = new GridManager;
     
     const height = 5;
@@ -26,6 +26,16 @@ describe("Grid-Generator", () => {
         });
         it("Should have the right height", () => {
             expect(cases[0].length).to.equal(width);
+        });
+        it("Should be able to place the black cases", () => {
+            expect(gridManager.placeBlackCase(cases, 3, 3)).to.equal(true);
+            expect(cases[3][3].getIsBlack()).to.equal(true);
+            expect(gridManager.placeBlackCase(cases, 4, 2)).to.equal(true);
+            expect(cases[4][2].getIsBlack()).to.equal(true);
+        });
+        it("Should not be able to place this black case", () => {
+            expect(gridManager.placeBlackCase(cases, 4, 4)).to.equal(false);
+            expect(cases[4][4].getIsBlack()).to.equal(false);
         });
     });
 });
