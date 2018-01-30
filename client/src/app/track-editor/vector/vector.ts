@@ -1,7 +1,7 @@
 import { Vector2 } from "three";
 import { pointCoordinates} from "../pointCoordinates";
 import { domain } from "./domain";
-import { equation} from "./equation-vector";
+import { equation} from "./equation";
 
 
 
