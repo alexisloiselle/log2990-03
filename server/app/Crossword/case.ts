@@ -1,16 +1,16 @@
     export class Case {
         private isBlack: boolean;
 
-        private horizontalWordLength : number;
-        private horizontalPositionInWord : number;
+        private horizontalWordLength: number;
+        private horizontalPositionInWord: number;
 
-        private verticalWordLength : number;
-        private verticalPositionInWord : number;
-        
-        private letterTyped : string;
-        private rightLetter : string;
+        private verticalWordLength: number;
+        private verticalPositionInWord: number;
 
-        private isAConstraint : boolean;
+        private letterTyped: string;
+        private rightLetter: string;
+
+        private isAConstraint: boolean;
 
         constructor() {
             this.isBlack = false;
@@ -46,31 +46,31 @@
             return this.isAConstraint;
         }
 
-        public setIsBlack(value : boolean) {
+        public setIsBlack(value: boolean) {
             this.isBlack = value;
         }
 
-        public setHorizontalWordLength(value : number) {
+        public setHorizontalWordLength(value: number) {
             this.horizontalWordLength = value;
         }
 
-        public setHorizontalPositionInWord(value : number) {
+        public setHorizontalPositionInWord(value: number) {
             this.horizontalPositionInWord = value;
         }
 
-        public setVerticalWordLength(value : number) {
+        public setVerticalWordLength(value: number) {
             this.verticalWordLength = value;
         }
 
-        public setVerticalPositionInWord(value : number) {
+        public setVerticalPositionInWord(value: number) {
             this.verticalPositionInWord = value;
         }
 
-        public setRightLetter(value : string) {
+        public setRightLetter(value: string) {
             this.rightLetter = value;
         }
 
-        public setConstraint(value : boolean) {
+        public setConstraint(value: boolean) {
             this.isAConstraint = value;
         }
     }

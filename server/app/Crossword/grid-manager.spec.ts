@@ -14,7 +14,7 @@ describe("Grid-Generator", () => {
     gridManager.generateGrid(height, width);
 
     let cases: Case[][];
-    cases = gridManager.getCases();
+    cases = gridManager.getGrid();
 
     beforeEach(() => {
 
