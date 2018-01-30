@@ -1,10 +1,10 @@
 import { Case } from "./case";
-import { BlackCaseManager } from "./black-case-manager"
+import { BlackCaseManager } from "./black-case-manager";
 
 export class GridManager {
 
     private grid: Case[][];
-    private blackCaseManager;
+    private blackCaseManager: BlackCaseManager;
 
     constructor() {}
 

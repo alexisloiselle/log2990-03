@@ -1,4 +1,4 @@
-import { Case } from "./case"
+import { Case } from "./case";
 
 export class BlackCaseManager {
     private height: number;
@@ -26,9 +26,9 @@ export class BlackCaseManager {
     }
 
     public findCaseByPosition(position: [number, number]): number {
-        for (let i: number = 0; i < this.possibleCase.length; i++){
-            if (this.possibleCase[i] == position){
-                return i
+        for (let i: number = 0; i < this.possibleCase.length; i++) {
+            if (this.possibleCase[i] == position) {
+                return i;
             }
         }
         return -1;
@@ -40,18 +40,18 @@ export class BlackCaseManager {
     }
 
     public generateBlackCases(percent: number) {
-        let maxNumberOfCases = percent/100 * this.height * this.width;
+        const maxNumberOfCases = percent / 100 * this.height * this.width;
         this.populateArray();
 
         for (let i: number = 0; i < maxNumberOfCases; i++) {
-            let caseIsFound: boolean = false;
-            while (!caseIsFound && this.possibleCase.length > 0){
-                let position: [number, number] = this.findRandomCase();
+            const caseIsFound: boolean = false;
+            while (!caseIsFound && this.possibleCase.length > 0) {
+                const position: [number, number] = this.findRandomCase();
                 let caseIsFound: boolean; // = Katherine's function
-                // TODO : Add Katherine's functions 
+                // TODO : Add Katherine's functions
                 this.removeFromArray(this.findCaseByPosition(position)); //try catch si position = -1
             }
-            if (this.possibleCase.length == 0){
+            if (this.possibleCase.length == 0) {
                 break;
             }
         }
