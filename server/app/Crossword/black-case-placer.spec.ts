@@ -2,7 +2,7 @@ import {} from "jasmine";
 import { expect } from "chai";
 
 import { GridManager } from "./grid-manager";
-import { Case } from "./case"
+import { Case } from "./case";
 import { BlackCasePlacer } from "./black-case-placer";
 
 describe("Grid-Generator", () => {
@@ -10,20 +10,20 @@ describe("Grid-Generator", () => {
     let gridManager: GridManager;
     gridManager = new GridManager;
     let blackCasePlacer: BlackCasePlacer;
-    
+
     const height = 5;
     const width = 8;
-    gridManager.generateGrid(height, width);
+    gridManager.generateGrid(height, width, "");
 
     let cases: Case[][];
-    cases = gridManager.getCases();
-    
-    blackCasePlacer = new BlackCasePlacer(5, 8, cases);
+    cases = gridManager.getGrid();
+
+    blackCasePlacer = new BlackCasePlacer(5, 8);
 
     beforeEach(() => {
-        
+
     });
-    
+
     describe("Grid Generation", () => {
         it("Should be able to place the black cases", () => {
             expect(blackCasePlacer.placeBlackCase(cases, 3, 3)).to.equal(true);
