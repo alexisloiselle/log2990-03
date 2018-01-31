@@ -20,10 +20,10 @@ export class BlackCasePlacer {
         const maxNumberOfCases = percent / 100 * grid.length * grid[0].length;
 
         for (let i: number = 0; i < maxNumberOfCases; i++) {
-            const caseIsFound: boolean = false;
+            let caseIsFound: boolean = false;
             while (!caseIsFound && !this.possibleCasesArrayManager.isArrayEmpty()) {
                 const position: [number, number] = this.possibleCasesArrayManager.findRandomCase();
-                const caseIsFound: boolean = this.placeBlackCase(grid, position[0], position[1]);
+                caseIsFound = this.placeBlackCase(grid, position[0], position[1]);
             }
             if (this.possibleCasesArrayManager.isArrayEmpty()) {
                 break;

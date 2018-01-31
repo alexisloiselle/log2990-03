@@ -13,12 +13,12 @@ describe("Grid-Generator", () => {
 
     const height = 5;
     const width = 8;
-    gridManager.generateGrid(height, width);
+    gridManager.generateGrid(height, width, "");
 
     let cases: Case[][];
-    cases = gridManager.getCases();
+    cases = gridManager.getGrid();
 
-    blackCasePlacer = new BlackCasePlacer(5, 8, cases);
+    blackCasePlacer = new BlackCasePlacer(5, 8);
 
     beforeEach(() => {
 
