@@ -24,6 +24,8 @@ export class RaceTrackComponent implements OnInit {
 
   public display = new THREE.Object3D();
 
+  //Tableau de Vecteurs vide
+
   constructor() { }
 
   ngOnInit() {
