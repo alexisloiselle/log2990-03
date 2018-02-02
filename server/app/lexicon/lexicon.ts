@@ -1,7 +1,15 @@
 import * as fs from "fs";
 import * as request from "request";
 
-import { API_URL, API_KEY, API_DEFS, API_FREQ, MAX_DEFS, YEAR } from "../config";
+import {
+    API_URL,
+    API_DEFS,
+    API_FREQ,
+    MAX_DEFS,
+    MAX_FREQ,
+    USELESS_CHAR
+} from "../config";
+import { Response } from "express-serve-static-core";
 
 export class Lexicon {
 
@@ -9,6 +17,40 @@ export class Lexicon {
 
     constructor(file: string) {
         this.readFile(file);
+    }
+
+    // see lexicon.spec.ts to see how to use this function
+    public static async getDefinitions(word: string): Promise<string[]> {
+        let definitions: string[] = [];
+        const url: string = `${API_URL}${word}&${API_DEFS}`;
+
+        return new Promise<string[]>((resolve: Function) => {
+            request(`${url}`, (error: Error, response: Response, body: Body) => {
+                body = JSON.parse(body);
+                definitions = body[0].defs.slice(0, MAX_DEFS).map((def: string) => {
+                    return def.slice(USELESS_CHAR);
+                });
+                resolve(definitions);
+            });
+        });
+    }
+
+    // see lexicon.spec.ts to see how to use this function
+    public static async getFrequency(word: string): Promise<number> {
+        let freq: number = 0;
+        const url: string = `${API_URL}${word}&${API_FREQ}`;
+
+        return new Promise<number>((resolve: Function) => {
+            request(`${url}`, (error: Error, response: Response, body: Body) => {
+                body = JSON.parse(body);
+                freq = body[0].tags[0].slice(USELESS_CHAR);
+                resolve(+freq);
+            });
+        });
+    }
+
+    public static async isUncommon(word: string): Promise<boolean> {
+        return await this.getFrequency(word) <= MAX_FREQ;
     }
 
     public readFile(file: string): void {
@@ -19,65 +61,10 @@ export class Lexicon {
         return this.allWords.filter((word: string) => word.length === length);
     }
 
-    // pattern example -> '  e at  '
+    // pattern example -> ' e at '
     public getWordsFromPattern(pattern: string): string[] {
-        let res: string[] = [];
-        let wordsOfSameLength = this.getWordsByLength(pattern.length);
-
-        wordsOfSameLength.forEach(word => {
-            let wordMatches = true;
-            for(let i = 0; i < word.length; i++) {
-                if(word[i] !== pattern[i] && pattern[i] !== ' ' )
-                    wordMatches = false;
-            }
-            if(wordMatches)
-                res.push(word);
-        });
-
-        return res;
-    }
-
-    // see lexicon.spec.ts to see how to use this function
-    public static async getDefinitions(word: string): Promise<string[]> {
-        const defs: string[] = [];
-        const url = `${API_URL}${word}/${API_DEFS}`;
-        const ops = `?api_key=${API_KEY}`;
-
-        return new Promise<string[]>((resolve: Function) => {
-            request(`${url}${ops}`, (error:any, response:any, body:any) => {
-                body = JSON.parse(body);
-                for (let i = 0; i < body.length && i < MAX_DEFS; i++) {
-                    defs.push(body[i].text);
-                }
-                resolve(defs);
-            });
+        return this.getWordsByLength(pattern.length).filter((word: string) => {
+            return RegExp(pattern.replace(/ /g, "[a-z]")).test(word);
         });
     }
-
-    // see lexicon.spec.ts to see how to use this function
-    public static async getFrequency(word: string): Promise<number> {
-        let freq = 0;
-        const url = `${API_URL}${word}/${API_FREQ}`;
-        const ops = `?api_key=${API_KEY}&startYear=${YEAR}`;
-
-        return new Promise<number>((resolve: Function) => {
-            request(`${url}${ops}`, (error:any, response:any, body:any) => {
-                body = JSON.parse(body);
-                freq = body.totalCount;
-                resolve(freq);
-            });
-        });
-    }
-
-     public static isUncommon(word : string):boolean {
-        let uncommon : boolean= false;
-        this.getFrequency(word).then((frequence: Number) => {
-            if (frequence === 0 ) {
-                uncommon = true;
-            }
-        });
-
-        return uncommon;  
-    }
-
 }

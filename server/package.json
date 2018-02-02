@@ -6,7 +6,8 @@
   "scripts": {
     "start": "tsc && concurrently --kill-others \"tsc -w \" \"nodemon out/server/app/www.js\" ",
     "lint": "tslint --project tsconfig.json \"./app/**/*.ts\" --format stylish",
-    "test": "mocha -r ts-node/register app/**/*.spec.ts",
+    "test": "mocha -r ts-node/register app/**/*.spec.ts  -s 0",
+    "tsfix": "tslint --fix --project '.'",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "clean": "rimraf out node_modules",
@@ -39,6 +40,7 @@
     "@types/morgan": "1.7.32",
     "@types/node": "^8.0.26",
     "@types/node-uuid": "0.0.28",
+    "@types/request": "^2.47.0",
     "@types/socket.io": "1.4.30",
     "chai": "^4.1.2",
     "concurrently": "^3.0.0",
