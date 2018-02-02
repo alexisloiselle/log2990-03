@@ -1,11 +1,8 @@
-import { AbstractArrayManager } from "./abstract-array-manager";
-
-export class PossibleCasesArrayManager extends AbstractArrayManager {
+export class PossibleCasesArrayManager {
 
     private possibleCase: [number, number][];
 
     constructor(numberOfLines: number, numberOfRows: number) {
-        super();
         this.possibleCase = [];
         for (let i: number = 0; i < numberOfLines; i++) {
             for (let j: number = 0; j < numberOfRows; j++) {
