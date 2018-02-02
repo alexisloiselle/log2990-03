@@ -5,9 +5,9 @@ export class equation {
     private slope: number;
     private constant: number;
     
-    constructor(slope : number, constant : number) {
-        this.slope=slope;
-        this.constant=constant;
+    constructor(pointEnd : pointCoordinates, pointStart:pointCoordinates) {
+        this.slope=this.calculateSlope(pointEnd,pointStart);
+        this.constant=this.calculateConstant(pointEnd);
     }
     calculateSlope(pointEnd : pointCoordinates, pointStart:pointCoordinates){
         return((pointEnd.getY()-pointStart.getY())/(pointEnd.getX()-pointStart.getX()));
