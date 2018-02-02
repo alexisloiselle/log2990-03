@@ -11,10 +11,10 @@ describe("Grid-Generator", () => {
 
     const height = 5;
     const width = 8;
-    gridManager.generateGrid(height, width);
+    gridManager.generateGrid(height, width, "");
 
     let cases: Case[][];
-    cases = gridManager.getCases();
+    cases = gridManager.getGrid();
 
     beforeEach(() => {
 
