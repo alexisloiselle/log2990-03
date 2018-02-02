@@ -2,5 +2,6 @@ aalii
 garage
 hello
 house
+lavage
 rhinoceros
 zebra
