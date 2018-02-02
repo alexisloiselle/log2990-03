@@ -36,17 +36,30 @@ export class TrackEditorComponent implements OnInit {
     this.mouseMovedEvent = 0;
     //We initiali
     this.mouseDown = false;
+
   }
 
+<<<<<<< HEAD
+//----------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------
+
+
+=======
+>>>>>>> d6362ad6e365c5df8757902bb7d46a96e8cecde1
   canvasMouseUp(event: any){
     this.mouseDown = false;
     if(event.button === 0) {  //if it's a left click
         this.canvasDrawPoint(event.layerX, event.layerY);
+        this.removeDragNDropDuplicate();
     }else if (event.button === 2) { //Si c'est un clic droit
       this.canvasEraseLastPoint();
     }
   }
-
+  
   canvasMouseDown(event: any){
     this.mouseDown = true;
   }
@@ -54,36 +67,53 @@ export class TrackEditorComponent implements OnInit {
   canvasMouseMoved(event: any){
     this.mouseMovedEvent = event;  //We stock the mouseCoordinates inside the mouseMovedEvent variable
 
-    if(!this.mouseDown){  
-      this.focusOnPoint();
-    }else{
+    if(this.mouseDown){  
       this.dragNDrop();
+    }else{
+      //On colore les points si le focus est sur l'un d'eux
+      this.focusOnPoint();
     }
   }
 
+  //Checks if there's duplicated points and removes them
+  private removeDragNDropDuplicate(){
+    if(this.pointArray.length > 2){
+      for(let i: number = 1; i<this.pointArray.length - 1; i++){  //On commence à partir du deuxième point, car de toute façon le point d'ordigine aura le dernier point qui se superposera à lui.
+        for(let j: number = i+1; j<this.pointArray.length; j++){
+          if(this.pointArray[i].getX() == this.pointArray[j].getX()&&
+            this.pointArray[i].getY() == this.pointArray[j].getY()){
+              this.pointArray.splice(this.pointArray.indexOf(this.pointArray[j]));
+            }
+        }
+      }
+      this.eraseCanvas();
+      this.redrawCanvas();
+    }
+  }
 
-  private focusOnPoint(){ //Checks if the focus is on the point or not
+  private focusOnPoint(){ //Checks if the focus is on a point or not
     if(this.pointArray.length>0){
       for(let point of this.pointArray){
         if(this.mouseMovedEvent.layerX >= point.getX() - 10 && this.mouseMovedEvent.layerX <= point.getX() +10 &&
           this.mouseMovedEvent.layerY >= point.getY() - 10 && this.mouseMovedEvent.layerY <= point.getY() + 10){
             this.mouseOnPoint(point.getX(), point.getY());
-          }
-        else{
+          }else {
             this.mouseNotOnPoint(point.getX(), point.getY());
         }
       }  
     }
   }
 
-  private mouseOnPoint(x: number, y: number){ //If the focus is on the point, it becomes green
+  //If the focus is on the point, it becomes green
+  private mouseOnPoint(x: number, y: number){ 
     this.ctx.beginPath();
     this.ctx.arc(x, y, 9, 0, 2*Math.PI);
     this.ctx.fillStyle = "#00FF00";
     this.ctx.fill();
   }
 
-  private mouseNotOnPoint(x: number, y: number){ //If the focus is not on the point, it stays black 
+  //If the focus is not on the point, it stays black 
+  private mouseNotOnPoint(x: number, y: number){ 
       this.ctx.beginPath();
       //TODO CREER ET PUSH VECTOR ICI
       //TODO INCREMENTER 
@@ -92,7 +122,10 @@ export class TrackEditorComponent implements OnInit {
       this.ctx.fill();
   }
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> d6362ad6e365c5df8757902bb7d46a96e8cecde1
   private clickedOnExistingPoint(x: number, y: number){
     for(let point of this.pointArray){
         if(x >= point.getX() - 10 && x <= point.getX() +10 &&
@@ -100,8 +133,9 @@ export class TrackEditorComponent implements OnInit {
               return true;
           }
       }
-                                      return false;
-                          }
+    return false;
+    }
+
   private dragNDrop(){
     //Je trouve le point sur lequel il a cliqué
     for(let point of this.pointArray){
@@ -116,6 +150,7 @@ export class TrackEditorComponent implements OnInit {
   }
 
   canvasCloseLoop(){
+    console.log("Allo");
     this.ctx.beginPath();
     this.ctx.moveTo(this.pointArray[this.pointArray.length-1].getX(), 
                       this.pointArray[this.pointArray.length-1].getY());
