@@ -1,11 +1,14 @@
 import { Component, OnInit, ElementRef, ViewChild} from "@angular/core";
 //We need to import the pointCoordinates class
 import { pointCoordinates } from "./pointCoordinates";
+import { Vector2 } from "three";
+import { vector } from "./vector/vector";
+
 
 @Component({
   selector: "app-track-editor",
   templateUrl: "./track-editor.component.html",
-  styleUrls: ["./track-editor.component.css"]
+  styleUrls: ["./track-editor.component.css"],
 })
  
 export class TrackEditorComponent implements OnInit {
@@ -13,6 +16,7 @@ export class TrackEditorComponent implements OnInit {
   private canvasRef: ElementRef;
   private pointArray: pointCoordinates[] = [];
   private ctx : any;
+  private currentPoint : number 
   private mouseMovedEvent : any;  //So that each method can access the coordinates
                                   //at all times
   private mouseDown : boolean;    //Used for the drag and drop
@@ -35,6 +39,7 @@ export class TrackEditorComponent implements OnInit {
 
   }
 
+<<<<<<< HEAD
 //----------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------
@@ -43,6 +48,8 @@ export class TrackEditorComponent implements OnInit {
 //----------------------------------------------------------------------------------------
 
 
+=======
+>>>>>>> d6362ad6e365c5df8757902bb7d46a96e8cecde1
   canvasMouseUp(event: any){
     this.mouseDown = false;
     if(event.button === 0) {  //if it's a left click
@@ -108,11 +115,17 @@ export class TrackEditorComponent implements OnInit {
   //If the focus is not on the point, it stays black 
   private mouseNotOnPoint(x: number, y: number){ 
       this.ctx.beginPath();
+      //TODO CREER ET PUSH VECTOR ICI
+      //TODO INCREMENTER 
       this.ctx.arc(x, y, 9, 0, 2*Math.PI);
       this.ctx.fillStyle = "black";
       this.ctx.fill();
   }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> d6362ad6e365c5df8757902bb7d46a96e8cecde1
   private clickedOnExistingPoint(x: number, y: number){
     for(let point of this.pointArray){
         if(x >= point.getX() - 10 && x <= point.getX() +10 &&
