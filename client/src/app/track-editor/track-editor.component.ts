@@ -39,17 +39,6 @@ export class TrackEditorComponent implements OnInit {
 
   }
 
-<<<<<<< HEAD
-//----------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------
-
-
-=======
->>>>>>> d6362ad6e365c5df8757902bb7d46a96e8cecde1
   canvasMouseUp(event: any){
     this.mouseDown = false;
     if(event.button === 0) {  //if it's a left click
@@ -59,7 +48,6 @@ export class TrackEditorComponent implements OnInit {
       this.canvasEraseLastPoint();
     }
   }
-  
   canvasMouseDown(event: any){
     this.mouseDown = true;
   }
@@ -122,10 +110,6 @@ export class TrackEditorComponent implements OnInit {
       this.ctx.fill();
   }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> d6362ad6e365c5df8757902bb7d46a96e8cecde1
   private clickedOnExistingPoint(x: number, y: number){
     for(let point of this.pointArray){
         if(x >= point.getX() - 10 && x <= point.getX() +10 &&
