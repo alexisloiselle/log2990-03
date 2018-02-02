@@ -61,15 +61,15 @@ export class domain {
     }
 
     setXMin(xMin : number){
-        this.xMin=xMin
+        this.xMin=xMin;
     }
     setXMax(xMax : number){
-        this.xMax=xMax
+        this.xMax=xMax;
     }
     setYMin(yMin : number){
-        this.yMin=yMin
+        this.yMin=yMin;
     }
     setYMax(yMax : number){
-        this.yMax=yMax
+        this.yMax=yMax;
     }
 }

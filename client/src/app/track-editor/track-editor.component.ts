@@ -1,8 +1,8 @@
 import { Component, OnInit, ElementRef, ViewChild} from "@angular/core";
 //We need to import the pointCoordinates class
 import { pointCoordinates } from "./pointCoordinates";
-import { Vector2 } from "three";
-import { vector } from "./vector/vector";
+//import { Vector2 } from "three";
+//import { vector } from "./vector/vector";
 
 
 @Component({
@@ -16,7 +16,7 @@ export class TrackEditorComponent implements OnInit {
   private canvasRef: ElementRef;
   private pointArray: pointCoordinates[] = [];
   private ctx : any;
-  private currentPoint : number 
+  //private currentPoint : number 
   private mouseMovedEvent : any;  //So that each method can access the coordinates
                                   //at all times
   private mouseDown : boolean;    //Used for the drag and drop

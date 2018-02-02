@@ -26,7 +26,7 @@ export class vector {
     }
 
     private createEquation(coordinatesNewPoint: pointCoordinates, coordinatesLastPointInArray: pointCoordinates){
-        return(new equation(this.calculateSlope(coordinatesNewPoint,coordinatesLastPointInArray),this.calculateConstant(coordinatesNewPoint)));
+        return(new equation(coordinatesNewPoint,coordinatesLastPointInArray));
     }
 
 
@@ -47,20 +47,28 @@ export class vector {
     }
 
     getDomainXMin(){
-        return this.domain.getXMin;
+        return this.domain.getXMin();
     }
     getDomainXmax(){
-        return this.domain.getXMax;
+        return this.domain.getXMax();
     }
   
     getDomainYMin(){
-        return this.domain.getYMin;
+        return this.domain.getYMin();
     }
     getDomainYmax(){
-        return this.domain.getYMax;
+        return this.domain.getYMax();
     }
 
     getVector(){
         return this.vector;
+    }
+
+    getSlope(){
+        return this.equation.getSlope();
+    }
+
+    getConstant(){
+        return this.equation.getConstant();
     }
 }
