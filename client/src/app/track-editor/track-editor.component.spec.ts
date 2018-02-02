@@ -19,7 +19,7 @@ describe("TrackEditorComponent", () => {
     fixture.detectChanges();
   });
 
-  it("hould create", () => {
+  it("Should create", () => {
     expect(component).toBeTruthy();
   });
 });
