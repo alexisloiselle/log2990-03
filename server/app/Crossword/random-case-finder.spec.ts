@@ -2,10 +2,10 @@ import {} from "jasmine";
 import { expect } from "chai";
 
 import { BlankGridCreator } from "./blank-grid-creator";
-import { PossibleCasesArrayManager } from "./possible-cases-array-manager";
+import { RandomCaseFinder } from "./random-case-finder";
 import { Case } from "./case";
 
-describe("Possible-Cases-Array-Manager", () => {
+describe("Random Case Generator", () => {
 
     let blankGridManager: BlankGridCreator;
     blankGridManager = new BlankGridCreator;
@@ -13,11 +13,13 @@ describe("Possible-Cases-Array-Manager", () => {
     const height: number = 3;
     const width: number = 8;
     const grid: Case[][] = blankGridManager.createGrid(height, width);
-    const possibleCasesArrayManager: PossibleCasesArrayManager = new PossibleCasesArrayManager(grid.length, grid[0].length);
+    const possibleCasesArrayManager: RandomCaseFinder = new RandomCaseFinder(grid.length, grid[0].length);
 
     describe("Find case by position", () => {
         it("Should find the right position in the array", () => {
-            const position: [number, number] = [2, 3];
+            const line: number = 2;
+            const column: number = 3;
+            const position: [number, number] = [line, column];
             const expectedIndex: number = 19;
             expect(possibleCasesArrayManager.findCaseByPosition(position)).to.equal(expectedIndex);
         });
@@ -25,7 +27,8 @@ describe("Possible-Cases-Array-Manager", () => {
 
     describe("Find a random case", () => {
         it("Should return a position in the grid", () => {
-            for (let i: number = 0; i < 23; i++) {
+            const numberOfCaseMinusOne: number = 23;
+            for (let i: number = 0; i < numberOfCaseMinusOne; i++) {
                 const resultedPosition: [number, number] = possibleCasesArrayManager.findRandomCase();
                 expect(resultedPosition[0]).not.to.be.below(0);
                 expect(resultedPosition[0]).to.be.below(height);

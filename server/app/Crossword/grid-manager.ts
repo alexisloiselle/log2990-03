@@ -15,18 +15,18 @@ export class GridManager {
     }
 
     public generateGrid(height: number, width: number, difficulty: string): void {
-        let blankGridCreator: BlankGridCreator = new BlankGridCreator();
+        const blankGridCreator: BlankGridCreator = new BlankGridCreator();
         this.grid = blankGridCreator.createGrid(height, width);
 
         this.difficulty = difficulty;
 
-        let blackCaseGenerator: BlackCaseGenerator = new BlackCaseGenerator(height, width);
+        const blackCaseGenerator: BlackCaseGenerator = new BlackCaseGenerator(height, width);
         const percentage: number = 30;
         blackCaseGenerator.generateBlackCases(this.grid, percentage);
 
-        let gridScanner: GridScanner = new GridScanner();
+        const gridScanner: GridScanner = new GridScanner();
         this.words = gridScanner.findWords(this.grid);
-        
-        this.words.sort((a, b)=>b.getLength()-a.getLength());
+
+        this.words.sort((a: Word, b: Word) => b.getLength() - a.getLength());
     }
 }

@@ -1,4 +1,4 @@
-export class PossibleCasesArrayManager {
+export class RandomCaseFinder {
 
     private possibleCase: [number, number][];
 
@@ -10,10 +10,6 @@ export class PossibleCasesArrayManager {
                 this.possibleCase.push(temp);
             }
         }
-    }
-
-    public getPossibleCases(): [number, number][] {
-        return this.possibleCase;
     }
 
     public isArrayEmpty(): boolean {

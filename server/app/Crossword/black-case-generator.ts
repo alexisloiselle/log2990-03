@@ -1,26 +1,26 @@
 import { Case } from "./case";
-import { PossibleCasesArrayManager } from "./possible-cases-array-manager";
+import { RandomCaseFinder } from "./random-case-finder";
 import { BlackCasePlacer } from "./black-case-placer";
 
 export class BlackCaseGenerator {
 
-    private possibleCasesArrayManager: PossibleCasesArrayManager;
+    private randomCaseGenerator: RandomCaseFinder;
 
     constructor(numberOfLine: number, numberOfColumns: number) {
-        this.possibleCasesArrayManager = new PossibleCasesArrayManager(numberOfLine, numberOfColumns);
+        this.randomCaseGenerator = new RandomCaseFinder(numberOfLine, numberOfColumns);
     }
 
-    public generateBlackCases(grid: Case[][], percent: number) {
-        const maxNumberOfCases = percent / 100 * grid.length * grid[0].length;
+    public generateBlackCases(grid: Case[][], percent: number): void {
+        const maxNumberOfCases: number = percent / 100 * grid.length * grid[0].length;
 
         for (let i: number = 0; i < maxNumberOfCases; i++) {
             let caseIsFound: boolean = false;
-            while (!caseIsFound && !this.possibleCasesArrayManager.isArrayEmpty()) {
-                const position: [number, number] = this.possibleCasesArrayManager.findRandomCase();
-                let blackCasePlacer: BlackCasePlacer = new BlackCasePlacer();
+            while (!caseIsFound && !this.randomCaseGenerator.isArrayEmpty()) {
+                const position: [number, number] = this.randomCaseGenerator.findRandomCase();
+                const blackCasePlacer: BlackCasePlacer = new BlackCasePlacer();
                 caseIsFound = blackCasePlacer.placeBlackCase(grid, position[0], position[1]);
             }
-            if (this.possibleCasesArrayManager.isArrayEmpty()) {
+            if (this.randomCaseGenerator.isArrayEmpty()) {
                 break;
             }
         }

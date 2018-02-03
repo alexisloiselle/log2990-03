@@ -18,59 +18,59 @@
             this.rightLetter = "";
         }
 
-        public getIsBlack() {
+        public getIsBlack(): boolean {
             return this.isBlack;
         }
 
-        public getHorizontalWordLength() {
+        public getHorizontalWordLength(): number {
             return this.horizontalWordLength;
         }
 
-        public getHorizontalPositionInWord() {
+        public getHorizontalPositionInWord(): number {
             return this.horizontalPositionInWord;
         }
 
-        public getVerticalWordLength() {
+        public getVerticalWordLength(): number {
             return this.verticalWordLength;
         }
 
-        public getVerticalPositionInWord() {
+        public getVerticalPositionInWord(): number {
             return this.verticalPositionInWord;
         }
 
-        public getRightLetter() {
+        public getRightLetter(): string {
             return this.rightLetter;
         }
 
-        public getIsAConstraint() {
+        public getIsAConstraint(): boolean {
             return this.isAConstraint;
         }
 
-        public setIsBlack(value: boolean) {
+        public setIsBlack(value: boolean): void {
             this.isBlack = value;
         }
 
-        public setHorizontalWordLength(value: number) {
+        public setHorizontalWordLength(value: number): void {
             this.horizontalWordLength = value;
         }
 
-        public setHorizontalPositionInWord(value: number) {
+        public setHorizontalPositionInWord(value: number): void {
             this.horizontalPositionInWord = value;
         }
 
-        public setVerticalWordLength(value: number) {
+        public setVerticalWordLength(value: number): void {
             this.verticalWordLength = value;
         }
 
-        public setVerticalPositionInWord(value: number) {
+        public setVerticalPositionInWord(value: number): void {
             this.verticalPositionInWord = value;
         }
 
-        public setRightLetter(value: string) {
+        public setRightLetter(value: string): void {
             this.rightLetter = value;
         }
 
-        public setConstraint(value: boolean) {
+        public setConstraint(value: boolean): void {
             this.isAConstraint = value;
         }
     }
