@@ -1,26 +1,24 @@
 import {} from "jasmine";
 import { expect } from "chai";
 
-import { GridManager } from "./grid-manager";
+import { BlankGridCreator } from "./blank-grid-creator";
 import { Case } from "./case";
 
-describe("Grid-Generator", () => {
+describe("Blank Grid Generator", () => {
 
-    let gridManager: GridManager;
-    gridManager = new GridManager;
+    let blankGridManager: BlankGridCreator;
+    blankGridManager = new BlankGridCreator;
 
     const height = 5;
     const width = 8;
-    gridManager.generateGrid(height, width, "");
 
-    let cases: Case[][];
-    cases = gridManager.getGrid();
+    let cases: Case[][] = blankGridManager.createGrid(height, width);
 
     beforeEach(() => {
 
     });
 
-    describe("Grid Generation", () => {
+    describe("Create Grid", () => {
         it("Should have the right width", () => {
             expect(cases.length).to.equal(height);
         });

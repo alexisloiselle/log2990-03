@@ -1,19 +1,18 @@
 import {} from "jasmine";
 import { expect } from "chai";
 
-import { GridManager } from "./grid-manager";
+import { BlankGridCreator } from "./blank-grid-creator";
 import { PossibleCasesArrayManager } from "./possible-cases-array-manager";
 import { Case } from "./case";
 
 describe("Possible-Cases-Array-Manager", () => {
 
-    let gridManager: GridManager;
-    gridManager = new GridManager;
+    let blankGridManager: BlankGridCreator;
+    blankGridManager = new BlankGridCreator;
 
     const height: number = 3;
     const width: number = 8;
-    gridManager.generateGrid(height, width, "");
-    const grid: Case[][] = gridManager.getGrid();
+    const grid: Case[][] = blankGridManager.createGrid(height, width);
     const possibleCasesArrayManager: PossibleCasesArrayManager = new PossibleCasesArrayManager(grid.length, grid[0].length);
 
     describe("Find case by position", () => {
