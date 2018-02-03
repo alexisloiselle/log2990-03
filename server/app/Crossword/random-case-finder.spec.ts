@@ -15,16 +15,6 @@ describe("Random Case Generator", () => {
     const grid: Case[][] = blankGridManager.createGrid(height, width);
     const possibleCasesArrayManager: RandomCaseFinder = new RandomCaseFinder(grid.length, grid[0].length);
 
-    describe("Find case by position", () => {
-        it("Should find the right position in the array", () => {
-            const line: number = 2;
-            const column: number = 3;
-            const position: [number, number] = [line, column];
-            const expectedIndex: number = 19;
-            expect(possibleCasesArrayManager.findCaseByPosition(position)).to.equal(expectedIndex);
-        });
-    });
-
     describe("Find a random case", () => {
         it("Should return a position in the grid", () => {
             const numberOfCaseMinusOne: number = 23;
@@ -34,10 +24,10 @@ describe("Random Case Generator", () => {
                 expect(resultedPosition[0]).to.be.below(height);
                 expect(resultedPosition[1]).not.to.be.below(0);
                 expect(resultedPosition[1]).to.be.below(width);
-                expect(possibleCasesArrayManager.isArrayEmpty()).to.be.equal(false);
+                expect(possibleCasesArrayManager.isUnusedCasesEmpty()).to.be.equal(false);
             }
             possibleCasesArrayManager.findRandomCase();
-            expect(possibleCasesArrayManager.isArrayEmpty()).to.be.equal(true);
+            expect(possibleCasesArrayManager.isUnusedCasesEmpty()).to.be.equal(true);
         });
     });
 });
