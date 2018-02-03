@@ -1,5 +1,4 @@
 import { Case } from "./case";
-import { PossibleCasesArrayManager } from "./possible-cases-array-manager";
 
 export class BlackCasePlacer {
     public getColum(grid: Case[][], pos: number) {

@@ -9,14 +9,10 @@ describe("Blank Grid Generator", () => {
     let blankGridManager: BlankGridCreator;
     blankGridManager = new BlankGridCreator;
 
-    const height = 5;
-    const width = 8;
+    const height: number = 5;
+    const width: number = 8;
 
-    let cases: Case[][] = blankGridManager.createGrid(height, width);
-
-    beforeEach(() => {
-
-    });
+    const cases: Case[][] = blankGridManager.createGrid(height, width);
 
     describe("Create Grid", () => {
         it("Should have the right width", () => {
