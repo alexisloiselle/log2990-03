@@ -1,25 +1,21 @@
 import {} from "jasmine";
 import { expect } from "chai";
 
-import { GridManager } from "./grid-manager";
+import { BlankGridCreator } from "./blank-grid-creator";
 import { Case } from "./case";
 import { BlackCasePlacer } from "./black-case-placer";
 
 describe("Grid-Generator", () => {
 
-    let gridManager: GridManager;
-    gridManager = new GridManager;
-    let blackCasePlacer: BlackCasePlacer;
-
     const height = 5;
     const width = 8;
-    gridManager.generateGrid(height, width, "");
+    let blankGridCreator: BlankGridCreator;
+    blankGridCreator = new BlankGridCreator;
+    let cases: Case[][] = blankGridCreator.createGrid(height, width);
 
-    let cases: Case[][];
-    cases = gridManager.getGrid();
-
-    blackCasePlacer = new BlackCasePlacer(5, 8);
-
+    let blackCasePlacer: BlackCasePlacer;
+    blackCasePlacer = new BlackCasePlacer();
+    
     beforeEach(() => {
 
     });
