@@ -28,6 +28,15 @@ export class Vector {
         return(new Equation(coordinatesNewPoint, coordinatesLastPointInArray));
     }
 
+    public createArrayVector(arrayPointCoordinates: PointCoordinates[]): Vector[] { // a tester
+        const arrayVector: Vector[] = []; // mis const a cause de tslint
+        for (let i: number = 0 ; i < arrayPointCoordinates.length - 2 ; i++ ) { // 2 pour ne pas lire la derniere case du array
+            const newVector: Vector = new Vector(arrayPointCoordinates[i], arrayPointCoordinates[i + 1]);
+            arrayVector.push(newVector);
+        }
+
+        return arrayVector;
+    }
     public findMinDomain(coordinatesNewPoint: PointCoordinates, coordinatesLastPointInArray: PointCoordinates): PointCoordinates {
         return (this.domain.findMinDomain(coordinatesNewPoint, coordinatesLastPointInArray));
     }
