@@ -1,11 +1,14 @@
 import { Component, OnInit, ElementRef, ViewChild} from "@angular/core";
 //We need to import the pointCoordinates class
 import { pointCoordinates } from "./pointCoordinates";
+import { Vector2 } from "three";
+import { vector } from "./vector/vector";
+
 
 @Component({
   selector: "app-track-editor",
   templateUrl: "./track-editor.component.html",
-  styleUrls: ["./track-editor.component.css"]
+  styleUrls: ["./track-editor.component.css"],
 })
  
 export class TrackEditorComponent implements OnInit {
@@ -13,6 +16,7 @@ export class TrackEditorComponent implements OnInit {
   private canvasRef: ElementRef;
   private pointArray: pointCoordinates[] = [];
   private ctx : any;
+  private currentPoint : number 
   private mouseMovedEvent : any;  //So that each method can access the coordinates
                                   //at all times
   private mouseDown : boolean;    //Used for the drag and drop
@@ -33,13 +37,6 @@ export class TrackEditorComponent implements OnInit {
     //We initiali
     this.mouseDown = false;
   }
-
-//----------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------
 
   canvasMouseUp(event: any){
     this.mouseDown = false;
@@ -88,12 +85,13 @@ export class TrackEditorComponent implements OnInit {
 
   private mouseNotOnPoint(x: number, y: number){ //If the focus is not on the point, it stays black 
       this.ctx.beginPath();
+      //TODO CREER ET PUSH VECTOR ICI
+      //TODO INCREMENTER 
       this.ctx.arc(x, y, 9, 0, 2*Math.PI);
       this.ctx.fillStyle = "black";
       this.ctx.fill();
   }
 
-  
 
   private clickedOnExistingPoint(x: number, y: number){
     for(let point of this.pointArray){
@@ -116,11 +114,6 @@ export class TrackEditorComponent implements OnInit {
     this.eraseCanvas();
     this.redrawCanvas();
   }
-  
-
-
-
-  
 
   canvasCloseLoop(){
     this.ctx.beginPath();
