@@ -7,7 +7,7 @@ import { GridScanner } from "./grid-scanner";
 export class GridManager {
 
     private grid: Case[][];
-    private difficulty: string;
+    // private difficulty: string;
     private words: Word[];
 
     constructor() {
@@ -18,7 +18,7 @@ export class GridManager {
         const blankGridCreator: BlankGridCreator = new BlankGridCreator();
         this.grid = blankGridCreator.createGrid(height, width);
 
-        this.difficulty = difficulty;
+        // this.difficulty = difficulty;
 
         const blackCaseGenerator: BlackCaseGenerator = new BlackCaseGenerator(height, width);
         const percentage: number = 30;
