@@ -19,7 +19,7 @@ export class Vector {
                             coordinatesNewPoint.getY() - coordinatesLastPointInArray.getY()));
 
       }
-
+    
     private createDomain(domainMin: PointCoordinates, domainMax: PointCoordinates): Domain {
         return(new Domain(domainMin, domainMax));
     }
@@ -37,6 +37,47 @@ export class Vector {
 
         return arrayVector;
     }
+
+    calculateVectorIntersection(secondVector: Vector): PointCoordinates {
+
+        // Calculer point d<intersection
+        const xIntersection = (secondVector.getConstant() - this.getConstant())/(this.getSlope()-secondVector.getSlope()); // Peut etre faire 3 fonctions 1. Calculer Point d<intersection 2. Calculer domaine commun au 2 vector 3.Verification
+        const yIntersection = xIntersection * this.getSlope() + this.getConstant();
+        return (new PointCoordinates(xIntersection,yIntersection));
+    
+    }
+
+    calculateCommunDomain(secondVector: Vector): Domain {
+        let xMinCommun: number, xMaxCommun: number, yMinCommun: number, yMaxCommun: number;
+        if(this.domain.getXMin() < secondVector.domain.getXMin()){
+            xMinCommun = secondVector.domain.getXMin();
+        } else xMinCommun = this.domain.getXMin();
+
+        if(this.domain.getYMin() < secondVector.domain.getYMin()){
+            yMinCommun = secondVector.domain.getYMin();
+        } else yMinCommun = this.domain.getYMin();
+
+        if(this.domain.getXMax() < secondVector.domain.getXMax()){
+            xMaxCommun = secondVector.domain.getXMax();
+        } else xMaxCommun = this.domain.getXMax();
+
+        if(this.domain.getYMax() < secondVector.domain.getYMax()){
+            yMaxCommun = secondVector.domain.getYMax();
+        } else yMaxCommun = this.domain.getYMax();
+             
+        const pointMinCommun = new PointCoordinates(xMinCommun,yMinCommun);
+        const pointMaxCommun = new PointCoordinates(xMaxCommun,yMaxCommun);
+        return(new Domain(pointMinCommun,pointMaxCommun));
+    }
+
+    public calculateAngle(secondVector: Vector): number {
+       if (secondVector.vector.angle() > this.vector.angle()) {
+            return(secondVector.vector.angle() - this.vector.angle());
+       }
+
+       return(this.vector.angle() - secondVector.vector.angle());
+    }
+
     public findMinDomain(coordinatesNewPoint: PointCoordinates, coordinatesLastPointInArray: PointCoordinates): PointCoordinates {
         return (this.domain.findMinDomain(coordinatesNewPoint, coordinatesLastPointInArray));
     }

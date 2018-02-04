@@ -14,7 +14,7 @@ export class TrackEditorComponent implements OnInit {
   @ViewChild("canvas")
   private canvasRef: ElementRef;
   private pointArray: pointCoordinates[] = [];
-  private ctx : any;
+  private ctx: any;
   // private currentPoint : number
   private mouseMovedEvent: any;  // So that each method can access the coordinates
                                   // at all times
