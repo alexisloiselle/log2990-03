@@ -1,33 +1,32 @@
 import { pointCoordinates} from "../pointCoordinates";
 
-
-export class equation {
+export class Equation {
     private slope: number;
     private constant: number;
-    
-    constructor(slope : number, constant : number) {
-        this.slope=slope;
-        this.constant=constant;
+
+    public constructor(pointEnd: pointCoordinates, pointStart: pointCoordinates) {
+        this.slope = this.calculateSlope(pointEnd, pointStart);
+        this.constant = this.calculateConstant(pointEnd);
     }
-    calculateSlope(pointEnd : pointCoordinates, pointStart:pointCoordinates){
-        return((pointEnd.getY()-pointStart.getY())/(pointEnd.getX()-pointStart.getX()));
+    public calculateSlope(pointEnd: pointCoordinates, pointStart: pointCoordinates): number {
+        return((pointEnd.getY() - pointStart.getY()) / (pointEnd.getX() - pointStart.getX()));
     }
 
-    calculateConstant(pointFromTheVector : pointCoordinates){
-        return (pointFromTheVector.getY()-this.slope*pointFromTheVector.getX());
+    public calculateConstant(pointFromTheVector: pointCoordinates): number {
+        return (pointFromTheVector.getY() - this.slope * pointFromTheVector.getX());
     }
 
-    getSlope(){
+    public getSlope(): number {
         return this.slope;
     }
-    getConstant(){
+    public getConstant(): number {
         return this.constant;
     }
-    
-    setSlope(slope : number ){
+
+    public setSlope(slope: number ): void {
         this.slope = slope;
     }
-    setConstant( constant : number){
+    public setConstant( constant: number): void {
         this.constant = constant;
     }
 }
