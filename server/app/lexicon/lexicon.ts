@@ -9,7 +9,6 @@ import {
     MAX_FREQ,
     USELESS_CHAR
 } from "../config";
-import { Response } from "express-serve-static-core";
 
 export class Lexicon {
 
@@ -25,7 +24,7 @@ export class Lexicon {
         const url: string = `${API_URL}${word}&${API_DEFS}`;
 
         return new Promise<string[]>((resolve: Function) => {
-            request(`${url}`, (error: Error, response: Response, body: Body) => {
+            request(url, (error: any, response: any, body: any) => {
                 body = JSON.parse(body);
                 definitions = body[0].defs.slice(0, MAX_DEFS).map((def: string) => {
                     return def.slice(USELESS_CHAR);
@@ -41,7 +40,7 @@ export class Lexicon {
         const url: string = `${API_URL}${word}&${API_FREQ}`;
 
         return new Promise<number>((resolve: Function) => {
-            request(`${url}`, (error: Error, response: Response, body: Body) => {
+            request(url, (error: any, response: any, body: any) => {
                 body = JSON.parse(body);
                 freq = body[0].tags[0].slice(USELESS_CHAR);
                 resolve(+freq);
