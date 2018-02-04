@@ -49,6 +49,8 @@ export class Vector {
 
     calculateCommunDomain(secondVector: Vector): Domain {
         let xMinCommun: number, xMaxCommun: number, yMinCommun: number, yMaxCommun: number;
+        
+        
         if(this.domain.getXMin() < secondVector.domain.getXMin()){
             xMinCommun = secondVector.domain.getXMin();
         } else xMinCommun = this.domain.getXMin();
@@ -68,6 +70,18 @@ export class Vector {
         const pointMinCommun = new PointCoordinates(xMinCommun,yMinCommun);
         const pointMaxCommun = new PointCoordinates(xMaxCommun,yMaxCommun);
         return(new Domain(pointMinCommun,pointMaxCommun));
+    }
+
+    public pointIsInDomain(intersectionPoint: PointCoordinates, secondVector: Vector): boolean {
+       let communDomain = this.calculateCommunDomain(secondVector);
+       if( communDomain.getXMin() > intersectionPoint.getX() || communDomain.getXMax() < intersectionPoint.getX()){
+            return false;
+       } 
+       if(communDomain.getYMin() > intersectionPoint.getY() || communDomain.getYMax() < intersectionPoint.getY()){
+           return false;
+       }
+
+       return true;
     }
 
     public calculateAngle(secondVector: Vector): number {
