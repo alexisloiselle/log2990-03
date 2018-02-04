@@ -5,20 +5,34 @@ import { PointCoordinates } from './pointCoordinates';
 @Injectable()
 export class TrackEditorConstraintService {
 
-    verifyAngle(firstVector: Vector, secondVector: Vector): boolean {
-        if(firstVector.calculateAngle(secondVector)< Math.radian(45)){
+    private verifyAngle(firstVector: Vector, secondVector: Vector): boolean {
+        if(firstVector.calculateAngle(secondVector) < Math.radian(45)){
             return false;
         }
         return true;
     }
 
-    calculateVectorIntersection(firstVector: Vector, secondVector: Vector): PointCoordinates {
+  
 
-        // Calculer point d<intersection
-        const xIntersection = (secondVector.getConstant() - firstVector.getConstant())/(firstVector.getSlope()-secondVector.getSlope()); // Peut etre faire 3 fonctions 1. Calculer Point d<intersection 2. Calculer domaine commun au 2 vector 3.Verification
-        const yIntersection = xIntersection * firstVector.getSlope() + firstVector.getConstant();
-        return (new PointCoordinates(xIntersection,yIntersection));
+    private verifyIsIntersecting(firstVector: Vector, secondVector: Vector){
+        if(!(firstVector.isParallel(secondVector))) {
+            const intersectionPoint = firstVector.calculateVectorIntersection(secondVector);
+            if (!firstVector.pointIsInCommunDomain(intersectionPoint, secondVector)){
+                return false;
+
+            }
+            return true;
+
+        }
+        return false;
+        
+    } 
     
+    public allConstraintPass(firstVector: Vector, secondVector: Vector): boolean {
+    if(this.verifyAngle(firstVector,secondVector) && this.verifyIsIntersecting(firstVector,secondVector)){
+        return true;
     }
+    return false;
 
+    }
 }

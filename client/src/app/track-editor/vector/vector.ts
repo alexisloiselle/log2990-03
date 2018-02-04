@@ -38,6 +38,7 @@ export class Vector {
         return arrayVector;
     }
 
+
     calculateVectorIntersection(secondVector: Vector): PointCoordinates {
 
         // Calculer point d<intersection
@@ -45,6 +46,13 @@ export class Vector {
         const yIntersection = xIntersection * this.getSlope() + this.getConstant();
         return (new PointCoordinates(xIntersection,yIntersection));
     
+    }
+
+    isParallel(secondVector: Vector): boolean {
+        if((this.getSlope() === secondVector.getSlope()) || (this.getSlope() === -secondVector.getSlope())){
+            return true;
+        }
+        return false;
     }
 
     calculateCommunDomain(secondVector: Vector): Domain {
@@ -72,7 +80,7 @@ export class Vector {
         return(new Domain(pointMinCommun,pointMaxCommun));
     }
 
-    public pointIsInDomain(intersectionPoint: PointCoordinates, secondVector: Vector): boolean {
+    public pointIsInCommunDomain(intersectionPoint: PointCoordinates, secondVector: Vector): boolean {
        let communDomain = this.calculateCommunDomain(secondVector);
        if( communDomain.getXMin() > intersectionPoint.getX() || communDomain.getXMax() < intersectionPoint.getX()){
             return false;
