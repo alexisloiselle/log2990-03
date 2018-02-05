@@ -10,20 +10,20 @@ export class Word {
         this.length = length;
         this.isHorizontal = isHorizontal;
     }
-    
-    public getLine() : number {
+
+    public getLine(): number {
         return this.line;
     }
-    
-    public getColumn() : number {
+
+    public getColumn(): number {
         return this.column;
     }
 
     public getLength(): number {
         return this.length;
     }
-    
-    public getIsHorizontal() : boolean {
+
+    public getIsHorizontal(): boolean {
         return this.isHorizontal;
     }
 }

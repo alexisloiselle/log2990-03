@@ -18,7 +18,7 @@ export class BlackCaseGenerator {
         for (let i: number = 0; i < maxNumberOfCases && !this.randomCaseGenerator.isUnusedCasesEmpty(); i++) {
             let caseIsFound: boolean = false;
             while (!caseIsFound && !this.randomCaseGenerator.isUnusedCasesEmpty()) {
-                const position: [number, number] = this.randomCaseGenerator.findRandomCase();                
+                const position: [number, number] = this.randomCaseGenerator.findRandomCase();
                 caseIsFound = blackCasePlacer.placeBlackCase(grid, position[0], position[1]);
             }
         }
