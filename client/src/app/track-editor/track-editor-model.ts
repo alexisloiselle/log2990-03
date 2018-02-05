@@ -1,12 +1,11 @@
 import { pointCoordinates } from "./pointCoordinates";
-import { OnInit, Input } from "@angular/core";
-import { Vector } from "./vector/vector";
+import { OnInit} from "@angular/core";
+// import { Vector } from "./vector/vector";
 
 
 /*Classe qui s'occuppe de manipuler le canvas.*/ 
 export class trackEditorModel implements OnInit {
     pointArray : pointCoordinates[] = [];
-    @Input() vecArray: Vector[] = [];
 
     ngOnInit(){
         
@@ -92,8 +91,6 @@ export class trackEditorModel implements OnInit {
            (mouseCoordinates.getY() <= this.pointArray[0].getY() + 10 && mouseCoordinates.getY() >= this.pointArray[0].getY() - 10) ){
             return true;;
         }
-    
         return false;
-      }
-     
+      }     
 }
