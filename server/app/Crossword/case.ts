@@ -7,7 +7,6 @@
         private verticalWordLength: number;
         private verticalPositionInWord: number;
 
-        // private letterTyped: string;
         private rightLetter: string;
 
         private isAConstraint: boolean;

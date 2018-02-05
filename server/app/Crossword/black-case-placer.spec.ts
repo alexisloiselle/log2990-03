@@ -5,7 +5,7 @@ import { BlankGridCreator } from "./blank-grid-creator";
 import { Case } from "./case";
 import { BlackCasePlacer } from "./black-case-placer";
 
-describe("Grid-Generator", () => {
+describe("Black-case-placer", () => {
 
     const height = 5;
     const width = 8;
@@ -20,7 +20,7 @@ describe("Grid-Generator", () => {
 
     });
 
-    describe("Grid Generation", () => {
+    describe("Black case placement", () => {
         it("Should be able to place the black cases", () => {
             expect(blackCasePlacer.placeBlackCase(cases, 3, 3)).to.equal(true);
             expect(cases[3][3].getIsBlack()).to.equal(true);
