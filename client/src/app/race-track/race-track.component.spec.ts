@@ -1,9 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { RaceTrackComponent } from './race-track.component';
+import { RaceTrackComponent} from "./race-track.component";
 
-describe('RaceTrackComponent', () => {
-  let component: RaceTrackComponent;
+describe("RaceTrackComponent", () => {
   let fixture: ComponentFixture<RaceTrackComponent>;
 
   beforeEach(async(() => {
@@ -15,7 +14,10 @@ describe('RaceTrackComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RaceTrackComponent);
-    component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  it('should be created', () => {
+    expect(component).toBeTruthy();
   });
 });
