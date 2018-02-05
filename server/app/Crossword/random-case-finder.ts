@@ -1,5 +1,3 @@
-import { Randomizer } from "./randomizer";
-
 export class RandomCaseFinder {
 
     private unusedCases: [number, number][];
@@ -34,8 +32,7 @@ export class RandomCaseFinder {
     }
 
     public findRandomCase(): [number, number] {
-        let randomizer: Randomizer = new Randomizer();
-        const position: [number, number] = this.unusedCases[randomizer.generateRandomNumber(0, this.unusedCases.length - 1)];
+        const position: [number, number] = this.unusedCases[Math.floor(Math.random() * (this.unusedCases.length - 1))];
         this.removeFromArray(this.findCaseByPosition(position));
 
         return position;
