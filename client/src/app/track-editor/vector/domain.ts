@@ -1,4 +1,4 @@
-import { PointCoordinates} from "../pointCoordinates";
+import { pointCoordinates} from "../pointCoordinates";
 
 export class Domain {
     private xMin: number;
@@ -6,13 +6,13 @@ export class Domain {
     private xMax: number;
     private yMax: number;
 
-    public constructor(coordinatesNewPoint: PointCoordinates, coordinatesLastPointInArray: PointCoordinates) {
+    public constructor(coordinatesNewPoint: pointCoordinates, coordinatesLastPointInArray: pointCoordinates) {
         this.xMin = this.findMinDomain(coordinatesNewPoint, coordinatesLastPointInArray).getX();
         this.yMin = this.findMinDomain(coordinatesNewPoint, coordinatesLastPointInArray).getY();
         this.xMax = this.findMaxDomain(coordinatesNewPoint, coordinatesLastPointInArray).getX();
         this.yMax = this.findMaxDomain(coordinatesNewPoint, coordinatesLastPointInArray).getY();
     }
-    public findMinDomain(coordinatesNewPoint: PointCoordinates, coordinatesLastPointInArray: PointCoordinates): PointCoordinates {
+    public findMinDomain(coordinatesNewPoint: pointCoordinates, coordinatesLastPointInArray: pointCoordinates): pointCoordinates {
         let minX: number = 0;
         let minY: number = 0;
         if (coordinatesNewPoint.getX() < coordinatesLastPointInArray.getX()) {
@@ -26,9 +26,9 @@ export class Domain {
             minY =  coordinatesLastPointInArray.getY();
         }
 
-        return(new PointCoordinates (minX, minY));
+        return(new pointCoordinates (minX, minY));
     }
-    public findMaxDomain(coordinatesNewPoint: PointCoordinates, coordinatesLastPointInArray: PointCoordinates): PointCoordinates {
+    public findMaxDomain(coordinatesNewPoint: pointCoordinates, coordinatesLastPointInArray: pointCoordinates): pointCoordinates {
         let maxX: number = 0;
         let maxY: number = 0;
         if (coordinatesNewPoint.getX() > coordinatesLastPointInArray.getX()){
@@ -42,7 +42,7 @@ export class Domain {
             maxY =  coordinatesLastPointInArray.getY();
         }
 
-        return(  new PointCoordinates (maxX, maxY));
+        return(  new pointCoordinates (maxX, maxY));
     }
     public getXMin(): number {
         return this.xMin;

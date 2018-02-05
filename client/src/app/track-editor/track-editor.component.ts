@@ -204,7 +204,7 @@ export class TrackEditorComponent implements OnInit {
       //We redraw the shit for the point
       if(this.myTrackEditorModel.getPointArray().indexOf(i) === 0){
         this.ctx.beginPath();
-        this.ctx.arc(i.getX(), i.getY(), 10, 0, Math.PI * 2;
+        this.ctx.arc(i.getX(), i.getY(), 10, 0, Math.PI * 2);
         this.ctx.lineWidth = 5;
         this.ctx.strokeStyle = "blue";
         this.ctx.stroke();

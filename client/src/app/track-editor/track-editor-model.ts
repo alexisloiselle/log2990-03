@@ -1,10 +1,12 @@
 import { pointCoordinates } from "./pointCoordinates";
-import { OnInit } from "@angular/core";
+import { OnInit, Input } from "@angular/core";
+import { Vector } from "./vector/vector";
 
 
 /*Classe qui s'occuppe de manipuler le canvas.*/ 
 export class trackEditorModel implements OnInit {
-    private pointArray : pointCoordinates[] = [];
+    pointArray : pointCoordinates[] = [];
+    @Input() vecArray: Vector[] = [];
 
     ngOnInit(){
         

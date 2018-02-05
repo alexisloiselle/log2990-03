@@ -1,5 +1,5 @@
 import { Vector2 } from "three";
-import { PointCoordinates} from "../pointCoordinates";
+import { pointCoordinates} from "../pointCoordinates";
 import { Domain } from "./domain";
 import { Equation} from "./equation";
 
@@ -8,39 +8,39 @@ export class Vector {
     private domain: Domain;
     private equation: Equation;
 
-    public constructor(coordinatesNewPoint: PointCoordinates, coordinatesLastPointInArray: PointCoordinates) {
+    public constructor(coordinatesNewPoint: pointCoordinates, coordinatesLastPointInArray: pointCoordinates) {
         this.vector = this.createNewVector(coordinatesNewPoint, coordinatesLastPointInArray);
         this.domain = this.createDomain(coordinatesNewPoint, coordinatesLastPointInArray) ;
         this.equation = this.createEquation(coordinatesNewPoint, coordinatesLastPointInArray);
     }
 
-    private createNewVector(coordinatesNewPoint: PointCoordinates, coordinatesLastPointInArray: PointCoordinates): Vector2 {
+    private createNewVector(coordinatesNewPoint: pointCoordinates, coordinatesLastPointInArray: pointCoordinates): Vector2 {
         return( new Vector2(coordinatesNewPoint.getX() - coordinatesLastPointInArray.getX(),
                             coordinatesNewPoint.getY() - coordinatesLastPointInArray.getY()));
 
       }
 
-    private createDomain(domainMin: PointCoordinates, domainMax: PointCoordinates): Domain {
+    private createDomain(domainMin: pointCoordinates, domainMax: pointCoordinates): Domain {
         return(new Domain(domainMin, domainMax));
     }
 
-    private createEquation(coordinatesNewPoint: PointCoordinates, coordinatesLastPointInArray: PointCoordinates): Equation {
+    private createEquation(coordinatesNewPoint: pointCoordinates, coordinatesLastPointInArray: pointCoordinates): Equation {
         return(new Equation(coordinatesNewPoint, coordinatesLastPointInArray));
     }
 
-    public findMinDomain(coordinatesNewPoint: PointCoordinates, coordinatesLastPointInArray: PointCoordinates): PointCoordinates {
+    public findMinDomain(coordinatesNewPoint: pointCoordinates, coordinatesLastPointInArray: pointCoordinates): pointCoordinates {
         return (this.domain.findMinDomain(coordinatesNewPoint, coordinatesLastPointInArray));
     }
 
-    public findMaxDomain(coordinatesNewPoint: PointCoordinates, coordinatesLastPointInArray: PointCoordinates): PointCoordinates {
+    public findMaxDomain(coordinatesNewPoint: pointCoordinates, coordinatesLastPointInArray: pointCoordinates): pointCoordinates {
        return( this.domain.findMaxDomain(coordinatesNewPoint, coordinatesLastPointInArray));
     }
 
-    public calculateSlope(pointEnd: PointCoordinates, pointStart: PointCoordinates): number {
+    public calculateSlope(pointEnd: pointCoordinates, pointStart: pointCoordinates): number {
         return(this.calculateSlope(pointEnd , pointStart));
     }
 
-    public calculateConstant(pointFromTheVector: PointCoordinates): number {
+    public calculateConstant(pointFromTheVector: pointCoordinates): number {
         return(this.calculateConstant(pointFromTheVector));
     }
 
