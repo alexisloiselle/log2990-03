@@ -1,6 +1,5 @@
-
-
 import { pointCoordinates } from "./pointCoordinates";
+import { TrackEditorComponent } from "./track-editor.component";
 //import { equation } from "./vector/equation";
 import { vector } from "./vector/vector";
 
@@ -36,6 +35,8 @@ describe("TrackEditorComponent", () => {
       expect(vectorTest.findMinDomain(pointStart,pointEnd).getY()).toBe(pointEnd.getY());
     });
 
+    
+
     // it("minDomainX should be assigned to vector at construction", () =>{
     //   expect(vectorTest.getDomainXMin()).toBe(1);
     // });
@@ -54,6 +55,18 @@ describe("TrackEditorComponent", () => {
 
     
 
+
+  });
+  
+  describe("trackEditor", () => {
+    let myTrackEditor :TrackEditorComponent = new TrackEditorComponent;
+
+    it("Should create an empty pointCoordinates array.", () =>{
+      expect(myTrackEditor.getPointArray()).toBeDefined();
+    });
+
+    
+    myTrackEditor.canvasDrawPoint()
 
   });
 });
