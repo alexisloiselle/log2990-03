@@ -1,6 +1,10 @@
 
+<<<<<<< HEAD
 import { PointCoordinates } from "./pointCoordinates";
 import { TrackEditorModel } from "./track-editor-model";
+=======
+import { pointCoordinates } from "./pointCoordinates";
+>>>>>>> a5781d27561c61998d3b732403291cc995672615
 // import { equation } from "./vector/equation";
 import { Vector } from "./vector/vector";
 
@@ -8,8 +12,8 @@ describe("TrackEditorComponent", () => {
 
   describe("vectorClass", () => {
 
-    const pointStart: PointCoordinates = new PointCoordinates(2, 6);
-    const pointEnd: PointCoordinates = new PointCoordinates (1, 3);
+    const pointStart: pointCoordinates = new pointCoordinates(2, 6);
+    const pointEnd: pointCoordinates = new pointCoordinates (1, 3);
     const vectorTest: Vector = new Vector(pointStart, pointEnd);
 
     it("Should Create slope", () => {
@@ -53,7 +57,11 @@ describe("TrackEditorComponent", () => {
     });
 
   });
+<<<<<<< HEAD
 
+=======
+  /*
+>>>>>>> a5781d27561c61998d3b732403291cc995672615
   describe("trackEditor", () => {
     const myTrackModel1: TrackEditorModel = new TrackEditorModel;
     const point1: PointCoordinates = new PointCoordinates(30, 30);
@@ -77,6 +85,7 @@ describe("TrackEditorComponent", () => {
       myTrackModel1.eraseLastPoint();
       expect(myTrackModel1.getPointArrayLength()).toBe(0);
     });
+<<<<<<< HEAD
 
     const myTrackModel2: TrackEditorModel = new TrackEditorModel;
    
@@ -104,6 +113,10 @@ describe("TrackEditorComponent", () => {
     //   myTrackmodel.removeDuplicatedPoints();
     //   expect(myTrackmodel.getPointArrayLength()).toBe(5);
     // });
+=======
+    myTrackEditor.canvasDrawPoint()
+>>>>>>> a5781d27561c61998d3b732403291cc995672615
 
   });
+  */
 });
