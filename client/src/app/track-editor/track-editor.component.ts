@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild} from "@angular/core";
 // We need to import the pointCoordinates class
-import { pointCoordinates } from "./pointCoordinates";
+import {pointCoordinates} from "./pointCoordinates";
 import { trackEditorModel } from "./track-editor-model";
 //import { Vector2 } from "three";
 //import { vector } from "./vector/vector";
