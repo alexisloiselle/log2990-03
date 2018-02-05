@@ -1,12 +1,11 @@
 import { pointCoordinates } from "./pointCoordinates";
-import { OnInit, Input } from "@angular/core";
-import { Vector } from "./vector/vector";
+import { OnInit} from "@angular/core";
+// import { Vector } from "./vector/vector";
 
 
 /*Classe qui s'occuppe de manipuler le canvas.*/ 
 export class trackEditorModel implements OnInit {
     pointArray : pointCoordinates[] = [];
-    @Input() vecArray: Vector[] = [];
 
     ngOnInit(){
         
@@ -24,9 +23,9 @@ export class trackEditorModel implements OnInit {
         if(index >= 0 && index <this.pointArray.length){
             return this.pointArray[index];
         }
-        return new PointCoordinates(-1, -1);
+        return new pointCoordinates(-1, -1);
     }
-    setPointCoordinates(index: number, mouseCoordinates: PointCoordinates){
+    setPointCoordinates(index: number, mouseCoordinates: pointCoordinates){
         if(index >= 0 && index < this.pointArray.length){
             this.pointArray[index].setX(mouseCoordinates.getX());
             this.pointArray[index].setY(mouseCoordinates.getY());
@@ -34,7 +33,7 @@ export class trackEditorModel implements OnInit {
         
     }
 
-    addPoint(point: PointCoordinates){
+    addPoint(point: pointCoordinates){
         this.pointArray.push(point);
     }
 
@@ -73,11 +72,11 @@ export class trackEditorModel implements OnInit {
 
     
     closeLoop(){
-        let point : PointCoordinates = new PointCoordinates(this.pointArray[0].getX(), this.pointArray[0].getY());
+        let point : pointCoordinates = new pointCoordinates(this.pointArray[0].getX(), this.pointArray[0].getY());
         this.pointArray.push(point);     
     }
 
-    clickedOnExistingPoint(mouseCoordinates: PointCoordinates){
+    clickedOnExistingPoint(mouseCoordinates: pointCoordinates){
         for(let point of this.pointArray){
             if(mouseCoordinates.getX() >= point.getX() - 20 && mouseCoordinates.getX() <= point.getX() + 20 &&
                mouseCoordinates.getY() >= point.getY() - 20 && mouseCoordinates.getY() <= point.getY() + 20){
@@ -87,7 +86,7 @@ export class trackEditorModel implements OnInit {
         return false;
     }
 
-    clickedOnFirstPoint(mouseCoordinates: PointCoordinates){
+    clickedOnFirstPoint(mouseCoordinates: pointCoordinates){
         if((mouseCoordinates.getX() <= this.pointArray[0].getX() + 10 && mouseCoordinates.getX() >= this.pointArray[0].getX() - 10) &&
            (mouseCoordinates.getY() <= this.pointArray[0].getY() + 10 && mouseCoordinates.getY() >= this.pointArray[0].getY() - 10) ){
             return true;;

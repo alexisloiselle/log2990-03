@@ -12,7 +12,7 @@ module Route {
             const message: Message = new Message();
             message.title = "Hello";
             message.body = "World";
-            res.send(`${message.title} ${message.body}`);
+            res.send(JSON.stringify(message));
         }
     }
 }

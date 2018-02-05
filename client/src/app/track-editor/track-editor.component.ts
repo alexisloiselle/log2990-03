@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild} from "@angular/core";
 // We need to import the pointCoordinates class
-import {PointCoordinates} from "./pointCoordinates";
+import {pointCoordinates} from "./pointCoordinates";
 import { trackEditorModel } from "./track-editor-model";
 //import { Vector2 } from "three";
 //import { vector } from "./vector/vector";
@@ -45,7 +45,7 @@ export class TrackEditorComponent implements OnInit {
 
   canvasMouseUp(event: any){
     this.mouseDown = false;
-    let mouseCoordinates : PointCoordinates = new PointCoordinates(event.layerX, event.layerY);
+    let mouseCoordinates : pointCoordinates = new pointCoordinates(event.layerX, event.layerY);
     //If it's a left click and the loop is not closed
     if(event.button === 0 && !this.myTrackEditorModel.loopIsClosed()) {
         this.canvasDrawPoint(mouseCoordinates);
@@ -81,7 +81,7 @@ export class TrackEditorComponent implements OnInit {
    
   }
 
-  drawLineOnCanvas(point1: PointCoordinates, point2: PointCoordinates){
+  drawLineOnCanvas(point1: pointCoordinates, point2: pointCoordinates){
     this.ctx.beginPath();
     this.ctx.moveTo(this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArrayLength() - 2).getX(), 
                     this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArrayLength() - 2).getY());
@@ -90,7 +90,7 @@ export class TrackEditorComponent implements OnInit {
     this.ctx.strokeStyle="black";
     this.ctx.stroke();
   }
-  drawPointOnCanvas(point:PointCoordinates, color: string, size: number){
+  drawPointOnCanvas(point:pointCoordinates, color: string, size: number){
     this.ctx.beginPath();
     this.ctx.arc(point.getX(), point.getY(), size, 0, 2*Math.PI);
     this.ctx.fillStyle = color;
@@ -100,8 +100,8 @@ export class TrackEditorComponent implements OnInit {
   canvasCloseLoop(){
     this.myTrackEditorModel.closeLoop();
 
-    let point1:PointCoordinates = this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArrayLength() - 2);
-    let point2: PointCoordinates = this.myTrackEditorModel.getSinglePoint(0);
+    let point1:pointCoordinates = this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArrayLength() - 2);
+    let point2: pointCoordinates = this.myTrackEditorModel.getSinglePoint(0);
     this.drawLineOnCanvas(point1, point2);
  
  
@@ -122,7 +122,7 @@ export class TrackEditorComponent implements OnInit {
 
   //If the focus is on the point, it becomes green
   mouseOnPoint(x: number, y: number){ 
-    let tempPoint :PointCoordinates = new PointCoordinates(x, y);
+    let tempPoint :pointCoordinates = new pointCoordinates(x, y);
     this.drawPointOnCanvas(tempPoint, "#00FF00", 10);
   }
 
@@ -130,7 +130,7 @@ export class TrackEditorComponent implements OnInit {
   mouseNotOnPoint(x: number, y: number){ 
      //TODO CREER ET PUSH VECTOR ICI
       //TODO INCREMENTER 
-      let tempPoint :PointCoordinates = new PointCoordinates(x, y);
+      let tempPoint :pointCoordinates = new pointCoordinates(x, y);
       this.drawPointOnCanvas(tempPoint, "black", 9);
       
   }
@@ -147,7 +147,7 @@ export class TrackEditorComponent implements OnInit {
     }
 
   dragNDrop(){
-    let mouseCoordinates: PointCoordinates = new PointCoordinates(this.mouseMovedEvent.layerX, this.mouseMovedEvent.layerY);
+    let mouseCoordinates: pointCoordinates = new pointCoordinates(this.mouseMovedEvent.layerX, this.mouseMovedEvent.layerY);
     //Je trouve le point sur lequel il a cliqué
     for(let point of this.myTrackEditorModel.getPointArray()){
       if(this.mouseMovedEvent.layerX >= point.getX() - 15 && this.mouseMovedEvent.layerX <= point.getX() +15 &&
@@ -162,7 +162,7 @@ export class TrackEditorComponent implements OnInit {
   
 
 
-  canvasDrawPoint(mouseCoordinates: PointCoordinates){
+  canvasDrawPoint(mouseCoordinates: pointCoordinates){
     //if I clicked on a point and the arrayLength is superior to three
     if(this.myTrackEditorModel.getPointArrayLength() >=3 && this.myTrackEditorModel.clickedOnFirstPoint(mouseCoordinates)){
       this.canvasCloseLoop(); //I can close the circuit
@@ -188,8 +188,8 @@ export class TrackEditorComponent implements OnInit {
   canvasDrawLine(){
     if(this.myTrackEditorModel.getPointArrayLength() >= 2)
     {
-      let point1: PointCoordinates = this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArrayLength() - 2);
-      let point2: PointCoordinates = this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArrayLength()-1);
+      let point1: pointCoordinates = this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArrayLength() - 2);
+      let point2: pointCoordinates = this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArrayLength()-1);
       this.drawLineOnCanvas(point1, point2);
 
     }

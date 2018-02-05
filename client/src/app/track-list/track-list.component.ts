@@ -9,15 +9,16 @@ import {RaceTrackComponent} from '../race-track/race-track.component';
 
 export class TrackListComponent implements OnInit {
   public tracks: RaceTrackComponent[];
-  //private selectedTrack: RaceTrackComponent;
+  private selectedTrack: RaceTrackComponent;
 
-  constructor() { }
-
-  ngOnInit() {
-    this.reload();
+  public constructor() {
+   }
+  public ngOnInit(): void {
   }
-  public reload() {
-    
+  public getSelectedTrack(): RaceTrackComponent {
+    return this.selectedTrack;
   }
-
+  public setSelectTrack(track: RaceTrackComponent): void {
+    this.selectedTrack = track;
+  }
 }

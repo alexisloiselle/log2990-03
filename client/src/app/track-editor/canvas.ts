@@ -1,4 +1,4 @@
-import { PointCoordinates } from "./pointCoordinates";
+import { pointCoordinates } from "./pointCoordinates";
 import { OnInit, ViewChild,ElementRef } from "@angular/core";
 
 
@@ -17,7 +17,7 @@ export class canvas implements OnInit {
         this.canvasRef.nativeElement.width = 800;
     }
 
-    redrawCanvas(pointArray: PointCoordinates[]){
+    redrawCanvas(pointArray: pointCoordinates[]){
         this.eraseCanvas();
         //We redraw the points
         for(let i of pointArray){
@@ -51,7 +51,7 @@ export class canvas implements OnInit {
        this.ctx.clearRect(0, 0, 800, 800);
      }
 
-    drawPoint(point : PointCoordinates, pointArray: PointCoordinates[]){
+    drawPoint(point : pointCoordinates, pointArray: pointCoordinates[]){
         //if I clicked on a point and the arrayLength is superior to three
         if(pointArray.length >=3 && this.clickedOnFirstPoint(point.getX(), point.getY(), pointArray)){
           //this.canvasCloseLoop(); //I can close the circuit
@@ -61,7 +61,7 @@ export class canvas implements OnInit {
           this.ctx.fillStyle = "#00FF00";
           this.ctx.fill();
     
-          //this.pointArray.push(new PointCoordinates(x,y));
+          //this.pointArray.push(new pointCoordinates(x,y));
     
           if(pointArray.length == 1){
             this.ctx.beginPath();
@@ -76,7 +76,7 @@ export class canvas implements OnInit {
         }
     }
 
-    checkMouseFocus(pointArray: PointCoordinates[], mouseCoordinates: PointCoordinates){ //Checks if the mouse focus is on a point or not
+    checkMouseFocus(pointArray: pointCoordinates[], mouseCoordinates: pointCoordinates){ //Checks if the mouse focus is on a point or not
         if(pointArray.length>0){
           for(let point of pointArray){
             if(mouseCoordinates.getX() >= point.getX() - 10 && mouseCoordinates.getX() <= point.getX() +10 &&
@@ -107,7 +107,7 @@ export class canvas implements OnInit {
       this.ctx.fill();
   }
 
-  clickedOnExistingPoint(x: number, y: number, pointArray: PointCoordinates[]){
+  clickedOnExistingPoint(x: number, y: number, pointArray: pointCoordinates[]){
     for(let point of pointArray){
         if(x >= point.getX() - 20 && x <= point.getX() + 20 &&
           y >= point.getY() - 20 && y <= point.getY() + 20){
@@ -117,7 +117,7 @@ export class canvas implements OnInit {
     return false;
     }
 
-  dragNDrop(pointArray: PointCoordinates[], mouseCoordinates: PointCoordinates){
+  dragNDrop(pointArray: pointCoordinates[], mouseCoordinates: pointCoordinates){
     //Je trouve le point sur lequel il a cliqué
     // for(let point of pointArray){
     //   if(mouseCoordinates.getX() >= point.getX() - 15 && mouseCoordinates.getY() <= point.getX() +15 &&
@@ -129,7 +129,7 @@ export class canvas implements OnInit {
     this.redrawCanvas(pointArray);
   }
 
-  canvasDrawLine(pointArray: PointCoordinates[]){
+  canvasDrawLine(pointArray: pointCoordinates[]){
     if(pointArray.length >= 2)
     {
       this.ctx.beginPath();
@@ -142,14 +142,14 @@ export class canvas implements OnInit {
     }
   }
 
-  clickedOnFirstPoint(x: number, y: number, pointArray: PointCoordinates[]){
+  clickedOnFirstPoint(x: number, y: number, pointArray: pointCoordinates[]){
     if((x <= pointArray[0].getX() + 10 && x >= pointArray[0].getX() - 10) &&
        (y <= pointArray[0].getY() + 10 && y >= pointArray[0].getY() - 10)){
       return true;;
     }
     return false;
   }
-  canvasCloseLoop(pointArray: PointCoordinates[]){
+  canvasCloseLoop(pointArray: pointCoordinates[]){
      this.ctx.beginPath();
      this.ctx.moveTo(pointArray[pointArray.length-1].getX(), 
                      pointArray[pointArray.length-1].getY());
