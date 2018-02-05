@@ -2,7 +2,6 @@ import { Component, OnInit } from "@angular/core";
 import * as THREE from "three";
 import { Object3D } from "three";
 
-
 @Component({
   selector: "app-race-track",
   templateUrl: "./race-track.component.html",
