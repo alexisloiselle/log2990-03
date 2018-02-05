@@ -57,12 +57,13 @@ describe("TrackEditorComponent", () => {
   describe("trackEditor", () => {
     let myTrackEditor :TrackEditorComponent = new TrackEditorComponent;
 
-    it("Should create an empty pointCoordinates array.", () =>{
-      expect(myTrackEditor.getPointArray()).toBeDefined();
-    });
+    // it("Should create an empty pointCoordinates array.", () =>{
+    //   expect(myTrackEditor.getPointArray()).toBeDefined();
+    // });
 
     
-    myTrackEditor.canvasDrawPoint()
+   // myTrackEditor.canvasDrawPoint()
 
   });
+
 });
