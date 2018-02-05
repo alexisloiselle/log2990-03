@@ -1,6 +1,6 @@
 export class Word {
-    private line: number;
-    private column: number;
+    // private line: number;
+    // private column: number;
     private length: number;
     private isHorizontal: boolean;
 
