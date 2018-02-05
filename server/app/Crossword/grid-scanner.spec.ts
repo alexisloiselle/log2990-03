@@ -107,12 +107,6 @@ describe("Grid Scanner", () => {
     describe("Find Words", () => {
         let gridScanner: GridScanner = new GridScanner();
         let words: Word[] = gridScanner.findWords(grid);
-        for(let i: number = 0; i < words.length; i++){
-            console.log(words[i].getLine());
-            console.log(words[i].getColumn());
-            console.log(words[i].getIsHorizontal());
-            console.log(words[i].getLength())
-        }
         it("Should have the right number of words", () => {
             expect(words.length).to.be.equal(17);
         });
