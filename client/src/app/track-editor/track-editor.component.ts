@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild} from "@angular/core";
 // We need to import the pointCoordinates class
-import { pointCoordinates } from "./pointCoordinates";
+import { PointCoordinates } from "./pointCoordinates";
 // import { Vector2 } from "three";
 // import { vector } from "./vector/vector";
 
@@ -13,7 +13,7 @@ import { pointCoordinates } from "./pointCoordinates";
 export class TrackEditorComponent implements OnInit {
   @ViewChild("canvas")
   private canvasRef: ElementRef;
-  private pointArray: pointCoordinates[] = [];
+  private pointArray: PointCoordinates[] = [];
   private ctx: any;
   // private currentPoint : number
   private mouseMovedEvent: any;  // So that each method can access the coordinates
@@ -154,7 +154,7 @@ export class TrackEditorComponent implements OnInit {
       this.ctx.fillStyle = "#00FF00";
       this.ctx.fill();
 
-      this.pointArray.push(new pointCoordinates(x, y));
+      this.pointArray.push(new PointCoordinates(x, y));
 
       if (this.pointArray.length === 1) {
         this.ctx.beginPath();
@@ -191,7 +191,7 @@ export class TrackEditorComponent implements OnInit {
 
       if (this.pointArray.indexOf(i) === 0) {
         this.ctx.beginPath();
-        this.ctx.arc(i.getX(), i.getY(), 10, 0, Math.PI * 2;
+        this.ctx.arc(i.getX(), i.getY(), 10, 0, Math.PI * 2);
         this.ctx.lineWidth = 5;
         this.ctx.strokeStyle = "blue";
         this.ctx.stroke();
