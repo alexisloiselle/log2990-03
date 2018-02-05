@@ -9,106 +9,175 @@ import { Word } from "./word";
 describe("Grid Scanner", () => {
     const blankGridCreator: BlankGridCreator = new BlankGridCreator();
     const dimension: number = 8;
-    let grid: Case[][] = blankGridCreator.createGrid(dimension, dimension);
+    const grid: Case[][] = blankGridCreator.createGrid(dimension, dimension);
 
-    //Black Case setup
-    grid[0][0].setIsBlack(true);
-    grid[0][1].setIsBlack(true);
-    grid[0][5].setIsBlack(true);
-    grid[1][0].setIsBlack(true);
-    grid[2][0].setIsBlack(true);
-    grid[2][1].setIsBlack(true);
-    grid[2][2].setIsBlack(true);
-    grid[2][3].setIsBlack(true);
-    grid[2][4].setIsBlack(true);
-    grid[3][5].setIsBlack(true);
-    grid[3][7].setIsBlack(true);
-    grid[4][0].setIsBlack(true);
-    grid[4][1].setIsBlack(true);
-    grid[4][3].setIsBlack(true);
-    grid[5][6].setIsBlack(true);
-    grid[5][7].setIsBlack(true);
-    grid[6][4].setIsBlack(true);
-    grid[7][2].setIsBlack(true);
-    grid[7][6].setIsBlack(true);
-    grid[7][7].setIsBlack(true);
-    
+    // Black Case setup
+    const line0: number = 0;
+    const column0: number = 0;
+    grid[line0][column0].setIsBlack(true);
+
+    const column1: number = 1;
+    grid[line0][column1].setIsBlack(true);
+
+    const column5: number = 5;
+    grid[line0][column5].setIsBlack(true);
+
+    const line1: number = 1;
+    grid[line1][column0].setIsBlack(true);
+
+    const line2: number = 2;
+    grid[line2][column0].setIsBlack(true);
+
+    grid[line2][column1].setIsBlack(true);
+
+    const column2: number = 2;
+    grid[line2][column2].setIsBlack(true);
+
+    const column3: number = 3;
+    grid[line2][column3].setIsBlack(true);
+
+    const column4: number = 4;
+    grid[line2][column4].setIsBlack(true);
+
+    const line3: number = 3;
+    grid[line3][column5].setIsBlack(true);
+
+    const column7: number = 7;
+    grid[line3][column7].setIsBlack(true);
+
+    const line4: number = 4;
+    grid[line4][column0].setIsBlack(true);
+    grid[line4][column1].setIsBlack(true);
+    grid[line4][column3].setIsBlack(true);
+
+    const line5: number = 5;
+    const column6: number = 6;
+    grid[line5][column6].setIsBlack(true);
+    grid[line5][column7].setIsBlack(true);
+
+    const line6: number = 6;
+    grid[line6][column4].setIsBlack(true);
+
+    const line7: number = 7;
+    grid[line7][column2].setIsBlack(true);
+    grid[line7][column6].setIsBlack(true);
+    grid[line7][column7].setIsBlack(true);
+
+    // Horizontal words
     const positionOfFirstLetter: number = 0;
-    //Horizontal words
-    grid[0][2].setHorizontalPositionInWord(positionOfFirstLetter);
-    grid[0][2].setHorizontalWordLength(3);
-    grid[0][6].setHorizontalPositionInWord(positionOfFirstLetter);
-    grid[0][6].setHorizontalWordLength(2);
-    grid[1][1].setHorizontalPositionInWord(positionOfFirstLetter);
-    grid[1][1].setHorizontalWordLength(7);
-    grid[2][5].setHorizontalPositionInWord(positionOfFirstLetter);
-    grid[2][5].setHorizontalWordLength(3);
-    grid[3][0].setHorizontalPositionInWord(positionOfFirstLetter);
-    grid[3][0].setHorizontalWordLength(5);
-    grid[3][6].setHorizontalPositionInWord(positionOfFirstLetter);
-    grid[3][6].setHorizontalWordLength(1);
-    grid[4][2].setHorizontalPositionInWord(positionOfFirstLetter);
-    grid[4][2].setHorizontalWordLength(1);
-    grid[4][4].setHorizontalPositionInWord(positionOfFirstLetter);
-    grid[4][4].setHorizontalWordLength(4);
-    grid[5][0].setHorizontalPositionInWord(positionOfFirstLetter);
-    grid[5][0].setHorizontalWordLength(6);
-    grid[6][0].setHorizontalPositionInWord(positionOfFirstLetter);
-    grid[6][0].setHorizontalWordLength(4);
-    grid[6][5].setHorizontalPositionInWord(positionOfFirstLetter);
-    grid[6][5].setHorizontalWordLength(3);
-    grid[7][0].setHorizontalPositionInWord(positionOfFirstLetter);
-    grid[7][0].setHorizontalWordLength(2);
-    grid[7][3].setHorizontalPositionInWord(positionOfFirstLetter);
-    grid[7][3].setHorizontalWordLength(3);
+    grid[line0][column2].setHorizontalPositionInWord(positionOfFirstLetter);
+    const threeLetters: number = 3;
+    grid[line0][column2].setHorizontalWordLength(threeLetters);
 
-    //Vertical words
-    grid[0][3].setVerticalPositionInWord(positionOfFirstLetter);
-    grid[0][3].setVerticalWordLength(1);
-    grid[0][5].setVerticalPositionInWord(positionOfFirstLetter);
-    grid[0][5].setVerticalWordLength(3);
-    grid[1][1].setVerticalPositionInWord(positionOfFirstLetter);
-    grid[1][1].setVerticalWordLength(1);
-    grid[1][3].setVerticalPositionInWord(positionOfFirstLetter);
-    grid[1][3].setVerticalWordLength(1);
-    grid[1][5].setVerticalPositionInWord(positionOfFirstLetter);
-    grid[1][5].setVerticalWordLength(3);
-    grid[2][1].setVerticalPositionInWord(positionOfFirstLetter);
-    grid[2][1].setVerticalWordLength(2);
-    grid[2][3].setVerticalPositionInWord(positionOfFirstLetter);
-    grid[2][3].setVerticalWordLength(4);
-    grid[3][0].setVerticalPositionInWord(positionOfFirstLetter);
-    grid[3][0].setVerticalWordLength(2);
-    grid[3][3].setVerticalPositionInWord(positionOfFirstLetter);
-    grid[3][3].setVerticalWordLength(1);
-    grid[3][5].setVerticalPositionInWord(positionOfFirstLetter);
-    grid[3][5].setVerticalWordLength(3);
-    grid[4][0].setVerticalPositionInWord(positionOfFirstLetter);
-    grid[4][0].setVerticalWordLength(2);
-    grid[4][3].setVerticalPositionInWord(positionOfFirstLetter);
-    grid[4][3].setVerticalWordLength(3);
-    grid[4][7].setVerticalPositionInWord(positionOfFirstLetter);
-    grid[4][7].setVerticalWordLength(1);
-    grid[5][1].setVerticalPositionInWord(positionOfFirstLetter);
-    grid[5][1].setVerticalWordLength(2);
-    grid[5][4].setVerticalPositionInWord(positionOfFirstLetter);
-    grid[5][4].setVerticalWordLength(4);
-    grid[6][0].setVerticalPositionInWord(positionOfFirstLetter);
-    grid[6][0].setVerticalWordLength(5);
-    grid[6][6].setVerticalPositionInWord(positionOfFirstLetter);
-    grid[6][6].setVerticalWordLength(1);
-    grid[7][0].setVerticalPositionInWord(positionOfFirstLetter);
-    grid[7][0].setVerticalWordLength(3);
-    grid[7][4].setVerticalPositionInWord(positionOfFirstLetter);
-    grid[7][4].setVerticalWordLength(1);
-    grid[7][6].setVerticalPositionInWord(positionOfFirstLetter);
-    grid[7][6].setVerticalWordLength(1);
+    grid[line0][column6].setHorizontalPositionInWord(positionOfFirstLetter);
+    const twoLetters: number = 2;
+    grid[line0][column6].setHorizontalWordLength(twoLetters);
+
+    grid[line1][column1].setHorizontalPositionInWord(positionOfFirstLetter);
+    const sevenLetters: number = 7;
+    grid[line1][column1].setHorizontalWordLength(sevenLetters);
+
+    grid[line2][column5].setHorizontalPositionInWord(positionOfFirstLetter);
+    grid[line2][column5].setHorizontalWordLength(threeLetters);
+
+    grid[line3][column0].setHorizontalPositionInWord(positionOfFirstLetter);
+    const fiveLetters: number = 5;
+    grid[line3][column0].setHorizontalWordLength(fiveLetters);
+
+    grid[line3][column6].setHorizontalPositionInWord(positionOfFirstLetter);
+    const oneLetter: number = 1;
+    grid[line3][column6].setHorizontalWordLength(oneLetter);
+
+    grid[line4][column2].setHorizontalPositionInWord(positionOfFirstLetter);
+    grid[line4][column2].setHorizontalWordLength(oneLetter);
+
+    grid[line4][column4].setHorizontalPositionInWord(positionOfFirstLetter);
+    const fourLetters: number = 4;
+    grid[line4][column4].setHorizontalWordLength(fourLetters);
+
+    grid[line5][column0].setHorizontalPositionInWord(positionOfFirstLetter);
+    const sixLetters: number = 6;
+    grid[line5][column0].setHorizontalWordLength(sixLetters);
+
+    grid[line6][column0].setHorizontalPositionInWord(positionOfFirstLetter);
+    grid[line6][column0].setHorizontalWordLength(fourLetters);
+
+    grid[line6][column5].setHorizontalPositionInWord(positionOfFirstLetter);
+    grid[line6][column5].setHorizontalWordLength(threeLetters);
+
+    grid[line7][column0].setHorizontalPositionInWord(positionOfFirstLetter);
+    grid[line7][column0].setHorizontalWordLength(twoLetters);
+
+    grid[line7][column3].setHorizontalPositionInWord(positionOfFirstLetter);
+    grid[line7][column3].setHorizontalWordLength(threeLetters);
+
+    // Vertical words
+    grid[line0][column3].setVerticalPositionInWord(positionOfFirstLetter);
+    grid[line0][column3].setVerticalWordLength(oneLetter);
+
+    grid[line0][column5].setVerticalPositionInWord(positionOfFirstLetter);
+    grid[line0][column5].setVerticalWordLength(threeLetters);
+
+    grid[line1][column1].setVerticalPositionInWord(positionOfFirstLetter);
+    grid[line1][column1].setVerticalWordLength(oneLetter);
+
+    grid[line1][column3].setVerticalPositionInWord(positionOfFirstLetter);
+    grid[line1][column3].setVerticalWordLength(oneLetter);
+
+    grid[line1][column5].setVerticalPositionInWord(positionOfFirstLetter);
+    grid[line1][column5].setVerticalWordLength(threeLetters);
+
+    grid[line2][column1].setVerticalPositionInWord(positionOfFirstLetter);
+    grid[line2][column1].setVerticalWordLength(twoLetters);
+
+    grid[line2][column3].setVerticalPositionInWord(positionOfFirstLetter);
+    grid[line2][column3].setVerticalWordLength(fourLetters);
+
+    grid[line3][column0].setVerticalPositionInWord(positionOfFirstLetter);
+    grid[line3][column0].setVerticalWordLength(twoLetters);
+
+    grid[line3][column3].setVerticalPositionInWord(positionOfFirstLetter);
+    grid[line3][column3].setVerticalWordLength(oneLetter);
+
+    grid[line3][column5].setVerticalPositionInWord(positionOfFirstLetter);
+    grid[line3][column5].setVerticalWordLength(threeLetters);
+
+    grid[line4][column0].setVerticalPositionInWord(positionOfFirstLetter);
+    grid[line4][column0].setVerticalWordLength(twoLetters);
+
+    grid[line4][column3].setVerticalPositionInWord(positionOfFirstLetter);
+    grid[line4][column3].setVerticalWordLength(threeLetters);
+
+    grid[line4][column7].setVerticalPositionInWord(positionOfFirstLetter);
+    grid[line4][column7].setVerticalWordLength(oneLetter);
+
+    grid[line5][column1].setVerticalPositionInWord(positionOfFirstLetter);
+    grid[line5][column1].setVerticalWordLength(twoLetters);
+
+    grid[line5][column4].setVerticalPositionInWord(positionOfFirstLetter);
+    grid[line5][column4].setVerticalWordLength(fourLetters);
+
+    grid[line6][column0].setVerticalPositionInWord(positionOfFirstLetter);
+    grid[line6][column0].setVerticalWordLength(fiveLetters);
+
+    grid[line6][column6].setVerticalPositionInWord(positionOfFirstLetter);
+    grid[line6][column6].setVerticalWordLength(oneLetter);
+
+    grid[line7][column0].setVerticalPositionInWord(positionOfFirstLetter);
+    grid[line7][column0].setVerticalWordLength(threeLetters);
+
+    grid[line7][column4].setVerticalPositionInWord(positionOfFirstLetter);
+    grid[line7][column4].setVerticalWordLength(oneLetter);
+
+    grid[line7][column6].setVerticalPositionInWord(positionOfFirstLetter);
+    grid[line7][column6].setVerticalWordLength(oneLetter);
 
     describe("Find Words", () => {
-        let gridScanner: GridScanner = new GridScanner();
-        let words: Word[] = gridScanner.findWords(grid);
+        const gridScanner: GridScanner = new GridScanner();
+        const words: Word[] = gridScanner.findWords(grid);
         it("Should have the right number of words", () => {
-            expect(words.length).to.be.equal(17);
+            const expectedNumberOfWords: number = 17;
+            expect(words.length).to.be.equal(expectedNumberOfWords);
         });
     });
 
