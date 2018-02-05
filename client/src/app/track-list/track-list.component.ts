@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {RaceTrackComponent} from '../race-track/race-track.component';
-//import {TrackService} from '../track.service';
 
 @Component({
   selector: 'app-track-list',
@@ -11,7 +10,6 @@ import {RaceTrackComponent} from '../race-track/race-track.component';
 export class TrackListComponent implements OnInit {
   public tracks: RaceTrackComponent[];
   //private selectedTrack: RaceTrackComponent;
-  //private trackIdValue: string;
 
   constructor() { }
 
