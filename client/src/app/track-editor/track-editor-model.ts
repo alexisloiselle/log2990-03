@@ -1,57 +1,55 @@
-import { pointCoordinates } from "./pointCoordinates";
-import { OnInit } from "@angular/core";
+import { PointCoordinates } from "./pointCoordinates";
+// import { BooleanKeyframeTrack } from "three";
 
+/*Classe qui s'occuppe de manipuler le tableau de points.
+C'est notre modèle.*/
+export class TrackEditorModel {
+    private pointArray: PointCoordinates[] = [];
 
-/*Classe qui s'occuppe de manipuler le canvas.*/ 
-export class trackEditorModel implements OnInit {
-    private pointArray : pointCoordinates[] = [];
-
-    ngOnInit(){
-        
-    }
-
-    getPointArray(){
+    public getPointArray(): PointCoordinates[] {
         return this.pointArray;
     }
 
-    getPointArrayLength(){
+    public getPointArrayLength(): number {
         return this.pointArray.length;
     }
 
-    getSinglePoint(index: number){
-        if(index >= 0 && index <this.pointArray.length){
+    public getSinglePoint(index: number): PointCoordinates {
+        if (index >= 0 && index < this.pointArray.length) {
             return this.pointArray[index];
         }
-        return new pointCoordinates(-1, -1);
+
+        return new PointCoordinates(-1, -1);
     }
-    setPointCoordinates(index: number, mouseCoordinates: pointCoordinates){
-        if(index >= 0 && index < this.pointArray.length){
+
+    public setPointCoordinates(index: number, mouseCoordinates: PointCoordinates): void {
+        if (index >= 0 && index < this.pointArray.length) {
             this.pointArray[index].setX(mouseCoordinates.getX());
             this.pointArray[index].setY(mouseCoordinates.getY());
         }
-        
     }
 
-    addPoint(point: pointCoordinates){
+    public addPoint(point: PointCoordinates): void {
         this.pointArray.push(point);
     }
 
-
-    eraseLastPoint(){
-        if(this.pointArray.length >= 1){
+    public eraseLastPoint(): void {
+        if (this.pointArray.length >= 1) {
             this.pointArray.splice(this.pointArray.length - 1);
         }
     }
 
-    
-
-    //On enlève les points potentiellement dupliqués par le drag and drop
-    removeDuplicatedPoints(){
-        if(this.pointArray.length > 2){
-          for(let i: number = 1; i<this.pointArray.length - 1; i++){  //On commence à partir du deuxième point, car de toute façon le point d'ordigine aura le dernier point qui se superposera à lui.
-            for(let j: number = i+1; j<this.pointArray.length; j++){
-              if(this.pointArray[i].getX() == this.pointArray[j].getX()&&
-                this.pointArray[i].getY() == this.pointArray[j].getY()){
+    // On enlève les points potentiellement dupliqués par le drag and drop
+    public removeDuplicatedPoints(): void {
+        if (this.pointArray.length > 2) {
+          // On commence à partir du deuxième point, car de toute façon le point
+          // d'origine aura le dernier point qui se superposera à lui.
+          for (let i: number = 1; i < this.pointArray.length - 1; i++) {
+            for (let j: number = i + 1; j < this.pointArray.length; j++) {
+              if (this.pointArray[i].getX() === this.pointArray[j].getX() &&
+                  this.pointArray[i].getY() === this.pointArray[j].getY()) {
+                  console.log("Point is " + j);
+                  console.log(this.pointArray[j]);
                   this.pointArray.splice(this.pointArray.indexOf(this.pointArray[j]));
                 }
             }
@@ -59,39 +57,39 @@ export class trackEditorModel implements OnInit {
         }
       }
 
-    loopIsClosed(){
-        if(this.pointArray.length >= 3){
-            if(this.pointArray[this.pointArray.length - 1].getX() == this.pointArray[0].getX() &&
-              this.pointArray[this.pointArray.length - 1].getY() == this.pointArray[0].getY()){
+    public loopIsClosed(): boolean {
+        if (this.pointArray.length >= 3) {
+            if (this.pointArray[this.pointArray.length - 1].getX() === this.pointArray[0].getX() &&
+               this.pointArray[this.pointArray.length - 1].getY() === this.pointArray[0].getY()) {
                 return true;
-              }
-          }
-         return false;
+            }
+        }
+
+        return false;
     }
 
-    
-    closeLoop(){
-        let point : pointCoordinates = new pointCoordinates(this.pointArray[0].getX(), this.pointArray[0].getY());
-        this.pointArray.push(point);     
+    public closeLoop(): void {
+        const point: PointCoordinates = new PointCoordinates(this.pointArray[0].getX(), this.pointArray[0].getY());
+        this.pointArray.push(point);
     }
 
-    clickedOnExistingPoint(mouseCoordinates: pointCoordinates){
-        for(let point of this.pointArray){
-            if(mouseCoordinates.getX() >= point.getX() - 20 && mouseCoordinates.getX() <= point.getX() + 20 &&
-               mouseCoordinates.getY() >= point.getY() - 20 && mouseCoordinates.getY() <= point.getY() + 20){
+    public clickedOnExistingPoint(mouseCoordinates: PointCoordinates): boolean {
+        for (const point of this.pointArray) {
+            if (mouseCoordinates.getX() >= point.getX() - 20 && mouseCoordinates.getX() <= point.getX() + 20 &&
+                mouseCoordinates.getY() >= point.getY() - 20 && mouseCoordinates.getY() <= point.getY() + 20){
                   return true;
               }
           }
+
         return false;
     }
 
-    clickedOnFirstPoint(mouseCoordinates: pointCoordinates){
-        if((mouseCoordinates.getX() <= this.pointArray[0].getX() + 10 && mouseCoordinates.getX() >= this.pointArray[0].getX() - 10) &&
-           (mouseCoordinates.getY() <= this.pointArray[0].getY() + 10 && mouseCoordinates.getY() >= this.pointArray[0].getY() - 10) ){
-            return true;;
+    public clickedOnFirstPoint(mouseCoordinates: PointCoordinates): boolean {
+        if ((mouseCoordinates.getX() <= this.pointArray[0].getX() + 10 && mouseCoordinates.getX() >= this.pointArray[0].getX() - 10) &&
+           (mouseCoordinates.getY() <= this.pointArray[0].getY() + 10 && mouseCoordinates.getY() >= this.pointArray[0].getY() - 10) ) {
+            return true;
         }
-    
+
         return false;
-      }
-     
+    }
 }
