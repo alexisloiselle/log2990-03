@@ -1,23 +1,22 @@
 import { Component, OnInit} from "@angular/core";
 
-
 @Component({
   selector: "app-race-track",
   templateUrl: "./race-track.component.html",
   styleUrls: ["./race-track.component.css"]
 })
 
-
 export class RaceTrackComponent implements OnInit {
 
-  private _id: string;
+  private id: string;
   public name: string;
   public description: string;
   public lapNumber: number;
   public type: RaceType;
   public ratings: number[] = [];
-  public timesPlayed = 0;
+  public timesPlayed: number = 0;
   public times: TrackTime[] = [];
+  public bestTime: TrackTime;
 
   public constructor() {
   }
@@ -65,10 +64,22 @@ export class RaceTrackComponent implements OnInit {
 }
 
 export class TrackTime {
-  constructor(
+  public constructor(
       public time: number,
       public name: string,
   ) { }
+  public setName(name: string): void {
+    this.name = name;
+  }
+  public setTime(time: number): void {
+    this.time = time;
+  }
+  public getTime(): number {
+  return this.time;
+  }
+  public getName(): string {
+    return this.name;
+  }
 }
 
 export enum RaceType {
