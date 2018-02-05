@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild} from "@angular/core";
-//We need to import the pointCoordinates class
+// We need to import the pointCoordinates class
 import { pointCoordinates } from "./pointCoordinates";
 import { trackEditorModel } from "./track-editor-model";
 //import { Vector2 } from "three";
@@ -11,9 +11,9 @@ import { trackEditorModel } from "./track-editor-model";
   templateUrl: "./track-editor.component.html",
   styleUrls: ["./track-editor.component.css"],
 })
- 
+
 export class TrackEditorComponent implements OnInit {
-  @ViewChild("canvas") 
+  @ViewChild("canvas")
   private canvasRef: ElementRef;
   private ctx : any;
   //private currentPoint : number 
@@ -23,14 +23,14 @@ export class TrackEditorComponent implements OnInit {
   private myTrackEditorModel : trackEditorModel;
   
 
-  ngOnInit() {
-    //We here initialise the canvas and get the context (ctx)
+  public ngOnInit(): void {
+    // We here initialise the canvas and get the context (ctx)
     this.ctx = this.canvasRef.nativeElement.getContext('2d');
-    //we set the canvas height and width attribute
+    // we set the canvas height and width attribute
     this.canvasRef.nativeElement.height = 800;
     this.canvasRef.nativeElement.width = 800;
 
-    //We initialise the mouseMovedEvent
+    // We initialise the mouseMovedEvent
     this.mouseMovedEvent = 0;
     //We initialise the mouse down event to false
     this.mouseDown = false;
@@ -61,9 +61,9 @@ export class TrackEditorComponent implements OnInit {
   
   
   canvasMouseMoved(event: any){
-    this.mouseMovedEvent = event;  //We stock the mouseCoordinates inside the mouseMovedEvent variable
+    this.mouseMovedEvent = event;  // We stock the mouseCoordinates inside the mouseMovedEvent variable
 
-    if(this.mouseDown){  
+    if (this.mouseDown){
       this.dragNDrop();
     }else{ //On colore les points si le focus est sur l'un d'eux
       this.checkMouseFocus();
@@ -113,10 +113,10 @@ export class TrackEditorComponent implements OnInit {
         if(this.mouseMovedEvent.layerX >= point.getX() - 10 && this.mouseMovedEvent.layerX <= point.getX() +10 &&
           this.mouseMovedEvent.layerY >= point.getY() - 10 && this.mouseMovedEvent.layerY <= point.getY() + 10){
             this.mouseOnPoint(point.getX(), point.getY());
-          }else {
+          } else {
             this.mouseNotOnPoint(point.getX(), point.getY());
         }
-      }  
+      }
     }
   }
 
@@ -142,6 +142,7 @@ export class TrackEditorComponent implements OnInit {
               return true;
           }
       }
+
     return false;
     }
 
@@ -176,7 +177,7 @@ export class TrackEditorComponent implements OnInit {
         this.ctx.lineWidth = 10;
         this.ctx.strokeStyle = "blue";
         this.ctx.stroke();
-        //We reset the line Width
+        // We reset the line Width
         this.ctx.lineWidth = 2;
       }
       this.canvasDrawLine();
@@ -203,11 +204,11 @@ export class TrackEditorComponent implements OnInit {
       //We redraw the shit for the point
       if(this.myTrackEditorModel.getPointArray().indexOf(i) === 0){
         this.ctx.beginPath();
-        this.ctx.arc(i.getX(), i.getY(), 10, 0, 2*Math.PI);
+        this.ctx.arc(i.getX(), i.getY(), 10, 0, Math.PI * 2;
         this.ctx.lineWidth = 5;
         this.ctx.strokeStyle = "blue";
         this.ctx.stroke();
-        //We reset the line Width
+        // We reset the line Width
         this.ctx.lineWidth = 2;
       }
      // We draw the lines back
@@ -216,10 +217,9 @@ export class TrackEditorComponent implements OnInit {
         this.ctx.moveTo(this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArray().indexOf(i)-1).getX(), 
                         this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArray().indexOf(i)-1).getY());
         this.ctx.lineTo(i.getX(), i.getY());
-        this.ctx.strokeStyle="black";
+        this.ctx.strokeStyle = "black";
         this.ctx.stroke();
-        
-        
+
       }
     }
   }
