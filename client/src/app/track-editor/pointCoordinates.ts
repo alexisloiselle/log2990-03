@@ -1,4 +1,4 @@
-export class PointCoordinates {
+export class pointCoordinates {
     public x: number;
     public y: number;
 
