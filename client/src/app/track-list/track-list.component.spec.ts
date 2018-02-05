@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { TrackListComponent } from "./track-list.component";
 
 describe("TrackListComponent", () => {
-  // let component: TrackListComponent;
+  let component: TrackListComponent;
   let fixture: ComponentFixture<TrackListComponent>;
 
   beforeEach(async(() => {
@@ -17,5 +17,9 @@ describe("TrackListComponent", () => {
     fixture = TestBed.createComponent(TrackListComponent);
     // component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  it("should be created", () => {
+    expect(component).toBeTruthy();
   });
 });

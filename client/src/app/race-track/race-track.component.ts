@@ -1,9 +1,11 @@
-import { Component, OnInit} from "@angular/core";
+import { Component, OnInit } from "@angular/core";
+import * as THREE from "three";
+import { Object3D } from "three";
 
 @Component({
   selector: "app-race-track",
   templateUrl: "./race-track.component.html",
-  styleUrls: ["./race-track.component.css"]
+  styleUrls: ["./race-track.component.css"],
 })
 
 export class RaceTrackComponent implements OnInit {
@@ -18,49 +20,16 @@ export class RaceTrackComponent implements OnInit {
   public times: TrackTime[] = [];
   public bestTime: TrackTime;
 
-  public constructor() {
-  }
+  public get id(): string { return this._id; }
 
-  public getId(): string {
-    return this.id;
-  }
-  public getName(): string {
-    return this.name;
-  }
-  public getDesciption(): string {
-    return this.description;
-  }
+  public display: Object3D = new THREE.Object3D();
 
-  public getRaceType(): RaceType {
-    return this.type;
-  }
+  // Tableau de Vecteurs vide
 
-  public setId(id: string): void {
-    this.id = id;
-  }
-
-  public setName(name: string): void {
-  this.name = name;
-  }
-
-  public setDesciption(description: string): void {
-    this.description = description;
-  }
-  public setType(raceType: RaceType): void {
-    this.type = raceType;
-  }
-  public setBestTime(trackTime: TrackTime): void {
-    this.bestTime.setName(trackTime.getName());
-    this.bestTime.setTime(trackTime.getTime());
-  }
-  public addTrack(trackName: string, trackDescription: string, trackType: RaceType): void {
-    this.setName(trackName);
-    this.setDesciption(trackDescription);
-    this.setType(trackType);
-  }
+  public constructor() { }
 
   public ngOnInit(): void {
-  }
+   }
 }
 
 export class TrackTime {
