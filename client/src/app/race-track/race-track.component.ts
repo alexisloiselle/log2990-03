@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 import * as THREE from 'three';
+import { Object3D } from "three";
 
 
 @Component({
-  selector: 'app-race-track',
-  templateUrl: './race-track.component.html',
-  styleUrls: ['./race-track.component.css']
+  selector: "app-race-track",
+  templateUrl: "./race-track.component.html",
+  styleUrls: ["./race-track.component.css"],
 })
-
 
 export class RaceTrackComponent implements OnInit {
 
@@ -17,23 +17,23 @@ export class RaceTrackComponent implements OnInit {
   public lapNumber: number;
   public type: RaceType;
   public ratings: number[] = [];
-  public timesPlayed = 0;
+  public timesPlayed: number = 0;
   public times: TrackTime[] = [];
 
-  get id(): string { return this._id; }
+  public get id(): string { return this._id; }
 
-  public display = new THREE.Object3D();
+  public display: Object3D = new THREE.Object3D();
 
-  //Tableau de Vecteurs vide
+  // Tableau de Vecteurs vide
 
-  constructor() { }
+  public constructor() { }
 
-  ngOnInit() {
+  private ngOnInit(): void {
   }
 }
 
 export class TrackTime {
-  constructor(
+  public constructor(
       public time: number,
       public name: string,
   ) { }
