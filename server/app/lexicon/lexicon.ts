@@ -52,7 +52,7 @@ export class Lexicon {
         return await this.getFrequency(word) <= MAX_FREQ;
     }
 
-    public readFile(file: string): void {
+    private readFile(file: string): void {
         this.allWords = fs.readFileSync(file, "utf8").split("\r\n");
     }
 
