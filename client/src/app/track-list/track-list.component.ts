@@ -13,7 +13,7 @@ export class TrackListComponent implements OnInit {
 
   public constructor() { }
 
-  private ngOnInit(): void {
+  public ngOnInit(): void {
     this.reload();
   }
   public reload(): void { }

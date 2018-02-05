@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import * as THREE from 'three';
+import * as THREE from "three";
 import { Object3D } from "three";
 
 
@@ -28,8 +28,8 @@ export class RaceTrackComponent implements OnInit {
 
   public constructor() { }
 
-  private ngOnInit(): void {
-  }
+  public ngOnInit(): void {
+   }
 }
 
 export class TrackTime {
