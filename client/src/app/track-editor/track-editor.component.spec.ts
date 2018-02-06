@@ -1,4 +1,3 @@
-
 import { PointCoordinates } from "./pointCoordinates";
 import { TrackEditorModel } from "./track-editor-model";
 
@@ -6,11 +5,9 @@ import { TrackEditorModel } from "./track-editor-model";
 import { Vector } from "./vector/vector";
 
 describe("TrackEditorComponent", () => {
-
   describe("vectorClass", () => {
-
     const pointStart: PointCoordinates = new PointCoordinates(2, 6);
-    const pointEnd: PointCoordinates = new PointCoordinates (1, 3);
+    const pointEnd: PointCoordinates = new PointCoordinates(1, 3);
     const vectorTest: Vector = new Vector(pointStart, pointEnd);
 
     it("Should Create slope", () => {
@@ -22,45 +19,48 @@ describe("TrackEditorComponent", () => {
     });
 
     it("Should calculate domain MaxDomainX", () => {
-      expect(vectorTest.findMaxDomain(pointStart, pointEnd).getX()).toBe(pointStart.getX());
+      expect(vectorTest.findMaxDomain(pointStart, pointEnd).getX()).toBe(
+        pointStart.getX()
+      );
     });
 
     it("Should calculate domain MinDomainX", () => {
-      expect(vectorTest.findMinDomain(pointStart, pointEnd).getX()).toBe(pointEnd.getX());
+      expect(vectorTest.findMinDomain(pointStart, pointEnd).getX()).toBe(
+        pointEnd.getX()
+      );
     });
 
     it("Should calculate domain MaxDomainY", () => {
-      expect(vectorTest.findMaxDomain(pointStart, pointEnd).getY()).toBe(pointStart.getY());
+      expect(vectorTest.findMaxDomain(pointStart, pointEnd).getY()).toBe(
+        pointStart.getY()
+      );
     });
 
     it("Should calculate domain MinDomainY", () => {
-      expect(vectorTest.findMinDomain(pointStart, pointEnd).getY()).toBe(pointEnd.getY());
+      expect(vectorTest.findMinDomain(pointStart, pointEnd).getY()).toBe(
+        pointEnd.getY()
+      );
     });
 
     it("minDomainX should be assigned to vector at construction", () => {
-       expect(vectorTest.getDomainXMin()).toBe(1);
-     });
+      expect(vectorTest.getDomainXMin()).toBe(1);
+    });
 
     it("minDomainY should be assigned to vector at construction", () => {
       expect(vectorTest.getDomainXmax()).toBe(2);
     });
 
     it("maxDomainY should be assigned to vector at construction", () => {
-       expect(vectorTest.getDomainYMin()).toBe(3);
+      expect(vectorTest.getDomainYMin()).toBe(3);
     });
 
     it("maxDomainY should be assigned to vector at construction", () => {
       expect(vectorTest.getDomainYmax()).toBe(6);
     });
-
   });
-  /*
->>>>>>> a5781d27561c61998d3b732403291cc995672615
-=======
-  /*
->>>>>>> track-editor
+
   describe("trackEditor", () => {
-    const myTrackModel1: TrackEditorModel = new TrackEditorModel;
+    const myTrackModel1: TrackEditorModel = new TrackEditorModel();
     const point1: PointCoordinates = new PointCoordinates(30, 30);
     const point2: PointCoordinates = new PointCoordinates(20, 20);
     const point3: PointCoordinates = new PointCoordinates(100, 55);
@@ -78,15 +78,7 @@ describe("TrackEditorComponent", () => {
       expect(myTrackModel1.getPointArrayLength()).toBe(1);
     });
 
-<<<<<<< HEAD
-    it("Should Remove a point.", () => {
-      myTrackModel1.eraseLastPoint();
-      expect(myTrackModel1.getPointArrayLength()).toBe(0);
-    });
-<<<<<<< HEAD
-
-    const myTrackModel2: TrackEditorModel = new TrackEditorModel;
-
+    const myTrackModel2: TrackEditorModel = new TrackEditorModel();
 
     it("Should remove a duplicated point.", () => {
       myTrackModel2.addPoint(point1);
@@ -95,42 +87,28 @@ describe("TrackEditorComponent", () => {
       myTrackModel2.addPoint(point3);
       myTrackModel2.addPoint(point4);
       myTrackModel2.addPoint(point5);
+      myTrackModel2.addPoint(point5);
       myTrackModel2.removeDuplicatedPoints();
-      console.log(myTrackModel2.getPointArray());
       expect(myTrackModel2.getPointArrayLength()).toBe(5);
     });
 
-
-    // myTrackmodel.addPoint(point1);
-    // myTrackmodel.addPoint(point2);
-    // myTrackmodel.addPoint(point3);
-    // myTrackmodel.addPoint(point3);
-    // myTrackmodel.addPoint(point4);
-    // myTrackmodel.addPoint(point5);
-    // it("Should remove the duplicated point 3.", () => {
-    //   myTrackmodel.removeDuplicatedPoints();
-    //   expect(myTrackmodel.getPointArrayLength()).toBe(5);
-    // });
-=======
-=======
-<<<<<<< HEAD
-    // it("Should create an empty pointCoordinates array.", () =>{
-    //   expect(myTrackEditor.getPointArray()).toBeDefined();
-    // });
+    const myTrackModel3: TrackEditorModel = new TrackEditorModel();
 
 
-   // myTrackEditor.canvasDrawPoint()
-
-  });
-
-=======
-    it("Should create an empty pointCoordinates array.", () =>{
-      expect(myTrackEditor.getPointArray()).toBeDefined();
+    it("The loop should be closed.", () => {
+        myTrackModel3.addPoint(point1);
+        myTrackModel3.addPoint(point2);
+        myTrackModel3.addPoint(point3);
+        myTrackModel3.addPoint(point4);
+        myTrackModel3.addPoint(point5);
+        myTrackModel3.addPoint(point1);
+        expect(myTrackModel3.loopIsClosed()).toBe(true);
     });
->>>>>>> track-editor
-    myTrackEditor.canvasDrawPoint()
->>>>>>> a5781d27561c61998d3b732403291cc995672615
 
+    it("Should erase the last point", () => {
+        myTrackModel3.eraseLastPoint();
+        myTrackModel3.eraseLastPoint();
+        expect(myTrackModel3.getPointArrayLength()).toBe(4);
+    });
   });
-  */
 });

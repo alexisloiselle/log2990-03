@@ -1,6 +1,5 @@
 import { PointCoordinates } from "./pointCoordinates";
 
-
 /*Classe qui s'occuppe de manipuler le tableau de points.
 C'est notre modèle.*/
 export class TrackEditorModel {
@@ -48,9 +47,7 @@ export class TrackEditorModel {
             for (let j: number = i + 1; j < this.pointArray.length; j++) {
               if (this.pointArray[i].getX() === this.pointArray[j].getX() &&
                   this.pointArray[i].getY() === this.pointArray[j].getY()) {
-                  console.log("Point is " + j);
-                  console.log(this.pointArray[j]);
-                  this.pointArray.splice(this.pointArray.indexOf(this.pointArray[j]));
+                  this.pointArray.splice(this.pointArray.indexOf(this.pointArray[j]), 1);
                 }
             }
           }
@@ -69,14 +66,16 @@ export class TrackEditorModel {
     }
 
     public closeLoop(): void {
+      if (this.getPointArrayLength() >= 2) {
         const point: PointCoordinates = new PointCoordinates(this.pointArray[0].getX(), this.pointArray[0].getY());
         this.pointArray.push(point);
+      }
     }
 
     public clickedOnExistingPoint(mouseCoordinates: PointCoordinates): boolean {
         for (const point of this.pointArray) {
             if (mouseCoordinates.getX() >= point.getX() - 20 && mouseCoordinates.getX() <= point.getX() + 20 &&
-                mouseCoordinates.getY() >= point.getY() - 20 && mouseCoordinates.getY() <= point.getY() + 20){
+                mouseCoordinates.getY() >= point.getY() - 20 && mouseCoordinates.getY() <= point.getY() + 20) {
                   return true;
               }
           }
