@@ -87,12 +87,22 @@ describe("Track-Editor-Constraint", () => {
         expect(VECTOR_TEST.pointIsInCommunDomain(VECTOR_TEST.calculateVectorIntersection(FIRSTVECTOR45DEGREE), FIRSTVECTOR45DEGREE)).toBeFalsy();
     });
 
-    it("All constraint shouldn't pass", () => {
+   
+
+    it("All constraint should pass", () => {
       let trackEditorConstraintService = new TrackEditorConstraintService;
-      expect(trackEditorConstraintService.allConstraintPass(VECTOR_TEST,FIRSTVECTOR45DEGREE)).toBeFalsy();
+      expect(trackEditorConstraintService.allConstraintPass(SECONDEVECTOR45DEGREE,FIRSTVECTOR45DEGREE)).toBeTruthy();
     });
 
-    it("YOLO", () => {
-      
+    it("Shouldn't be intersecting  ", () => {
+      let trackEditorConstraintService = new TrackEditorConstraintService;
+      expect(trackEditorConstraintService.verifyIsIntersecting(SECONDEVECTOR45DEGREE,FIRSTVECTOR45DEGREE)).toBeFalsy();
     });
+
+    it("Angle verification should pass", () => {
+      let trackEditorConstraintService = new TrackEditorConstraintService;
+      expect(trackEditorConstraintService.verifyAngle(SECONDEVECTOR45DEGREE,FIRSTVECTOR45DEGREE)).toBeTruthy();
+    });
+
+    it
 });

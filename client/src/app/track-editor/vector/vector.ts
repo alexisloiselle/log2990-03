@@ -82,10 +82,10 @@ export class Vector {
     }
 
     public pointIsInCommunDomain(intersectionPoint: PointCoordinates, secondVector: Vector): boolean {
-        if (intersectionPoint.getX() < this.domain.getXMin() || intersectionPoint.getX() < secondVector.domain.getXMin() ||
-            intersectionPoint.getX() > this.domain.getXMax() || intersectionPoint.getX() > secondVector.domain.getXMax() ||
-            intersectionPoint.getY() < this.domain.getYMin() || intersectionPoint.getY() < secondVector.domain.getYMin() ||
-            intersectionPoint.getY() > this.domain.getYMax() || intersectionPoint.getY() > secondVector.domain.getYMax()) {
+        if (intersectionPoint.getX() <= this.domain.getXMin() || intersectionPoint.getX() <= secondVector.domain.getXMin() ||
+            intersectionPoint.getX() >= this.domain.getXMax() || intersectionPoint.getX() >= secondVector.domain.getXMax() ||
+            intersectionPoint.getY() <= this.domain.getYMin() || intersectionPoint.getY() <= secondVector.domain.getYMin() ||
+            intersectionPoint.getY() >= this.domain.getYMax() || intersectionPoint.getY() >= secondVector.domain.getYMax() ) {
                 return false;
 
         } else {
