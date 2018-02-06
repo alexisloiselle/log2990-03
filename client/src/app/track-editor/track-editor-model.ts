@@ -92,8 +92,6 @@ export class trackEditorModel implements OnInit {
            (mouseCoordinates.getY() <= this.pointArray[0].getY() + 10 && mouseCoordinates.getY() >= this.pointArray[0].getY() - 10) ){
             return true;;
         }
-    
         return false;
-      }
-     
+      }     
 }

@@ -1,5 +1,5 @@
 
-import { PointCoordinates } from "./pointCoordinates";
+import { pointCoordinates } from "./pointCoordinates";
 // import { equation } from "./vector/equation";
 import { Vector } from "./vector/vector";
 import { TrackEditorComponent} from "./track-editor.component";
@@ -8,8 +8,8 @@ describe("TrackEditorComponent", () => {
 
   describe("vectorClass", () => {
 
-    const pointStart: PointCoordinates = new PointCoordinates(2, 6);
-    const pointEnd: PointCoordinates = new PointCoordinates (1, 3);
+    const pointStart: pointCoordinates = new pointCoordinates(2, 6);
+    const pointEnd: pointCoordinates = new pointCoordinates (1, 3);
     const vectorTest: Vector = new Vector(pointStart, pointEnd);
 
     it("Should Create slope", () => {
@@ -53,10 +53,11 @@ describe("TrackEditorComponent", () => {
     });
 
   });
-  
+  /*
   describe("trackEditor", () => {
     let myTrackEditor :TrackEditorComponent = new TrackEditorComponent;
 
+<<<<<<< HEAD
     // it("Should create an empty pointCoordinates array.", () =>{
     //   expect(myTrackEditor.getPointArray()).toBeDefined();
     // });
@@ -66,4 +67,13 @@ describe("TrackEditorComponent", () => {
 
   });
 
+=======
+    it("Should create an empty pointCoordinates array.", () =>{
+      expect(myTrackEditor.getPointArray()).toBeDefined();
+    });
+    myTrackEditor.canvasDrawPoint()
+
+  });
+  */
+>>>>>>> track-editor
 });
