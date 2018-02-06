@@ -63,28 +63,17 @@ export class Vector {
     public calculateCommunDomain(secondVector: Vector): Domain {
         let xMinCommun: number, xMaxCommun: number, yMinCommun: number, yMaxCommun: number;
 
-        if (this.domain.getXMin() < secondVector.domain.getXMin()) {
-            xMinCommun = this.domain.getXMin();
-        } else {
-            xMinCommun = secondVector.domain.getXMin();
-        }
+        xMinCommun = (this.domain.getXMin() < secondVector.domain.getXMin()) ? this.domain.getXMin() :
+                    secondVector.domain.getXMin();
 
-        if (this.domain.getYMin() < secondVector.domain.getYMin()) {
-            yMinCommun = this.domain.getYMin();
-        } else {
-            yMinCommun = secondVector.domain.getYMin();
-        }
+        yMinCommun = (this.domain.getYMin() < secondVector.domain.getYMin()) ? this.domain.getYMin() :
+        secondVector.domain.getYMin();
 
-        if (this.domain.getXMax() > secondVector.domain.getXMax()) {
-            xMaxCommun = this.domain.getXMax();
-        } else {xMaxCommun = secondVector.domain.getXMax();
-            }
+        xMaxCommun = (this.domain.getXMax() < secondVector.domain.getXMax()) ? this.domain.getXMax() :
+        secondVector.domain.getXMax();
 
-        if (this.domain.getYMax() > secondVector.domain.getYMax()) {
-            yMaxCommun = this.domain.getYMax();
-        } else {
-             yMaxCommun = secondVector.domain.getYMax();
-            }
+        yMaxCommun = (this.domain.getYMax() < secondVector.domain.getYMax()) ? this.domain.getYMax() :
+        secondVector.domain.getYMax();
 
         const pointMinCommun: PointCoordinates = new PointCoordinates(xMinCommun, yMinCommun);
         const pointMaxCommun: PointCoordinates = new PointCoordinates(xMaxCommun, yMaxCommun);

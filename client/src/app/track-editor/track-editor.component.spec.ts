@@ -1,9 +1,8 @@
 
 import { PointCoordinates } from "./pointCoordinates";
-import { TrackEditorModel } from "./track-editor-model";
-
 // import { equation } from "./vector/equation";
 import { Vector } from "./vector/vector";
+import { TrackEditorComponent} from "./track-editor.component";
 
 describe("TrackEditorComponent", () => {
 
@@ -60,23 +59,6 @@ describe("TrackEditorComponent", () => {
         });
     });
 
-    describe("trackEditor", () => {
-        const myTrackModel1: TrackEditorModel = new TrackEditorModel;
-        const point1: PointCoordinates = new PointCoordinates(30, 30);
-        const point2: PointCoordinates = new PointCoordinates(20, 20);
-        const point3: PointCoordinates = new PointCoordinates(100, 55);
-        const point4: PointCoordinates = new PointCoordinates(45, 70);
-        const point5: PointCoordinates = new PointCoordinates(120, 120);
-        // const point6: PointCoordinates = new PointCoordinates(30, 30);
-        // const point7: PointCoordinates = new PointCoordinates(30, 30);
-        // const point8: PointCoordinates = new PointCoordinates(30, 30);
-        // const point9: PointCoordinates = new PointCoordinates(30, 30);
-        // const point10: PointCoordinates = new PointCoordinates(30, 30);
-        // const point11: PointCoordinates = new PointCoordinates(30, 30);
-
-        it("Should add a point.", () => {
-            myTrackModel1.addPoint(point1);
-            expect(myTrackModel1.getPointArrayLength()).toBe(1);
-        });
-    });
+  });
+ 
 });
