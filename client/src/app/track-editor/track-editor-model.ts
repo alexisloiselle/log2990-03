@@ -48,7 +48,7 @@ export class TrackEditorModel {
                 for (let j: number = i + 1; j < this.pointArray.length; j++) {
                     if (this.pointArray[i].getX() === this.pointArray[j].getX() &&
                         this.pointArray[i].getY() === this.pointArray[j].getY()) {
-                        this.pointArray.splice(this.pointArray.indexOf(this.pointArray[j]));
+                        this.pointArray.splice(this.pointArray.indexOf(this.pointArray[j]), 1);
                     }
                 }
             }
