@@ -8,8 +8,8 @@ import { Word } from "./word";
 
 describe("Grid Scanner", () => {
     const blankGridCreator: BlankGridCreator = new BlankGridCreator();
-    const dimension: number = 8;
-    const grid: Case[][] = blankGridCreator.createGrid(dimension, dimension);
+    const DIMENSION: number = 8;
+    const grid: Case[][] = blankGridCreator.createGrid(DIMENSION, DIMENSION);
 
     // Black Case setup
     const line0: number = 0;

@@ -18,8 +18,8 @@ export class GridGenerator {
         const grid: Case[][] = blankGridCreator.createGrid(height, width);
 
         const blackCaseGenerator: BlackCaseGenerator = new BlackCaseGenerator(height, width);
-        const percentage: number = 50;
-        blackCaseGenerator.generateBlackCases(grid, percentage);
+        const PERCENTAGE: number = 50;
+        blackCaseGenerator.generateBlackCases(grid, PERCENTAGE);
 
         const gridScanner: GridScanner = new GridScanner();
         this.words = gridScanner.findWords(grid);

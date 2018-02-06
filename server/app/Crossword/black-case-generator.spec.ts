@@ -7,13 +7,13 @@ import { BlackCaseGenerator } from "./black-case-generator";
 
 describe("Black-case-generator", () => {
 
-    const height: number = 8;
-    const width: number = 8;
+    const HEIGHT: number = 8;
+    const WIDTH: number = 8;
     let blankGridCreator: BlankGridCreator;
     blankGridCreator = new BlankGridCreator;
-    const cases: Case[][] = blankGridCreator.createGrid(height, width);
+    const cases: Case[][] = blankGridCreator.createGrid(HEIGHT, WIDTH);
 
-    const blackCaseGenerator: BlackCaseGenerator = new BlackCaseGenerator(height, width);
+    const blackCaseGenerator: BlackCaseGenerator = new BlackCaseGenerator(HEIGHT, WIDTH);
 
     describe("Black cases generation", () => {
         it("Should be able to generate a grid with black cases", () => {
