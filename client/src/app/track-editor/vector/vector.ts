@@ -41,7 +41,7 @@ export class Vector {
     public calculateVectorIntersection(secondVector: Vector): PointCoordinates {
 
         // Calculer point d<intersection
-        if(!this.isParallel(secondVector)) {
+        if (!this.isParallel(secondVector)) {
         const xIntersection: number = (secondVector.getConstant() - this.getConstant()) / (this.getSlope() - secondVector.getSlope());
         const yIntersection: number = xIntersection * this.getSlope() + this.getConstant();
 
@@ -53,7 +53,7 @@ export class Vector {
     }
 
     public isParallel(secondVector: Vector): boolean {
-        if ((this.getSlope() === secondVector.getSlope()) || (this.getSlope() === -secondVector.getSlope())){
+        if ((this.getSlope() === secondVector.getSlope()) || (this.getSlope() === -secondVector.getSlope())) {
             return true;
         }
 
@@ -63,28 +63,17 @@ export class Vector {
     public calculateCommunDomain(secondVector: Vector): Domain {
         let xMinCommun: number, xMaxCommun: number, yMinCommun: number, yMaxCommun: number;
 
-        if (this.domain.getXMin() < secondVector.domain.getXMin()){
-            xMinCommun = this.domain.getXMin();
-        } else {
-            xMinCommun = secondVector.domain.getXMin();
-        }
+        xMinCommun = (this.domain.getXMin() < secondVector.domain.getXMin()) ? this.domain.getXMin() :
+                    secondVector.domain.getXMin();
 
-        if (this.domain.getYMin() < secondVector.domain.getYMin()) {
-            yMinCommun = this.domain.getYMin();
-        } else {
-            yMinCommun = secondVector.domain.getYMin();
-        }
+        yMinCommun = (this.domain.getYMin() < secondVector.domain.getYMin()) ? this.domain.getYMin() :
+        secondVector.domain.getYMin();
 
-        if (this.domain.getXMax() > secondVector.domain.getXMax()) {
-            xMaxCommun = this.domain.getXMax();
-        } else {xMaxCommun = secondVector.domain.getXMax();
-            }
+        xMaxCommun = (this.domain.getXMax() < secondVector.domain.getXMax()) ? this.domain.getXMax() :
+        secondVector.domain.getXMax();
 
-        if (this.domain.getYMax() > secondVector.domain.getYMax()) {
-            yMaxCommun = this.domain.getYMax();
-        } else {
-             yMaxCommun = secondVector.domain.getYMax();
-            }
+        yMaxCommun = (this.domain.getYMax() < secondVector.domain.getYMax()) ? this.domain.getYMax() :
+        secondVector.domain.getYMax();
 
         const pointMinCommun: PointCoordinates = new PointCoordinates(xMinCommun, yMinCommun);
         const pointMaxCommun: PointCoordinates = new PointCoordinates(xMaxCommun, yMaxCommun);
@@ -93,7 +82,7 @@ export class Vector {
     }
 
     public pointIsInCommunDomain(intersectionPoint: PointCoordinates, secondVector: Vector): boolean {
-        if(intersectionPoint.getX() < this.domain.getXMin() || intersectionPoint.getX() < secondVector.domain.getXMin() ||
+        if (intersectionPoint.getX() < this.domain.getXMin() || intersectionPoint.getX() < secondVector.domain.getXMin() ||
             intersectionPoint.getX() > this.domain.getXMax() || intersectionPoint.getX() > secondVector.domain.getXMax() ||
             intersectionPoint.getY() < this.domain.getYMin() || intersectionPoint.getY() < secondVector.domain.getYMin() ||
             intersectionPoint.getY() > this.domain.getYMax() || intersectionPoint.getY() > secondVector.domain.getYMax()) {
