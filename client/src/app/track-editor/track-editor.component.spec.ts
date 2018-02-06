@@ -1,3 +1,4 @@
+/* tslint:disable:no-magic-numbers */
 import { PointCoordinates } from "./pointCoordinates";
 // import { equation } from "./vector/equation";
 import { Vector } from "./vector/vector";

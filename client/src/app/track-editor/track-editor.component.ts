@@ -14,7 +14,7 @@ import { TrackEditorModel } from "./track-editor-model";
 export class TrackEditorComponent implements OnInit {
     @ViewChild("canvas")
     private canvasRef: ElementRef;
-    private ctx: any;
+    private ctx: CanvasRenderingContext2D;
     // private currentPoint : number
     private mouseMovedEvent: any;  // So that each method can access the coordinates
     // at all times

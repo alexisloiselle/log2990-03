@@ -1,3 +1,4 @@
+/* tslint:disable:no-magic-numbers */
 // import { TestBed, inject } from "@angular/core/testing";
 
 // import { TrackEditorConstraintService } from "./track-editor-constraint.service";
