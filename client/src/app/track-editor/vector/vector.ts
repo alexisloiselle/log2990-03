@@ -41,23 +41,26 @@ export class Vector {
     public calculateVectorIntersection(secondVector: Vector): PointCoordinates {
 
         // Calculer point d<intersection
-        if (!this.isParallel(secondVector)) {
+
+        if (!(this.isParallel(secondVector))) {
         const xIntersection: number = (secondVector.getConstant() - this.getConstant()) / (this.getSlope() - secondVector.getSlope());
         const yIntersection: number = xIntersection * this.getSlope() + this.getConstant();
 
         return (new PointCoordinates(xIntersection, yIntersection));
 
         } else {
+
         return (new PointCoordinates(NaN, NaN));
         }
     }
 
     public isParallel(secondVector: Vector): boolean {
-        if ((this.getSlope() === secondVector.getSlope()) || (this.getSlope() === -secondVector.getSlope())) {
+        if ((this.getSlope() === secondVector.getSlope())) {
             return true;
-        }
+        } else {
 
         return false;
+        }
     }
 
     public calculateCommunDomain(secondVector: Vector): Domain {
@@ -96,11 +99,16 @@ export class Vector {
     }
 
     public calculateAngle(secondVector: Vector): number {
+    if (!(this.isParallel(secondVector))) {
        if (secondVector.vector.angle() > this.vector.angle()) {
             return(secondVector.vector.angle() - this.vector.angle());
-       }
+        }
 
        return(this.vector.angle() - secondVector.vector.angle());
+        }
+
+    return (NaN);
+
     }
 
     public findMinDomain(coordinatesNewPoint: PointCoordinates, coordinatesLastPointInArray: PointCoordinates): PointCoordinates {
