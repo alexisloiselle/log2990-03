@@ -23,7 +23,7 @@ export class TrackEditorComponent implements OnInit {
 
     public ngOnInit(): void {
         // We here initialise the canvas and get the context (ctx)
-        this.ctx = this.canvasRef.nativeElement.getContext('2d');
+        this.ctx = this.canvasRef.nativeElement.getContext("2d");
         // we set the canvas height and width attribute
         const heightCanvas: number = 800;
         const widthCanvas: number = 800;
@@ -39,7 +39,7 @@ export class TrackEditorComponent implements OnInit {
 
     }
 
-    public canvasMouseDown(event: any): void {
+    public canvasMouseDown(event: {}): void {
         this.mouseDown = true;
     }
 
@@ -60,7 +60,7 @@ export class TrackEditorComponent implements OnInit {
         // points with this function.
         this.removeDuplicatedPoints();
     }
-    public canvasMouseMoved(event: any): void {
+    public canvasMouseMoved(event: {}): void {
         this.mouseMovedEvent = event;  // We stock the mouseCoordinates inside the mouseMovedEvent variable
 
         if (this.mouseDown) {
@@ -83,9 +83,9 @@ export class TrackEditorComponent implements OnInit {
     public drawLineOnCanvas(point1: PointCoordinates, point2: PointCoordinates): void {
         this.ctx.beginPath();
         this.ctx.moveTo(this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArrayLength() - 2).getX(),
-                        this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArrayLength() - 2).getY());
+            this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArrayLength() - 2).getY());
         this.ctx.lineTo(this.myTrackEditorModel.getSinglePoint(0).getX(),
-                        this.myTrackEditorModel.getSinglePoint(0).getY());
+            this.myTrackEditorModel.getSinglePoint(0).getY());
         this.ctx.strokeStyle = "black";
         this.ctx.stroke();
     }
@@ -111,7 +111,7 @@ export class TrackEditorComponent implements OnInit {
                 if (this.mouseMovedEvent.layerX >= point.getX() - ACCEPTED_RADIUS && this.mouseMovedEvent.layerX <=
                     point.getX() + ACCEPTED_RADIUS &&
                     this.mouseMovedEvent.layerY >= point.getY() - ACCEPTED_RADIUS && this.mouseMovedEvent.layerY <=
-                     point.getY() + ACCEPTED_RADIUS) {
+                    point.getY() + ACCEPTED_RADIUS) {
                     this.mouseOnPoint(point.getX(), point.getY());
                 } else {
                     this.mouseNotOnPoint(point.getX(), point.getY());
@@ -216,7 +216,7 @@ export class TrackEditorComponent implements OnInit {
             } else { // We draw the lines back
                 this.ctx.beginPath();
                 this.ctx.moveTo(this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArray().indexOf(i) - 1).getX(),
-                                this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArray().indexOf(i) - 1).getY());
+                    this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArray().indexOf(i) - 1).getY());
                 this.ctx.lineTo(i.getX(), i.getY());
                 this.ctx.strokeStyle = "black";
                 this.ctx.stroke();
