@@ -41,21 +41,15 @@ export class Vector {
     public calculateVectorIntersection(secondVector: Vector): PointCoordinates {
 
         // Calculer point d<intersection
-<<<<<<< HEAD
-=======
         if(!this.isParallel(secondVector)) {
->>>>>>> track-editor
         const xIntersection: number = (secondVector.getConstant() - this.getConstant()) / (this.getSlope() - secondVector.getSlope());
         const yIntersection: number = xIntersection * this.getSlope() + this.getConstant();
 
         return (new PointCoordinates(xIntersection, yIntersection));
-<<<<<<< HEAD
 
-=======
         } else {
         return (new PointCoordinates(NaN, NaN));
         }
->>>>>>> track-editor
     }
 
     public isParallel(secondVector: Vector): boolean {
@@ -70,28 +64,6 @@ export class Vector {
         let xMinCommun: number, xMaxCommun: number, yMinCommun: number, yMaxCommun: number;
 
         if (this.domain.getXMin() < secondVector.domain.getXMin()){
-<<<<<<< HEAD
-            xMinCommun = secondVector.domain.getXMin();
-        } else {
-            xMinCommun = this.domain.getXMin();
-        }
-
-        if (this.domain.getYMin() < secondVector.domain.getYMin()) {
-            yMinCommun = secondVector.domain.getYMin();
-        } else {
-            yMinCommun = this.domain.getYMin();
-        }
-
-        if (this.domain.getXMax() < secondVector.domain.getXMax()) {
-            xMaxCommun = secondVector.domain.getXMax();
-        } else {xMaxCommun = this.domain.getXMax();
-            }
-
-        if (this.domain.getYMax() < secondVector.domain.getYMax()) {
-            yMaxCommun = secondVector.domain.getYMax();
-        } else {
-             yMaxCommun = this.domain.getYMax();
-=======
             xMinCommun = this.domain.getXMin();
         } else {
             xMinCommun = secondVector.domain.getXMin();
@@ -112,7 +84,6 @@ export class Vector {
             yMaxCommun = this.domain.getYMax();
         } else {
              yMaxCommun = secondVector.domain.getYMax();
->>>>>>> track-editor
             }
 
         const pointMinCommun: PointCoordinates = new PointCoordinates(xMinCommun, yMinCommun);
@@ -122,18 +93,6 @@ export class Vector {
     }
 
     public pointIsInCommunDomain(intersectionPoint: PointCoordinates, secondVector: Vector): boolean {
-<<<<<<< HEAD
-       const communDomain: Domain = this.calculateCommunDomain(secondVector);
-       if ( communDomain.getXMin() > intersectionPoint.getX() || communDomain.getXMax() < intersectionPoint.getX()) {
-            return false;
-       }
-       if (communDomain.getYMin() > intersectionPoint.getY() || communDomain.getYMax() < intersectionPoint.getY()) {
-           return false;
-       }
-
-       return true;
-    }
-=======
         if(intersectionPoint.getX() < this.domain.getXMin() || intersectionPoint.getX() < secondVector.domain.getXMin() || 
             intersectionPoint.getX() > this.domain.getXMax() || intersectionPoint.getX() > secondVector.domain.getXMax() || 
             intersectionPoint.getY() < this.domain.getYMin() || intersectionPoint.getY() < secondVector.domain.getYMin() || 
@@ -147,7 +106,6 @@ export class Vector {
 
     }
     
->>>>>>> track-editor
 
     public calculateAngle(secondVector: Vector): number {
        if (secondVector.vector.angle() > this.vector.angle()) {
