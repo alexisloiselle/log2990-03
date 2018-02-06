@@ -41,7 +41,7 @@ export class Vector {
     public calculateVectorIntersection(secondVector: Vector): PointCoordinates {
 
         // Calculer point d<intersection
-        if(!this.isParallel(secondVector)) {
+        if (!this.isParallel(secondVector)) {
         const xIntersection: number = (secondVector.getConstant() - this.getConstant()) / (this.getSlope() - secondVector.getSlope());
         const yIntersection: number = xIntersection * this.getSlope() + this.getConstant();
 
@@ -53,7 +53,7 @@ export class Vector {
     }
 
     public isParallel(secondVector: Vector): boolean {
-        if ((this.getSlope() === secondVector.getSlope()) || (this.getSlope() === -secondVector.getSlope())){
+        if ((this.getSlope() === secondVector.getSlope()) || (this.getSlope() === -secondVector.getSlope())) {
             return true;
         }
 

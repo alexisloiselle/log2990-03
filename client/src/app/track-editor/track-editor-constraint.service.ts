@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 // import { TrackEditorComponent } from "./track-editor.component";
 import {Vector} from "./vector/vector";
 import { PointCoordinates } from "./pointCoordinates";
 
-const MIN_ANGLE_IN_RADIAN: number = (45 / 180) * Math.PI;
+const MIN_ANGLE_IN_DEGREE: number = 45;
+const MIN_ANGLE_IN_RADIAN: number = (MIN_ANGLE_IN_DEGREE / 180) * Math.PI;
 @Injectable()
 export class TrackEditorConstraintService {
 
@@ -30,9 +31,8 @@ export class TrackEditorConstraintService {
         return false;
     }
 
-
     public allConstraintPass(firstVector: Vector, secondVector: Vector): boolean {
-    if (this.verifyAngle(firstVector, secondVector) && this.verifyIsIntersecting(firstVector, secondVector)){
+    if (this.verifyAngle(firstVector, secondVector) && this.verifyIsIntersecting(firstVector, secondVector)) {
         return true;
     }
 
