@@ -12,40 +12,28 @@ export class Domain {
         this.xMax = this.findMaxDomain(coordinatesNewPoint, coordinatesLastPointInArray).getX();
         this.yMax = this.findMaxDomain(coordinatesNewPoint, coordinatesLastPointInArray).getY();
     }
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> track-editor
     public findMinDomain(coordinatesNewPoint: PointCoordinates, coordinatesLastPointInArray: PointCoordinates): PointCoordinates {
         let minX: number = 0;
         let minY: number = 0;
-        if (coordinatesNewPoint.getX() < coordinatesLastPointInArray.getX()) {
-            minX = coordinatesNewPoint.getX();
-        } else {
-            minX =  coordinatesLastPointInArray.getX();
-        }
-        if (coordinatesNewPoint.getY() < coordinatesLastPointInArray.getY()) {
-            minY = coordinatesNewPoint.getY();
-        } else {
-            minY =  coordinatesLastPointInArray.getY();
-        }
+
+        minX = (coordinatesNewPoint.getX() < coordinatesLastPointInArray.getX()) ? coordinatesNewPoint.getX() :
+        coordinatesLastPointInArray.getX();
+
+        minY = (coordinatesNewPoint.getY() < coordinatesLastPointInArray.getY()) ? coordinatesNewPoint.getY() :
+         coordinatesLastPointInArray.getY();
 
         return(new PointCoordinates (minX, minY));
     }
     public findMaxDomain(coordinatesNewPoint: PointCoordinates, coordinatesLastPointInArray: PointCoordinates): PointCoordinates {
         let maxX: number = 0;
         let maxY: number = 0;
-        if (coordinatesNewPoint.getX() > coordinatesLastPointInArray.getX()){
-            maxX = coordinatesNewPoint.getX();
-        } else {
-            maxX =  coordinatesLastPointInArray.getX();
-        }
-        if (coordinatesNewPoint.getY() > coordinatesLastPointInArray.getY()){
-            maxY = coordinatesNewPoint.getY();
-        } else {
-            maxY =  coordinatesLastPointInArray.getY();
-        }
+
+        maxX = (coordinatesNewPoint.getX() > coordinatesLastPointInArray.getX()) ? coordinatesNewPoint.getX() :
+        coordinatesLastPointInArray.getX();
+
+        maxY = (coordinatesNewPoint.getY() > coordinatesLastPointInArray.getY()) ? coordinatesNewPoint.getY() :
+         coordinatesLastPointInArray.getY();
 
         return(  new PointCoordinates (maxX, maxY));
     }
