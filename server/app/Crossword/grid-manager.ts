@@ -11,4 +11,8 @@ export class GridManager {
         const dimension: number = 10;
         this.grid = gridManager.generateGrid(dimension, dimension);
     }
+
+    public getGrid(): Case[][] {
+        return this.grid;
+    }
 }
