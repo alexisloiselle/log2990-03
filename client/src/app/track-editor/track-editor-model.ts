@@ -1,12 +1,30 @@
 import { PointCoordinates } from "./pointCoordinates";
+<<<<<<< HEAD
 // import { BooleanKeyframeTrack } from "three";
+=======
+import { OnInit, Input } from "@angular/core";
+import { Vector } from "./vector/vector";
+>>>>>>> track-editor
 
 /*Classe qui s'occuppe de manipuler le tableau de points.
 C'est notre modèle.*/
 export class TrackEditorModel {
     private pointArray: PointCoordinates[] = [];
 
+<<<<<<< HEAD
     public getPointArray(): PointCoordinates[] {
+=======
+/*Classe qui s'occuppe de manipuler le canvas.*/ 
+export class trackEditorModel implements OnInit {
+    pointArray : PointCoordinates[] = [];
+    @Input() vecArray: Vector[] = [];
+
+    ngOnInit(){
+        
+    }
+
+    getPointArray(){
+>>>>>>> track-editor
         return this.pointArray;
     }
 
@@ -18,18 +36,29 @@ export class TrackEditorModel {
         if (index >= 0 && index < this.pointArray.length) {
             return this.pointArray[index];
         }
+<<<<<<< HEAD
 
         return new PointCoordinates(-1, -1);
     }
 
     public setPointCoordinates(index: number, mouseCoordinates: PointCoordinates): void {
         if (index >= 0 && index < this.pointArray.length) {
+=======
+        return new PointCoordinates(-1, -1);
+    }
+    setPointCoordinates(index: number, mouseCoordinates: PointCoordinates){
+        if(index >= 0 && index < this.pointArray.length){
+>>>>>>> track-editor
             this.pointArray[index].setX(mouseCoordinates.getX());
             this.pointArray[index].setY(mouseCoordinates.getY());
         }
     }
 
+<<<<<<< HEAD
     public addPoint(point: PointCoordinates): void {
+=======
+    addPoint(point: PointCoordinates){
+>>>>>>> track-editor
         this.pointArray.push(point);
     }
 
@@ -68,6 +97,7 @@ export class TrackEditorModel {
         return false;
     }
 
+<<<<<<< HEAD
     public closeLoop(): void {
         const point: PointCoordinates = new PointCoordinates(this.pointArray[0].getX(), this.pointArray[0].getY());
         this.pointArray.push(point);
@@ -77,6 +107,18 @@ export class TrackEditorModel {
         for (const point of this.pointArray) {
             if (mouseCoordinates.getX() >= point.getX() - 20 && mouseCoordinates.getX() <= point.getX() + 20 &&
                 mouseCoordinates.getY() >= point.getY() - 20 && mouseCoordinates.getY() <= point.getY() + 20){
+=======
+    
+    closeLoop(){
+        let point : PointCoordinates = new PointCoordinates(this.pointArray[0].getX(), this.pointArray[0].getY());
+        this.pointArray.push(point);     
+    }
+
+    clickedOnExistingPoint(mouseCoordinates: PointCoordinates){
+        for(let point of this.pointArray){
+            if(mouseCoordinates.getX() >= point.getX() - 20 && mouseCoordinates.getX() <= point.getX() + 20 &&
+               mouseCoordinates.getY() >= point.getY() - 20 && mouseCoordinates.getY() <= point.getY() + 20){
+>>>>>>> track-editor
                   return true;
               }
           }
@@ -84,6 +126,7 @@ export class TrackEditorModel {
         return false;
     }
 
+<<<<<<< HEAD
     public clickedOnFirstPoint(mouseCoordinates: PointCoordinates): boolean {
         if ((mouseCoordinates.getX() <= this.pointArray[0].getX() + 10 && mouseCoordinates.getX() >= this.pointArray[0].getX() - 10) &&
            (mouseCoordinates.getY() <= this.pointArray[0].getY() + 10 && mouseCoordinates.getY() >= this.pointArray[0].getY() - 10) ) {
@@ -92,4 +135,13 @@ export class TrackEditorModel {
 
         return false;
     }
+=======
+    clickedOnFirstPoint(mouseCoordinates: PointCoordinates){
+        if((mouseCoordinates.getX() <= this.pointArray[0].getX() + 10 && mouseCoordinates.getX() >= this.pointArray[0].getX() - 10) &&
+           (mouseCoordinates.getY() <= this.pointArray[0].getY() + 10 && mouseCoordinates.getY() >= this.pointArray[0].getY() - 10) ){
+            return true;;
+        }
+        return false;
+      }     
+>>>>>>> track-editor
 }

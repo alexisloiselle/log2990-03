@@ -30,6 +30,10 @@ export class TrackEditorConstraintService {
         return false;
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> track-editor
     public allConstraintPass(firstVector: Vector, secondVector: Vector): boolean {
     if (this.verifyAngle(firstVector, secondVector) && this.verifyIsIntersecting(firstVector, secondVector)){
         return true;

@@ -1,10 +1,14 @@
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { PointCoordinates } from "./pointCoordinates";
 import { TrackEditorModel } from "./track-editor-model";
 =======
 import { pointCoordinates } from "./pointCoordinates";
 >>>>>>> a5781d27561c61998d3b732403291cc995672615
+=======
+import { pointCoordinates } from "./pointCoordinates";
+>>>>>>> track-editor
 // import { equation } from "./vector/equation";
 import { Vector } from "./vector/vector";
 
@@ -58,10 +62,14 @@ describe("TrackEditorComponent", () => {
 
   });
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
   /*
 >>>>>>> a5781d27561c61998d3b732403291cc995672615
+=======
+  /*
+>>>>>>> track-editor
   describe("trackEditor", () => {
     const myTrackModel1: TrackEditorModel = new TrackEditorModel;
     const point1: PointCoordinates = new PointCoordinates(30, 30);
@@ -81,6 +89,7 @@ describe("TrackEditorComponent", () => {
       expect(myTrackModel1.getPointArrayLength()).toBe(1);
     });
 
+<<<<<<< HEAD
     it("Should Remove a point.", () => {
       myTrackModel1.eraseLastPoint();
       expect(myTrackModel1.getPointArrayLength()).toBe(0);
@@ -114,9 +123,29 @@ describe("TrackEditorComponent", () => {
     //   expect(myTrackmodel.getPointArrayLength()).toBe(5);
     // });
 =======
+=======
+<<<<<<< HEAD
+    // it("Should create an empty pointCoordinates array.", () =>{
+    //   expect(myTrackEditor.getPointArray()).toBeDefined();
+    // });
+
+    
+   // myTrackEditor.canvasDrawPoint()
+
+  });
+
+=======
+    it("Should create an empty pointCoordinates array.", () =>{
+      expect(myTrackEditor.getPointArray()).toBeDefined();
+    });
+>>>>>>> track-editor
     myTrackEditor.canvasDrawPoint()
 >>>>>>> a5781d27561c61998d3b732403291cc995672615
 
   });
   */
+<<<<<<< HEAD
+=======
+>>>>>>> track-editor
+>>>>>>> track-editor
 });
