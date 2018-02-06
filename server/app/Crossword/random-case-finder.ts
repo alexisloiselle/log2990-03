@@ -1,5 +1,3 @@
-import { Randomizer } from "./randomizer";
-
 export class RandomCaseFinder {
 
     private unusedCases: [number, number][];
@@ -24,8 +22,7 @@ export class RandomCaseFinder {
                 return i;
             }
         }
-
-        return -1;
+        throw new Error("Couldn't not find the case");
     }
 
     private removeFromArray(index: number): void {
@@ -34,9 +31,17 @@ export class RandomCaseFinder {
     }
 
     public findRandomCase(): [number, number] {
-        let randomizer: Randomizer = new Randomizer();
-        const position: [number, number] = this.unusedCases[randomizer.generateRandomNumber(0, this.unusedCases.length - 1)];
-        this.removeFromArray(this.findCaseByPosition(position));
+        const position: [number, number] = this.unusedCases[Math.floor(Math.random() * (this.unusedCases.length - 1))];
+        let caseIndex: number;
+        try {
+            caseIndex = this.findCaseByPosition(position);
+        } catch (e) {
+            console.error("Error: ", e);
+        }
+        if (this.unusedCases.length === 0) {
+            throw new Error("No more unused case available");
+        }
+        this.removeFromArray(caseIndex);
 
         return position;
     }

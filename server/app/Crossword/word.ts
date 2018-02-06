@@ -1,14 +1,16 @@
-export class Word {
-    // private line: number;
-    // private column: number;
-    private length: number;
-    private isHorizontal: boolean;
+export enum Direction { Horizontal, Vertical }
 
-    constructor (line: number, column: number, length: number, isHorizontal: boolean) {
+export class Word {
+    private line: number;
+    private column: number;
+    private length: number;
+    private orientation: Direction;
+
+    constructor (line: number, column: number, length: number, orientation: Direction) {
         this.line = line;
         this.column = column;
         this.length = length;
-        this.isHorizontal = isHorizontal;
+        this.orientation = orientation;
     }
 
     public getLine(): number {
@@ -23,7 +25,7 @@ export class Word {
         return this.length;
     }
 
-    public getIsHorizontal(): boolean {
-        return this.isHorizontal;
+    public getOrientation(): Direction {
+        return this.orientation;
     }
 }

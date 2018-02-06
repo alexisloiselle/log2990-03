@@ -1,109 +1,115 @@
 import { Case } from "./case";
-import { Word } from "./word";
+import { Word, Direction } from "./word";
 import { Lexicon } from "../lexicon/lexicon";
 
 export class WordPlacer {
 
-    public lexicon : Lexicon;
+    private lexicon: Lexicon;
 
     constructor() {
         this.lexicon = new Lexicon("app/englishWords.txt");
     }
 
     public identifyConstraint(grid: Case[][]): void {
-        for (let i = 0; i < grid.length; i++) {
-            for (let j = 0; j < grid[0].length; j++) {
-                if (grid[i][j].getHorizontalWordLength() > 2 && grid[i][j].getVerticalWordLength() > 2) {
-                    grid[i][j].setConstraint(true);
+        // Set isAConstraint attribute to true for all the cases that are part of 2 words
+        const minimumWordLength: number = 2;
+        for (const line of grid) {
+            for (const position of line) {
+                if (position.getHorizontalWordLength() > minimumWordLength && position.getVerticalWordLength() > minimumWordLength) {
+                    position.setIsAConstraint(true);
                 }
             }
         }
     }
 
-    public fitWord(grid : Case[][], wordsInGrid: Word[], pos : number): boolean {
-        let sameLengthWords = this.lexicon.getWordsByLength(wordsInGrid[pos].getLength());
-        console.log(pos);
-        console.log(wordsInGrid.length);
-        for (let i = 0; i < sameLengthWords.length; i++) {
-            if (this.placeWord(grid, wordsInGrid[pos], sameLengthWords[i])) {
-                if (pos + 1 == wordsInGrid.length || this.fitWord(grid, wordsInGrid, pos + 1)) {
+    public fitWord(grid: Case[][], wordsInGrid: Word[], pos: number): boolean {
+        // Recursive algo to place words in all the slot in the grid
+        const sameLengthWords: string[] = this.lexicon.getWordsByLength(wordsInGrid[pos].getLength());
+        for (const word of sameLengthWords) {
+            if (this.placeWord(grid, wordsInGrid[pos], word)) {
+                if (pos + 1 === wordsInGrid.length || this.fitWord(grid, wordsInGrid, pos + 1)) {
                     return true;
-                }
-                else {
+                } else {
                     this.removeWord(grid, wordsInGrid[pos]);
                 }
             }
-            //console.log(i);
         }
-        return false;        
-    }
 
-    private placeWord(grid: Case[][], gridWord : Word, wordToAdd: string): boolean {
-        if (gridWord.getLength() == wordToAdd.length) {
-            let line = gridWord.getLine();
-            let column = gridWord.getColumn();
-
-            if (gridWord.getIsHorizontal()) {
-                // Make sure the horizontal word respects the constraints
-                for (let i = 0; i < wordToAdd.length; i++) {
-                    if (grid[line][column + i].getIsAConstraint() && grid[line][column + i].getRightLetter() != ""
-                    && grid[line][column + i].getRightLetter() != wordToAdd[i]) {
-                        return false;
-                    }
-                }
-                // If so, we place it
-                for (let i = 0; i < wordToAdd.length; i++) {
-                    grid[line][column + i].setRightLetter(wordToAdd[i]);
-                }
-                return true;
-            }
-            else {
-                // Make sure the vertical word respects the constraints
-                for (let i = 0; i < wordToAdd.length; i++) {
-                    if (grid[line + i][column].getIsAConstraint() && grid[line + i][column].getRightLetter() != ""
-                    && grid[line + i][column].getRightLetter() != wordToAdd[i]) {
-                        return false;
-                    }
-                }
-                // If so, we place it
-                for (let i = 0; i < wordToAdd.length; i++) {
-                    grid[line + i][column].setRightLetter(wordToAdd[i]);
-                }
-                return true;
-            }            
-        }
         return false;
     }
 
-    private removeWord(grid: Case[][], word : Word): void {
-        let line = word.getLine();
-        let column = word.getColumn();
-        if (word.getIsHorizontal()) {
-            for (let i = 0; i < word.getLength(); i++) {
-                if (grid[line][column + i].getIsAConstraint()) {
-                    if ((grid[line][column + i].getVerticalPositionInWord() != 0 &&
-                        grid[line - 1][column + i].getRightLetter() != "") ||
-                        (grid[line][column + i].getVerticalPositionInWord() != grid[line][column + i].getVerticalWordLength() - 1 &&
-                        grid[line + 1][column + i].getRightLetter() != "")) {
-                        continue;
-                    }
+    public placeWord(grid: Case[][], gridWord: Word, wordToAdd: string): boolean {
+        // Places the word in the grid if all constraints are compliant
+        if (gridWord.getLength() === wordToAdd.length) {
+            let line: number = gridWord.getLine();
+            let column: number = gridWord.getColumn();
+             // Make sure the word respects the constraints
+            for (const char of wordToAdd) {
+                if (grid[line][column].getIsAConstraint() && grid[line][column].getRightLetter() !== ""
+                && grid[line][column].getRightLetter() !== char) {
+                    return false;
+                }
+                if (gridWord.getOrientation() === Direction.Horizontal) {
+                    column++;
+                } else if (gridWord.getOrientation() === Direction.Vertical) {
+                    line++;
+                }
+            }
+            line = gridWord.getLine();
+            column = gridWord.getColumn();
+            // If so, we place it
+            for (const char of wordToAdd) {
+                grid[line][column].setRightLetter(char);
+                if (gridWord.getOrientation() === Direction.Horizontal) {
+                    column++;
+                } else if (gridWord.getOrientation() === Direction.Vertical) {
+                    line++;
+                }
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public removeWord(grid: Case[][], word: Word): void {
+        // Removes all the chars of the word that arent part of a word in the other orientation from the grid
+        const line: number = word.getLine();
+        const column: number = word.getColumn();
+        if (word.getOrientation() === Direction.Horizontal) {
+            for (let i: number = 0; i < word.getLength(); i++) {
+                if (this.charPartOfVerticalWord(grid, line, column + i)) {
+                    continue;
                 }
                 grid[line][column + i].setRightLetter("");
             }
-        }
-        else {
-            for (let i = 0; i < word.getLength(); i++) {    
-                if (grid[line + i][column].getIsAConstraint()) {
-                    if ((grid[line + i][column].getHorizontalPositionInWord() != 0 &&
-                    grid[line + i][column - 1].getRightLetter() != "") ||
-                    (grid[line + i][column].getHorizontalPositionInWord() != grid[line + i][column].getHorizontalWordLength() - 1 &&
-                    grid[line + i][column + 1].getRightLetter() != "")) {
-                        continue;
-                    }
+        } else if (word.getOrientation() === Direction.Vertical) {
+            for (let i: number = 0; i < word.getLength(); i++) {
+                if (this.charPartOfHorizontalWord(grid, line + i, column)) {
+                    continue;
                 }
                 grid[line + i][column].setRightLetter("");
             }
         }
+    }
+
+    private charPartOfVerticalWord(grid: Case[][], line: number, column: number): boolean {
+        // Tells if the char at this position is part of a vertical word
+        return (grid[line][column].getIsAConstraint()
+        && ((grid[line][column].getVerticalPositionInWord() !== 0
+            && grid[line - 1][column].getRightLetter() !== "")
+        || (grid[line][column].getVerticalPositionInWord() !== grid[line][column].getVerticalWordLength() - 1
+            && grid[line + 1][column].getRightLetter() !== "")));
+    }
+
+    private charPartOfHorizontalWord(grid: Case[][], line: number, column: number): boolean {
+        // Tells if the char at this position is part of a horizontal word
+        return (grid[line][column].getIsAConstraint()
+        && ((grid[line][column].getHorizontalPositionInWord() !== 0
+            && grid[line][column - 1].getRightLetter() !== "")
+        || (grid[line][column].getHorizontalPositionInWord() !== grid[line][column].getHorizontalWordLength() - 1
+            && grid[line][column + 1].getRightLetter() !== "")));
     }
 
 }

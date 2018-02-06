@@ -10,17 +10,17 @@ describe("Blank Grid Generator", () => {
     let blankGridManager: BlankGridCreator;
     blankGridManager = new BlankGridCreator;
 
-    const height: number = 5;
-    const width: number = 8;
+    const HEIGHT: number = 5;
+    const WIDTH: number = 8;
 
-    const cases: Case[][] = blankGridManager.createGrid(height, width);
+    const cases: Case[][] = blankGridManager.createGrid(HEIGHT, WIDTH);
 
     describe("Create Grid", () => {
         it("Should have the right width", () => {
-            expect(cases.length).to.equal(height);
+            expect(cases.length).to.equal(HEIGHT);
         });
         it("Should have the right height", () => {
-            expect(cases[0].length).to.equal(width);
+            expect(cases[0].length).to.equal(WIDTH);
         });
     });
 });

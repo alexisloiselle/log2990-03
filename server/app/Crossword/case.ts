@@ -69,7 +69,7 @@
             this.rightLetter = value;
         }
 
-        public setConstraint(value: boolean): void {
+        public setIsAConstraint(value: boolean): void {
             this.isAConstraint = value;
         }
     }
