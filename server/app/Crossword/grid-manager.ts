@@ -1,28 +1,18 @@
 import { Case } from "./case";
-import { BlackCaseManager } from "./black-case-manager"
+import { GridGenerator } from "./grid-generator";
 
 export class GridManager {
 
     private grid: Case[][];
-    private blackCaseManager;
 
-    constructor() {}
-
-    public getCases(): Case[][] {
-        return this.grid;
+    // This class has the ownership of the grid and will have the responsability to manage it
+    constructor(difficulty: string) {
+        const gridManager: GridGenerator = new GridGenerator();
+        const DIMENSION: number = 10;
+        this.grid = gridManager.generateGrid(DIMENSION, DIMENSION);
     }
 
-    public generateGrid(height: number, width: number): void {
-        // TODO : create negative exception for generate grid
-        this.grid = [];
-        for (let i: number = 0; i < height; i++) {
-            this.grid[i] = [];
-            for (let j: number = 0; j < width; j++) {
-                this.grid[i][j] = new Case();
-            }
-        }
-        this.blackCaseManager = new BlackCaseManager(height, width, this.grid);
-        const percentage: number = 30;
-        this.blackCaseManager.generateBlackCases(percentage);
+    public getGrid(): Case[][] {
+        return this.grid;
     }
 }

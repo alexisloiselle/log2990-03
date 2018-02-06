@@ -1,25 +1,112 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-
-import { TrackEditorComponent } from "./track-editor.component";
+import { PointCoordinates } from "./pointCoordinates";
+// import { equation } from "./vector/equation";
+import { Vector } from "./vector/vector";
+import { TrackEditorComponent} from "./track-editor.component";
 
 describe("TrackEditorComponent", () => {
-  let component: TrackEditorComponent;
-  let fixture: ComponentFixture<TrackEditorComponent>;
+  describe("vectorClass", () => {
+    const pointStart: PointCoordinates = new PointCoordinates(2, 6);
+    const pointEnd: PointCoordinates = new PointCoordinates(1, 3);
+    const vectorTest: Vector = new Vector(pointStart, pointEnd);
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ TrackEditorComponent ]
-    })
-    .compileComponents();
-  }));
+        it("Should Create slope", () => {
+            const EXPECTED_SLOPE: number = 3;
+            expect(vectorTest.getSlope()).toBe(EXPECTED_SLOPE);
+        });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(TrackEditorComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+        it("Should Create constant", () => {
+            const EXPECTED_CONSTANT: number = 0;
+            expect(vectorTest.getConstant()).toBe(EXPECTED_CONSTANT);
+        });
+
+        it("Should calculate domain MaxDomainX", () => {
+            expect(vectorTest.findMaxDomain(pointStart, pointEnd).getX()).toBe(pointStart.getX());
+        });
+
+        it("Should calculate domain MinDomainX", () => {
+            expect(vectorTest.findMinDomain(pointStart, pointEnd).getX()).toBe(pointEnd.getX());
+        });
+
+        it("Should calculate domain MaxDomainY", () => {
+            expect(vectorTest.findMaxDomain(pointStart, pointEnd).getY()).toBe(pointStart.getY());
+        });
+
+        it("Should calculate domain MinDomainY", () => {
+            expect(vectorTest.findMinDomain(pointStart, pointEnd).getY()).toBe(pointEnd.getY());
+        });
+
+        it("minDomainX should be assigned to vector at construction", () => {
+            const EXPECTED_DOMAIN_X_MIN: number = 1;
+            expect(vectorTest.getDomainXMin()).toBe(EXPECTED_DOMAIN_X_MIN);
+        });
+
+        it("minDomainY should be assigned to vector at construction", () => {
+            const EXPECTED_DOMAIN_X_MAX: number = 2;
+            expect(vectorTest.getDomainXmax()).toBe(EXPECTED_DOMAIN_X_MAX);
+        });
+
+        it("maxDomainY should be assigned to vector at construction", () => {
+            const EXPECTED_DOMAIN_Y_MIN: number = 3;
+            expect(vectorTest.getDomainYMin()).toBe(EXPECTED_DOMAIN_Y_MIN);
+        });
+
+        it("maxDomainY should be assigned to vector at construction", () => {
+            const EXPECTED_DOMAIN_Y_MAX: number = 6;
+            expect(vectorTest.getDomainYmax()).toBe(EXPECTED_DOMAIN_Y_MAX);
+        });
+    });
   });
 
-  it("hould create", () => {
-    expect(component).toBeTruthy();
+  describe("trackEditor", () => {
+    const myTrackModel1: TrackEditorModel = new TrackEditorModel();
+    const point1: PointCoordinates = new PointCoordinates(30, 30);
+    const point2: PointCoordinates = new PointCoordinates(20, 20);
+    const point3: PointCoordinates = new PointCoordinates(100, 55);
+    const point4: PointCoordinates = new PointCoordinates(45, 70);
+    const point5: PointCoordinates = new PointCoordinates(120, 120);
+    // const point6: PointCoordinates = new PointCoordinates(30, 30);
+    // const point7: PointCoordinates = new PointCoordinates(30, 30);
+    // const point8: PointCoordinates = new PointCoordinates(30, 30);
+    // const point9: PointCoordinates = new PointCoordinates(30, 30);
+    // const point10: PointCoordinates = new PointCoordinates(30, 30);
+    // const point11: PointCoordinates = new PointCoordinates(30, 30);
+
+    it("Should add a point.", () => {
+      myTrackModel1.addPoint(point1);
+      expect(myTrackModel1.getPointArrayLength()).toBe(1);
+    });
+
+    const myTrackModel2: TrackEditorModel = new TrackEditorModel();
+
+    it("Should remove a duplicated point.", () => {
+      myTrackModel2.addPoint(point1);
+      myTrackModel2.addPoint(point2);
+      myTrackModel2.addPoint(point3);
+      myTrackModel2.addPoint(point3);
+      myTrackModel2.addPoint(point4);
+      myTrackModel2.addPoint(point5);
+      myTrackModel2.addPoint(point5);
+      myTrackModel2.removeDuplicatedPoints();
+      expect(myTrackModel2.getPointArrayLength()).toBe(5);
+    });
+
+    const myTrackModel3: TrackEditorModel = new TrackEditorModel();
+
+
+    it("The loop should be closed.", () => {
+        myTrackModel3.addPoint(point1);
+        myTrackModel3.addPoint(point2);
+        myTrackModel3.addPoint(point3);
+        myTrackModel3.addPoint(point4);
+        myTrackModel3.addPoint(point5);
+        myTrackModel3.addPoint(point1);
+        expect(myTrackModel3.loopIsClosed()).toBe(true);
+    });
+
+    it("Should erase the last point", () => {
+        myTrackModel3.eraseLastPoint();
+        myTrackModel3.eraseLastPoint();
+        expect(myTrackModel3.getPointArrayLength()).toBe(4);
+    });
   });
 });
