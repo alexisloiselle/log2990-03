@@ -1,7 +1,7 @@
-// import { TestBed, inject } from "@angular/core/testing";
+import { TestBed, inject } from "@angular/core/testing";
 
 
-// import { TrackEditorConstraintService } from "./track-editor-constraint.service";
+import { TrackEditorConstraintService } from "./track-editor-constraint.service";
 import { PointCoordinates } from "./pointCoordinates";
 import { Vector } from "./vector/vector";
 
@@ -9,8 +9,8 @@ describe("Track-Editor-Constraint", () => {
 
   const FORTY_FIVE_DEGREE_IN_RADIAN: number = (45 * Math.PI)/180;
   const POINT_START: PointCoordinates = new PointCoordinates(2, 6);
-  // const POINT_INVERSE_PARALLEL: PointCoordinates = new PointCoordinates(1,3);
-  // const POINT_PARALLEL: PointCoordinates = new PointCoordinates(2, 6);
+  const POINT_INVERSE_PARALLEL: PointCoordinates = new PointCoordinates(1,3);
+  const POINT_PARALLEL: PointCoordinates = new PointCoordinates(2, 6);
   const POINT_END: PointCoordinates = new PointCoordinates (1, 3);
   const POINT_LESS_45: PointCoordinates = new PointCoordinates(1, 2);
   const FIRSTVECTOR45DEGREE: Vector = new Vector(new PointCoordinates(0,0), new PointCoordinates(5,2));
@@ -20,7 +20,7 @@ describe("Track-Editor-Constraint", () => {
   const VECTOR_TEST_LESS_45: Vector = new Vector(POINT_START, POINT_LESS_45);
   const VECTOR_PARALLEL: Vector = new Vector(POINT_START, POINT_END);
   const VECTOR_INVERSE_PARALLEL: Vector = new Vector(POINT_END, POINT_START);
-
+  
   it("Angle should be less than 45 degree", () => {
     expect(VECTOR_TEST.calculateAngle(VECTOR_TEST_LESS_45).toFixed(3)).toBeLessThan(FORTY_FIVE_DEGREE_IN_RADIAN);
   });
