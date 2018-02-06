@@ -7,7 +7,7 @@ export class WordPlacer {
     private lexicon: Lexicon;
 
     constructor() {
-        this.lexicon = new Lexicon("app/englishWords.txt");
+        this.lexicon = new Lexicon();
     }
 
     public identifyConstraint(grid: Case[][]): void {
@@ -24,7 +24,7 @@ export class WordPlacer {
 
     public fitWord(grid: Case[][], wordsInGrid: Word[], pos: number): boolean {
         // Recursive algo to place words in all the slot in the grid
-        const sameLengthWords: string[] = this.lexicon.getWordsByLength(wordsInGrid[pos].getLength());
+        const sameLengthWords: string[] = this.lexicon.getWordsByLength(wordsInGrid[pos].getLength(), false);
         for (const word of sameLengthWords) {
             if (this.placeWord(grid, wordsInGrid[pos], word)) {
                 if (pos + 1 === wordsInGrid.length || this.fitWord(grid, wordsInGrid, pos + 1)) {
