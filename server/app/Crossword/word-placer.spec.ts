@@ -1,7 +1,6 @@
 import {} from "jasmine";
 import { expect } from "chai";
 
-import { GridScanner } from "./grid-scanner";
 import { Case } from "./case";
 import { BlankGridCreator } from "./blank-grid-creator";
 import { Word, Direction } from "./word";
