@@ -68,8 +68,10 @@ export class TrackEditorModel {
     }
 
     public closeLoop(): void {
+      if (this.getPointArrayLength() >= 2) {
         const point: PointCoordinates = new PointCoordinates(this.pointArray[0].getX(), this.pointArray[0].getY());
         this.pointArray.push(point);
+      }
     }
 
     public clickedOnExistingPoint(mouseCoordinates: PointCoordinates): boolean {
