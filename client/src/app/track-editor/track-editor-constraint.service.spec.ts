@@ -3,6 +3,7 @@
 // import { TrackEditorConstraintService } from "./track-editor-constraint.service";
 import { PointCoordinates } from "./pointCoordinates";
 import { Vector } from "./vector/vector";
+import {TrackEditorConstraintService} from "./track-editor-constraint.service"
 
 describe("Track-Editor-Constraint", () => {
 
@@ -17,6 +18,8 @@ describe("Track-Editor-Constraint", () => {
     const VECTOR_TEST_LESS_45: Vector = new Vector(POINT_START, POINT_LESS_45);
     const VECTOR_PARALLEL: Vector = new Vector(POINT_START, POINT_END);
     const VECTOR_INVERSE_PARALLEL: Vector = new Vector(POINT_END, POINT_START);
+
+    
 
     it("Angle should be less than 45 degree", () => {
         expect(VECTOR_TEST.calculateAngle(VECTOR_TEST_LESS_45).toFixed(3)).toBeLessThan(FORTY_FIVE_DEGREE_IN_RADIAN);
@@ -82,5 +85,14 @@ describe("Track-Editor-Constraint", () => {
 
     it("Point shouldn't be in the domain", () => {
         expect(VECTOR_TEST.pointIsInCommunDomain(VECTOR_TEST.calculateVectorIntersection(FIRSTVECTOR45DEGREE), FIRSTVECTOR45DEGREE)).toBeFalsy();
+    });
+
+    it("All constraint shouldn't pass", () => {
+      let trackEditorConstraintService = new TrackEditorConstraintService;
+      expect(trackEditorConstraintService.allConstraintPass(VECTOR_TEST,FIRSTVECTOR45DEGREE)).toBeFalsy();
+    });
+
+    it("YOLO", () => {
+      
     });
 });

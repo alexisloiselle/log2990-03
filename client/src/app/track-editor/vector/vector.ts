@@ -69,10 +69,10 @@ export class Vector {
         yMinCommun = (this.domain.getYMin() < secondVector.domain.getYMin()) ? this.domain.getYMin() :
         secondVector.domain.getYMin();
 
-        xMaxCommun = (this.domain.getXMax() < secondVector.domain.getXMax()) ? this.domain.getXMax() :
+        xMaxCommun = (this.domain.getXMax() > secondVector.domain.getXMax()) ? this.domain.getXMax() :
         secondVector.domain.getXMax();
 
-        yMaxCommun = (this.domain.getYMax() < secondVector.domain.getYMax()) ? this.domain.getYMax() :
+        yMaxCommun = (this.domain.getYMax() > secondVector.domain.getYMax()) ? this.domain.getYMax() :
         secondVector.domain.getYMax();
 
         const pointMinCommun: PointCoordinates = new PointCoordinates(xMinCommun, yMinCommun);
