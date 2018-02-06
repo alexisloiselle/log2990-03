@@ -102,8 +102,8 @@ export class TrackEditorComponent implements OnInit {
     const point1: PointCoordinates = this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArrayLength() - 2);
     const point2: PointCoordinates = this.myTrackEditorModel.getSinglePoint(0);
     this.drawLineOnCanvas(point1, point2);
- 
- 
+
+
    }
 
   public checkMouseFocus(): void { // Checks if the focus is on a point or not
@@ -147,7 +147,7 @@ export class TrackEditorComponent implements OnInit {
     // Je trouve le point sur lequel il a cliqué
     for (const point of this.myTrackEditorModel.getPointArray()) {
       if (this.mouseMovedEvent.layerX >= point.getX() - 15 && this.mouseMovedEvent.layerX <= point.getX() +15 &&
-        this.mouseMovedEvent.layerY >= point.getY() - 15 && this.mouseMovedEvent.layerY <= point.getY() + 15) { 
+        this.mouseMovedEvent.layerY >= point.getY() - 15 && this.mouseMovedEvent.layerY <= point.getY() + 15) {
           this.myTrackEditorModel.setPointCoordinates(this.myTrackEditorModel.getPointArray().indexOf(point), mouseCoordinates);
         }
     }
@@ -203,7 +203,7 @@ export class TrackEditorComponent implements OnInit {
         this.ctx.lineWidth = 2;
       } else { // We draw the lines back
         this.ctx.beginPath();
-        this.ctx.moveTo(this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArray().indexOf(i)-1).getX(), 
+        this.ctx.moveTo(this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArray().indexOf(i)-1).getX(),
                         this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArray().indexOf(i)-1).getY());
         this.ctx.lineTo(i.getX(), i.getY());
         this.ctx.strokeStyle = "black";

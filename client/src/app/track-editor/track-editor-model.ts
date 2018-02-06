@@ -1,6 +1,5 @@
 import { PointCoordinates } from "./pointCoordinates";
-import { OnInit, Input } from "@angular/core";
-import { Vector } from "./vector/vector";
+
 
 /*Classe qui s'occuppe de manipuler le tableau de points.
 C'est notre modèle.*/

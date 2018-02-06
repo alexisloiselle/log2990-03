@@ -12,11 +12,6 @@ export class Domain {
         this.xMax = this.findMaxDomain(coordinatesNewPoint, coordinatesLastPointInArray).getX();
         this.yMax = this.findMaxDomain(coordinatesNewPoint, coordinatesLastPointInArray).getY();
     }
-<<<<<<< HEAD
-    
-=======
-
->>>>>>> track-editor
     public findMinDomain(coordinatesNewPoint: PointCoordinates, coordinatesLastPointInArray: PointCoordinates): PointCoordinates {
         let minX: number = 0;
         let minY: number = 0;
