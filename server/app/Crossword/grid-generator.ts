@@ -15,7 +15,7 @@ export class GridGenerator {
 
     public generateGrid(height: number, width: number): Case[][] {
         const blankGridCreator: BlankGridCreator = new BlankGridCreator();
-        let grid: Case[][] = blankGridCreator.createGrid(height, width);
+        const grid: Case[][] = blankGridCreator.createGrid(height, width);
 
         const blackCaseGenerator: BlackCaseGenerator = new BlackCaseGenerator(height, width);
         const percentage: number = 50;
