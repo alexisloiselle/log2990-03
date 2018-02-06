@@ -1,25 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import {RaceTrackComponent} from '../race-track/race-track.component';
-//import {TrackService} from '../track.service';
+import { Component, OnInit } from "@angular/core";
+import {RaceTrackComponent} from "../race-track/race-track.component";
 
 @Component({
-  selector: 'app-track-list',
-  templateUrl: './track-list.component.html',
-  styleUrls: ['./track-list.component.css']
+  selector: "app-track-list",
+  templateUrl: "./track-list.component.html",
+  styleUrls: ["./track-list.component.css"]
 })
 
 export class TrackListComponent implements OnInit {
   public tracks: RaceTrackComponent[];
-  //private selectedTrack: RaceTrackComponent;
-  //private trackIdValue: string;
+  // private selectedTrack: RaceTrackComponent;
 
-  constructor() { }
+  public constructor() { }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.reload();
   }
-  public reload() {
-    
-  }
+  public reload(): void { }
 
 }

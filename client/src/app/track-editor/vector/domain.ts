@@ -1,75 +1,73 @@
-import { pointCoordinates} from "../pointCoordinates";
+import { PointCoordinates} from "../pointCoordinates";
 
-export class domain {
+export class Domain {
     private xMin: number;
     private yMin: number;
     private xMax: number;
     private yMax: number;
-    
-    constructor(xMin : number, yMin : number, xMax:number, yMax: number){
-        this.xMin=xMin;
-        this.yMin=yMin;
-        this.xMax=xMax;
-        this.yMax=yMax;
+
+    public constructor(coordinatesNewPoint: PointCoordinates, coordinatesLastPointInArray: PointCoordinates) {
+        this.xMin = this.findMinDomain(coordinatesNewPoint, coordinatesLastPointInArray).getX();
+        this.yMin = this.findMinDomain(coordinatesNewPoint, coordinatesLastPointInArray).getY();
+        this.xMax = this.findMaxDomain(coordinatesNewPoint, coordinatesLastPointInArray).getX();
+        this.yMax = this.findMaxDomain(coordinatesNewPoint, coordinatesLastPointInArray).getY();
     }
-    findMinDomain(coordinatesNewPoint: pointCoordinates, coordinatesLastPointInArray: pointCoordinates) : pointCoordinates {
-        let minX : number = 0;
-        let minY : number = 0;
-        if(coordinatesNewPoint.getX() < coordinatesLastPointInArray.getX()){
+    
+    public findMinDomain(coordinatesNewPoint: PointCoordinates, coordinatesLastPointInArray: PointCoordinates): PointCoordinates {
+        let minX: number = 0;
+        let minY: number = 0;
+        if (coordinatesNewPoint.getX() < coordinatesLastPointInArray.getX()) {
             minX = coordinatesNewPoint.getX();
-        }
-        else {
+        } else {
             minX =  coordinatesLastPointInArray.getX();
         }
-        if(coordinatesNewPoint.getY() < coordinatesLastPointInArray.getY()){
+        if (coordinatesNewPoint.getY() < coordinatesLastPointInArray.getY()) {
             minY = coordinatesNewPoint.getY();
-        }
-        else {
+        } else {
             minY =  coordinatesLastPointInArray.getY();
         }
-    
-      return(  new pointCoordinates (minX,minY));
+
+        return(new PointCoordinates (minX, minY));
     }
-    findMaxDomain(coordinatesNewPoint: pointCoordinates, coordinatesLastPointInArray: pointCoordinates) : pointCoordinates {
-        let maxX : number = 0;
-        let maxY : number = 0;
-        if(coordinatesNewPoint.getX()> coordinatesLastPointInArray.getX()){
+    public findMaxDomain(coordinatesNewPoint: PointCoordinates, coordinatesLastPointInArray: PointCoordinates): PointCoordinates {
+        let maxX: number = 0;
+        let maxY: number = 0;
+        if (coordinatesNewPoint.getX() > coordinatesLastPointInArray.getX()){
             maxX = coordinatesNewPoint.getX();
-        }
-        else {
+        } else {
             maxX =  coordinatesLastPointInArray.getX();
         }
-        if(coordinatesNewPoint.getY()> coordinatesLastPointInArray.getY()){
+        if (coordinatesNewPoint.getY() > coordinatesLastPointInArray.getY()){
             maxY = coordinatesNewPoint.getY();
-        }
-        else {
+        } else {
             maxY =  coordinatesLastPointInArray.getY();
         }
-      return(  new pointCoordinates (maxX,maxY));
+
+        return(  new PointCoordinates (maxX, maxY));
     }
-    getXMin(){
+    public getXMin(): number {
         return this.xMin;
     }
-    getYMin(){
+    public getYMin(): number {
         return this.yMin;
     }
-    getXMax(){
+    public getXMax(): number {
         return this.xMax;
     }
-    getYMax(){
+    public getYMax(): number {
         return this.yMax;
     }
 
-    setXMin(xMin : number){
-        this.xMin=xMin
+    public setXMin(xMin: number): void {
+        this.xMin = xMin;
     }
-    setXMax(xMax : number){
-        this.xMax=xMax
+    public setXMax(xMax: number): void {
+        this.xMax = xMax;
     }
-    setYMin(yMin : number){
-        this.yMin=yMin
+    public setYMin(yMin: number): void {
+        this.yMin = yMin;
     }
-    setYMax(yMax : number){
-        this.yMax=yMax
+    public setYMax(yMax: number): void {
+        this.yMax = yMax;
     }
 }

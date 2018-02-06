@@ -1,8 +1,9 @@
 import { Component, OnInit, ElementRef, ViewChild} from "@angular/core";
-//We need to import the pointCoordinates class
-import { pointCoordinates } from "./pointCoordinates";
-import { Vector2 } from "three";
-import { vector } from "./vector/vector";
+// We need to import the pointCoordinates class
+import {PointCoordinates} from "./pointCoordinates";
+import { trackEditorModel } from "./track-editor-model";
+//import { Vector2 } from "three";
+//import { vector } from "./vector/vector";
 
 
 @Component({
@@ -10,213 +11,221 @@ import { vector } from "./vector/vector";
   templateUrl: "./track-editor.component.html",
   styleUrls: ["./track-editor.component.css"],
 })
- 
+
 export class TrackEditorComponent implements OnInit {
-  @ViewChild("canvas") 
+  @ViewChild("canvas")
   private canvasRef: ElementRef;
-  private pointArray: pointCoordinates[] = [];
   private ctx : any;
-  private currentPoint : number 
+  //private currentPoint : number 
   private mouseMovedEvent : any;  //So that each method can access the coordinates
                                   //at all times
   private mouseDown : boolean;    //Used for the drag and drop
+  private myTrackEditorModel : trackEditorModel;
   
-  constructor() { 
-     
-  }
 
-  ngOnInit() {
-    //We here initialise the canvas and get the context (ctx)
+  public ngOnInit(): void {
+    // We here initialise the canvas and get the context (ctx)
     this.ctx = this.canvasRef.nativeElement.getContext('2d');
-    //we set the canvas height and width attribute
+    // we set the canvas height and width attribute
     this.canvasRef.nativeElement.height = 800;
     this.canvasRef.nativeElement.width = 800;
 
-    //We initialise the mouseMovedEvent
+    // We initialise the mouseMovedEvent
     this.mouseMovedEvent = 0;
-    //We initiali
+    //We initialise the mouse down event to false
     this.mouseDown = false;
-  }
+    //We instanciate the model
+    this.myTrackEditorModel = new trackEditorModel;
 
-  canvasMouseUp(event: any){
-    this.mouseDown = false;
-    if(event.button === 0) {  //if it's a left click
-        this.canvasDrawPoint(event.layerX, event.layerY);
-    }else if (event.button === 2) { //Si c'est un clic droit
-      this.canvasEraseLastPoint();
-    }
   }
 
   canvasMouseDown(event: any){
     this.mouseDown = true;
   }
 
+  canvasMouseUp(event: any){
+    this.mouseDown = false;
+    let mouseCoordinates : PointCoordinates = new PointCoordinates(event.layerX, event.layerY);
+    //If it's a left click and the loop is not closed
+    if(event.button === 0 && !this.myTrackEditorModel.loopIsClosed()) {
+        this.canvasDrawPoint(mouseCoordinates);
+    }else if (event.button === 2) { //If it's a right click
+      this.canvasEraseLastPoint();
+    }
+
+    //The points can be absorbed if you do a drag and
+    //drop. We make sure the array doesn't contain any duplicated
+    //points with this function.
+    this.removeDuplicatedPoints();
+  }
+  
+  
   canvasMouseMoved(event: any){
-    this.mouseMovedEvent = event;  //We stock the mouseCoordinates inside the mouseMovedEvent variable
+    this.mouseMovedEvent = event;  // We stock the mouseCoordinates inside the mouseMovedEvent variable
 
-    if(!this.mouseDown){  
-      this.focusOnPoint();
-    }else{
+    if (this.mouseDown){
       this.dragNDrop();
+    }else{ //On colore les points si le focus est sur l'un d'eux
+      this.checkMouseFocus();
     }
   }
 
-
-  private focusOnPoint(){ //Checks if the focus is on the point or not
-    if(this.pointArray.length>0){
-      for(let point of this.pointArray){
-        if(this.mouseMovedEvent.layerX >= point.getX() - 10 && this.mouseMovedEvent.layerX <= point.getX() +10 &&
-          this.mouseMovedEvent.layerY >= point.getY() - 10 && this.mouseMovedEvent.layerY <= point.getY() + 10){
-            this.mouseOnPoint(point.getX(), point.getY());
-          }
-        else{
-            this.mouseNotOnPoint(point.getX(), point.getY());
-        }
-      }  
-    }
+  removeDuplicatedPoints(){
+    this.myTrackEditorModel.removeDuplicatedPoints();   
+    this.redrawCanvas();
   }
 
-  private mouseOnPoint(x: number, y: number){ //If the focus is on the point, it becomes green
+  canvasEraseLastPoint(){
+    this.myTrackEditorModel.eraseLastPoint();
+    this.redrawCanvas();
+   
+  }
+
+  drawLineOnCanvas(point1: PointCoordinates, point2: PointCoordinates){
     this.ctx.beginPath();
-    this.ctx.arc(x, y, 9, 0, 2*Math.PI);
-    this.ctx.fillStyle = "#00FF00";
+    this.ctx.moveTo(this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArrayLength() - 2).getX(), 
+                    this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArrayLength() - 2).getY());
+    this.ctx.lineTo(this.myTrackEditorModel.getSinglePoint(0).getX(), 
+                    this.myTrackEditorModel.getSinglePoint(0).getY());
+    this.ctx.strokeStyle="black";
+    this.ctx.stroke();
+  }
+  drawPointOnCanvas(point:PointCoordinates, color: string, size: number){
+    this.ctx.beginPath();
+    this.ctx.arc(point.getX(), point.getY(), size, 0, 2*Math.PI);
+    this.ctx.fillStyle = color;
     this.ctx.fill();
   }
 
-  private mouseNotOnPoint(x: number, y: number){ //If the focus is not on the point, it stays black 
-      this.ctx.beginPath();
-      //TODO CREER ET PUSH VECTOR ICI
-      //TODO INCREMENTER 
-      this.ctx.arc(x, y, 9, 0, 2*Math.PI);
-      this.ctx.fillStyle = "black";
-      this.ctx.fill();
+  canvasCloseLoop(){
+    this.myTrackEditorModel.closeLoop();
+
+    let point1:PointCoordinates = this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArrayLength() - 2);
+    let point2: PointCoordinates = this.myTrackEditorModel.getSinglePoint(0);
+    this.drawLineOnCanvas(point1, point2);
+ 
+ 
+   }
+
+  checkMouseFocus(){ //Checks if the focus is on a point or not
+    if(this.myTrackEditorModel.getPointArrayLength()>0){
+      for(let point of this.myTrackEditorModel.getPointArray()){
+        if(this.mouseMovedEvent.layerX >= point.getX() - 10 && this.mouseMovedEvent.layerX <= point.getX() +10 &&
+          this.mouseMovedEvent.layerY >= point.getY() - 10 && this.mouseMovedEvent.layerY <= point.getY() + 10){
+            this.mouseOnPoint(point.getX(), point.getY());
+          } else {
+            this.mouseNotOnPoint(point.getX(), point.getY());
+        }
+      }
+    }
   }
 
+  //If the focus is on the point, it becomes green
+  mouseOnPoint(x: number, y: number){ 
+    let tempPoint :PointCoordinates = new PointCoordinates(x, y);
+    this.drawPointOnCanvas(tempPoint, "#00FF00", 10);
+  }
 
-  private clickedOnExistingPoint(x: number, y: number){
-    for(let point of this.pointArray){
-        if(x >= point.getX() - 10 && x <= point.getX() +10 &&
-          y >= point.getY() - 10 && y <= point.getY() + 10){
+  //If the focus is not on the point, it stays black 
+  mouseNotOnPoint(x: number, y: number){ 
+     //TODO CREER ET PUSH VECTOR ICI
+      //TODO INCREMENTER 
+      let tempPoint :PointCoordinates = new PointCoordinates(x, y);
+      this.drawPointOnCanvas(tempPoint, "black", 9);
+      
+  }
+
+  clickedOnExistingPoint(x: number, y: number){
+    for(let point of this.myTrackEditorModel.getPointArray()){
+        if(x >= point.getX() - 20 && x <= point.getX() + 20 &&
+          y >= point.getY() - 20 && y <= point.getY() + 20){
               return true;
           }
       }
-                                      return false;
-                          }
-  private dragNDrop(){
+
+    return false;
+    }
+
+  dragNDrop(){
+    let mouseCoordinates: PointCoordinates = new PointCoordinates(this.mouseMovedEvent.layerX, this.mouseMovedEvent.layerY);
     //Je trouve le point sur lequel il a cliqué
-    for(let point of this.pointArray){
-      if(this.mouseMovedEvent.layerX >= point.getX() - 10 && this.mouseMovedEvent.layerX <= point.getX() +10 &&
-        this.mouseMovedEvent.layerY >= point.getY() - 10 && this.mouseMovedEvent.layerY <= point.getY() + 10){
-            this.pointArray[this.pointArray.indexOf(point)].setX(this.mouseMovedEvent.layerX);
-            this.pointArray[this.pointArray.indexOf(point)].setY(this.mouseMovedEvent.layerY);
+    for(let point of this.myTrackEditorModel.getPointArray()){
+      if(this.mouseMovedEvent.layerX >= point.getX() - 15 && this.mouseMovedEvent.layerX <= point.getX() +15 &&
+        this.mouseMovedEvent.layerY >= point.getY() - 15 && this.mouseMovedEvent.layerY <= point.getY() + 15){
+            
+          this.myTrackEditorModel.setPointCoordinates(this.myTrackEditorModel.getPointArray().indexOf(point), mouseCoordinates);
         }
     }
     this.eraseCanvas();
     this.redrawCanvas();
   }
-
-  canvasCloseLoop(){
-    this.ctx.beginPath();
-    this.ctx.moveTo(this.pointArray[this.pointArray.length-1].getX(), 
-                      this.pointArray[this.pointArray.length-1].getY());
-    this.ctx.lineTo(this.pointArray[0].getX(), 
-                      this.pointArray[0].getY());
-    this.ctx.strokeStyle="black";
-    this.ctx.stroke();
-  }
+  
 
 
-  canvasDrawPoint(x : number, y : number){
+  canvasDrawPoint(mouseCoordinates: PointCoordinates){
     //if I clicked on a point and the arrayLength is superior to three
-    if(this.pointArray.length >=3 && this.clickedOnFirstPoint(x, y)){
+    if(this.myTrackEditorModel.getPointArrayLength() >=3 && this.myTrackEditorModel.clickedOnFirstPoint(mouseCoordinates)){
       this.canvasCloseLoop(); //I can close the circuit
-    }else if(!this.clickedOnExistingPoint(x, y)){
-      this.ctx.beginPath();
-      this.ctx.arc(x, y, 9, 0, 2*Math.PI);
-      this.ctx.fillStyle = "#00FF00";
-      this.ctx.fill();
+    }else if(!this.myTrackEditorModel.clickedOnExistingPoint(mouseCoordinates)){
+      this.myTrackEditorModel.addPoint(mouseCoordinates);
 
-      this.pointArray.push(new pointCoordinates(x,y));
+      this.drawPointOnCanvas(mouseCoordinates, "#00FF00", 10);
 
-      if(this.pointArray.length == 1){
+      if(this.myTrackEditorModel.getPointArrayLength() == 1){
         this.ctx.beginPath();
-        this.ctx.arc(x, y, 10, 0, 2*Math.PI);
-        this.ctx.lineWidth = 5;
+        this.ctx.arc(mouseCoordinates.getX(), mouseCoordinates.getY(), 10, 0, 2*Math.PI);
+        this.ctx.lineWidth = 10;
         this.ctx.strokeStyle = "blue";
         this.ctx.stroke();
-        //We reset the line Width
+        // We reset the line Width
         this.ctx.lineWidth = 2;
       }
-      
       this.canvasDrawLine();
     }
   }
 
 
   canvasDrawLine(){
-    if(this.pointArray.length >= 2)
+    if(this.myTrackEditorModel.getPointArrayLength() >= 2)
     {
-      this.ctx.beginPath();
-      this.ctx.moveTo(this.pointArray[this.pointArray.length-2].getX(), 
-                      this.pointArray[this.pointArray.length-2].getY());
-      this.ctx.lineTo(this.pointArray[this.pointArray.length-1].getX(), 
-                      this.pointArray[this.pointArray.length-1].getY());
-      this.ctx.strokeStyle="black";
-      this.ctx.stroke();
+      let point1: PointCoordinates = this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArrayLength() - 2);
+      let point2: PointCoordinates = this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArrayLength()-1);
+      this.drawLineOnCanvas(point1, point2);
+
     }
   }
-  redrawCanvas(){
-     //We redraw the points
-     for(let i of this.pointArray){
-      this.ctx.beginPath();
-      this.ctx.arc(i.getX(), i.getY(), 9, 0, 2*Math.PI);
-      this.ctx.fillStyle = "black";
-      this.ctx.fill();
 
-      if(this.pointArray.indexOf(i) === 0){
+  redrawCanvas(){
+    this.eraseCanvas();
+    // We redraw the points
+     for(let i of this.myTrackEditorModel.getPointArray()){
+      this.drawPointOnCanvas(i, "black", 9);
+
+      //We redraw the shit for the point
+      if(this.myTrackEditorModel.getPointArray().indexOf(i) === 0){
         this.ctx.beginPath();
-        this.ctx.arc(i.getX(), i.getY(), 10, 0, 2*Math.PI);
+        this.ctx.arc(i.getX(), i.getY(), 10, 0, Math.PI * 2);
         this.ctx.lineWidth = 5;
         this.ctx.strokeStyle = "blue";
         this.ctx.stroke();
-        //We reset the line Width
+        // We reset the line Width
         this.ctx.lineWidth = 2;
       }
-      //We draw the lines back
-      if(this.pointArray.indexOf(i) != 0 ){
+     // We draw the lines back
+      else{
         this.ctx.beginPath();
-        this.ctx.moveTo(this.pointArray[this.pointArray.indexOf(i) - 1].getX(), 
-                      this.pointArray[this.pointArray.indexOf(i)-1].getY());
+        this.ctx.moveTo(this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArray().indexOf(i)-1).getX(), 
+                        this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArray().indexOf(i)-1).getY());
         this.ctx.lineTo(i.getX(), i.getY());
-        this.ctx.strokeStyle="black";
+        this.ctx.strokeStyle = "black";
         this.ctx.stroke();
-        
-        
+
       }
     }
   }
+
   eraseCanvas(){
     this.ctx.clearRect(0, 0, 800, 800);
   }
 
-  canvasEraseLastPoint(){
-    this.pointArray.splice(this.pointArray.length-1);
-
-    //We clear the canvas
-    this.eraseCanvas();
-
-    this.redrawCanvas();
-   
-  }
-  
-  clickedOnFirstPoint(x: number, y: number){
-    let clickedOnFirstPoint: boolean = false;
-
-    if((x <= this.pointArray[0].getX() + 10 && x >= this.pointArray[0].getX() - 10) &&
-    (y <= this.pointArray[0].getY() + 10 && y >= this.pointArray[0].getY() - 10) ){
-      clickedOnFirstPoint = true;
-    }
-
-    return clickedOnFirstPoint;
-  }
 }
