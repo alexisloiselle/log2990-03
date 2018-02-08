@@ -12,6 +12,8 @@ import { TrackEditorComponent } from "./track-editor/track-editor.component";
 import { GameService} from "./game.service";
 import { TrackListComponent } from "./track-list/track-list.component";
 import { RaceTrackComponent } from "./race-track/race-track.component";
+import { AppRoutingModule } from "./app-routing.module";
+import { CrosswordComponent } from './crossword/crossword.component';
 
 @NgModule({
     declarations: [
@@ -19,11 +21,13 @@ import { RaceTrackComponent } from "./race-track/race-track.component";
         GameComponent,
         TrackEditorComponent,
         TrackListComponent,
-        RaceTrackComponent
+        RaceTrackComponent,
+        CrosswordComponent
     ],
     imports: [
         BrowserModule,
-        HttpClientModule
+        HttpClientModule,
+        AppRoutingModule
     ],
     providers: [
         RenderService,
