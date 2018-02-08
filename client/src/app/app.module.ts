@@ -13,7 +13,9 @@ import { GameService} from "./game.service";
 import { TrackListComponent } from "./track-list/track-list.component";
 import { RaceTrackComponent } from "./race-track/race-track.component";
 import { AppRoutingModule } from "./app-routing.module";
-import { CrosswordComponent } from './crossword/crossword.component';
+import { CrosswordComponent } from "./crossword/crossword.component";
+import { CarRaceComponent } from "./car-race/car-race.component";
+import { HomepageComponent } from "./homepage/homepage.component";
 
 @NgModule({
     declarations: [
@@ -22,7 +24,9 @@ import { CrosswordComponent } from './crossword/crossword.component';
         TrackEditorComponent,
         TrackListComponent,
         RaceTrackComponent,
-        CrosswordComponent
+        CrosswordComponent,
+        CarRaceComponent,
+        HomepageComponent
     ],
     imports: [
         BrowserModule,

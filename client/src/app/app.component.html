@@ -2,16 +2,17 @@
 
 <div style="text-align:center">
     <h1>
-        Welcome to {{title}}!
+        Projet des {{teamName}}!
     </h1>
 </div>
 <div>
-    <nav>
-        <a routerLink="/cargame">Course automobile</a>
-        <a routerLink="/racetrack">Race Track</a>
-        <a routerLink="/trackeditor">Track Editor</a>
-        <a routerLink="/tracklist">Track List</a>
-        <a routerLink="/crossword">Crossword</a>
-    </nav>   
+    <nav class="nav nav-pills nav-fill">
+        <a class="nav-item nav-link active" routerLink="/homepage" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home"
+            aria-selected="true">Page d'accueil</a>
+        <a class="nav-item nav-link" routerLink="/car-race" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home"
+            aria-selected="true">Course Automobile</a>
+        <a class="nav-item nav-link" routerLink="/crossword" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home"
+            aria-selected="true">Mots Croisés</a>
+    </nav>
 </div>
 <router-outlet></router-outlet>
