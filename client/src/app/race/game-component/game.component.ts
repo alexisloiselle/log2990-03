@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, ViewChild, HostListener } from "@angular/core";
-import { RenderService } from "../render-service/render.service";
+import { RenderService } from "../../render-service/render.service";
 import { Car } from "../car/car";
 
 @Component({
