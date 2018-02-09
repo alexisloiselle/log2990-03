@@ -7,18 +7,20 @@ const MIN_ANGLE_IN_RADIAN: number = (45 / 180) * Math.PI;
 @Injectable()
 export class TrackEditorConstraintService {
 
-    private verifyAngle(firstVector: Vector, secondVector: Vector): boolean {
+    public verifyAngle(firstVector: Vector, secondVector: Vector): boolean {
         return firstVector.calculateAngle(secondVector) >= MIN_ANGLE_IN_RADIAN;
     }
 
-    private verifyIsIntersecting(firstVector: Vector, secondVector: Vector): boolean {
+    public verifyIsIntersecting(firstVector: Vector, secondVector: Vector): boolean {
         const intersectionPoint: PointCoordinates = firstVector.calculateVectorIntersection(secondVector);
-        return !(firstVector.isParallel(secondVector))
-            && firstVector.pointIsInCommunDomain(intersectionPoint, secondVector);
+
+        return ((!(firstVector.isParallel(secondVector)))
+            && firstVector.pointIsInCommunDomain(intersectionPoint, secondVector));
+
     }
 
     public allConstraintPass(firstVector: Vector, secondVector: Vector): boolean {
-        return this.verifyAngle(firstVector, secondVector) 
+        return this.verifyAngle(firstVector, secondVector)
             && !this.verifyIsIntersecting(firstVector, secondVector);
 
     }
