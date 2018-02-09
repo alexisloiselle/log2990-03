@@ -28,9 +28,10 @@ export class Vector {
         return(new Equation(coordinatesNewPoint, coordinatesLastPointInArray));
     }
 
+    // POSSIBLEMENT À ENLEVER
     public createArrayVector(arrayPointCoordinates: PointCoordinates[]): Vector[] { // a tester
         const arrayVector: Vector[] = []; // mis const a cause de tslint
-        for (let i: number = 0 ; i < arrayPointCoordinates.length - 2 ; i++ ) { // 2 pour ne pas lire la derniere case du array
+        for (let i: number = 0 ; i < arrayPointCoordinates.length - 1 ; i++ ) { // 2 pour ne pas lire la derniere case du array
             const newVector: Vector = new Vector(arrayPointCoordinates[i], arrayPointCoordinates[i + 1]);
             arrayVector.push(newVector);
         }
@@ -40,7 +41,7 @@ export class Vector {
 
     public calculateVectorIntersection(secondVector: Vector): PointCoordinates {
 
-        // Calculer point d<intersection
+        // Calculer point d'intersection
 
         if (!(this.isParallel(secondVector))) {
         const xIntersection: number = (secondVector.getConstant() - this.getConstant()) / (this.getSlope() - secondVector.getSlope());
@@ -101,10 +102,17 @@ export class Vector {
     public calculateAngle(secondVector: Vector): number {
     if (!(this.isParallel(secondVector))) {
        if (secondVector.vector.angle() > this.vector.angle()) {
-            return(secondVector.vector.angle() - this.vector.angle());
-        }
+        let angleRadian = secondVector.vector.angle() - this.vector.angle();
+        let  angleDegree = angleRadian*180/ Math.PI;
+        console.log(angleDegree);
+            return(angleDegree);
+        } else {
 
-       return(this.vector.angle() - secondVector.vector.angle());
+          let angleRadian = this.vector.angle() - secondVector.vector.angle();
+          let angleDegree = angleRadian*180/ Math.PI;
+          console.log(angleDegree);
+          return(angleDegree);
+        }
         }
 
     return (NaN);

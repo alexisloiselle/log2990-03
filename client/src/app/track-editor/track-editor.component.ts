@@ -2,6 +2,8 @@ import { Component, OnInit, ElementRef, ViewChild } from "@angular/core";
 // We need to import the pointCoordinates class
 import { PointCoordinates } from "./pointCoordinates";
 import { TrackEditorModel } from "./track-editor-model";
+import { TrackEditorConstraintService } from "./track-editor-constraint.service";
+import { Vector} from "./vector/vector";
 // import { Vector2 } from "three";
 // import { vector } from "./vector/vector";
 
@@ -9,6 +11,7 @@ import { TrackEditorModel } from "./track-editor-model";
     selector: "app-track-editor",
     templateUrl: "./track-editor.component.html",
     styleUrls: ["./track-editor.component.css"],
+    providers: [TrackEditorConstraintService]
 })
 
 export class TrackEditorComponent implements OnInit {
@@ -35,8 +38,12 @@ export class TrackEditorComponent implements OnInit {
         // We initialise the mouse down event to false
         this.mouseDown = false;
         // We instanciate the model
-        this.myTrackEditorModel = new TrackEditorModel;
 
+
+    }
+
+    public constructor(private trackEditorConstraintService: TrackEditorConstraintService) {
+      this.myTrackEditorModel = new TrackEditorModel(this.trackEditorConstraintService);
     }
 
     public canvasMouseDown(event: {}): void {
@@ -83,9 +90,9 @@ export class TrackEditorComponent implements OnInit {
     public drawLineOnCanvas(point1: PointCoordinates, point2: PointCoordinates): void {
         this.ctx.beginPath();
         this.ctx.moveTo(this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArrayLength() - 2).getX(),
-            this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArrayLength() - 2).getY());
+                        this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArrayLength() - 2).getY());
         this.ctx.lineTo(this.myTrackEditorModel.getSinglePoint(0).getX(),
-            this.myTrackEditorModel.getSinglePoint(0).getY());
+                        this.myTrackEditorModel.getSinglePoint(0).getY());
         this.ctx.strokeStyle = "black";
         this.ctx.stroke();
     }
@@ -160,6 +167,8 @@ export class TrackEditorComponent implements OnInit {
         }
         this.eraseCanvas();
         this.redrawCanvas();
+
+        this.trackEditorConstraintService.allConstraintPass(this.myTrackEditorModel.getPointArray());
     }
 
     public canvasDrawPoint(mouseCoordinates: PointCoordinates): void {
@@ -187,6 +196,8 @@ export class TrackEditorComponent implements OnInit {
             }
             this.canvasDrawLine();
         }
+
+        this.trackEditorConstraintService.allConstraintPass(this.myTrackEditorModel.getPointArray());
     }
 
     public canvasDrawLine(): void {
@@ -216,7 +227,7 @@ export class TrackEditorComponent implements OnInit {
             } else { // We draw the lines back
                 this.ctx.beginPath();
                 this.ctx.moveTo(this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArray().indexOf(i) - 1).getX(),
-                    this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArray().indexOf(i) - 1).getY());
+                                this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArray().indexOf(i) - 1).getY());
                 this.ctx.lineTo(i.getX(), i.getY());
                 this.ctx.strokeStyle = "black";
                 this.ctx.stroke();
