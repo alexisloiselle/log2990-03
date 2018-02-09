@@ -3,18 +3,18 @@ import { NgModule } from "@angular/core";
 import { HttpClientModule } from "@angular/common/http";
 
 import { AppComponent } from "./app.component";
-import { GameComponent } from "./game-component/game.component";
+import { GameComponent } from "./race/game-component/game.component";
 
 import { RenderService } from "./render-service/render.service";
 import { BasicService } from "./basic.service";
-import { TrackEditorComponent } from "./track-editor/track-editor.component";
+import { TrackEditorComponent } from "./race/track-editor/track-editor.component";
 
 import { GameService} from "./game.service";
-import { TrackListComponent } from "./track-list/track-list.component";
-import { RaceTrackComponent } from "./race-track/race-track.component";
+import { TrackListComponent } from "./race/track-list/track-list.component";
+import { RaceTrackComponent } from "./race/race-track/race-track.component";
 import { AppRoutingModule } from "./app-routing.module";
-import { CrosswordComponent } from "./crossword/crossword.component";
-import { CarRaceComponent } from "./car-race/car-race.component";
+import { CrosswordMainComponent } from "./crossword/crossword-main/crossword-main.component";
+import { RaceMainComponent } from "./race/race-main/race-main.component";
 import { HomepageComponent } from "./homepage/homepage.component";
 
 @NgModule({
@@ -24,8 +24,8 @@ import { HomepageComponent } from "./homepage/homepage.component";
         TrackEditorComponent,
         TrackListComponent,
         RaceTrackComponent,
-        CrosswordComponent,
-        CarRaceComponent,
+        CrosswordMainComponent,
+        RaceMainComponent,
         HomepageComponent
     ],
     imports: [
