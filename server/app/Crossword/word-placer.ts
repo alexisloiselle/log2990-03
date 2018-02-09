@@ -17,15 +17,15 @@ export class WordPlacer {
             return true;
         }
 
-        console.log(constraintsQueue);
-        constraintsQueue = this.addEngenderedWords(grid, constraintsQueue, wordInGrid, pos);
+        console.log("current word ===============");
+        console.log(constraintsQueue[pos]);
 
         let wordsPattern: string[] = this.lexicon.getWordsFromPattern(pattern, false);
         let word: string = "";
         let randNum: number = Math.floor(Math.random() * wordsPattern.length);
 
         if (wordsPattern.length === 0) {
-            console.log(`wordsPattern.length === 0, avant loop`);
+            console.log("backtracked - no words of that pattern: '" + pattern + "'");
             return false;
         } else {
             word = wordsPattern[randNum];
@@ -34,6 +34,9 @@ export class WordPlacer {
         while (wordsPattern.length !== 0) {
             console.log(`entré dans la loop : ${word} = ${wordsPattern.length}`);
             this.placeWord(grid, constraintsQueue[pos], word);
+            constraintsQueue = this.addEngenderedWords(grid, constraintsQueue, wordInGrid, pos);
+            //#region log grid
+
             for (let i = 0; i < grid.length; i++) {
                 for (let j = 0; j < grid[i].length; j++) {
                     if (grid[i][j].getIsBlack()) {
@@ -46,25 +49,26 @@ export class WordPlacer {
                 }
                 console.log('');
             }
+            //#endregion
+
+            console.log("next word ===============");
+            console.log(constraintsQueue[pos+1]);
             if (this.fitWord(grid, constraintsQueue, wordInGrid, pos + 1, this.findPattern(grid, constraintsQueue[pos + 1]))) {
                 console.log(`fini dans la loop : ${word}`);
                 return true;
             }
-            console.log("wordspattern length before removing " + wordsPattern.length);
-            console.log(wordsPattern.length === 1);
             wordsPattern.splice(randNum, 1);
-            console.log("wordspattern length after removing " + wordsPattern.length);
 
             this.removeWord(grid, constraintsQueue[pos]);
             console.log(wordsPattern[0] + " random number = " + randNum);
             randNum = Math.floor(Math.random() * wordsPattern.length);
             word = wordsPattern[randNum];
         }
-
-        console.log(`wordsPattern.length === 0, après loop`);
+        console.log("backtracked - no more words to try with pattern: '" + pattern + "'");
         return false;
     }
 
+    //clairement besoin de refactoring (30 lignes)
     private addEngenderedWords(grid: Case[][], constraintsQueue: Word[], wordInGrid: Word[], pos: number): Word[] {
         let line: number = constraintsQueue[pos].getLine();
         let column: number = constraintsQueue[pos].getColumn();
@@ -116,7 +120,7 @@ export class WordPlacer {
                 column = orientation === Direction.Horizontal ? column + 1 : column;
         }
 
-
+        //#region log grid
         // for (let i = 0; i < grid.length; i++) {
         //     for (let j = 0; j < grid[i].length; j++) {
         //         if (grid[i][j].getIsBlack()) {
@@ -143,54 +147,36 @@ export class WordPlacer {
             console.log('');
         }
         console.log(`pattern ------------${pattern}----------`);
+        //#endregion
         return pattern;
     }
 
-    // public fitWord(grid: Case[][], wordsInGrid: Word[], pos: number): boolean {
-    //     // Recursive algo to place words in all the slot in the grid
-    //     const sameLengthWords: string[] = this.lexicon.getWordsByLength(wordsInGrid[pos].getLength(), false);
-    //     for (const word of sameLengthWords) {
-    //         if (this.placeWord(grid, wordsInGrid[pos], word)) {
-    //             if (pos + 1 === wordsInGrid.length || this.fitWord(grid, wordsInGrid, pos + 1)) {
-    //                 return true;
-    //             } else {
-    //                 this.removeWord(grid, wordsInGrid[pos]);
-    //             }
-    //         }
-    //     }
-
-    //     return false;
-    // }
-
     public placeWord(grid: Case[][], gridWord: Word, wordToAdd: string): boolean {
         // Places the word in the grid if all constraints are compliant
-        if (gridWord.getLength() === wordToAdd.length) {
-            let line: number = gridWord.getLine();
-            let column: number = gridWord.getColumn();
-            let orientation: Direction = gridWord.getOrientation();
+        let line: number = gridWord.getLine();
+        let column: number = gridWord.getColumn();
+        let orientation: Direction = gridWord.getOrientation();
 
-            // Make sure the word respects the constraints
-            for (const char of wordToAdd) {
-                if (grid[line][column].getIsAConstraint() && grid[line][column].getRightLetter() !== ""
-                    && grid[line][column].getRightLetter() !== char) {
-                    return false;
-                }
-                line = orientation === Direction.Horizontal ? line : line + 1;
-                column = orientation === Direction.Horizontal ? column + 1 : column;
+        // Make sure the word respects the constraints
+        for (const char of wordToAdd) {
+            if (grid[line][column].getIsAConstraint() && grid[line][column].getRightLetter() !== ""
+                && grid[line][column].getRightLetter() !== char) {
+                console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+                return false;
             }
-            line = gridWord.getLine();
-            column = gridWord.getColumn();
-            // If so, we place it
-            for (const char of wordToAdd) {
-                grid[line][column].setRightLetter(char);
-                line = orientation === Direction.Horizontal ? line : line + 1;
-                column = orientation === Direction.Horizontal ? column + 1 : column;
-            }
-
-            return true;
+            line = orientation === Direction.Horizontal ? line : line + 1;
+            column = orientation === Direction.Horizontal ? column + 1 : column;
+        }
+        line = gridWord.getLine();
+        column = gridWord.getColumn();
+        // If so, we place it
+        for (const char of wordToAdd) {
+            grid[line][column].setRightLetter(char);
+            line = orientation === Direction.Horizontal ? line : line + 1;
+            column = orientation === Direction.Horizontal ? column + 1 : column;
         }
 
-        return false;
+        return true;
     }
 
     public removeWord(grid: Case[][], word: Word): void {
