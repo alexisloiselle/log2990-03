@@ -11,12 +11,12 @@ export class GridScanner {
                 if (grid[line][column].getHorizontalPositionInWord() === 0
                 && grid[line][column].getHorizontalWordLength() > minimumWordLength
                 && !grid[line][column].getIsBlack()) {
-                    words.push(new Word(line, column, grid[line][column].getHorizontalWordLength(), Direction.Horizontal));
+                    words.push(new Word(line, column, grid[line][column].getHorizontalWordLength(), Direction.Horizontal, ""));
                 }
                 if (grid[line][column].getVerticalPositionInWord() === 0
                 && grid[line][column].getVerticalWordLength() > minimumWordLength
                 && !grid[line][column].getIsBlack()) {
-                    words.push(new Word(line, column, grid[line][column].getVerticalWordLength(), Direction.Vertical));
+                    words.push(new Word(line, column, grid[line][column].getVerticalWordLength(), Direction.Vertical, ""));
                 }
             }
         }

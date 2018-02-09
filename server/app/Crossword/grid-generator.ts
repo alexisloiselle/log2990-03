@@ -18,7 +18,7 @@ export class GridGenerator {
         const grid: Case[][] = blankGridCreator.createGrid(height, width);
 
         const blackCaseGenerator: BlackCaseGenerator = new BlackCaseGenerator(height, width);
-        const PERCENTAGE: number = 50;
+        const PERCENTAGE: number = 40;
         blackCaseGenerator.generateBlackCases(grid, PERCENTAGE);
 
         const gridScanner: GridScanner = new GridScanner();
@@ -26,8 +26,22 @@ export class GridGenerator {
 
         this.words.sort((a: Word, b: Word) => b.getLength() - a.getLength());
         const wordPlacer: WordPlacer = new WordPlacer();
+        const pattern = " ".repeat(this.words[0].getLength());
         wordPlacer.identifyConstraint(grid);
-        wordPlacer.fitWord(grid, this.words, 0);
+        while(!wordPlacer.fitWord(grid, this.words, 0, pattern)){}
+
+        //#region alexis
+        for(let i =0 ; i < grid.length; i++){
+            for(let j = 0; j < grid[i].length; j++){
+                if(grid[i][j].getIsBlack()){
+                    process.stdout.write('#');
+                }else{
+                    process.stdout.write(grid[i][j].getRightLetter());
+                } 
+            }
+            console.log('');
+        }
+        //#endregion
 
         return grid;
     }
