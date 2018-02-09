@@ -59,7 +59,7 @@ export class WordPlacer {
             }
             wordsPattern.splice(randNum, 1);
 
-            this.removeWord(grid, constraintsQueue[pos]);
+            this.removeWord(grid, constraintsQueue[pos], pattern);
             console.log(wordsPattern[0] + " random number = " + randNum);
             randNum = Math.floor(Math.random() * wordsPattern.length);
             word = wordsPattern[randNum];
@@ -179,47 +179,48 @@ export class WordPlacer {
         return true;
     }
 
-    public removeWord(grid: Case[][], word: Word): void {
+    public removeWord(grid: Case[][], word: Word, pattern: string): void {
         // Removes all the chars of the word that arent part of a word in the other orientation from the grid
         const line: number = word.getLine();
         const column: number = word.getColumn();
+        console.log("remove pattern : "+pattern);
         if (word.getOrientation() === Direction.Horizontal) {
             for (let i: number = 0; i < word.getLength(); i++) {
-                if (!this.charPartOfVerticalWord(grid, line, column + i)) {
+                if (pattern[i] === " ") {
                     grid[line][column + i].setRightLetter("");
                 }
             }
         } else if (word.getOrientation() === Direction.Vertical) {
             for (let i: number = 0; i < word.getLength(); i++) {
-                if (!this.charPartOfHorizontalWord(grid, line + i, column)) {
+                if (pattern[i] === " ") {
                     grid[line + i][column].setRightLetter("");
                 }
             }
         }
     }
 
-    private charPartOfVerticalWord(grid: Case[][], line: number, column: number): boolean {
-        // Tells if the char at this position is part of a vertical word
+    // private charPartOfVerticalWord(grid: Case[][], line: number, column: number): boolean {
+    //     // Tells if the char at this position is part of a vertical word
         
-        const partVert: boolean = (grid[line][column].getIsAConstraint()
-        && ((grid[line][column].getVerticalPositionInWord() !== 0
-            && grid[line - 1][column].getRightLetter() !== "")
-        || (grid[line][column].getVerticalPositionInWord() !== grid[line][column].getVerticalWordLength() - 1
-            && grid[line + 1][column].getRightLetter() !== "")));
-        console.log(`is part of vertical word: ${partVert}`);
+    //     const partVert: boolean = (grid[line][column].getIsAConstraint()
+    //     && ((grid[line][column].getVerticalPositionInWord() !== 0
+    //         && grid[line - 1][column].getRightLetter() !== "")
+    //     || (grid[line][column].getVerticalPositionInWord() !== grid[line][column].getVerticalWordLength() - 1
+    //         && grid[line + 1][column].getRightLetter() !== "")));
+    //     console.log(`is part of vertical word: ${partVert}`);
 
-        return partVert;
-    }
+    //     return partVert;
+    // }
 
-    private charPartOfHorizontalWord(grid: Case[][], line: number, column: number): boolean {
-        // Tells if the char at this position is part of a horizontal word
-        const partHor: boolean = (grid[line][column].getIsAConstraint()
-        && ((grid[line][column].getHorizontalPositionInWord() !== 0
-            && grid[line][column - 1].getRightLetter() !== "")
-        || (grid[line][column].getHorizontalPositionInWord() !== grid[line][column].getHorizontalWordLength() - 1
-            && grid[line][column + 1].getRightLetter() !== "")));
-        console.log(`is part of horizontal word: ${partHor}`);
-        return partHor;
-    }
+    // private charPartOfHorizontalWord(grid: Case[][], line: number, column: number): boolean {
+    //     // Tells if the char at this position is part of a horizontal word
+    //     const partHor: boolean = (grid[line][column].getIsAConstraint()
+    //     && ((grid[line][column].getHorizontalPositionInWord() !== 0
+    //         && grid[line][column - 1].getRightLetter() !== "")
+    //     || (grid[line][column].getHorizontalPositionInWord() !== grid[line][column].getHorizontalWordLength() - 1
+    //         && grid[line][column + 1].getRightLetter() !== "")));
+    //     console.log(`is part of horizontal word: ${partHor}`);
+    //     return partHor;
+    // }
 
 }
