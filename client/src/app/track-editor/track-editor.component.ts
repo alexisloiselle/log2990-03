@@ -3,7 +3,7 @@ import { Component, OnInit, ElementRef, ViewChild } from "@angular/core";
 import { PointCoordinates } from "./pointCoordinates";
 import { TrackEditorModel } from "./track-editor-model";
 import { TrackEditorConstraintService } from "./track-editor-constraint.service";
-import { Vector} from "./vector/vector";
+
 // import { Vector2 } from "three";
 // import { vector } from "./vector/vector";
 
@@ -43,7 +43,7 @@ export class TrackEditorComponent implements OnInit {
     }
 
     public constructor(private trackEditorConstraintService: TrackEditorConstraintService) {
-      this.myTrackEditorModel = new TrackEditorModel(this.trackEditorConstraintService);
+      this.myTrackEditorModel = new TrackEditorModel();
     }
 
     public canvasMouseDown(event: {}): void {

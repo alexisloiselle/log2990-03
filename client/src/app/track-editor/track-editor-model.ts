@@ -1,5 +1,5 @@
 import { PointCoordinates } from "./pointCoordinates";
-import { TrackEditorConstraintService} from "./track-editor-constraint.service";
+
 
 /*Classe qui s'occuppe de manipuler le tableau de points.
 C'est notre modèle.*/
@@ -9,9 +9,7 @@ export class TrackEditorModel {
     private pointArray: PointCoordinates[] = [];
     // private myTrackEditorConstraintService: TrackEditorConstraintService;
 
-    public constructor(private myTrackEditorConstraintService: TrackEditorConstraintService) {
-
-   }
+   
     public getPointArray(): PointCoordinates[] {
         return this.pointArray;
     }

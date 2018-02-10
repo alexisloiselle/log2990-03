@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { Vector } from "./vector/vector";
 import { PointCoordinates } from "./pointCoordinates";
 
-const MIN_ANGLE_IN_RADIAN: number = (45 / 180) * Math.PI;
+const MIN_ANGLE_IN_DEGREE: number = 45;
 @Injectable()
 export class TrackEditorConstraintService {
 
@@ -18,7 +18,7 @@ export class TrackEditorConstraintService {
   }
 
   public verifyAngle(firstVector: Vector, secondVector: Vector): boolean {
-      return firstVector.calculateAngle(secondVector) >= MIN_ANGLE_IN_RADIAN;
+      return firstVector.calculateAngle(secondVector) >= MIN_ANGLE_IN_DEGREE;
   }
 
   public verifyIsIntersecting(firstVector: Vector, secondVector: Vector): boolean {
