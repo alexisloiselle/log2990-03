@@ -32,11 +32,14 @@ export class WordPlacer {
         }
 
         while (wordsPattern.length !== 0) {
-            console.log(`entré dans la loop : ${word} = ${wordsPattern.length}`);
+            console.log(`entré dans la loop : ${word} = ${wordsPattern.length}, constraints number: ${pos}`);
             this.placeWord(grid, constraintsQueue[pos], word);
             constraintsQueue = this.addEngenderedWords(grid, constraintsQueue, wordInGrid, pos);
-            //#region log grid
 
+            //#region log grid
+            for(let i = 0; i < constraintsQueue.length; i++){
+                console.log(`constraintsQueue pos ${i}, x: ${constraintsQueue[i].getLine()}, y: ${constraintsQueue[i].getColumn()}, horizontal? ${constraintsQueue[i].getOrientation() === Direction.Horizontal?"yes":"no"}`);
+            }
             for (let i = 0; i < grid.length; i++) {
                 for (let j = 0; j < grid[i].length; j++) {
                     if (grid[i][j].getIsBlack()) {
@@ -84,8 +87,10 @@ export class WordPlacer {
                             && word.getLine() + word.getLength() - 1 >= line
                             && word.getOrientation() !== orientation;
                     });
-                    if(constraintsQueue.indexOf(wordEngendered) === -1)
+                    if(constraintsQueue.indexOf(wordEngendered) === -1){
                         constraintsQueue.push(wordEngendered);
+                        console.log("pushed");
+                    }
             } else if(orientation === Direction.Vertical
                 && grid[line][column].getIsAConstraint()) {
                     console.log(`is horizontal word constraint`);
@@ -95,14 +100,26 @@ export class WordPlacer {
                             && word.getColumn() + word.getLength() - 1 >= column
                             && word.getOrientation() !== orientation;
                     });
-                    if(constraintsQueue.indexOf(wordEngendered) === -1)
+                    if(constraintsQueue.indexOf(wordEngendered) === -1){
                         constraintsQueue.push(wordEngendered);
+                        console.log("pushed");
+                    }
             }
             line = orientation === Direction.Horizontal ? line : line + 1;
             column = orientation === Direction.Horizontal ? column + 1 : column;
         }
-        constraintsQueue.sort((a: Word, b: Word) => b.getNbConstraints() - a.getNbConstraints());
+        this.partialSortConstraints(constraintsQueue, pos + 1, constraintsQueue.length);
         return constraintsQueue;
+    }
+
+    private partialSortConstraints(array: Word[], start: number, end: number) {
+        let preSorted: Word[] = array.slice(0, start), postSorted: Word[] = array.slice(end);
+        let sorted = array.slice(start, end).sort(((a: Word, b: Word) => {
+            return b.getNbConstraints() - a.getNbConstraints();
+        }));
+        array.length = 0;
+        array.push.apply(array, preSorted.concat(sorted).concat(postSorted));
+        return array;
     }
 
     private findPattern(grid: Case[][], wordInGrid: Word): string {
@@ -183,7 +200,7 @@ export class WordPlacer {
         // Removes all the chars of the word that arent part of a word in the other orientation from the grid
         const line: number = word.getLine();
         const column: number = word.getColumn();
-        console.log("remove pattern : "+pattern);
+        console.log("remove pattern : " + pattern);
         if (word.getOrientation() === Direction.Horizontal) {
             for (let i: number = 0; i < word.getLength(); i++) {
                 if (pattern[i] === " ") {
@@ -198,29 +215,4 @@ export class WordPlacer {
             }
         }
     }
-
-    // private charPartOfVerticalWord(grid: Case[][], line: number, column: number): boolean {
-    //     // Tells if the char at this position is part of a vertical word
-        
-    //     const partVert: boolean = (grid[line][column].getIsAConstraint()
-    //     && ((grid[line][column].getVerticalPositionInWord() !== 0
-    //         && grid[line - 1][column].getRightLetter() !== "")
-    //     || (grid[line][column].getVerticalPositionInWord() !== grid[line][column].getVerticalWordLength() - 1
-    //         && grid[line + 1][column].getRightLetter() !== "")));
-    //     console.log(`is part of vertical word: ${partVert}`);
-
-    //     return partVert;
-    // }
-
-    // private charPartOfHorizontalWord(grid: Case[][], line: number, column: number): boolean {
-    //     // Tells if the char at this position is part of a horizontal word
-    //     const partHor: boolean = (grid[line][column].getIsAConstraint()
-    //     && ((grid[line][column].getHorizontalPositionInWord() !== 0
-    //         && grid[line][column - 1].getRightLetter() !== "")
-    //     || (grid[line][column].getHorizontalPositionInWord() !== grid[line][column].getHorizontalWordLength() - 1
-    //         && grid[line][column + 1].getRightLetter() !== "")));
-    //     console.log(`is part of horizontal word: ${partHor}`);
-    //     return partHor;
-    // }
-
 }
