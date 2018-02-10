@@ -22,10 +22,10 @@ describe("Track-Editor-Constraint", () => {
     const FIRST_VECTOR_INTERSECTION: Vector = new Vector( new PointCoordinates(0, 0), new PointCoordinates(5, 5));
     const SECOND_VECTOR_INTERSECTION: Vector = new Vector(new PointCoordinates(0, 5), new PointCoordinates(5, 0));
 
-    let pointArray: PointCoordinates[];
-    pointArray.push(POINT_START);
-    pointArray.push(POINT_END);
-    pointArray.push(POINT_LESS_45);
+    // let pointArray: PointCoordinates[];
+    // pointArray.push(POINT_START);
+    // pointArray.push(POINT_END);
+    // pointArray.push(POINT_LESS_45);
 
     it("Angle should be less than 45 degree", () => {
         expect(VECTOR_TEST.calculateAngle(VECTOR_TEST_LESS_45).toFixed(3)).toBeLessThan(FORTY_FIVE_DEGREE);

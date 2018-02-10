@@ -5,16 +5,13 @@ export class Domain {
     private yMin: number;
     private xMax: number;
     private yMax: number;
-    private startPoint: PointCoordinates;
-    private endPoint: PointCoordinates
 
     public constructor(coordinatesNewPoint: PointCoordinates, coordinatesLastPointInArray: PointCoordinates) {
         this.xMin = this.findMinDomain(coordinatesNewPoint, coordinatesLastPointInArray).getX();
         this.yMin = this.findMinDomain(coordinatesNewPoint, coordinatesLastPointInArray).getY();
         this.xMax = this.findMaxDomain(coordinatesNewPoint, coordinatesLastPointInArray).getX();
         this.yMax = this.findMaxDomain(coordinatesNewPoint, coordinatesLastPointInArray).getY();
-        this.startPoint = coordinatesLastPointInArray;
-        this.endPoint = coordinatesNewPoint;
+
     }
     public findMinDomain(coordinatesNewPoint: PointCoordinates, coordinatesLastPointInArray: PointCoordinates): PointCoordinates {
         let minX: number = 0;
@@ -51,12 +48,6 @@ export class Domain {
     }
     public getYMax(): number {
         return this.yMax;
-    }
-    public getStartPoint(): PointCoordinates {
-        return this.startPoint;
-    }
-    public getEndPoint(): PointCoordinates {
-        return this.endPoint;
     }
 
     public setXMin(xMin: number): void {

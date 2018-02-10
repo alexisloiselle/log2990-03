@@ -3,11 +3,13 @@ import { PointCoordinates} from "../pointCoordinates";
 import { Domain } from "./domain";
 import { Equation} from "./equation";
 
+const POWER_OF_TWO: number = 2;
+const LAW_OF_COSINUS_CONSTANT: number = 2;
 export class Vector {
     private domain: Domain;
     private equation: Equation;
     private startPoint: PointCoordinates;
-    private endPoint: PointCoordinates
+    private endPoint: PointCoordinates;
 
     public constructor(coordinatesNewPoint: PointCoordinates, coordinatesLastPointInArray: PointCoordinates) {
         this.domain = this.createDomain(coordinatesNewPoint, coordinatesLastPointInArray) ;
@@ -97,20 +99,18 @@ export class Vector {
     }
 
     public calculateVectorLenght(): number {
-        return (Math.sqrt(Math.pow(this.endPoint.getX()-this.startPoint.getX(),2) + Math.pow(this.endPoint.getY()-this.startPoint.getY(),2)) );
+        return (Math.sqrt(Math.pow(this.endPoint.getX() - this.startPoint.getX(), POWER_OF_TWO) + Math.pow(this.endPoint.getY() -
+        this.startPoint.getY(),                                                                            POWER_OF_TWO)));
     }
 
-        
-        
+    public calculateAngle(firstVector: Vector): number {
+        const oppositeVectorFromAngle: Vector = new Vector (this.endPoint, firstVector.startPoint);
+        return (180 * (Math.acos(((Math.pow(this.calculateVectorLenght(), POWER_OF_TWO)) + 
+                    (Math.pow(firstVector.calculateVectorLenght(), POWER_OF_TWO)) -
+                    (Math.pow(oppositeVectorFromAngle.calculateVectorLenght(), POWER_OF_TWO))) / 
+                    (POWER_OF_TWO * this.calculateVectorLenght() *
+                    firstVector.calculateVectorLenght()))) / Math.PI);
 
-
-    public calculateAngle(firstVector : Vector): number {
-        
-        let oppositeVectorFromAngle: Vector = new Vector (this.endPoint, firstVector.startPoint);
-        
-        return 180*(Math.acos(((Math.pow(this.calculateVectorLenght(),2)) + (Math.pow(firstVector.calculateVectorLenght(),2)) - 
-        (Math.pow(oppositeVectorFromAngle.calculateVectorLenght(),2)))/(2 * this.calculateVectorLenght() * firstVector.calculateVectorLenght())))/Math.PI;
-        
     }
 
     public findMinDomain(coordinatesNewPoint: PointCoordinates, coordinatesLastPointInArray: PointCoordinates): PointCoordinates {
