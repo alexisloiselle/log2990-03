@@ -1,3 +1,23 @@
-<p>
-  crossword works!
-</p>
+<body>
+  <div id="modeSelector">
+    Veuillez sélectionner le mode désiré :
+    <div class="container">
+      <div class="row">
+        <div class="btn-group  buttonsModeSelector" data-toggle="buttons" (click)="goToSinglePlayer();">
+          <button type="button" class="btn btn-outline-primary  gameMode">
+            <img src="./../../../assets/mode-icon/single-player.png">
+            <br>Seul
+          </button>
+          <button type="button" class="btn btn-outline-primary  gameMode" (click)="goToMultiplayer();">
+            <img src="./../../../assets/mode-icon/multiplayer.png">
+            <br>Avec un ami
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="copyrights">
+    <a href="https://www.freepik.com/free-photos-vectors/people">People vector created by Muammark - Freepik.com</a>
+  </div>
+</body>
