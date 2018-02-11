@@ -61,6 +61,7 @@ describe("Lexicon", () => {
             expect(wordsWithPattern.length).to.be.equal(PATTERN_LENGTH);
             expect(wordsWithPattern).to.contain("hello");
             expect(wordsWithPattern).to.contain("house");
+
         });
         it("should contain 2 uncommon words with pattern: ' ert  '", () => {
             const PATTERN_LENGTH: number = 2;
@@ -68,6 +69,10 @@ describe("Lexicon", () => {
             expect(wordsWithPattern.length).to.be.equal(PATTERN_LENGTH);
             expect(wordsWithPattern).to.contain("bertha");
             expect(wordsWithPattern).to.contain("certes");
+        });
+        it("should contain 0 common words with pattern: 'ajsjddh'", () => {
+            const wordsWithPattern: string[] = lexicon.getWordsFromPattern("ajsjddh", false);
+            expect(wordsWithPattern).to.be.an("array").that.is.empty;
         });
     });
 });
