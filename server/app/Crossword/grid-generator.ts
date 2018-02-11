@@ -29,19 +29,18 @@ export class GridGenerator {
         this.words.sort((a: Word, b: Word) => b.getNbConstraints() - a.getNbConstraints());
         const constraintsQueue: Word[] = [];
         constraintsQueue.push(this.words[0]);
-        const pattern = " ".repeat(constraintsQueue[0].getLength());
+        const pattern: string = " ".repeat(constraintsQueue[0].getLength());
         while (!wordPlacer.fitWord(grid, constraintsQueue, this.words, 0, pattern)) { }
-
         //#region alexis
-        for (let i = 0; i < grid.length; i++) {
-            for (let j = 0; j < grid[i].length; j++) {
-                if (grid[i][j].getIsBlack()) {
-                    process.stdout.write('#');
+        for (const row of grid) {
+            for (const position of row) {
+                if (position.getIsBlack()) {
+                    process.stdout.write("#");
                 } else {
-                    process.stdout.write(grid[i][j].getRightLetter());
+                    process.stdout.write(position.getRightLetter());
                 }
             }
-            console.log('');
+            console.log("");
         }
         //#endregion
 
