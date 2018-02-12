@@ -7,3 +7,8 @@ h1{
     font-size: 36pt;
     font-weight: bold;
 }
+
+#mainMenu {
+    margin-bottom: 3%;
+    font-size: 14pt;
+}

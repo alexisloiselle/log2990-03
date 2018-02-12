@@ -11,8 +11,6 @@ img{
 }
 
 #modeSelector {
-    margin-top: 3%;
-    font-size: 18pt;
     text-align: center;
 }
 
@@ -43,4 +41,6 @@ img{
     position: fixed;
     bottom: 0;
     width: 100%;
+    font-size: 12pt;
+    text-align: center;
  }
