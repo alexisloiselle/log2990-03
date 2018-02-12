@@ -1,0 +1,46 @@
+.btn-primary{
+    background-color: transparent;
+    border-color: transparent;
+}
+
+img{
+    width: 70%;
+    height: 70%;
+    position: relative;
+    right: 2%;
+}
+
+#modeSelector {
+    text-align: center;
+}
+
+.gameMode {
+    position:relative;
+    left:20%;
+    width: 400px;
+    height: 400px;
+    font-size: 16pt;
+    margin: 3pt;
+ }
+
+
+ .buttonsModeSelector{
+     margin-top: 5%
+ }
+
+ .gameMode:hover {
+    background-color: #008cff34;
+ }
+
+ .btn-primary:focus, .btn-primary:active, .btn-primary.active {
+     background-color: transparent;
+     border-color: transparent;
+ }
+
+ #copyrights {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    font-size: 12pt;
+    text-align: center;
+ }

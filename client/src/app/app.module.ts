@@ -16,6 +16,9 @@ import { AppRoutingModule } from "./app-routing.module";
 import { CrosswordMainComponent } from "./crossword/crossword-main/crossword-main.component";
 import { RaceMainComponent } from "./race/race-main/race-main.component";
 import { HomepageComponent } from "./homepage/homepage.component";
+import { SinglePlayerMenuComponent } from "./crossword/single-player-menu/single-player-menu.component";
+import { MultiplayerMenuComponent } from "./crossword/multiplayer-menu/multiplayer-menu.component";
+import { SinglePlayerGameComponent } from "./crossword/single-player-game/single-player-game.component";
 
 @NgModule({
     declarations: [
@@ -26,7 +29,10 @@ import { HomepageComponent } from "./homepage/homepage.component";
         RaceTrackComponent,
         CrosswordMainComponent,
         RaceMainComponent,
-        HomepageComponent
+        HomepageComponent,
+        SinglePlayerMenuComponent,
+        MultiplayerMenuComponent,
+        SinglePlayerGameComponent
     ],
     imports: [
         BrowserModule,
