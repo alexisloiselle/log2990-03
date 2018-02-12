@@ -16,12 +16,22 @@ img{
 
 .gameMode {
     position:relative;
-    left:20%;
     width: 400px;
     height: 400px;
     font-size: 16pt;
     margin: 3pt;
  }
+
+.btn-group-wrap {
+    text-align: center;
+}
+
+div.btn-group {
+    margin: 0 auto; 
+    text-align: center;
+    width: inherit;
+    display: inline-block;
+}
 
 
  .buttonsModeSelector{
