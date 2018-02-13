@@ -30,7 +30,7 @@ export class GridGenerator {
             gridScanner.identifyConstraint(grid, this.words);
             for (let i = 0; i < grid.length; i++) {
                 for (let j = 0; j < grid[i].length; j++) {
-                    if (grid[i][j].getIsAConstraint()) {
+                    if (grid[i][j].IsAConstraint) {
                         ++cpt;
                     }
                 }
@@ -44,13 +44,8 @@ export class GridGenerator {
         this.words.sort((a: Word, b: Word) => b.NbConstraints - a.NbConstraints);
         const constraintsQueue: Word[] = [];
         constraintsQueue.push(this.words[0]);
-<<<<<<< HEAD
         while (!wordPlacer.fitWord(grid, constraintsQueue, this.words, 0)) { }
 
-=======
-        const pattern: string = " ".repeat(constraintsQueue[0].Length);
-        wordPlacer.fitWord(grid, constraintsQueue, this.words, 0, pattern);
->>>>>>> master
         //#region alexis
         for (const row of grid) {
             for (const position of row) {

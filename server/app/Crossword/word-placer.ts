@@ -20,7 +20,7 @@ export class WordPlacer {
                     return constraintsQueue.indexOf(word) === -1;
                 })
                 .sort((a, b) => {
-                    return b.getNbConstraints() - a.getNbConstraints();
+                    return b.NbConstraints - a.NbConstraints;
                 })[0]);
             }
         }
@@ -62,7 +62,6 @@ export class WordPlacer {
         for (let i: number = 0; i < constraintsQueue[pos].Length; i++) {
             if (orientation === Direction.Horizontal
                 && grid[line][column].IsAConstraint) {
-                    console.log(`is vertical word constraint`);
                     const wordEngendered: Word = wordInGrid.find((word: Word) => {
                         return word.Column === column
                             && word.Line <= line
@@ -74,7 +73,6 @@ export class WordPlacer {
                     }
             } else if (orientation === Direction.Vertical
                 && grid[line][column].IsAConstraint) {
-                    console.log(`is horizontal word constraint`);
                     const wordEngendered: Word = wordInGrid.find((word: Word) => {
                         return word.Line === line
                             && word.Column <= column
@@ -153,7 +151,6 @@ export class WordPlacer {
         // Removes all the chars of the word that arent part of a word in the other orientation from the grid
         const line: number = word.Line;
         const column: number = word.Column;
-        console.log("remove pattern : " + pattern);
         if (word.Orientation === Direction.Horizontal) {
             for (let i: number = 0; i < word.Length; i++) {
                 if (pattern[i] === " ") {

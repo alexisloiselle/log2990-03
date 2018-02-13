@@ -8,17 +8,6 @@ export class GridScanner {
         const minimumWordLength: number = 2;
         for (let line: number = 0; line < grid.length; line++) {
             for (let column: number = 0; column < grid[0].length; column++) {
-<<<<<<< HEAD
-                if (grid[line][column].getHorizontalPositionInWord() === 0
-                    && grid[line][column].getHorizontalWordLength() > minimumWordLength
-                    && !grid[line][column].getIsBlack()) {
-                    words.push(new Word(line, column, grid[line][column].getHorizontalWordLength(), Direction.Horizontal,""));
-                }
-                if (grid[line][column].getVerticalPositionInWord() === 0
-                    && grid[line][column].getVerticalWordLength() > minimumWordLength
-                    && !grid[line][column].getIsBlack()) {
-                    words.push(new Word(line, column, grid[line][column].getVerticalWordLength(), Direction.Vertical,""));
-=======
                 if (grid[line][column].HorizontalPositionInWord === 0
                     && grid[line][column].HorizontalWordLength > minimumWordLength
                     && !grid[line][column].IsBlack) {
@@ -28,7 +17,6 @@ export class GridScanner {
                     && grid[line][column].VerticalWordLength > minimumWordLength
                     && !grid[line][column].IsBlack) {
                     words.push(new Word(line, column, grid[line][column].VerticalWordLength, Direction.Vertical, ""));
->>>>>>> master
                 }
             }
         }
