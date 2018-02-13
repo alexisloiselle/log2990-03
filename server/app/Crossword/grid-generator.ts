@@ -18,26 +18,37 @@ export class GridGenerator {
             let grid: Case[][];
     
             const PERCENTAGE: number = 40;
-    
-            let cpt = 26;
-            while (cpt > 25) {
-                cpt = 0;
-                const blankGridCreator: BlankGridCreator = new BlankGridCreator();
-                const blackCaseGenerator: BlackCaseGenerator = new BlackCaseGenerator(height, width);
-                grid = blankGridCreator.createGrid(height, width)
-                blackCaseGenerator.generateBlackCases(grid, PERCENTAGE);
-                const gridScanner: GridScanner = new GridScanner();
-                this.words = gridScanner.findWords(grid);
-                gridScanner.identifyConstraint(grid, this.words);
-                for (let i = 0; i < grid.length; i++) {
-                    for (let j = 0; j < grid[i].length; j++) {
-                        if (grid[i][j].IsAConstraint) {
-                            ++cpt;
-                        }
+
+            let cpt = 0;
+            const blankGridCreator: BlankGridCreator = new BlankGridCreator();
+            const blackCaseGenerator: BlackCaseGenerator = new BlackCaseGenerator(height, width);
+            grid = blankGridCreator.createGrid(height, width)
+            blackCaseGenerator.generateBlackCases(grid, PERCENTAGE);
+            const gridScanner: GridScanner = new GridScanner();
+            this.words = gridScanner.findWords(grid);
+            gridScanner.identifyConstraint(grid, this.words);
+            for (let i = 0; i < grid.length; i++) {
+                for (let j = 0; j < grid[i].length; j++) {
+                    if (grid[i][j].IsAConstraint) {
+                        ++cpt;
                     }
                 }
-                console.log(cpt);
             }
+            console.log(cpt);
+            //#region alexis
+            for (const row of grid) {
+                for (const position of row) {
+                    if (position.IsAConstraint) {
+                        process.stdout.write("C");
+                    } else if (position.IsBlack) {
+                        process.stdout.write("#");
+                    } else {
+                        process.stdout.write(" ");
+                    }
+                }
+                console.log("");
+            }
+            //#endregion
     
     
     
