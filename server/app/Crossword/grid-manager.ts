@@ -12,7 +12,7 @@ export class GridManager {
         this.grid = gridManager.generateGrid(DIMENSION, DIMENSION);
     }
 
-    public getGrid(): Case[][] {
+    get Grid(): Case[][] {
         return this.grid;
     }
 }

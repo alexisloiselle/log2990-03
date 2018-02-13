@@ -41,21 +41,26 @@ export class GridGenerator {
 
 
         const wordPlacer: WordPlacer = new WordPlacer();
-        this.words.sort((a: Word, b: Word) => b.getNbConstraints() - a.getNbConstraints());
+        this.words.sort((a: Word, b: Word) => b.NbConstraints - a.NbConstraints);
         const constraintsQueue: Word[] = [];
         constraintsQueue.push(this.words[0]);
+<<<<<<< HEAD
         while (!wordPlacer.fitWord(grid, constraintsQueue, this.words, 0)) { }
 
+=======
+        const pattern: string = " ".repeat(constraintsQueue[0].Length);
+        wordPlacer.fitWord(grid, constraintsQueue, this.words, 0, pattern);
+>>>>>>> master
         //#region alexis
-        for (let i = 0; i < grid.length; i++) {
-            for (let j = 0; j < grid[i].length; j++) {
-                if (grid[i][j].getIsBlack()) {
-                    process.stdout.write('#');
+        for (const row of grid) {
+            for (const position of row) {
+                if (position.IsBlack) {
+                    process.stdout.write("#");
                 } else {
-                    process.stdout.write(grid[i][j].getRightLetter());
+                    process.stdout.write(position.RightLetter);
                 }
             }
-            console.log('');
+            console.log("");
         }
         //#endregion
 

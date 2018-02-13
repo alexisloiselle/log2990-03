@@ -27,7 +27,7 @@ export class WordPlacer {
         let pattern = this.findPattern(grid, constraintsQueue[pos]);
 
 
-        let wordsPattern: string[] = this.lexicon.getWordsFromPattern(pattern, false);
+        const wordsPattern: string[] = this.lexicon.getWordsFromPattern(pattern, false);
         let word: string = "";
         let randNum: number = Math.floor(Math.random() * wordsPattern.length);
 
@@ -41,22 +41,6 @@ export class WordPlacer {
             this.placeWord(grid, constraintsQueue[pos], word);
             constraintsQueue = this.addEngenderedWords(grid, constraintsQueue, wordInGrid, pos);
 
-            //#region log grid
-            for(let i = 0; i < constraintsQueue.length; i++){
-            }
-            // for (let i = 0; i < grid.length; i++) {
-            //     for (let j = 0; j < grid[i].length; j++) {
-            //         if (grid[i][j].getIsBlack()) {
-            //             process.stdout.write('#');
-            //         } else if (grid[i][j].getRightLetter() === "") {
-            //             process.stdout.write(" ");
-            //         } else {
-            //             process.stdout.write(grid[i][j].getRightLetter());
-            //         }
-            //     }
-            // }
-            //#endregion
-
             if (this.fitWord(grid, constraintsQueue, wordInGrid, pos + 1)) {
                 return true;
             }
@@ -69,33 +53,35 @@ export class WordPlacer {
         return false;
     }
 
-    //clairement besoin de refactoring (30 lignes)
+    // clairement besoin de refactoring (30 lignes)
     private addEngenderedWords(grid: Case[][], constraintsQueue: Word[], wordInGrid: Word[], pos: number): Word[] {
-        let line: number = constraintsQueue[pos].getLine();
-        let column: number = constraintsQueue[pos].getColumn();
-        let orientation: Direction = constraintsQueue[pos].getOrientation();
+        let line: number = constraintsQueue[pos].Line;
+        let column: number = constraintsQueue[pos].Column;
+        const orientation: Direction = constraintsQueue[pos].Orientation;
 
-        for (let i = 0; i < constraintsQueue[pos].getLength(); i++) {
+        for (let i: number = 0; i < constraintsQueue[pos].Length; i++) {
             if (orientation === Direction.Horizontal
-                && grid[line][column].getIsAConstraint()) {
-                    let wordEngendered = wordInGrid.find((word) => {
-                        return word.getColumn() === column
-                            && word.getLine() <= line
-                            && word.getLine() + word.getLength() - 1 >= line
-                            && word.getOrientation() !== orientation;
+                && grid[line][column].IsAConstraint) {
+                    console.log(`is vertical word constraint`);
+                    const wordEngendered: Word = wordInGrid.find((word: Word) => {
+                        return word.Column === column
+                            && word.Line <= line
+                            && word.Line + word.Length - 1 >= line
+                            && word.Orientation !== orientation;
                     });
-                    if(constraintsQueue.indexOf(wordEngendered) === -1){
+                    if (constraintsQueue.indexOf(wordEngendered) === -1) {
                         constraintsQueue.push(wordEngendered);
                     }
-            } else if(orientation === Direction.Vertical
-                && grid[line][column].getIsAConstraint()) {
-                    let wordEngendered = wordInGrid.find((word) => {
-                        return word.getLine() === line
-                            && word.getColumn() <= column
-                            && word.getColumn() + word.getLength() - 1 >= column
-                            && word.getOrientation() !== orientation;
+            } else if (orientation === Direction.Vertical
+                && grid[line][column].IsAConstraint) {
+                    console.log(`is horizontal word constraint`);
+                    const wordEngendered: Word = wordInGrid.find((word: Word) => {
+                        return word.Line === line
+                            && word.Column <= column
+                            && word.Column + word.Length - 1 >= column
+                            && word.Orientation !== orientation;
                     });
-                    if(constraintsQueue.indexOf(wordEngendered) === -1){
+                    if (constraintsQueue.indexOf(wordEngendered) === -1) {
                         constraintsQueue.push(wordEngendered);
                     }
             }
@@ -103,81 +89,59 @@ export class WordPlacer {
             column = orientation === Direction.Horizontal ? column + 1 : column;
         }
         this.partialSortConstraints(constraintsQueue, pos + 1, constraintsQueue.length);
+
         return constraintsQueue;
     }
 
-    private partialSortConstraints(array: Word[], start: number, end: number) {
-        let preSorted: Word[] = array.slice(0, start), postSorted: Word[] = array.slice(end);
-        let sorted = array.slice(start, end).sort(((a: Word, b: Word) => {
-            return b.getNbConstraints() - a.getNbConstraints();
+    private partialSortConstraints(array: Word[], start: number, end: number): Word[] {
+        const preSorted: Word[] = array.slice(0, start), postSorted: Word[] = array.slice(end);
+        const sorted: Word[] = array.slice(start, end).sort(((a: Word, b: Word) => {
+            return b.NbConstraints - a.NbConstraints;
         }));
         array.length = 0;
         array.push.apply(array, preSorted.concat(sorted).concat(postSorted));
+
         return array;
     }
 
     private findPattern(grid: Case[][], wordInGrid: Word): string {
-        let line: number = wordInGrid.getLine();
-        let column: number = wordInGrid.getColumn();
-        let orientation: Direction = wordInGrid.getOrientation();
+        let line: number = wordInGrid.Line;
+        let column: number = wordInGrid.Column;
+        const orientation: Direction = wordInGrid.Orientation;
         let pattern: string = "";
 
-        for (let i = 0; i < wordInGrid.getLength(); i++) {
-            pattern = grid[line][column].getRightLetter() === ""
+        for (let i: number = 0; i < wordInGrid.Length; i++) {
+            pattern = grid[line][column].RightLetter === ""
                 ? pattern.concat(" ")
-                : pattern.concat(grid[line][column].getRightLetter());
+                : pattern.concat(grid[line][column].RightLetter);
 
-                line = orientation === Direction.Horizontal ? line : line + 1;
-                column = orientation === Direction.Horizontal ? column + 1 : column;
+            line = orientation === Direction.Horizontal ? line : line + 1;
+            column = orientation === Direction.Horizontal ? column + 1 : column;
         }
-
-        //#region log grid
-        // for (let i = 0; i < grid.length; i++) {
-        //     for (let j = 0; j < grid[i].length; j++) {
-        //         if (grid[i][j].getIsBlack()) {
-        //             process.stdout.write('#');
-        //         } else if (grid[i][j].getRightLetter() === "") {
-        //             process.stdout.write(" ");
-        //         } else {
-        //             process.stdout.write(grid[i][j].getRightLetter());
-        //         }
-        //     }
-        // }
-        // for (let i = 0; i < grid.length; i++) {
-        //     for (let j = 0; j < grid[i].length; j++) {
-        //         if (grid[i][j].getIsBlack()) {
-        //             process.stdout.write('#');
-        //         } else if (!grid[i][j].getIsAConstraint()) {
-        //             process.stdout.write(" ");
-        //         } else {
-        //             process.stdout.write("C");
-        //         }
-        //     }
-        // }
-        //#endregion
         return pattern;
     }
 
     public placeWord(grid: Case[][], gridWord: Word, wordToAdd: string): boolean {
         // Places the word in the grid if all constraints are compliant
-        let line: number = gridWord.getLine();
-        let column: number = gridWord.getColumn();
-        let orientation: Direction = gridWord.getOrientation();
+        let line: number = gridWord.Line;
+        let column: number = gridWord.Column;
+        const orientation: Direction = gridWord.Orientation;
 
         // Make sure the word respects the constraints
         for (const char of wordToAdd) {
-            if (grid[line][column].getIsAConstraint() && grid[line][column].getRightLetter() !== ""
-                && grid[line][column].getRightLetter() !== char) {
+            if (grid[line][column].IsAConstraint && grid[line][column].RightLetter !== ""
+                && grid[line][column].RightLetter !== char) {
+
                 return false;
             }
             line = orientation === Direction.Horizontal ? line : line + 1;
             column = orientation === Direction.Horizontal ? column + 1 : column;
         }
-        line = gridWord.getLine();
-        column = gridWord.getColumn();
+        line = gridWord.Line;
+        column = gridWord.Column;
         // If so, we place it
         for (const char of wordToAdd) {
-            grid[line][column].setRightLetter(char);
+            grid[line][column].RightLetter = char;
             line = orientation === Direction.Horizontal ? line : line + 1;
             column = orientation === Direction.Horizontal ? column + 1 : column;
         }
@@ -187,18 +151,19 @@ export class WordPlacer {
 
     public removeWord(grid: Case[][], word: Word, pattern: string): void {
         // Removes all the chars of the word that arent part of a word in the other orientation from the grid
-        const line: number = word.getLine();
-        const column: number = word.getColumn();
-        if (word.getOrientation() === Direction.Horizontal) {
-            for (let i: number = 0; i < word.getLength(); i++) {
+        const line: number = word.Line;
+        const column: number = word.Column;
+        console.log("remove pattern : " + pattern);
+        if (word.Orientation === Direction.Horizontal) {
+            for (let i: number = 0; i < word.Length; i++) {
                 if (pattern[i] === " ") {
-                    grid[line][column + i].setRightLetter("");
+                    grid[line][column + i].RightLetter = "";
                 }
             }
-        } else if (word.getOrientation() === Direction.Vertical) {
-            for (let i: number = 0; i < word.getLength(); i++) {
+        } else if (word.Orientation === Direction.Vertical) {
+            for (let i: number = 0; i < word.Length; i++) {
                 if (pattern[i] === " ") {
-                    grid[line + i][column].setRightLetter("");
+                    grid[line + i][column].RightLetter = "";
                 }
             }
         }

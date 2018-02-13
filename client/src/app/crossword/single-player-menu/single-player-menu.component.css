@@ -1,0 +1,22 @@
+#difficultySelector {
+    text-align: center;
+}
+
+#returnToModeSelection {
+    font-size: 14pt;
+}
+
+#buttonsModeSelector {
+    text-align: center;
+}
+
+.btn-group-wrap {
+    text-align: center;
+}
+
+div.btn-group {
+    margin: 0 auto; 
+    text-align: center;
+    width: inherit;
+    display: inline-block;
+}

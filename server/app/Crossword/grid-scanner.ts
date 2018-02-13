@@ -8,6 +8,7 @@ export class GridScanner {
         const minimumWordLength: number = 2;
         for (let line: number = 0; line < grid.length; line++) {
             for (let column: number = 0; column < grid[0].length; column++) {
+<<<<<<< HEAD
                 if (grid[line][column].getHorizontalPositionInWord() === 0
                     && grid[line][column].getHorizontalWordLength() > minimumWordLength
                     && !grid[line][column].getIsBlack()) {
@@ -17,6 +18,17 @@ export class GridScanner {
                     && grid[line][column].getVerticalWordLength() > minimumWordLength
                     && !grid[line][column].getIsBlack()) {
                     words.push(new Word(line, column, grid[line][column].getVerticalWordLength(), Direction.Vertical,""));
+=======
+                if (grid[line][column].HorizontalPositionInWord === 0
+                    && grid[line][column].HorizontalWordLength > minimumWordLength
+                    && !grid[line][column].IsBlack) {
+                    words.push(new Word(line, column, grid[line][column].HorizontalWordLength, Direction.Horizontal, ""));
+                }
+                if (grid[line][column].VerticalPositionInWord === 0
+                    && grid[line][column].VerticalWordLength > minimumWordLength
+                    && !grid[line][column].IsBlack) {
+                    words.push(new Word(line, column, grid[line][column].VerticalWordLength, Direction.Vertical, ""));
+>>>>>>> master
                 }
             }
         }
@@ -27,29 +39,30 @@ export class GridScanner {
     public identifyConstraint(grid: Case[][], wordsInGrid: Word[]): void {
         // Set isAConstraint attribute to true for all the cases that are part of 2 words
         const minimumWordLength: number = 2;
-        for (let i = 0; i < grid.length; i++) {
-            for (let j = 0; j < grid[i].length; j++) {
-                if (grid[i][j].getHorizontalWordLength() > minimumWordLength && grid[i][j].getVerticalWordLength() > minimumWordLength) {
-                    grid[i][j].setIsAConstraint(true);
+        for (let i: number = 0; i < grid.length; i++) {
+            for (let j: number = 0; j < grid[i].length; j++) {
+                if (grid[i][j].HorizontalWordLength > minimumWordLength && grid[i][j].VerticalWordLength > minimumWordLength) {
+                    grid[i][j].IsAConstraint = true;
 
-                    const wordsWithPos = this.getWordsWithPos(wordsInGrid, i, j);
-                    for (const word of wordsWithPos)
-                        word.setNbConstraints(word.getNbConstraints() + 1);
+                    const wordsWithPos: Word[] = this.getWordsWithPos(wordsInGrid, i, j);
+                    for (const word of wordsWithPos) {
+                        word.NbConstraints = word.NbConstraints + 1;
+                    }
                 }
             }
         }
     }
 
     private getWordsWithPos(wordsInGrid: Word[], line: number, column: number): Word[] {
-        return wordsInGrid.filter((word) => {
-            if (word.getOrientation() === Direction.Horizontal) {
-                return word.getLine() === line
-                    && word.getColumn() <= column
-                    && word.getColumn() + word.getLength() - 1 >= column;
+        return wordsInGrid.filter((word: Word) => {
+            if (word.Orientation === Direction.Horizontal) {
+                return word.Line === line
+                    && word.Column <= column
+                    && word.Column + word.Length - 1 >= column;
             } else {
-                return word.getColumn() === column
-                    && word.getLine() <= line
-                    && word.getLine() + word.getLength() - 1 >= line;
+                return word.Column === column
+                    && word.Line <= line
+                    && word.Line + word.Length - 1 >= line;
             }
         });
     }

@@ -17,59 +17,59 @@ export class Case {
         this.rightLetter = "";
     }
 
-    public getIsBlack(): boolean {
+    get IsBlack(): boolean {
         return this.isBlack;
     }
 
-    public getHorizontalWordLength(): number {
-        return this.horizontalWordLength;
-    }
-
-    public getHorizontalPositionInWord(): number {
-        return this.horizontalPositionInWord;
-    }
-
-    public getVerticalWordLength(): number {
-        return this.verticalWordLength;
-    }
-
-    public getVerticalPositionInWord(): number {
-        return this.verticalPositionInWord;
-    }
-
-    public getRightLetter(): string {
-        return this.rightLetter;
-    }
-
-    public getIsAConstraint(): boolean {
-        return this.isAConstraint;
-    }
-
-    public setIsBlack(value: boolean): void {
+    set IsBlack(value: boolean) {
         this.isBlack = value;
     }
 
-    public setHorizontalWordLength(value: number): void {
+    get HorizontalWordLength(): number {
+        return this.horizontalWordLength;
+    }
+
+    set HorizontalWordLength(value: number) {
         this.horizontalWordLength = value;
     }
 
-    public setHorizontalPositionInWord(value: number): void {
+    get HorizontalPositionInWord(): number {
+        return this.horizontalPositionInWord;
+    }
+
+    set HorizontalPositionInWord(value: number) {
         this.horizontalPositionInWord = value;
     }
 
-    public setVerticalWordLength(value: number): void {
+    get VerticalWordLength(): number {
+        return this.verticalWordLength;
+    }
+
+    set VerticalWordLength(value: number) {
         this.verticalWordLength = value;
     }
 
-    public setVerticalPositionInWord(value: number): void {
+    get VerticalPositionInWord(): number {
+        return this.verticalPositionInWord;
+    }
+
+    set VerticalPositionInWord(value: number) {
         this.verticalPositionInWord = value;
     }
 
-    public setRightLetter(value: string): void {
+    get RightLetter(): string {
+        return this.rightLetter;
+    }
+
+    set RightLetter(value: string) {
         this.rightLetter = value;
     }
 
-    public setIsAConstraint(value: boolean): void {
+    get IsAConstraint(): boolean {
+        return this.isAConstraint;
+    }
+
+    set IsAConstraint(value: boolean) {
         this.isAConstraint = value;
     }
 }
