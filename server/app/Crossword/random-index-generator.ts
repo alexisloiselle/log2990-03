@@ -9,7 +9,7 @@ export class RandomIndexGenerator {
         }
     }
 
-    public getArray(): number[] {
+    get Array(): number[] {
         return this.indexes;
     }
 

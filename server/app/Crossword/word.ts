@@ -17,35 +17,35 @@ export class Word {
         this.word = word;
     }
 
-    public getLine(): number {
+    get Line(): number {
         return this.line;
     }
 
-    public getColumn(): number {
+    get Column(): number {
         return this.column;
     }
 
-    public getLength(): number {
+    get Length(): number {
         return this.length;
     }
 
-    public getOrientation(): Direction {
+    get Orientation(): Direction {
         return this.orientation;
     }
 
-    public getNbConstraints(): number {
+    get NbConstraints(): number {
         return this.nbConstraints;
     }
 
-    public setNbConstraints(value: number): void {
+    set NbConstraints(value: number) {
         this.nbConstraints = value;
     }
 
-    public getWord(): string {
+    get Word(): string {
         return this.word;
     }
 
-    public setWord(value: string): void {
+    set Word(value: string) {
         this.word = value;
     }
 }
