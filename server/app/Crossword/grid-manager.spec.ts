@@ -5,7 +5,6 @@ import { GridManager } from "./grid-manager";
 
 describe("grid", () => {
     it("should dunno", () => {
-        const gridMan: GridManager = new GridManager("easy");
-        expect(gridMan.Grid).to.be.an("array");
+        expect(GridManager.generateGrid("easy")).to.be.an("array");
     });
 });
