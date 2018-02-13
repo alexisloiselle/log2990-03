@@ -16,9 +16,9 @@ describe("Grid-manager", () => {
 
     describe("Word placement", () => {
         it("Should be able to place words", () => {
-            const word1: Word = new Word(position, 0, height, Direction.Horizontal);
+            const word1: Word = new Word(position, 0, height, Direction.Horizontal, "");
             expect(wordPlacer.placeWord(grid, word1, "salut")).to.equal(true);
-            const word2: Word = new Word(0, position, width, Direction.Vertical);
+            const word2: Word = new Word(0, position, width, Direction.Vertical, "");
             expect(wordPlacer.placeWord(grid, word2, "alloo")).to.equal(true);
 
         });

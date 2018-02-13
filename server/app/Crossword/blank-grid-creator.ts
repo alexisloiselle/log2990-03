@@ -7,10 +7,10 @@ export class BlankGridCreator {
             grid[i] = [];
             for (let j: number = 0; j < width; j++) {
                 grid[i][j] = new Case();
-                grid[i][j].setHorizontalPositionInWord(j);
-                grid[i][j].setHorizontalWordLength(width);
-                grid[i][j].setVerticalPositionInWord(i);
-                grid[i][j].setVerticalWordLength(height);
+                grid[i][j].HorizontalPositionInWord = j;
+                grid[i][j].HorizontalWordLength = width;
+                grid[i][j].VerticalPositionInWord = i;
+                grid[i][j].VerticalWordLength = height;
             }
         }
 

@@ -18,16 +18,31 @@ export class GridGenerator {
         const grid: Case[][] = blankGridCreator.createGrid(height, width);
 
         const blackCaseGenerator: BlackCaseGenerator = new BlackCaseGenerator(height, width);
-        const PERCENTAGE: number = 50;
+        const PERCENTAGE: number = 40;
         blackCaseGenerator.generateBlackCases(grid, PERCENTAGE);
 
         const gridScanner: GridScanner = new GridScanner();
         this.words = gridScanner.findWords(grid);
+        gridScanner.identifyConstraint(grid, this.words);
 
-        this.words.sort((a: Word, b: Word) => b.getLength() - a.getLength());
         const wordPlacer: WordPlacer = new WordPlacer();
-        wordPlacer.identifyConstraint(grid);
-        wordPlacer.fitWord(grid, this.words, 0);
+        this.words.sort((a: Word, b: Word) => b.NbConstraints - a.NbConstraints);
+        const constraintsQueue: Word[] = [];
+        constraintsQueue.push(this.words[0]);
+        const pattern: string = " ".repeat(constraintsQueue[0].Length);
+        wordPlacer.fitWord(grid, constraintsQueue, this.words, 0, pattern);
+        //#region alexis
+        for (const row of grid) {
+            for (const position of row) {
+                if (position.IsBlack) {
+                    process.stdout.write("#");
+                } else {
+                    process.stdout.write(position.RightLetter);
+                }
+            }
+            console.log("");
+        }
+        //#endregion
 
         return grid;
     }

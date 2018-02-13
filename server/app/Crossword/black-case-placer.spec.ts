@@ -28,13 +28,13 @@ describe("Black-case-placer", () => {
     describe("Black case placement", () => {
         it("Should be able to place the black cases", () => {
             expect(blackCasePlacer.placeBlackCase(cases, FIRST_POSITION_LINE, FIRST_POSITION_COLUMN)).to.equal(true);
-            expect(cases[FIRST_POSITION_LINE][FIRST_POSITION_COLUMN].getIsBlack()).to.equal(true);
+            expect(cases[FIRST_POSITION_LINE][FIRST_POSITION_COLUMN].IsBlack).to.equal(true);
             expect(blackCasePlacer.placeBlackCase(cases, SECOND_POSITION_LINE, SECOND_POSITION_COLUMN)).to.equal(true);
-            expect(cases[SECOND_POSITION_LINE][SECOND_POSITION_COLUMN].getIsBlack()).to.equal(true);
+            expect(cases[SECOND_POSITION_LINE][SECOND_POSITION_COLUMN].IsBlack).to.equal(true);
         });
         it("Should not be able to place this black case", () => {
             expect(blackCasePlacer.placeBlackCase(cases, THIRD_POSITION_LINE, THIRD_POSITION_COLUMN)).to.equal(false);
-            expect(cases[THIRD_POSITION_LINE][THIRD_POSITION_COLUMN].getIsBlack()).to.equal(false);
+            expect(cases[THIRD_POSITION_LINE][THIRD_POSITION_COLUMN].IsBlack).to.equal(false);
         });
     });
 });
