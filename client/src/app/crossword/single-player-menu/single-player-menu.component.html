@@ -1,0 +1,22 @@
+<div id="difficultySelector">
+  Veuillez sélectionner la difficulté :
+  <div class="container">
+    <div class="row">
+      <div class="btn-group  buttonsModeSelector" data-toggle="buttons">
+        <button type="button" class="btn btn-outline-success btn-lg  easyButton" (click)="goToGame('easy')">
+          Facile
+        </button>
+        <button type="button" class="btn btn-outline-warning btn-lg  mediumButton" (click)="goToGame('medium')">
+          Moyen
+        </button>
+        <button type="button" class="btn btn-outline-danger btn-lg  hardButton" (click)="goToGame('difficult')">
+          Difficile
+        </button>
+      </div>
+    </div>
+  </div>
+  <p id="test"></p>
+</div>
+<div id="returnToModeSelection">
+  <a routerLink="/crossword">Retour à la sélection du mode de jeu</a>
+</div>
