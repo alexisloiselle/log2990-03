@@ -11,63 +11,61 @@ export class WordPlacer {
     }
 
     // backtracking function
-    public fitWord(grid: Case[][], constraintsQueue: Word[], wordInGrid: Word[], pos: number, pattern: string): boolean {
+    public fitWord(grid: Case[][], constraintsQueue: Word[], wordInGrid: Word[], pos: number): boolean {
         if (pos + 1 > constraintsQueue.length) {
-            console.log(`fini`);
-            return true;
+            if (pos + 1 > wordInGrid.length) {
+                return true;
+            } else {
+                constraintsQueue.push(wordInGrid.filter((word) => {
+                    return constraintsQueue.indexOf(word) === -1;
+                })
+                .sort((a, b) => {
+                    return b.getNbConstraints() - a.getNbConstraints();
+                })[0]);
+            }
         }
+        let pattern = this.findPattern(grid, constraintsQueue[pos]);
 
-        console.log("current word ===============");
-        console.log(constraintsQueue[pos]);
 
         let wordsPattern: string[] = this.lexicon.getWordsFromPattern(pattern, false);
         let word: string = "";
         let randNum: number = Math.floor(Math.random() * wordsPattern.length);
 
         if (wordsPattern.length === 0) {
-            console.log("backtracked - no words of that pattern: '" + pattern + "'");
             return false;
         } else {
             word = wordsPattern[randNum];
         }
 
         while (wordsPattern.length !== 0) {
-            console.log(`entré dans la loop : ${word} = ${wordsPattern.length}, constraints number: ${pos}`);
             this.placeWord(grid, constraintsQueue[pos], word);
             constraintsQueue = this.addEngenderedWords(grid, constraintsQueue, wordInGrid, pos);
 
             //#region log grid
             for(let i = 0; i < constraintsQueue.length; i++){
-                console.log(`constraintsQueue pos ${i}, x: ${constraintsQueue[i].getLine()}, y: ${constraintsQueue[i].getColumn()}, horizontal? ${constraintsQueue[i].getOrientation() === Direction.Horizontal?"yes":"no"}`);
             }
-            for (let i = 0; i < grid.length; i++) {
-                for (let j = 0; j < grid[i].length; j++) {
-                    if (grid[i][j].getIsBlack()) {
-                        process.stdout.write('#');
-                    } else if (grid[i][j].getRightLetter() === "") {
-                        process.stdout.write(" ");
-                    } else {
-                        process.stdout.write(grid[i][j].getRightLetter());
-                    }
-                }
-                console.log('');
-            }
+            // for (let i = 0; i < grid.length; i++) {
+            //     for (let j = 0; j < grid[i].length; j++) {
+            //         if (grid[i][j].getIsBlack()) {
+            //             process.stdout.write('#');
+            //         } else if (grid[i][j].getRightLetter() === "") {
+            //             process.stdout.write(" ");
+            //         } else {
+            //             process.stdout.write(grid[i][j].getRightLetter());
+            //         }
+            //     }
+            // }
             //#endregion
 
-            console.log("next word ===============");
-            console.log(constraintsQueue[pos+1]);
-            if (this.fitWord(grid, constraintsQueue, wordInGrid, pos + 1, this.findPattern(grid, constraintsQueue[pos + 1]))) {
-                console.log(`fini dans la loop : ${word}`);
+            if (this.fitWord(grid, constraintsQueue, wordInGrid, pos + 1)) {
                 return true;
             }
             wordsPattern.splice(randNum, 1);
 
             this.removeWord(grid, constraintsQueue[pos], pattern);
-            console.log(wordsPattern[0] + " random number = " + randNum);
             randNum = Math.floor(Math.random() * wordsPattern.length);
             word = wordsPattern[randNum];
         }
-        console.log("backtracked - no more words to try with pattern: '" + pattern + "'");
         return false;
     }
 
@@ -80,7 +78,6 @@ export class WordPlacer {
         for (let i = 0; i < constraintsQueue[pos].getLength(); i++) {
             if (orientation === Direction.Horizontal
                 && grid[line][column].getIsAConstraint()) {
-                    console.log(`is vertical word constraint`);
                     let wordEngendered = wordInGrid.find((word) => {
                         return word.getColumn() === column
                             && word.getLine() <= line
@@ -89,11 +86,9 @@ export class WordPlacer {
                     });
                     if(constraintsQueue.indexOf(wordEngendered) === -1){
                         constraintsQueue.push(wordEngendered);
-                        console.log("pushed");
                     }
             } else if(orientation === Direction.Vertical
                 && grid[line][column].getIsAConstraint()) {
-                    console.log(`is horizontal word constraint`);
                     let wordEngendered = wordInGrid.find((word) => {
                         return word.getLine() === line
                             && word.getColumn() <= column
@@ -102,7 +97,6 @@ export class WordPlacer {
                     });
                     if(constraintsQueue.indexOf(wordEngendered) === -1){
                         constraintsQueue.push(wordEngendered);
-                        console.log("pushed");
                     }
             }
             line = orientation === Direction.Horizontal ? line : line + 1;
@@ -148,22 +142,18 @@ export class WordPlacer {
         //             process.stdout.write(grid[i][j].getRightLetter());
         //         }
         //     }
-        //     console.log('');
         // }
-        console.log(`-------------------------------------------`);
-        for (let i = 0; i < grid.length; i++) {
-            for (let j = 0; j < grid[i].length; j++) {
-                if (grid[i][j].getIsBlack()) {
-                    process.stdout.write('#');
-                } else if (!grid[i][j].getIsAConstraint()) {
-                    process.stdout.write(" ");
-                } else {
-                    process.stdout.write("C");
-                }
-            }
-            console.log('');
-        }
-        console.log(`pattern ------------${pattern}----------`);
+        // for (let i = 0; i < grid.length; i++) {
+        //     for (let j = 0; j < grid[i].length; j++) {
+        //         if (grid[i][j].getIsBlack()) {
+        //             process.stdout.write('#');
+        //         } else if (!grid[i][j].getIsAConstraint()) {
+        //             process.stdout.write(" ");
+        //         } else {
+        //             process.stdout.write("C");
+        //         }
+        //     }
+        // }
         //#endregion
         return pattern;
     }
@@ -178,7 +168,6 @@ export class WordPlacer {
         for (const char of wordToAdd) {
             if (grid[line][column].getIsAConstraint() && grid[line][column].getRightLetter() !== ""
                 && grid[line][column].getRightLetter() !== char) {
-                console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
                 return false;
             }
             line = orientation === Direction.Horizontal ? line : line + 1;
@@ -200,7 +189,6 @@ export class WordPlacer {
         // Removes all the chars of the word that arent part of a word in the other orientation from the grid
         const line: number = word.getLine();
         const column: number = word.getColumn();
-        console.log("remove pattern : " + pattern);
         if (word.getOrientation() === Direction.Horizontal) {
             for (let i: number = 0; i < word.getLength(); i++) {
                 if (pattern[i] === " ") {

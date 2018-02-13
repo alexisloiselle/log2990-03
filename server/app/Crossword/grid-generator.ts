@@ -14,23 +14,37 @@ export class GridGenerator {
     }
 
     public generateGrid(height: number, width: number): Case[][] {
-        const blankGridCreator: BlankGridCreator = new BlankGridCreator();
-        const grid: Case[][] = blankGridCreator.createGrid(height, width);
+        let grid: Case[][];
 
-        const blackCaseGenerator: BlackCaseGenerator = new BlackCaseGenerator(height, width);
         const PERCENTAGE: number = 40;
-        blackCaseGenerator.generateBlackCases(grid, PERCENTAGE);
 
-        const gridScanner: GridScanner = new GridScanner();
-        this.words = gridScanner.findWords(grid);
-        gridScanner.identifyConstraint(grid, this.words);
+        let cpt = 26;
+        while (cpt > 25) {
+            cpt = 0;
+            const blankGridCreator: BlankGridCreator = new BlankGridCreator();
+            const blackCaseGenerator: BlackCaseGenerator = new BlackCaseGenerator(height, width);
+            grid = blankGridCreator.createGrid(height, width)
+            blackCaseGenerator.generateBlackCases(grid, PERCENTAGE);
+            const gridScanner: GridScanner = new GridScanner();
+            this.words = gridScanner.findWords(grid);
+            gridScanner.identifyConstraint(grid, this.words);
+            for (let i = 0; i < grid.length; i++) {
+                for (let j = 0; j < grid[i].length; j++) {
+                    if (grid[i][j].getIsAConstraint()) {
+                        ++cpt;
+                    }
+                }
+            }
+            console.log(cpt);
+        }
+
+
 
         const wordPlacer: WordPlacer = new WordPlacer();
         this.words.sort((a: Word, b: Word) => b.getNbConstraints() - a.getNbConstraints());
         const constraintsQueue: Word[] = [];
         constraintsQueue.push(this.words[0]);
-        const pattern = " ".repeat(constraintsQueue[0].getLength());
-        while (!wordPlacer.fitWord(grid, constraintsQueue, this.words, 0, pattern)) { }
+        while (!wordPlacer.fitWord(grid, constraintsQueue, this.words, 0)) { }
 
         //#region alexis
         for (let i = 0; i < grid.length; i++) {
