@@ -18,16 +18,32 @@ export class GridGenerator {
         const grid: Case[][] = blankGridCreator.createGrid(height, width);
 
         const blackCaseGenerator: BlackCaseGenerator = new BlackCaseGenerator(height, width);
-        const PERCENTAGE: number = 50;
+        const PERCENTAGE: number = 40;
         blackCaseGenerator.generateBlackCases(grid, PERCENTAGE);
 
         const gridScanner: GridScanner = new GridScanner();
         this.words = gridScanner.findWords(grid);
+        gridScanner.identifyConstraint(grid, this.words);
 
-        this.words.sort((a: Word, b: Word) => b.getLength() - a.getLength());
         const wordPlacer: WordPlacer = new WordPlacer();
-        wordPlacer.identifyConstraint(grid);
-        wordPlacer.fitWord(grid, this.words, 0);
+        this.words.sort((a: Word, b: Word) => b.getNbConstraints() - a.getNbConstraints());
+        const constraintsQueue: Word[] = [];
+        constraintsQueue.push(this.words[0]);
+        const pattern = " ".repeat(constraintsQueue[0].getLength());
+        while (!wordPlacer.fitWord(grid, constraintsQueue, this.words, 0, pattern)) { }
+
+        //#region alexis
+        for (let i = 0; i < grid.length; i++) {
+            for (let j = 0; j < grid[i].length; j++) {
+                if (grid[i][j].getIsBlack()) {
+                    process.stdout.write('#');
+                } else {
+                    process.stdout.write(grid[i][j].getRightLetter());
+                }
+            }
+            console.log('');
+        }
+        //#endregion
 
         return grid;
     }
