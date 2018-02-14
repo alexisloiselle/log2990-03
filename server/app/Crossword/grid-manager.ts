@@ -3,16 +3,15 @@ import { GridGenerator } from "./grid-generator";
 
 export class GridManager {
 
-    private grid: Case[][];
-
     // This class has the ownership of the grid and will have the responsability to manage it
-    constructor(difficulty: string) {
-        const gridManager: GridGenerator = new GridGenerator();
+    public static async generateGrid(difficulty: string): Promise<Case[][]> {
+        const gridGenerator: GridGenerator = new GridGenerator();
         const DIMENSION: number = 10;
-        this.grid = gridManager.generateGrid(DIMENSION, DIMENSION);
-    }
-
-    get Grid(): Case[][] {
-        return this.grid;
+        return await gridGenerator.generateGrid(DIMENSION, DIMENSION);
+        // return Promise.race([
+        //     gridGenerator.generateGrid(DIMENSION, DIMENSION), 
+        //     gridGenerator.generateGrid(DIMENSION, DIMENSION), 
+        //     gridGenerator.generateGrid(DIMENSION, DIMENSION)
+        // ]);
     }
 }
