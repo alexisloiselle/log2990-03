@@ -7,7 +7,7 @@ import { WordPlacer } from "./word-placer";
 
 export class GridGenerator {
 
-    public static async generateGrid(height: number, width: number): Promise<Case[][]> {
+    public static async generateGrid(height: number, width: number, isUncommon: boolean): Promise<Case[][]> {
         let words: Word[] = [];
 
         return new Promise<Case[][]>((resolve: Function) => {
@@ -24,27 +24,11 @@ export class GridGenerator {
             words = GridScanner.findWords(grid);
             GridScanner.identifyConstraint(grid, words);
 
-
-            //#region alexis
-            for (const row of grid) {
-                for (const position of row) {
-                    if (position.IsBlack) {
-                        process.stdout.write("#");
-                    } else if( position.IsAConstraint){
-                        process.stdout.write("C");
-                    } else {
-                        process.stdout.write(" ");
-                    }
-                }
-                console.log("");
-            }
-            //#endregion
             const wordPlacer: WordPlacer = new WordPlacer();
             words.sort((a: Word, b: Word) => b.NbConstraints - a.NbConstraints);
             const constraintsQueue: Word[] = [];
             constraintsQueue.push(words[0]);
-            wordPlacer.fitWord(grid, constraintsQueue, words, 0);
-
+            wordPlacer.fitWord(grid, constraintsQueue, words, 0, isUncommon);
 
             //#region alexis
             for (const row of grid) {
@@ -59,7 +43,6 @@ export class GridGenerator {
             }
             console.log("resolved");
             //#endregion
-
             resolve(grid);
         });
     }
