@@ -38,13 +38,10 @@ export class TrackEditorComponent implements OnInit {
         // We initialise the mouse down event to false
         this.mouseDown = false;
         // We instanciate the model
-
-
+        this.myTrackEditorModel = new TrackEditorModel();
     }
 
-    public constructor(private trackEditorConstraintService: TrackEditorConstraintService) {
-      this.myTrackEditorModel = new TrackEditorModel();
-    }
+    public constructor(private trackEditorConstraintService: TrackEditorConstraintService) { }
 
     public canvasMouseDown(event: {}): void {
         this.mouseDown = true;
@@ -72,7 +69,7 @@ export class TrackEditorComponent implements OnInit {
 
         if (this.mouseDown) {
             this.dragNDrop();
-        } else { // On colore les points si le focus est sur l'un d'eux
+        } else { // We color the points if the focus is on one of them
             this.checkMouseFocus();
         }
     }
@@ -96,6 +93,22 @@ export class TrackEditorComponent implements OnInit {
         this.ctx.strokeStyle = "black";
         this.ctx.stroke();
     }
+
+    public drawFirstPointOnCanvas(point: PointCoordinates, color: string, size: number): void {
+        this.ctx.beginPath();
+        this.ctx.arc(point.getX(), point.getY(), 10, 0, Math.PI * 2);
+        this.ctx.lineWidth = 5;
+        this.ctx.strokeStyle = "blue";
+        this.ctx.stroke();
+
+        this.ctx.beginPath();
+        this.ctx.arc(point.getX(), point.getY(), size, 0, Math.PI * 2);
+        this.ctx.fillStyle = color;
+        this.ctx.fill();
+        // We reset the line Width
+        this.ctx.lineWidth = 2;
+    }
+
     public drawPointOnCanvas(point: PointCoordinates, color: string, size: number): void {
         this.ctx.beginPath();
         this.ctx.arc(point.getX(), point.getY(), size, 0, Math.PI * 2);
@@ -106,9 +119,7 @@ export class TrackEditorComponent implements OnInit {
     public canvasCloseLoop(): void {
         this.myTrackEditorModel.closeLoop();
 
-        const point1: PointCoordinates = this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArrayLength() - 2);
-        const point2: PointCoordinates = this.myTrackEditorModel.getSinglePoint(0);
-        this.drawLineOnCanvas(point1, point2);
+        this.redrawCanvas();
     }
 
     public checkMouseFocus(): void { // Checks if the focus is on a point or not
@@ -120,6 +131,7 @@ export class TrackEditorComponent implements OnInit {
                     this.mouseMovedEvent.layerY >= point.getY() - ACCEPTED_RADIUS && this.mouseMovedEvent.layerY <=
                     point.getY() + ACCEPTED_RADIUS) {
                     this.mouseOnPoint(point.getX(), point.getY());
+                    break;
                 } else {
                     this.mouseNotOnPoint(point.getX(), point.getY());
                 }
@@ -136,9 +148,7 @@ export class TrackEditorComponent implements OnInit {
 
     // If the focus is not on the point, it stays black
     public mouseNotOnPoint(x: number, y: number): void {
-        const tempPoint: PointCoordinates = new PointCoordinates(x, y);
-        const DEFAULT_SIZE: number = 9;
-        this.drawPointOnCanvas(tempPoint, "black", DEFAULT_SIZE);
+        this.redrawCanvas();
     }
 
     public clickedOnExistingPoint(x: number, y: number): boolean {
@@ -165,10 +175,7 @@ export class TrackEditorComponent implements OnInit {
                 this.myTrackEditorModel.setPointCoordinates(this.myTrackEditorModel.getPointArray().indexOf(point), mouseCoordinates);
             }
         }
-        this.eraseCanvas();
         this.redrawCanvas();
-
-        this.trackEditorConstraintService.allConstraintPass(this.myTrackEditorModel.getPointArray());
     }
 
     public canvasDrawPoint(mouseCoordinates: PointCoordinates): void {
@@ -179,25 +186,8 @@ export class TrackEditorComponent implements OnInit {
             this.canvasCloseLoop(); // I can close the circuit
         } else if (!this.myTrackEditorModel.clickedOnExistingPoint(mouseCoordinates)) {
             this.myTrackEditorModel.addPoint(mouseCoordinates);
-
-            const DEFAULT_SIZE: number = 10;
-            this.drawPointOnCanvas(mouseCoordinates, "#00FF00", DEFAULT_SIZE);
-
-            if (this.myTrackEditorModel.getPointArrayLength() === 1) {
-                this.ctx.beginPath();
-                this.ctx.arc(mouseCoordinates.getX(), mouseCoordinates.getY(), DEFAULT_SIZE, 0, Math.PI * 2);
-                const NEW_WIDTH: number = 10;
-                this.ctx.lineWidth = NEW_WIDTH;
-                this.ctx.strokeStyle = "blue";
-                this.ctx.stroke();
-                // We reset the line Width
-                const RESETED_WIDTH: number = 2;
-                this.ctx.lineWidth = RESETED_WIDTH;
-            }
-            this.canvasDrawLine();
+            this.redrawCanvas();
         }
-
-        this.trackEditorConstraintService.allConstraintPass(this.myTrackEditorModel.getPointArray());
     }
 
     public canvasDrawLine(): void {
@@ -211,29 +201,50 @@ export class TrackEditorComponent implements OnInit {
 
     public redrawCanvas(): void {
         this.eraseCanvas();
-        // We redraw the points
-        for (const i of this.myTrackEditorModel.getPointArray()) {
-            this.drawPointOnCanvas(i, "black", 9);
-
-            // We redraw the shit for the point
-            if (this.myTrackEditorModel.getPointArray().indexOf(i) === 0) {
-                this.ctx.beginPath();
-                this.ctx.arc(i.getX(), i.getY(), 10, 0, Math.PI * 2);
-                this.ctx.lineWidth = 5;
-                this.ctx.strokeStyle = "blue";
-                this.ctx.stroke();
-                // We reset the line Width
-                this.ctx.lineWidth = 2;
-            } else { // We draw the lines back
-                this.ctx.beginPath();
-                this.ctx.moveTo(this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArray().indexOf(i) - 1).getX(),
-                                this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArray().indexOf(i) - 1).getY());
-                this.ctx.lineTo(i.getX(), i.getY());
-                this.ctx.strokeStyle = "black";
-                this.ctx.stroke();
-
-            }
+        this.redrawLinesOnCanvas();
+        this.redrawPointsOnCanvas();
+    }
+    // A FAIRE
+    public redrawLinesOnCanvas(): void {
+      const intersectionOrNah: boolean[] =  this.trackEditorConstraintService.intersectionBooleanArray(this.myTrackEditorModel.getPointArray());
+      for (const i of this.myTrackEditorModel.getPointArray()) {
+        if (this.myTrackEditorModel.getPointArray().indexOf(i) !== 0) {
+          this.ctx.beginPath();
+          this.ctx.moveTo(this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArray().indexOf(i) - 1).getX(),
+                          this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArray().indexOf(i) - 1).getY());
+          this.ctx.lineTo(i.getX(), i.getY());
+          if (intersectionOrNah[this.myTrackEditorModel.getPointArray().indexOf(i)-1]) {
+            this.ctx.strokeStyle = "black";
+          } else {
+            this.ctx.strokeStyle = "red";
+          }
+          this.ctx.stroke();
         }
+      }
+      console.log("Intersection problem tableau : ");
+      console.log(intersectionOrNah);
+    }
+
+    public redrawPointsOnCanvas(): void {
+      const angleProblemOrNah: boolean[] =  this.trackEditorConstraintService.angleBooleanArray(this.myTrackEditorModel.getPointArray());
+      for (const i of this.myTrackEditorModel.getPointArray()) {
+          if (this.myTrackEditorModel.getPointArray().indexOf(i) - 1 >= 0 &&
+              this.myTrackEditorModel.getPointArray().indexOf(i) - 1 < angleProblemOrNah.length) {
+              if (angleProblemOrNah[this.myTrackEditorModel.getPointArray().indexOf(i) - 1]) {
+                this.drawPointOnCanvas(i, "black", 9);
+              } else {
+                this.drawPointOnCanvas(i, "red", 9);
+              }
+          } else {
+            this.drawPointOnCanvas(i, "black", 9);
+          }
+          // We redraw the blue underline for the first point
+          if (this.myTrackEditorModel.getPointArray().indexOf(i) === 0) {
+              this.drawFirstPointOnCanvas(i, "black", 9);
+          }
+        }
+      console.log("Angle problem tableau ");
+      console.log(angleProblemOrNah);
     }
 
     public eraseCanvas(): void {

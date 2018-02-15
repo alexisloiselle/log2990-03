@@ -29,7 +29,7 @@ export class TrackEditorConstraintService {
 
   }
 
-  public allConstraintPass(myPointArray: PointCoordinates[]): void {
+  public angleBooleanArray(myPointArray: PointCoordinates[]): boolean[] {
     const myVector: Vector[] = this.createArrayVector(myPointArray);
     const myBooleanArray: boolean[] = [];
 
@@ -41,9 +41,28 @@ export class TrackEditorConstraintService {
       }
     }
 
-    console.log(myBooleanArray);
-    // return this.verifyAngle(firstVector, secondVector)
-    //    && !this.verifyIsIntersecting(firstVector, secondVector);
+    return myBooleanArray;
 
+  }
+
+  public intersectionBooleanArray(myPointArray: PointCoordinates[]): boolean[] {
+    const myVector: Vector[] = this.createArrayVector(myPointArray);
+    const myBooleanArray: boolean[] = [];
+
+    for (let i of myVector) {
+      myBooleanArray.push(true);
+    }
+    for (let i = 0; i < myVector.length; i++) {
+      // j = i+2 and not i+1 because two consecutive vectors obviously intersect each other
+      for (let j = i+2; j < myVector.length; j++) {
+        if (this.verifyIsIntersecting(myVector[i], myVector[j])) {
+            myBooleanArray[i] = false;
+            myBooleanArray[j] = false;
+            // Both vectors that intersect each other are in the wrong
+        }
+        }
+      }
+
+    return myBooleanArray;
   }
 }

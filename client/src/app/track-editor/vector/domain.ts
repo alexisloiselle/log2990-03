@@ -18,10 +18,10 @@ export class Domain {
         let minY: number = 0;
 
         minX = (coordinatesNewPoint.getX() < coordinatesLastPointInArray.getX()) ? coordinatesNewPoint.getX() :
-        coordinatesLastPointInArray.getX();
+                coordinatesLastPointInArray.getX();
 
         minY = (coordinatesNewPoint.getY() < coordinatesLastPointInArray.getY()) ? coordinatesNewPoint.getY() :
-         coordinatesLastPointInArray.getY();
+                coordinatesLastPointInArray.getY();
 
         return(new PointCoordinates (minX, minY));
     }

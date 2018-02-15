@@ -6,7 +6,6 @@ C'est notre modèle.*/
 
 export class TrackEditorModel {
     private pointArray: PointCoordinates[] = [];
-    // private myTrackEditorConstraintService: TrackEditorConstraintService;
 
     public getPointArray(): PointCoordinates[] {
         return this.pointArray;
