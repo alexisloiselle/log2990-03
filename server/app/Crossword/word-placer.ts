@@ -12,7 +12,7 @@ export class WordPlacer {
         this.placedWord = new Array();
     }
 
-    public fitWord(grid: Case[][], constraintsQueue: Word[], wordInGrid: Word[], pos: number): boolean {
+    public fitWord(grid: Case[][], constraintsQueue: Word[], wordInGrid: Word[], pos: number, isUncommon: boolean): boolean {
         // Iterative algo to place all words in the grid (using backtracking when blocked)
         if (pos >= constraintsQueue.length) {
             if (pos >= wordInGrid.length) {
@@ -26,12 +26,12 @@ export class WordPlacer {
         }
 
         const pattern: string = this.findPattern(grid, constraintsQueue[pos]);
-        const wordsPattern: string[] = this.lexicon.getWordsFromPattern(pattern, false);
+        const wordsPattern: string[] = this.lexicon.getWordsFromPattern(pattern, isUncommon);
 
         for (let randNum: number = 0; wordsPattern.length !== 0; randNum = Math.floor(Math.random() * wordsPattern.length)) {
             if (this.placeWord(grid, constraintsQueue[pos], wordsPattern[randNum])) {
                 constraintsQueue = this.addEngenderedWords(grid, constraintsQueue, wordInGrid, pos);
-                if (this.fitWord(grid, constraintsQueue, wordInGrid, pos + 1)) {
+                if (this.fitWord(grid, constraintsQueue, wordInGrid, pos + 1, isUncommon)) {
                     return true;
                 }
                 this.removeWord(grid, constraintsQueue[pos], pattern);
