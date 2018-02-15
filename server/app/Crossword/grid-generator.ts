@@ -7,32 +7,44 @@ import { WordPlacer } from "./word-placer";
 
 export class GridGenerator {
 
-    private words: Word[];
+    public static async generateGrid(height: number, width: number): Promise<Case[][]> {
+        let words: Word[] = [];
 
-    constructor() {
-        this.words = [];
-    }
-
-    public generateGrid(height: number, width: number): Promise<Case[][]> {
-        // tslint:disable-next-line:max-func-body-length
-        return new Promise<Case[][]>((resolve) => {
+        return new Promise<Case[][]>((resolve: Function) => {
             let grid: Case[][];
 
             const PERCENTAGE: number = 38;
 
             const blankGridCreator: BlankGridCreator = new BlankGridCreator();
-            const blackCaseGenerator: BlackCaseGenerator = new BlackCaseGenerator(height, width);
             grid = blankGridCreator.createGrid(height, width);
-            blackCaseGenerator.generateBlackCases(grid, PERCENTAGE);
-            const gridScanner: GridScanner = new GridScanner();
-            this.words = gridScanner.findWords(grid);
-            gridScanner.identifyConstraint(grid, this.words);
 
+            const blackCaseGenerator: BlackCaseGenerator = new BlackCaseGenerator(height, width);
+            blackCaseGenerator.generateBlackCases(grid, PERCENTAGE);
+
+            words = GridScanner.findWords(grid);
+            GridScanner.identifyConstraint(grid, words);
+
+
+            //#region alexis
+            for (const row of grid) {
+                for (const position of row) {
+                    if (position.IsBlack) {
+                        process.stdout.write("#");
+                    } else if( position.IsAConstraint){
+                        process.stdout.write("C");
+                    } else {
+                        process.stdout.write(" ");
+                    }
+                }
+                console.log("");
+            }
+            //#endregion
             const wordPlacer: WordPlacer = new WordPlacer();
-            this.words.sort((a: Word, b: Word) => b.NbConstraints - a.NbConstraints);
+            words.sort((a: Word, b: Word) => b.NbConstraints - a.NbConstraints);
             const constraintsQueue: Word[] = [];
-            constraintsQueue.push(this.words[0]);
-            wordPlacer.fitWord(grid, constraintsQueue, this.words, 0);
+            constraintsQueue.push(words[0]);
+            wordPlacer.fitWord(grid, constraintsQueue, words, 0);
+
 
             //#region alexis
             for (const row of grid) {
@@ -47,6 +59,7 @@ export class GridGenerator {
             }
             console.log("resolved");
             //#endregion
+
             resolve(grid);
         });
     }
