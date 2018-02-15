@@ -7,10 +7,11 @@ export class GridManager {
     public static async generateGrid(difficulty: string): Promise<Case[][]> {
         const gridGenerator: GridGenerator = new GridGenerator();
         const DIMENSION: number = 10;
+
         return await gridGenerator.generateGrid(DIMENSION, DIMENSION);
         // return Promise.race([
-        //     gridGenerator.generateGrid(DIMENSION, DIMENSION), 
-        //     gridGenerator.generateGrid(DIMENSION, DIMENSION), 
+        //     gridGenerator.generateGrid(DIMENSION, DIMENSION),
+        //     gridGenerator.generateGrid(DIMENSION, DIMENSION),
         //     gridGenerator.generateGrid(DIMENSION, DIMENSION)
         // ]);
     }
