@@ -43,10 +43,10 @@ export class Vector {
         let xIntersection: number = 0;
         let yIntersection: number = 0;
         if (!(this.isParallel(secondVector))) {
-          if (this.getSlope() === Infinity) {
+          if (this.getSlope() === Infinity || this.getSlope() === -Infinity) {
             xIntersection = this.getDomainXMin();
             yIntersection = (secondVector.getSlope() * xIntersection) + secondVector.getConstant();
-          } else if (secondVector.getSlope() === Infinity) {
+          } else if (secondVector.getSlope() === Infinity || secondVector.getSlope() === -Infinity) {
             xIntersection = secondVector.getDomainXMin();
             yIntersection = (this.getSlope() * xIntersection) + this.getConstant();
           } else {

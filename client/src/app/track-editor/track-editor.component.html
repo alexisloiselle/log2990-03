@@ -1,4 +1,9 @@
-<canvas class="canvas" #canvas id="canvas"  oncontextmenu="return false;" (mouseup)="canvasMouseUp($event)" (mousedown)="canvasMouseDown($event)" (mousemove)="canvasMouseMoved($event)">
-    <!--We add an event binding to the click event-->
-</canvas>
+<div id="container">
+  <canvas class="canvas" #canvas id="canvas"  oncontextmenu="return false;" (mouseup)="canvasMouseUp($event)" (mousedown)="canvasMouseDown($event)" (mousemove)="canvasMouseMoved($event)">
+      <!--We add an event binding to the click event-->
+  </canvas>
+</div>
+
+<button type="button" disabled = "true" class="btn btn-lg btn-success">button</button>
+
 
