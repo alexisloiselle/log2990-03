@@ -23,6 +23,9 @@ export class TrackEditorConstraintService {
 
   public verifyIsIntersecting(firstVector: Vector, secondVector: Vector): boolean {
       const intersectionPoint: PointCoordinates = firstVector.calculateVectorIntersection(secondVector);
+      console.log("Point d'intersection : ");
+      console.log(firstVector.pointIsInCommunDomain(intersectionPoint, secondVector) + "  " +  (firstVector.isParallel(secondVector))));
+      console.log(intersectionPoint);
 
       return ((!(firstVector.isParallel(secondVector)))
           && firstVector.pointIsInCommunDomain(intersectionPoint, secondVector));
@@ -48,20 +51,23 @@ export class TrackEditorConstraintService {
   public intersectionBooleanArray(myPointArray: PointCoordinates[]): boolean[] {
     const myVector: Vector[] = this.createArrayVector(myPointArray);
     const myBooleanArray: boolean[] = [];
-
-    for (let i of myVector) {
+    console.log("---------------------------------------------------");
+    for (let i = 0; i<myVector.length; i++) {
       myBooleanArray.push(true);
     }
     for (let i = 0; i < myVector.length; i++) {
       // j = i+2 and not i+1 because two consecutive vectors obviously intersect each other
-      for (let j = i+2; j < myVector.length; j++) {
+      for (let j = i + 2; j < myVector.length; j++) {
         if (this.verifyIsIntersecting(myVector[i], myVector[j])) {
             myBooleanArray[i] = false;
             myBooleanArray[j] = false;
-            // Both vectors that intersect each other are in the wrong
+            console.log("Vecteur " + i + " intersecte vecteur " + j);
+            console.log(myVector[i]);
+            console.log(myVector[j]);
         }
         }
       }
+    // Both vectors that intersect each other are in the wrong
 
     return myBooleanArray;
   }

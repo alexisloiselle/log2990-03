@@ -40,15 +40,23 @@ export class Vector {
 
     public calculateVectorIntersection(secondVector: Vector): PointCoordinates {
         // Calculer point d'intersection
+        let xIntersection: number = 0;
+        let yIntersection: number = 0;
         if (!(this.isParallel(secondVector))) {
-          const xIntersection: number = (secondVector.getConstant() - this.getConstant()) / (this.getSlope() - secondVector.getSlope());
-          const yIntersection: number = xIntersection * this.getSlope() + this.getConstant();
+          if (this.getSlope() === Infinity) {
+            xIntersection = this.getDomainXMin();
+            yIntersection = (secondVector.getSlope() * xIntersection) + secondVector.getConstant();
+          } else if (secondVector.getSlope() === Infinity) {
+            xIntersection = secondVector.getDomainXMin();
+            yIntersection = (this.getSlope() * xIntersection) + this.getConstant();
+          } else {
+            xIntersection = (secondVector.getConstant() - this.getConstant()) / (this.getSlope() - secondVector.getSlope());
+            yIntersection = xIntersection * this.getSlope() + this.getConstant();
+          }
 
           return (new PointCoordinates(xIntersection, yIntersection));
-
         } else {
-
-            return (new PointCoordinates(NaN, NaN));
+            return (new PointCoordinates(-1, -1));
         }
     }
 
@@ -82,16 +90,17 @@ export class Vector {
     }
 
     public pointIsInCommunDomain(intersectionPoint: PointCoordinates, secondVector: Vector): boolean {
-        if (intersectionPoint.getX() <= this.domain.getXMin() || intersectionPoint.getX() <= secondVector.domain.getXMin() ||
-            intersectionPoint.getX() >= this.domain.getXMax() || intersectionPoint.getX() >= secondVector.domain.getXMax() ||
-            intersectionPoint.getY() <= this.domain.getYMin() || intersectionPoint.getY() <= secondVector.domain.getYMin() ||
-            intersectionPoint.getY() >= this.domain.getYMax() || intersectionPoint.getY() >= secondVector.domain.getYMax() ) {
+          if (intersectionPoint.getX() < this.domain.getXMin() || intersectionPoint.getX() < secondVector.domain.getXMin() ||
+              intersectionPoint.getX() > this.domain.getXMax() || intersectionPoint.getX() > secondVector.domain.getXMax() ||
+              intersectionPoint.getY() < this.domain.getYMin() || intersectionPoint.getY() < secondVector.domain.getYMin() ||
+              intersectionPoint.getY() > this.domain.getYMax() || intersectionPoint.getY() >= secondVector.domain.getYMax() ) {
                 return false;
 
-        } else {
+          } else {
 
-            return true;
-        }
+              return true;
+          }
+
 
     }
 

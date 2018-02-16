@@ -221,8 +221,8 @@ export class TrackEditorComponent implements OnInit {
           this.ctx.stroke();
         }
       }
-      console.log("Intersection problem tableau : ");
-      console.log(intersectionOrNah);
+      // console.log("Intersection problem tableau : ");
+      // console.log(intersectionOrNah);
     }
 
     public redrawPointsOnCanvas(): void {
@@ -243,8 +243,8 @@ export class TrackEditorComponent implements OnInit {
               this.drawFirstPointOnCanvas(i, "black", 9);
           }
         }
-      console.log("Angle problem tableau ");
-      console.log(angleProblemOrNah);
+      // console.log("Angle problem tableau ");
+      // console.log(angleProblemOrNah);
     }
 
     public eraseCanvas(): void {
