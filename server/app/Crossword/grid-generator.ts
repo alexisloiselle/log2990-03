@@ -2,16 +2,18 @@ import { BlackCaseGenerator } from "./black-case-generator";
 import { BlankGridCreator } from "./blank-grid-creator";
 import { Case } from "./case";
 import { DefinitionAdder } from "./definition-adder";
+import { Grid } from "./grid";
 import { GridScanner } from "./grid-scanner";
 import { Word } from "./word";
 import { WordPlacer } from "./word-placer";
 
 export class GridGenerator {
 
-    public static async generateGrid(height: number, width: number, difficulty: string): Promise<Case[][]> {
+    public static async generateGrid(height: number, width: number, difficulty: string): Promise<Grid> {
         let words: Word[] = [];
 
-        return new Promise<Case[][]>((resolve: Function) => {
+        // tslint:disable-next-line:max-func-body-length
+        return new Promise<Grid>((resolve: Function) => {
             let grid: Case[][];
 
             const PERCENTAGE: number = 38;
@@ -47,10 +49,12 @@ export class GridGenerator {
                         process.stdout.write(position.RightLetter);
                     }
                 }
-                console.log("");
+                process.stdout.write("\n");
             }
             //#endregion
-            resolve(grid);
+
+            const finalGrid: Grid = new Grid(grid, words);
+            resolve(finalGrid);
         });
     }
 }
