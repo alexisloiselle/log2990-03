@@ -39,7 +39,9 @@ export class Application {
 
         const lexicon: LexiconRoute = new LexiconRoute();
         
-        router.get('/definition/:word', lexicon.getDefinitions);
+        router.get('/lexicon/definition/:word', lexicon.getDefinitions);
+        router.get('/lexicon/common/:pattern', lexicon.getCommonWithPattern);
+        router.get('/lexicon/uncommon/:pattern', lexicon.getUncommonWithPattern);
 
         this.app.use('/api', router);
 

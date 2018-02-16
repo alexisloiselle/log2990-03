@@ -12,6 +12,20 @@ module Route {
             const defs = await Lexicon.getDefinitions(word);
             res.send(defs);
         }
+
+        public getCommonWithPattern(req: Request, res: Response, next: NextFunction): void {
+            const lexicon: Lexicon = new Lexicon();
+            const pattern = (req.params.pattern as string);
+            const words: string[] = lexicon.getWordsFromPattern(pattern, false);
+            res.send(words);            
+        }
+
+        public getUncommonWithPattern(req: Request, res: Response, next: NextFunction): void {
+            const lexicon: Lexicon = new Lexicon();
+            const pattern = req.params.pattern;
+            const words: string[] = lexicon.getWordsFromPattern(pattern, true);
+            res.send(words);           
+        }
     }
 }
 
