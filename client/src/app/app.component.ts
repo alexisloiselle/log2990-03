@@ -12,7 +12,6 @@ export class AppComponent implements OnInit {
 
     public constructor(private basicService: BasicService) { }
 
-    public readonly teamName: string = "Chats";
     public message: string = "Sprint 1 terminé ";
 
     public ngOnInit(): void {

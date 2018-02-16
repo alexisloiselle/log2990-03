@@ -9,9 +9,9 @@ import { Router } from "@angular/router";
 
 export class CrosswordMainComponent implements OnInit {
 
-    constructor(private router: Router) { }
+    public constructor(private router: Router) { }
 
-    ngOnInit() {
+    public ngOnInit(): void {
     }
 
     public goToSinglePlayer(): void {
