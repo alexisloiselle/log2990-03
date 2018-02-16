@@ -173,8 +173,7 @@ describe("Grid Scanner", () => {
     grid[line7][column6].VerticalWordLength = (oneLetter);
 
     describe("Find Words", () => {
-        const gridScanner: GridScanner = new GridScanner();
-        const words: Word[] = gridScanner.findWords(grid);
+        const words: Word[] = GridScanner.findWords(grid);
         it("Should have the right number of words", () => {
             const expectedNumberOfWords: number = 17;
             expect(words.length).to.be.equal(expectedNumberOfWords);

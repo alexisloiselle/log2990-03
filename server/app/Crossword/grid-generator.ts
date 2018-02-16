@@ -7,43 +7,43 @@ import { WordPlacer } from "./word-placer";
 
 export class GridGenerator {
 
-    private words: Word[];
+    public static async generateGrid(height: number, width: number, isUncommon: boolean): Promise<Case[][]> {
+        let words: Word[] = [];
 
-    constructor() {
-        this.words = [];
-    }
+        return new Promise<Case[][]>((resolve: Function) => {
+            let grid: Case[][];
 
-    public generateGrid(height: number, width: number): Case[][] {
-        const blankGridCreator: BlankGridCreator = new BlankGridCreator();
-        const grid: Case[][] = blankGridCreator.createGrid(height, width);
+            const PERCENTAGE: number = 38;
 
-        const blackCaseGenerator: BlackCaseGenerator = new BlackCaseGenerator(height, width);
-        const PERCENTAGE: number = 40;
-        blackCaseGenerator.generateBlackCases(grid, PERCENTAGE);
+            const blankGridCreator: BlankGridCreator = new BlankGridCreator();
+            grid = blankGridCreator.createGrid(height, width);
 
-        const gridScanner: GridScanner = new GridScanner();
-        this.words = gridScanner.findWords(grid);
-        gridScanner.identifyConstraint(grid, this.words);
+            const blackCaseGenerator: BlackCaseGenerator = new BlackCaseGenerator(height, width);
+            blackCaseGenerator.generateBlackCases(grid, PERCENTAGE);
 
-        const wordPlacer: WordPlacer = new WordPlacer();
-        this.words.sort((a: Word, b: Word) => b.NbConstraints - a.NbConstraints);
-        const constraintsQueue: Word[] = [];
-        constraintsQueue.push(this.words[0]);
-        const pattern: string = " ".repeat(constraintsQueue[0].Length);
-        wordPlacer.fitWord(grid, constraintsQueue, this.words, 0, pattern);
-        //#region alexis
-        for (const row of grid) {
-            for (const position of row) {
-                if (position.IsBlack) {
-                    process.stdout.write("#");
-                } else {
-                    process.stdout.write(position.RightLetter);
+            words = GridScanner.findWords(grid);
+            GridScanner.identifyConstraint(grid, words);
+
+            const wordPlacer: WordPlacer = new WordPlacer();
+            words.sort((a: Word, b: Word) => b.NbConstraints - a.NbConstraints);
+            const constraintsQueue: Word[] = [];
+            constraintsQueue.push(words[0]);
+            wordPlacer.fitWord(grid, constraintsQueue, words, 0, isUncommon);
+
+            //#region alexis
+            for (const row of grid) {
+                for (const position of row) {
+                    if (position.IsBlack) {
+                        process.stdout.write("#");
+                    } else {
+                        process.stdout.write(position.RightLetter);
+                    }
                 }
+                console.log("");
             }
-            console.log("");
-        }
-        //#endregion
-
-        return grid;
+            console.log("resolved");
+            //#endregion
+            resolve(grid);
+        });
     }
 }

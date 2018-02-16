@@ -3,7 +3,7 @@ import { Case } from "./case";
 
 export class GridScanner {
 
-    public findWords(grid: Case[][]): Word[] {
+    public static findWords(grid: Case[][]): Word[] {
         const words: Word[] = [];
         const minimumWordLength: number = 2;
         for (let line: number = 0; line < grid.length; line++) {
@@ -24,7 +24,7 @@ export class GridScanner {
         return words;
     }
 
-    public identifyConstraint(grid: Case[][], wordsInGrid: Word[]): void {
+    public static identifyConstraint(grid: Case[][], wordsInGrid: Word[]): void {
         // Set isAConstraint attribute to true for all the cases that are part of 2 words
         const minimumWordLength: number = 2;
         for (let i: number = 0; i < grid.length; i++) {
@@ -41,7 +41,7 @@ export class GridScanner {
         }
     }
 
-    private getWordsWithPos(wordsInGrid: Word[], line: number, column: number): Word[] {
+    private static getWordsWithPos(wordsInGrid: Word[], line: number, column: number): Word[] {
         return wordsInGrid.filter((word: Word) => {
             if (word.Orientation === Direction.Horizontal) {
                 return word.Line === line
