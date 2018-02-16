@@ -1,9 +1,9 @@
 import {} from "jasmine";
 import { expect } from "chai";
 
+import { BlackCasePlacer } from "./black-case-placer";
 import { BlankGridCreator } from "./blank-grid-creator";
 import { Case } from "./case";
-import { BlackCasePlacer } from "./black-case-placer";
 
 describe("Black-case-placer", () => {
 

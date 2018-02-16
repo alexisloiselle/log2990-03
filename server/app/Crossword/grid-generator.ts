@@ -1,13 +1,14 @@
-import { Case } from "./case";
-import { BlankGridCreator } from "./blank-grid-creator";
 import { BlackCaseGenerator } from "./black-case-generator";
-import { Word } from "./word";
+import { BlankGridCreator } from "./blank-grid-creator";
+import { Case } from "./case";
+import { DefinitionAdder } from "./definition-adder";
 import { GridScanner } from "./grid-scanner";
+import { Word } from "./word";
 import { WordPlacer } from "./word-placer";
 
 export class GridGenerator {
 
-    public static async generateGrid(height: number, width: number, isUncommon: boolean): Promise<Case[][]> {
+    public static async generateGrid(height: number, width: number, difficulty: string): Promise<Case[][]> {
         let words: Word[] = [];
 
         return new Promise<Case[][]>((resolve: Function) => {
@@ -24,11 +25,18 @@ export class GridGenerator {
             words = GridScanner.findWords(grid);
             GridScanner.identifyConstraint(grid, words);
 
-            const wordPlacer: WordPlacer = new WordPlacer();
             words.sort((a: Word, b: Word) => b.NbConstraints - a.NbConstraints);
             const constraintsQueue: Word[] = [];
             constraintsQueue.push(words[0]);
+
+            const wordPlacer: WordPlacer = new WordPlacer();
+            const isUncommon: boolean = difficulty === "hard" ? true : false;
             wordPlacer.fitWord(grid, constraintsQueue, words, 0, isUncommon);
+
+            const definitionAdder: DefinitionAdder = new DefinitionAdder();
+            words = GridScanner.findWords(grid);
+            definitionAdder.addWords(grid, words);
+            definitionAdder.addDefinitions(words, difficulty);
 
             //#region alexis
             for (const row of grid) {
@@ -41,7 +49,6 @@ export class GridGenerator {
                 }
                 console.log("");
             }
-            console.log("resolved");
             //#endregion
             resolve(grid);
         });

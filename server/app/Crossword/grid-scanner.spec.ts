@@ -1,9 +1,9 @@
 import {} from "jasmine";
 import { expect } from "chai";
 
-import { GridScanner } from "./grid-scanner";
-import { Case } from "./case";
 import { BlankGridCreator } from "./blank-grid-creator";
+import { Case } from "./case";
+import { GridScanner } from "./grid-scanner";
 import { Word } from "./word";
 
 describe("Grid Scanner", () => {

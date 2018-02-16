@@ -7,6 +7,7 @@ export class Word {
     private orientation: Direction;
     private nbConstraints: number;
     private word: string;
+    private definition: string;
 
     constructor(line: number, column: number, length: number, orientation: Direction, word: string) {
         this.line = line;
@@ -15,6 +16,7 @@ export class Word {
         this.orientation = orientation;
         this.nbConstraints = 0;
         this.word = word;
+        this.definition = "";
     }
 
     get Line(): number {
@@ -47,5 +49,13 @@ export class Word {
 
     set Word(value: string) {
         this.word = value;
+    }
+
+    get Definition(): string {
+        return this.definition;
+    }
+
+    set Definition(value: string) {
+        this.definition = value;
     }
 }

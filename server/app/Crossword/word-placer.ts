@@ -1,6 +1,6 @@
 import { Case } from "./case";
-import { Word, Direction } from "./word";
 import { Lexicon } from "../lexicon/lexicon";
+import { Word, Direction } from "./word";
 
 export class WordPlacer {
 
