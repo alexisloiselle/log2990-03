@@ -7,28 +7,43 @@ import { WordPlacer } from "./word-placer";
 
 export class GridGenerator {
 
-    private words: Word[];
+    public static async generateGrid(height: number, width: number, isUncommon: boolean): Promise<Case[][]> {
+        let words: Word[] = [];
 
-    constructor() {
-        this.words = [];
-    }
+        return new Promise<Case[][]>((resolve: Function) => {
+            let grid: Case[][];
 
-    public generateGrid(height: number, width: number): Case[][] {
-        const blankGridCreator: BlankGridCreator = new BlankGridCreator();
-        const grid: Case[][] = blankGridCreator.createGrid(height, width);
+            const PERCENTAGE: number = 38;
 
-        const blackCaseGenerator: BlackCaseGenerator = new BlackCaseGenerator(height, width);
-        const PERCENTAGE: number = 50;
-        blackCaseGenerator.generateBlackCases(grid, PERCENTAGE);
+            const blankGridCreator: BlankGridCreator = new BlankGridCreator();
+            grid = blankGridCreator.createGrid(height, width);
 
-        const gridScanner: GridScanner = new GridScanner();
-        this.words = gridScanner.findWords(grid);
+            const blackCaseGenerator: BlackCaseGenerator = new BlackCaseGenerator(height, width);
+            blackCaseGenerator.generateBlackCases(grid, PERCENTAGE);
 
-        this.words.sort((a: Word, b: Word) => b.getLength() - a.getLength());
-        const wordPlacer: WordPlacer = new WordPlacer();
-        wordPlacer.identifyConstraint(grid);
-        wordPlacer.fitWord(grid, this.words, 0);
+            words = GridScanner.findWords(grid);
+            GridScanner.identifyConstraint(grid, words);
 
-        return grid;
+            const wordPlacer: WordPlacer = new WordPlacer();
+            words.sort((a: Word, b: Word) => b.NbConstraints - a.NbConstraints);
+            const constraintsQueue: Word[] = [];
+            constraintsQueue.push(words[0]);
+            wordPlacer.fitWord(grid, constraintsQueue, words, 0, isUncommon);
+
+            //#region alexis
+            for (const row of grid) {
+                for (const position of row) {
+                    if (position.IsBlack) {
+                        process.stdout.write("#");
+                    } else {
+                        process.stdout.write(position.RightLetter);
+                    }
+                }
+                console.log("");
+            }
+            console.log("resolved");
+            //#endregion
+            resolve(grid);
+        });
     }
 }
