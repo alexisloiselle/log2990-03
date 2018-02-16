@@ -7,7 +7,7 @@ const crosswordManager: express.Router = express.Router();
 let grid: Case[][];
 //let difficulty: String;
 
-crosswordManager.get("generateGrid/:difficulty",
+crosswordManager.get("generate-grid/:difficulty",
     // tslint:disable-next-line:align
     async function (req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
 
