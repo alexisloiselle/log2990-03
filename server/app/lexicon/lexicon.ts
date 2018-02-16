@@ -2,7 +2,7 @@ import * as fs from "fs";
 import * as request from "request";
 
 import {
-    API_URL,
+    WORD_API_URL,
     API_DEFS,
     MAX_DEFS,
     USELESS_CHAR
@@ -20,7 +20,7 @@ export class Lexicon {
     // see lexicon.spec.ts to see how to use this function
     public static async getDefinitions(word: string): Promise<string[]> {
         let definitions: string[] = [];
-        const url: string = `${API_URL}${word}&${API_DEFS}`;
+        const url: string = `${WORD_API_URL}${word}&${API_DEFS}`;
 
         return new Promise<string[]>((resolve: Function) => {
             /* tslint:disable-next-line:no-any */
