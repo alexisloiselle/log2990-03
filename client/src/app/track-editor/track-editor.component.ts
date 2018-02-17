@@ -4,8 +4,9 @@ import { PointCoordinates } from "./pointCoordinates";
 import { TrackEditorModel } from "./track-editor-model";
 import { TrackEditorConstraintService } from "./track-editor-constraint.service";
 
-// import { Vector2 } from "three";
-// import { vector } from "./vector/vector";
+const STANDARD_SIZE_CIRCLE: number = 10;
+const WIDTH_OF_CANVAS: number = 800;
+const HEIGHT_OF_CANVAS: number = 800;
 
 @Component({
     selector: "app-track-editor",
@@ -28,10 +29,8 @@ export class TrackEditorComponent implements OnInit {
         // We here initialise the canvas and get the context (ctx)
         this.ctx = this.canvasRef.nativeElement.getContext("2d");
         // we set the canvas height and width attribute
-        const heightCanvas: number = 800;
-        const widthCanvas: number = 800;
-        this.canvasRef.nativeElement.height = heightCanvas;
-        this.canvasRef.nativeElement.width = widthCanvas;
+        this.canvasRef.nativeElement.height = HEIGHT_OF_CANVAS;
+        this.canvasRef.nativeElement.width = WIDTH_OF_CANVAS;
 
         // We initialise the mouseMovedEvent
         this.mouseMovedEvent = 0;
@@ -86,7 +85,7 @@ export class TrackEditorComponent implements OnInit {
 
     public drawFirstPointOnCanvas(point: PointCoordinates, color: string, size: number): void {
         this.ctx.beginPath();
-        this.ctx.arc(point.getX(), point.getY(), 10, 0, Math.PI * 2);
+        this.ctx.arc(point.getX(), point.getY(), STANDARD_SIZE_CIRCLE, 0, Math.PI * 2);
         this.ctx.lineWidth = 5;
         this.ctx.strokeStyle = "blue";
         this.ctx.stroke();
@@ -147,8 +146,7 @@ export class TrackEditorComponent implements OnInit {
     // If the focus is on the point, it becomes green
     public mouseOnPoint(x: number, y: number): void {
         const tempPoint: PointCoordinates = new PointCoordinates(x, y);
-        const DEFAULT_SIZE: number = 10;
-        this.drawPointOnCanvas(tempPoint, "#00FF00", DEFAULT_SIZE);
+        this.drawPointOnCanvas(tempPoint, "#00FF00", STANDARD_SIZE_CIRCLE);
     }
 
     // If the focus is not on the point, it stays black
@@ -223,22 +221,22 @@ export class TrackEditorComponent implements OnInit {
           if (this.myTrackEditorModel.getPointArray().indexOf(i) - 1 >= 0 &&
               this.myTrackEditorModel.getPointArray().indexOf(i) - 1 < angleBooleanArray.length) {
               if (angleBooleanArray[this.myTrackEditorModel.getPointArray().indexOf(i) - 1]) {
-                this.drawPointOnCanvas(i, "black", 9);
+                this.drawPointOnCanvas(i, "black", STANDARD_SIZE_CIRCLE);
               } else {
-                this.drawPointOnCanvas(i, "red", 9);
+                this.drawPointOnCanvas(i, "red", STANDARD_SIZE_CIRCLE);
               }
           } else {
-            this.drawPointOnCanvas(i, "black", 9);
+            this.drawPointOnCanvas(i, "black", STANDARD_SIZE_CIRCLE);
           }
           // We redraw the first point
           if (this.myTrackEditorModel.getPointArray().indexOf(i) === 0) {
-              this.drawFirstPointOnCanvas(i, "black", 9);
+              this.drawFirstPointOnCanvas(i, "black", STANDARD_SIZE_CIRCLE);
           }
         }
     }
 
     public eraseCanvas(): void {
-        this.ctx.clearRect(0, 0, 800, 800);
+        this.ctx.clearRect(0, 0, WIDTH_OF_CANVAS, HEIGHT_OF_CANVAS);
     }
 
 }
