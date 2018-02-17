@@ -32,8 +32,6 @@ export class TrackEditorComponent implements OnInit {
         this.canvasRef.nativeElement.height = HEIGHT_OF_CANVAS;
         this.canvasRef.nativeElement.width = WIDTH_OF_CANVAS;
 
-        // We initialise the mouseMovedEvent
-        this.mouseMovedEvent = 0;
         // We initialise the mouse down event to false
         this.mouseDown = false;
         // We instanciate the model

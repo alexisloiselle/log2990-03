@@ -16,6 +16,7 @@ import { AppRoutingModule } from "./app-routing.module";
 import { CrosswordComponent } from "./crossword/crossword.component";
 import { CarRaceComponent } from "./car-race/car-race.component";
 import { HomepageComponent } from "./homepage/homepage.component";
+import { CarEventHandler } from "./render-service/car-event-handler.service";
 
 @NgModule({
     declarations: [
@@ -36,7 +37,8 @@ import { HomepageComponent } from "./homepage/homepage.component";
     providers: [
         RenderService,
         BasicService,
-        GameService
+        GameService,
+        CarEventHandler
     ],
     bootstrap: [AppComponent]
 })
