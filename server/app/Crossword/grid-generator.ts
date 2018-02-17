@@ -13,7 +13,7 @@ export class GridGenerator {
         let words: Word[] = [];
 
         // tslint:disable-next-line:max-func-body-length
-        return new Promise<Grid>((resolve: Function) => {
+        return new Promise<Grid>(async (resolve: Function) => {
             let grid: Case[][];
 
             const PERCENTAGE: number = 38;
@@ -38,7 +38,8 @@ export class GridGenerator {
             const definitionAdder: DefinitionAdder = new DefinitionAdder();
             words = GridScanner.findWords(grid);
             definitionAdder.addWords(grid, words);
-            definitionAdder.addDefinitions(words, difficulty);
+            console.log(words);
+            await definitionAdder.addDefinitions(words, difficulty);
 
             //#region alexis
             for (const row of grid) {
