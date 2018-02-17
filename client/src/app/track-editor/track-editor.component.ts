@@ -199,14 +199,15 @@ export class TrackEditorComponent implements OnInit {
     }
     // A FAIRE
     public redrawLinesOnCanvas(): void {
-      const intersectionOrNah: boolean[] =  this.trackEditorConstraintService.intersectionBooleanArray(this.myTrackEditorModel.getPointArray());
+      const intersectionBooleanArray: boolean[] =
+       this.trackEditorConstraintService.intersectionBooleanArray(this.myTrackEditorModel.getPointArray());
       for (const i of this.myTrackEditorModel.getPointArray()) {
         if (this.myTrackEditorModel.getPointArray().indexOf(i) !== 0) {
           this.ctx.beginPath();
           this.ctx.moveTo(this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArray().indexOf(i) - 1).getX(),
                           this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArray().indexOf(i) - 1).getY());
           this.ctx.lineTo(i.getX(), i.getY());
-          if (intersectionOrNah[this.myTrackEditorModel.getPointArray().indexOf(i)-1]) {
+          if (intersectionBooleanArray[this.myTrackEditorModel.getPointArray().indexOf(i) - 1]) {
             this.ctx.strokeStyle = "black";
           } else {
             this.ctx.strokeStyle = "red";
@@ -217,11 +218,11 @@ export class TrackEditorComponent implements OnInit {
     }
 
     public redrawPointsOnCanvas(): void {
-      const angleProblemOrNah: boolean[] =  this.trackEditorConstraintService.angleBooleanArray(this.myTrackEditorModel.getPointArray());
+      const angleBooleanArray: boolean[] =  this.trackEditorConstraintService.angleBooleanArray(this.myTrackEditorModel.getPointArray());
       for (const i of this.myTrackEditorModel.getPointArray()) {
           if (this.myTrackEditorModel.getPointArray().indexOf(i) - 1 >= 0 &&
-              this.myTrackEditorModel.getPointArray().indexOf(i) - 1 < angleProblemOrNah.length) {
-              if (angleProblemOrNah[this.myTrackEditorModel.getPointArray().indexOf(i) - 1]) {
+              this.myTrackEditorModel.getPointArray().indexOf(i) - 1 < angleBooleanArray.length) {
+              if (angleBooleanArray[this.myTrackEditorModel.getPointArray().indexOf(i) - 1]) {
                 this.drawPointOnCanvas(i, "black", 9);
               } else {
                 this.drawPointOnCanvas(i, "red", 9);
@@ -229,7 +230,7 @@ export class TrackEditorComponent implements OnInit {
           } else {
             this.drawPointOnCanvas(i, "black", 9);
           }
-          // We redraw the blue underline for the first point
+          // We redraw the first point
           if (this.myTrackEditorModel.getPointArray().indexOf(i) === 0) {
               this.drawFirstPointOnCanvas(i, "black", 9);
           }

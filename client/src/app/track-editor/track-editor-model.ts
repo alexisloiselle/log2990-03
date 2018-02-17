@@ -1,6 +1,5 @@
 import { PointCoordinates } from "./pointCoordinates";
 
-
 /*Classe qui s'occuppe de manipuler le tableau de points.
 C'est notre modèle.*/
 
@@ -31,8 +30,10 @@ export class TrackEditorModel {
     }
 
     public addPoint(point: PointCoordinates): void {
+      if (!this.loopIsClosed()) {
         this.pointArray.push(point);
         this.removePointsTooClose();
+      }
     }
 
     public eraseLastPoint(): void {
