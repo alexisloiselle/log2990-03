@@ -62,7 +62,7 @@ export class TrackEditorComponent implements OnInit {
         // The points can be absorbed if you do a drag and
         // drop. We make sure the array doesn't contain any duplicated
         // points with this function.
-        this.removeDuplicatedPoints();
+        this.removePointsTooClose();
     }
     public canvasMouseMoved(event: {}): void {
         this.mouseMovedEvent = event;  // We stock the mouseCoordinates inside the mouseMovedEvent variable
@@ -74,24 +74,14 @@ export class TrackEditorComponent implements OnInit {
         }
     }
 
-    public removeDuplicatedPoints(): void {
-        this.myTrackEditorModel.removeDuplicatedPoints();
+    public removePointsTooClose(): void {
+        this.myTrackEditorModel.removePointsTooClose();
         this.redrawCanvas();
     }
 
     public canvasEraseLastPoint(): void {
         this.myTrackEditorModel.eraseLastPoint();
         this.redrawCanvas();
-    }
-
-    public drawLineOnCanvas(point1: PointCoordinates, point2: PointCoordinates): void {
-        this.ctx.beginPath();
-        this.ctx.moveTo(this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArrayLength() - 2).getX(),
-                        this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArrayLength() - 2).getY());
-        this.ctx.lineTo(this.myTrackEditorModel.getSinglePoint(0).getX(),
-                        this.myTrackEditorModel.getSinglePoint(0).getY());
-        this.ctx.strokeStyle = "black";
-        this.ctx.stroke();
     }
 
     public drawFirstPointOnCanvas(point: PointCoordinates, color: string, size: number): void {
@@ -116,10 +106,29 @@ export class TrackEditorComponent implements OnInit {
         this.ctx.fill();
     }
 
+    public drawLineOnCanvas(point1: PointCoordinates, point2: PointCoordinates): void {
+      this.ctx.beginPath();
+      this.ctx.moveTo(this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArrayLength() - 2).getX(),
+                      this.myTrackEditorModel.getSinglePoint(this.myTrackEditorModel.getPointArrayLength() - 2).getY());
+      this.ctx.lineTo(this.myTrackEditorModel.getSinglePoint(0).getX(),
+                      this.myTrackEditorModel.getSinglePoint(0).getY());
+      this.ctx.strokeStyle = "black";
+      this.ctx.stroke();
+  }
+    // As soon as the loop is closed, we verify if all the constraints pass
     public canvasCloseLoop(): void {
         this.myTrackEditorModel.closeLoop();
-
         this.redrawCanvas();
+    }
+
+    public allConstraintPass(): boolean {
+      console.log(this.myTrackEditorModel.allConstraintPass(
+        this.trackEditorConstraintService.angleBooleanArray(this.myTrackEditorModel.getPointArray()),
+        this.trackEditorConstraintService.intersectionBooleanArray(this.myTrackEditorModel.getPointArray())));
+
+      return this.myTrackEditorModel.allConstraintPass(
+        this.trackEditorConstraintService.angleBooleanArray(this.myTrackEditorModel.getPointArray()),
+        this.trackEditorConstraintService.intersectionBooleanArray(this.myTrackEditorModel.getPointArray()));
     }
 
     public checkMouseFocus(): void { // Checks if the focus is on a point or not
@@ -151,21 +160,9 @@ export class TrackEditorComponent implements OnInit {
         this.redrawCanvas();
     }
 
-    public clickedOnExistingPoint(x: number, y: number): boolean {
-        for (const point of this.myTrackEditorModel.getPointArray()) {
-            const ACCEPTED_RADIUS: number = 20;
-            if (x >= point.getX() - ACCEPTED_RADIUS && x <= point.getX() + ACCEPTED_RADIUS &&
-                y >= point.getY() - ACCEPTED_RADIUS && y <= point.getY() + ACCEPTED_RADIUS) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     public dragNDrop(): void {
         const mouseCoordinates: PointCoordinates = new PointCoordinates(this.mouseMovedEvent.layerX, this.mouseMovedEvent.layerY);
-        // Je trouve le point sur lequel il a cliqué
+        // We identify the point on wich the user clicked
         for (const point of this.myTrackEditorModel.getPointArray()) {
             const ACCEPTED_RADIUS: number = 15;
             if (this.mouseMovedEvent.layerX >= point.getX() - ACCEPTED_RADIUS &&
@@ -221,8 +218,6 @@ export class TrackEditorComponent implements OnInit {
           this.ctx.stroke();
         }
       }
-      // console.log("Intersection problem tableau : ");
-      // console.log(intersectionOrNah);
     }
 
     public redrawPointsOnCanvas(): void {
@@ -243,8 +238,6 @@ export class TrackEditorComponent implements OnInit {
               this.drawFirstPointOnCanvas(i, "black", 9);
           }
         }
-      // console.log("Angle problem tableau ");
-      // console.log(angleProblemOrNah);
     }
 
     public eraseCanvas(): void {

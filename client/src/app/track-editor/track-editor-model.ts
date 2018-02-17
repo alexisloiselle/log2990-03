@@ -32,8 +32,7 @@ export class TrackEditorModel {
 
     public addPoint(point: PointCoordinates): void {
         this.pointArray.push(point);
-
-       // this.myTrackEditorConstraintService.allConstraintPass(this.pointArray);
+        this.removePointsTooClose();
     }
 
     public eraseLastPoint(): void {
@@ -42,16 +41,20 @@ export class TrackEditorModel {
         }
     }
 
-    // On enlève les points potentiellement dupliqués par le drag and drop
-    public removeDuplicatedPoints(): void {
+    // We remove the points potentially duplicated by the drag N drop and
+    // the points that are too close to each other
+    public removePointsTooClose(): void {
         const MINIMUM_ARRAY_LENGTH: number = 2;
+        const MINIMUM_RADIUS: number = 20;
         if (this.pointArray.length > MINIMUM_ARRAY_LENGTH) {
-            // On commence à partir du deuxième point, car de toute façon le point
-            // d'origine aura le dernier point qui se superposera à lui.
+            // We begin with the first point because the first point will
+            // have the last point on it when the loop is closed
             for (let i: number = 1; i < this.pointArray.length - 1; i++) {
                 for (let j: number = i + 1; j < this.pointArray.length; j++) {
-                    if (this.pointArray[i].getX() === this.pointArray[j].getX() &&
-                        this.pointArray[i].getY() === this.pointArray[j].getY()) {
+                    if (this.pointArray[j].getX() >= this.pointArray[i].getX() - MINIMUM_RADIUS &&
+                        this.pointArray[j].getX() <= this.pointArray[i].getX() + MINIMUM_RADIUS &&
+                        this.pointArray[j].getY() >= this.pointArray[i].getY() - MINIMUM_RADIUS &&
+                        this.pointArray[j].getY() <= this.pointArray[i].getY() + MINIMUM_RADIUS) {
                         this.pointArray.splice(this.pointArray.indexOf(this.pointArray[j]), 1);
                     }
                 }
@@ -100,5 +103,23 @@ export class TrackEditorModel {
         }
 
         return false;
+    }
+
+    public allConstraintPass(angleConstraintsBoolean: boolean[], intersectionConstraintsBoolean: boolean[]): boolean {
+      if (!this.loopIsClosed()) {
+        return false;
+      }
+      for (const angleConstraint of angleConstraintsBoolean) {
+        if (!angleConstraint) {
+          return false;
+        }
+      }
+      for (const intersectionConstraint of intersectionConstraintsBoolean) {
+        if (!intersectionConstraint) {
+          return false;
+        }
+      }
+
+      return true;
     }
 }
