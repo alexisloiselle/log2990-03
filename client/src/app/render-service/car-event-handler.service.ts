@@ -7,7 +7,7 @@ const BRAKE_KEYCODE: number = 83;       // s
 const RIGHT_KEYCODE: number = 68;       // d
 
 // @Injectable() WE DON'T NEED IT BECAUSE NOTHING IS INJECTED TO THIS SERVICE
-export class CarEventHandler {
+export class CarEventHandlerService {
   public constructor() { }
 
   public handleKeyDown(event: KeyboardEvent, _car: Car): void {

@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import Stats = require("stats.js");
 import { PerspectiveCamera, WebGLRenderer, Scene, AmbientLight } from "three";
 import { Car } from "../car/car";
-import { CarEventHandler } from "./car-event-handler.service";
+import { CarEventHandlerService } from "./car-event-handler.service";
 
 const FAR_CLIPPING_PLANE: number = 1000;
 const NEAR_CLIPPING_PLANE: number = 1;
@@ -22,12 +22,11 @@ export class RenderService {
     private stats: Stats;
     private lastDate: number;
 
-
     public get car(): Car {
         return this._car;
     }
 
-    public constructor(private carEventHandlerService: CarEventHandler) {
+    public constructor(private carEventHandlerService: CarEventHandlerService) {
         this._car = new Car();
     }
 

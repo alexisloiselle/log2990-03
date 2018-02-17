@@ -193,7 +193,7 @@ export class TrackEditorComponent implements OnInit {
         this.redrawLinesOnCanvas();
         this.redrawPointsOnCanvas();
     }
-    // A FAIRE
+
     public redrawLinesOnCanvas(): void {
       const intersectionBooleanArray: boolean[] =
        this.trackEditorConstraintService.intersectionBooleanArray(this.myTrackEditorModel.getPointArray());
