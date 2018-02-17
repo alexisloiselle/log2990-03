@@ -28,13 +28,28 @@ export class TrackEditorConstraintService {
           && firstVector.pointIsInCommunDomain(intersectionPoint, secondVector));
 
   }
+  public loopIsClosed(myPointArray: PointCoordinates[]): boolean {
+    if (myPointArray.length >= 3 &&
+        myPointArray[0].getX() === myPointArray[myPointArray.length - 1].getX() &&
+        myPointArray[0].getY() === myPointArray[myPointArray.length - 1].getY() ) {
+          return true;
+       }
+
+    return false;
+  }
 
   public angleBooleanArray(myPointArray: PointCoordinates[]): boolean[] {
     const myVector: Vector[] = this.createArrayVector(myPointArray);
     const myBooleanArray: boolean[] = [];
-
     for (let i = 0; i < myVector.length - 1 ; i++) {
       if (this.verifyAngle(myVector[i], myVector[i + 1])) {
+        myBooleanArray.push(true);
+      } else {
+        myBooleanArray.push(false);
+      }
+    }
+    if (this.loopIsClosed(myPointArray)) {
+      if (this.verifyAngle(myVector[myVector.length - 1], myVector[0])) {
         myBooleanArray.push(true);
       } else {
         myBooleanArray.push(false);
@@ -48,19 +63,22 @@ export class TrackEditorConstraintService {
   public intersectionBooleanArray(myPointArray: PointCoordinates[]): boolean[] {
     const myVector: Vector[] = this.createArrayVector(myPointArray);
     const myBooleanArray: boolean[] = [];
+    // Initialisation of the boolean array
     for (let i = 0; i<myVector.length; i++) {
       myBooleanArray.push(true);
     }
+
     for (let i = 0; i < myVector.length; i++) {
       // j = i+2 and not i+1 because two consecutive vectors obviously intersect each other
       for (let j = i + 2; j < myVector.length; j++) {
-        if (this.verifyIsIntersecting(myVector[i], myVector[j])) {
+        if (!(i === 0 && j === myVector.length - 1 && this.loopIsClosed(myPointArray))) {
+          if (this.verifyIsIntersecting(myVector[i], myVector[j])) {
             myBooleanArray[i] = false;
             myBooleanArray[j] = false;
+          }
         }
       }
     }
-    // Both vectors that intersect each other are in the wrong
 
     return myBooleanArray;
   }
