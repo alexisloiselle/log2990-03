@@ -20,7 +20,7 @@ export class TrackEditorComponent implements OnInit {
     private canvasRef: ElementRef;
     private ctx: CanvasRenderingContext2D;
     // private currentPoint : number
-    private mouseMovedEvent: any;  // So that each method can access the coordinates
+    private mouseMovedEvent: KeyboardEvent;  // So that each method can access the coordinates
     // at all times
     private mouseDown: boolean;    // Used for the drag and drop
     private myTrackEditorModel: TrackEditorModel;
@@ -46,7 +46,7 @@ export class TrackEditorComponent implements OnInit {
         this.mouseDown = true;
     }
 
-    public canvasMouseUp(event: any): void {
+    public canvasMouseUp(event: KeyboardEvent): void {
         const leftClick: number = 0;
         const rightClick: number = 2;
         this.mouseDown = false;
