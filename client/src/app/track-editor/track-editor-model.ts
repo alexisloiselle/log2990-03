@@ -65,8 +65,7 @@ export class TrackEditorModel {
     public loopIsClosed(): boolean {
         const MINIMUM_ARRAY_LENGTH: number = 3;
         if (this.pointArray.length >= MINIMUM_ARRAY_LENGTH) {
-            if (this.pointArray[this.pointArray.length - 1].getX() === this.pointArray[0].getX() &&
-                this.pointArray[this.pointArray.length - 1].getY() === this.pointArray[0].getY()) {
+            if (this.pointArray[this.pointArray.length - 1].equals(this.pointArray[0])) {
                 return true;
             }
         }

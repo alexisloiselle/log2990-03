@@ -122,10 +122,6 @@ export class TrackEditorComponent implements OnInit {
     }
 
     public allConstraintPass(): boolean {
-      console.log(this.myTrackEditorModel.allConstraintPass(
-        this.trackEditorConstraintService.angleBooleanArray(this.myTrackEditorModel.getPointArray()),
-        this.trackEditorConstraintService.intersectionBooleanArray(this.myTrackEditorModel.getPointArray())));
-
       return this.myTrackEditorModel.allConstraintPass(
         this.trackEditorConstraintService.angleBooleanArray(this.myTrackEditorModel.getPointArray()),
         this.trackEditorConstraintService.intersectionBooleanArray(this.myTrackEditorModel.getPointArray()));
