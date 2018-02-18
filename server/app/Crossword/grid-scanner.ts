@@ -1,5 +1,5 @@
-import { Word, Direction } from "./word";
 import { Case } from "./case";
+import { Word, Direction } from "./word";
 
 export class GridScanner {
 

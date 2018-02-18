@@ -1,6 +1,6 @@
 import { Case } from "./case";
-import { RandomCaseFinder } from "./random-case-finder";
 import { BlackCasePlacer } from "./black-case-placer";
+import { RandomCaseFinder } from "./random-case-finder";
 
 export class BlackCaseGenerator {
 
