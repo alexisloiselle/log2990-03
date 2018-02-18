@@ -19,6 +19,7 @@ import { HomepageComponent } from "./homepage/homepage.component";
 import { SinglePlayerMenuComponent } from "./crossword/single-player-menu/single-player-menu.component";
 import { MultiplayerMenuComponent } from "./crossword/multiplayer-menu/multiplayer-menu.component";
 import { SinglePlayerGameComponent } from "./crossword/single-player-game/single-player-game.component";
+import {CarEventHandlerService} from "./render-service/car-event-handler.service";
 
 @NgModule({
     declarations: [
@@ -42,7 +43,8 @@ import { SinglePlayerGameComponent } from "./crossword/single-player-game/single
     providers: [
         RenderService,
         BasicService,
-        GameService
+        GameService,
+        CarEventHandlerService
     ],
     bootstrap: [AppComponent]
 })

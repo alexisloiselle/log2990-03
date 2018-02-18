@@ -1,24 +1,23 @@
-import { Vector2 } from "three";
+
 import { PointCoordinates} from "../pointCoordinates";
 import { Domain } from "./domain";
 import { Equation} from "./equation";
 
+const POWER_OF_TWO: number = 2;
+const LAW_OF_COSINUS_CONSTANT: number = 2;
 export class Vector {
-    private vector: Vector2;
     private domain: Domain;
     private equation: Equation;
+    private startPoint: PointCoordinates;
+    private endPoint: PointCoordinates;
 
     public constructor(coordinatesNewPoint: PointCoordinates, coordinatesLastPointInArray: PointCoordinates) {
-        this.vector = this.createNewVector(coordinatesNewPoint, coordinatesLastPointInArray);
         this.domain = this.createDomain(coordinatesNewPoint, coordinatesLastPointInArray) ;
         this.equation = this.createEquation(coordinatesNewPoint, coordinatesLastPointInArray);
+        this.startPoint = coordinatesLastPointInArray;
+        this.endPoint = coordinatesNewPoint;
     }
 
-    private createNewVector(coordinatesNewPoint: PointCoordinates, coordinatesLastPointInArray: PointCoordinates): Vector2 {
-        return( new Vector2(coordinatesNewPoint.getX() - coordinatesLastPointInArray.getX(),
-                            coordinatesNewPoint.getY() - coordinatesLastPointInArray.getY()));
-
-      }
 
     private createDomain(domainMin: PointCoordinates, domainMax: PointCoordinates): Domain {
         return(new Domain(domainMin, domainMax));
@@ -28,9 +27,10 @@ export class Vector {
         return(new Equation(coordinatesNewPoint, coordinatesLastPointInArray));
     }
 
+    // POSSIBLEMENT À ENLEVER
     public createArrayVector(arrayPointCoordinates: PointCoordinates[]): Vector[] { // a tester
         const arrayVector: Vector[] = []; // mis const a cause de tslint
-        for (let i: number = 0 ; i < arrayPointCoordinates.length - 2 ; i++ ) { // 2 pour ne pas lire la derniere case du array
+        for (let i: number = 0 ; i < arrayPointCoordinates.length - 1 ; i++ ) { // 2 pour ne pas lire la derniere case du array
             const newVector: Vector = new Vector(arrayPointCoordinates[i], arrayPointCoordinates[i + 1]);
             arrayVector.push(newVector);
         }
@@ -40,8 +40,8 @@ export class Vector {
 
     public calculateVectorIntersection(secondVector: Vector): PointCoordinates {
 
-        // Calculer point d<intersection
-
+        // Calculer point d'intersection
+        console.log("EstParallele : "+this.isParallel(secondVector));
         if (!(this.isParallel(secondVector))) {
         const xIntersection: number = (secondVector.getConstant() - this.getConstant()) / (this.getSlope() - secondVector.getSlope());
         const yIntersection: number = xIntersection * this.getSlope() + this.getConstant();
@@ -50,7 +50,7 @@ export class Vector {
 
         } else {
 
-        return (new PointCoordinates(NaN, NaN));
+        return (new PointCoordinates(-1, -1));
         }
     }
 
@@ -98,16 +98,18 @@ export class Vector {
 
     }
 
-    public calculateAngle(secondVector: Vector): number {
-    if (!(this.isParallel(secondVector))) {
-       if (secondVector.vector.angle() > this.vector.angle()) {
-            return(secondVector.vector.angle() - this.vector.angle());
-        }
+    public calculateVectorLenght(): number {
+        return (Math.sqrt(Math.pow(this.endPoint.getX() - this.startPoint.getX(), POWER_OF_TWO) + Math.pow(this.endPoint.getY() -
+        this.startPoint.getY(),                                                                            POWER_OF_TWO)));
+    }
 
-       return(this.vector.angle() - secondVector.vector.angle());
-        }
-
-    return (NaN);
+    public calculateAngle(firstVector: Vector): number {
+        const oppositeVectorFromAngle: Vector = new Vector (this.endPoint, firstVector.startPoint);
+        return (180 * (Math.acos(((Math.pow(this.calculateVectorLenght(), POWER_OF_TWO)) + 
+                    (Math.pow(firstVector.calculateVectorLenght(), POWER_OF_TWO)) -
+                    (Math.pow(oppositeVectorFromAngle.calculateVectorLenght(), POWER_OF_TWO))) / 
+                    (LAW_OF_COSINUS_CONSTANT * this.calculateVectorLenght() *
+                    firstVector.calculateVectorLenght()))) / Math.PI);
 
     }
 
@@ -141,16 +143,18 @@ export class Vector {
         return this.domain.getYMax();
     }
 
-    public getVector(): Vector2 {
-        return this.vector;
-    }
-
     public getSlope(): number {
         return this.equation.getSlope();
     }
 
     public getConstant(): number {
         return this.equation.getConstant();
+    }
+    public getStartPoint(): PointCoordinates {
+        return this.startPoint;
+    }
+    public getEndPoint(): PointCoordinates {
+        return this.endPoint;
     }
 
 }

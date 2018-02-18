@@ -11,16 +11,17 @@ export class Domain {
         this.yMin = this.findMinDomain(coordinatesNewPoint, coordinatesLastPointInArray).getY();
         this.xMax = this.findMaxDomain(coordinatesNewPoint, coordinatesLastPointInArray).getX();
         this.yMax = this.findMaxDomain(coordinatesNewPoint, coordinatesLastPointInArray).getY();
+
     }
     public findMinDomain(coordinatesNewPoint: PointCoordinates, coordinatesLastPointInArray: PointCoordinates): PointCoordinates {
         let minX: number = 0;
         let minY: number = 0;
 
         minX = (coordinatesNewPoint.getX() < coordinatesLastPointInArray.getX()) ? coordinatesNewPoint.getX() :
-        coordinatesLastPointInArray.getX();
+                coordinatesLastPointInArray.getX();
 
         minY = (coordinatesNewPoint.getY() < coordinatesLastPointInArray.getY()) ? coordinatesNewPoint.getY() :
-         coordinatesLastPointInArray.getY();
+                coordinatesLastPointInArray.getY();
 
         return(new PointCoordinates (minX, minY));
     }

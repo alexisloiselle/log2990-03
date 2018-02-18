@@ -19,4 +19,13 @@ export class PointCoordinates {
     public setY(y: number): void {
         this.y = y;
     }
+
+    public equals(otherPoint: PointCoordinates): boolean {
+      if (this.getX() === otherPoint.getX() &&
+         this.getY() === otherPoint.getY()) {
+           return true;
+         }
+
+      return false;
+    }
 }
