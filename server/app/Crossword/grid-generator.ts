@@ -28,6 +28,20 @@ export class GridGenerator {
             const constraintsQueue: Word[] = [];
             constraintsQueue.push(words[0]);
 
+            //#region alexis
+            for (const row of grid) {
+                for (const position of row) {
+                    if (position.IsBlack) {
+                        process.stdout.write("#");
+                    } else if (position.IsAConstraint){
+                        process.stdout.write("C");
+                    } else {
+                        process.stdout.write(" ");
+                    }
+                }
+                process.stdout.write("\n");
+            }
+            //#endregion
             const wordPlacer: WordPlacer = new WordPlacer();
             const isUncommon: boolean = difficulty === "hard" ? true : false;
             wordPlacer.fitWord(grid, constraintsQueue, words, 0, isUncommon);
@@ -35,21 +49,7 @@ export class GridGenerator {
             const definitionAdder: DefinitionAdder = new DefinitionAdder();
             words = GridScanner.findWords(grid);
             definitionAdder.addWords(grid, words);
-            console.log(words);
             await definitionAdder.addDefinitions(words, difficulty);
-
-            //#region alexis
-            for (const row of grid) {
-                for (const position of row) {
-                    if (position.IsBlack) {
-                        process.stdout.write("#");
-                    } else {
-                        process.stdout.write(position.RightLetter);
-                    }
-                }
-                process.stdout.write("\n");
-            }
-            //#endregion
 
             const finalGrid: Grid = new Grid(grid, words);
             resolve(finalGrid);
