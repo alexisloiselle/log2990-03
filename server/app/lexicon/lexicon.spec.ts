@@ -45,7 +45,6 @@ describe("Lexicon", () => {
             // tslint:disable-next-line:no-any
             const req: any = await chai.request(API_URL).get("/lexicon/uncommon/%20ert%20%20");
             const wordsWithPattern: string[] = req.body;
-            expect(wordsWithPattern).to.contain("bertha");
             expect(wordsWithPattern).to.contain("certes");
         });
 
