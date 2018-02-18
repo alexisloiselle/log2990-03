@@ -15,8 +15,11 @@ module Route {
 
         public async getDefinitions(req: Request, res: Response, next: NextFunction): Promise<void> {
             const word: string = (req.params.word as string);
-            const defs: string[] = await Lexicon.getDefinitions(word);
-            res.send(defs);
+            try {
+                res.send(await Lexicon.getDefinitions(word));
+            } catch (e) {
+                res.send(e.message);
+            }
         }
 
         public getCommonWithPattern(req: Request, res: Response, next: NextFunction): void {
