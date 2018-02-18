@@ -7,6 +7,7 @@ import * as cors from "cors";
 import Types from "./types";
 import { injectable, inject } from "inversify";
 import { Routes } from "./routes";
+import { LexiconRoute } from "./routes/lexiconRoute";
 
 @injectable()
 export class Application {
@@ -34,10 +35,16 @@ export class Application {
 
     public routes(): void {
         const router: express.Router = express.Router();
-
         router.use(this.api.routes);
 
-        this.app.use(router);
+        const lexicon: LexiconRoute = new LexiconRoute();
+
+        router.get("/lexicon", lexicon.getAllWords);
+        router.get("/lexicon/definition/:word", lexicon.getDefinitions);
+        router.get("/lexicon/common/:pattern", lexicon.getCommonWithPattern);
+        router.get("/lexicon/uncommon/:pattern", lexicon.getUncommonWithPattern);
+
+        this.app.use("/api", router);
 
         this.errorHandeling();
     }
