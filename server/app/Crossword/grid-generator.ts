@@ -15,18 +15,15 @@ export class GridGenerator {
         // tslint:disable-next-line:max-func-body-length
         return new Promise<Grid>(async (resolve: Function) => {
             let grid: Case[][];
-
             const PERCENTAGE: number = 38;
 
             const blankGridCreator: BlankGridCreator = new BlankGridCreator();
             grid = blankGridCreator.createGrid(height, width);
-
             const blackCaseGenerator: BlackCaseGenerator = new BlackCaseGenerator(height, width);
             blackCaseGenerator.generateBlackCases(grid, PERCENTAGE);
 
             words = GridScanner.findWords(grid);
             GridScanner.identifyConstraint(grid, words);
-
             words.sort((a: Word, b: Word) => b.NbConstraints - a.NbConstraints);
             const constraintsQueue: Word[] = [];
             constraintsQueue.push(words[0]);
