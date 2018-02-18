@@ -26,8 +26,6 @@ export class Lexicon {
             /* tslint:disable-next-line:no-any */
             request(url, (error: any, response: any, body: any) => {
                 body = JSON.parse(body);
-                console.log(word);
-                console.log(body[0].defs[0]);
                 definitions = body[0].defs.slice(0, MAX_DEFS).map((def: string) => {
                     return def.slice(USELESS_CHAR);
                 });

@@ -6,21 +6,26 @@ import { BlankGridCreator } from "./blank-grid-creator";
 import { Word, Direction } from "./word";
 import { WordPlacer } from "./word-placer";
 
-describe("Grid-manager", () => {
-    const height: number = 5;
-    const width: number = 5;
+describe("Word-placer", () => {
+    const length: number = 5;
     const blankGridCreator: BlankGridCreator = new BlankGridCreator();
-    const grid: Case[][] = blankGridCreator.createGrid(height, width);
-    const wordPlacer: WordPlacer = new WordPlacer;
+    const grid: Case[][] = blankGridCreator.createGrid(length, length);
     const position: number = 2;
+    const wordPlacer: WordPlacer = new WordPlacer;
+    const word1: Word = new Word(position, 0, length, Direction.Horizontal, "");
 
     describe("Word placement", () => {
         it("Should be able to place words", () => {
-            const word1: Word = new Word(position, 0, height, Direction.Horizontal, "");
             expect(wordPlacer.placeWord(grid, word1, "salut")).to.equal(true);
-            const word2: Word = new Word(0, position, width, Direction.Vertical, "");
+            const word2: Word = new Word(0, position, length, Direction.Vertical, "");
             expect(wordPlacer.placeWord(grid, word2, "alloo")).to.equal(true);
 
+        });
+        it("Should be able to remove words", () => {
+            wordPlacer.removeWord(grid, word1, "  l  ");
+            expect(grid[position][position].RightLetter).to.equal("l");
+            expect(grid[position][0].RightLetter).to.equal("");
+            expect(grid[position][length - 1].RightLetter).to.equal("");
         });
     });
 });

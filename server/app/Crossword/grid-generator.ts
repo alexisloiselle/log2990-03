@@ -12,7 +12,6 @@ export class GridGenerator {
     public static async generateGrid(height: number, width: number, difficulty: string): Promise<Grid> {
         let words: Word[] = [];
 
-        // tslint:disable-next-line:max-func-body-length
         return new Promise<Grid>(async (resolve: Function) => {
             let grid: Case[][];
             const PERCENTAGE: number = 38;
@@ -28,20 +27,6 @@ export class GridGenerator {
             const constraintsQueue: Word[] = [];
             constraintsQueue.push(words[0]);
 
-            //#region alexis
-            for (const row of grid) {
-                for (const position of row) {
-                    if (position.IsBlack) {
-                        process.stdout.write("#");
-                    } else if (position.IsAConstraint){
-                        process.stdout.write("C");
-                    } else {
-                        process.stdout.write(" ");
-                    }
-                }
-                process.stdout.write("\n");
-            }
-            //#endregion
             const wordPlacer: WordPlacer = new WordPlacer();
             const isUncommon: boolean = difficulty === "hard" ? true : false;
             wordPlacer.fitWord(grid, constraintsQueue, words, 0, isUncommon);
