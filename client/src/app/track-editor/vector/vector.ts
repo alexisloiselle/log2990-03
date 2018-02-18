@@ -4,7 +4,7 @@ import { Domain } from "./domain";
 import { Equation} from "./equation";
 
 const POWER_OF_TWO: number = 2;
-//const LAW_OF_COSINUS_CONSTANT: number = 2;
+const LAW_OF_COSINUS_CONSTANT: number = 2;
 export class Vector {
     private domain: Domain;
     private equation: Equation;
@@ -39,24 +39,18 @@ export class Vector {
     }
 
     public calculateVectorIntersection(secondVector: Vector): PointCoordinates {
-        // Calculer point d'intersection
-        let xIntersection: number = 0;
-        let yIntersection: number = 0;
-        if (!(this.isParallel(secondVector))) {
-          if (this.getSlope() === Infinity || this.getSlope() === -Infinity) {
-            xIntersection = this.getDomainXMin();
-            yIntersection = (secondVector.getSlope() * xIntersection) + secondVector.getConstant();
-          } else if (secondVector.getSlope() === Infinity || secondVector.getSlope() === -Infinity) {
-            xIntersection = secondVector.getDomainXMin();
-            yIntersection = (this.getSlope() * xIntersection) + this.getConstant();
-          } else {
-            xIntersection = (secondVector.getConstant() - this.getConstant()) / (this.getSlope() - secondVector.getSlope());
-            yIntersection = xIntersection * this.getSlope() + this.getConstant();
-          }
 
-          return (new PointCoordinates(xIntersection, yIntersection));
+        // Calculer point d'intersection
+        console.log("EstParallele : "+this.isParallel(secondVector));
+        if (!(this.isParallel(secondVector))) {
+        const xIntersection: number = (secondVector.getConstant() - this.getConstant()) / (this.getSlope() - secondVector.getSlope());
+        const yIntersection: number = xIntersection * this.getSlope() + this.getConstant();
+
+        return (new PointCoordinates(xIntersection, yIntersection));
+
         } else {
-            return (new PointCoordinates(-1, -1));
+
+        return (new PointCoordinates(-1, -1));
         }
     }
 
@@ -64,7 +58,8 @@ export class Vector {
         if ((this.getSlope() === secondVector.getSlope())) {
             return true;
         } else {
-            return false;
+
+        return false;
         }
     }
 
@@ -72,16 +67,16 @@ export class Vector {
         let xMinCommun: number, xMaxCommun: number, yMinCommun: number, yMaxCommun: number;
 
         xMinCommun = (this.domain.getXMin() < secondVector.domain.getXMin()) ? this.domain.getXMin() :
-                      secondVector.domain.getXMin();
+                    secondVector.domain.getXMin();
 
         yMinCommun = (this.domain.getYMin() < secondVector.domain.getYMin()) ? this.domain.getYMin() :
-                      secondVector.domain.getYMin();
+        secondVector.domain.getYMin();
 
         xMaxCommun = (this.domain.getXMax() > secondVector.domain.getXMax()) ? this.domain.getXMax() :
-                      secondVector.domain.getXMax();
+        secondVector.domain.getXMax();
 
         yMaxCommun = (this.domain.getYMax() > secondVector.domain.getYMax()) ? this.domain.getYMax() :
-                      secondVector.domain.getYMax();
+        secondVector.domain.getYMax();
 
         const pointMinCommun: PointCoordinates = new PointCoordinates(xMinCommun, yMinCommun);
         const pointMaxCommun: PointCoordinates = new PointCoordinates(xMaxCommun, yMaxCommun);
@@ -90,72 +85,33 @@ export class Vector {
     }
 
     public pointIsInCommunDomain(intersectionPoint: PointCoordinates, secondVector: Vector): boolean {
-          if (intersectionPoint.getX() < this.domain.getXMin() || intersectionPoint.getX() < secondVector.domain.getXMin() ||
-              intersectionPoint.getX() > this.domain.getXMax() || intersectionPoint.getX() > secondVector.domain.getXMax() ||
-              intersectionPoint.getY() < this.domain.getYMin() || intersectionPoint.getY() < secondVector.domain.getYMin() ||
-              intersectionPoint.getY() > this.domain.getYMax() || intersectionPoint.getY() >= secondVector.domain.getYMax() ) {
+        if (intersectionPoint.getX() <= this.domain.getXMin() || intersectionPoint.getX() <= secondVector.domain.getXMin() ||
+            intersectionPoint.getX() >= this.domain.getXMax() || intersectionPoint.getX() >= secondVector.domain.getXMax() ||
+            intersectionPoint.getY() <= this.domain.getYMin() || intersectionPoint.getY() <= secondVector.domain.getYMin() ||
+            intersectionPoint.getY() >= this.domain.getYMax() || intersectionPoint.getY() >= secondVector.domain.getYMax() ) {
                 return false;
 
-          } else {
+        } else {
 
-              return true;
-          }
-
+            return true;
+        }
 
     }
 
     public calculateVectorLenght(): number {
         return (Math.sqrt(Math.pow(this.endPoint.getX() - this.startPoint.getX(), POWER_OF_TWO) + Math.pow(this.endPoint.getY() -
-                this.startPoint.getY(), POWER_OF_TWO)));
+        this.startPoint.getY(),                                                                            POWER_OF_TWO)));
     }
 
-    ///////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////
     public calculateAngle(firstVector: Vector): number {
         const oppositeVectorFromAngle: Vector = new Vector (this.endPoint, firstVector.startPoint);
-        return (180 * (Math.acos(((Math.pow(this.calculateVectorLenght(), POWER_OF_TWO)) +
+        return (180 * (Math.acos(((Math.pow(this.calculateVectorLenght(), POWER_OF_TWO)) + 
                     (Math.pow(firstVector.calculateVectorLenght(), POWER_OF_TWO)) -
-                    (Math.pow(oppositeVectorFromAngle.calculateVectorLenght(), POWER_OF_TWO))) /
-                    (POWER_OF_TWO * this.calculateVectorLenght() *
+                    (Math.pow(oppositeVectorFromAngle.calculateVectorLenght(), POWER_OF_TWO))) / 
+                    (LAW_OF_COSINUS_CONSTANT * this.calculateVectorLenght() *
                     firstVector.calculateVectorLenght()))) / Math.PI);
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     public findMinDomain(coordinatesNewPoint: PointCoordinates, coordinatesLastPointInArray: PointCoordinates): PointCoordinates {
         return (this.domain.findMinDomain(coordinatesNewPoint, coordinatesLastPointInArray));
