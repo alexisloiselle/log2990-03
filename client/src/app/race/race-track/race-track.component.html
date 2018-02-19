@@ -3,30 +3,30 @@
     <div class="col-xs-12">
         <h3 class="nouvellePiste"> Nouvelle Piste</h3>
 
-      <p>Name: 
+      <p>Name:
         <input type="text" class="form-control" #trackNameInput>
       </p>
 
 
-      <p>Description : 
+      <p>Description :
       <input type="text" class="form-control" #trackDescriptionInput>
       </p>
 
       <div class="niveau">
-      <p> Niveau : 
+      <p> Niveau :
         <select class="form-control" #trackTypeInput>
             <option value="Amateur">Amateur</option>
             <option value="Professionnel">Professionnel</option>
             </select>
         </p>
       </div>
-        <p>La piste doit être dessiné et validé avant de pouvoir être enregistré.</p>
-        <button class="btn-btn-primary" id="validate-button"  
-        (click)="addTrack(trackNameInput.value, trackDescriptionInput.value, trackTypeInput.value)"> Validation </button> 
+        <p>La piste doit être dessinée et validée avant de pouvoir être enregistré.</p>
+        <button class="btn-btn-primary" id="validate-button"
+        (click)="addTrack(trackNameInput.value, trackDescriptionInput.value, trackTypeInput.value)"> Validation </button>
     </div>
-    <p> Nom :  {{name}}  </p> 
-    <p> Description : {{description}} </p> 
-    <p> Type : {{type}} </p> 
+    <p> Nom :  {{name}}  </p>
+    <p> Description : {{description}} </p>
+    <p> Type : {{type}} </p>
     <p> Nombre de fois joué : {{timesPlayed}}</p>
   </div>
 </div>
