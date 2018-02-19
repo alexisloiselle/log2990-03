@@ -97,11 +97,12 @@ export class RenderService {
     }
 
     public handleKeyDown(event: KeyboardEvent): void {
-        this.carEventHandlerService.handleKeyDown(event, this._car);
+        this.carEventHandlerService.handleKeyDown(event, this._car, this.camera);
     }
 
     public handleKeyUp(event: KeyboardEvent): void {
-      this.carEventHandlerService.handleKeyUp(event, this._car);
+      this.carEventHandlerService.handleKeyUp(event, this._car, this.camera);
+      
     }
 
 }
