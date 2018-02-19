@@ -4,11 +4,13 @@
     color: white;
     padding: 14px 40px;
     border: none;
-    }
+}
+
 .nouvellePiste{
       margin-top : 200px;
       margin-bottom: 0px;
-    }
+}
+
 .niveau{
     -webkit-border-radius: 20px;
     -moz-border-radius: 20px;
@@ -16,6 +18,7 @@
     padding: 1px;
     text-align: center;
 }
+
 input[type=text]{
         width: 100%;
         padding: 12px 20px;
@@ -25,7 +28,8 @@ input[type=text]{
         -webkit-transition: 0.5s;
         transition: 0.5s;
         outline: none;
-    } 
+}
+
 input[type=text]:focus {
       border: 3px solid #555;
 }

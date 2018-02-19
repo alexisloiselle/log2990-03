@@ -1,27 +1,27 @@
 import { Component, OnInit } from "@angular/core";
-import {RaceTrackComponent} from "../race-track/race-track.component";
+import { RaceTrackComponent } from "../race-track/race-track.component";
 
 @Component({
-  selector: "app-track-list",
-  templateUrl: "./track-list.component.html",
-  styleUrls: ["./track-list.component.css"]
+    selector: "app-track-list",
+    templateUrl: "./track-list.component.html",
+    styleUrls: ["./track-list.component.css"]
 })
 
 export class TrackListComponent implements OnInit {
-  public tracks: RaceTrackComponent[];
-  private selectedTrack: RaceTrackComponent;
+    public tracks: RaceTrackComponent[];
+    private selectedTrack: RaceTrackComponent;
 
-  public constructor() {
-  }
+    public constructor() {
+    }
 
-  public ngOnInit(): void {
-  }
+    public ngOnInit(): void {
+    }
 
-  public get SelectedTrack(): RaceTrackComponent {
-    return this.selectedTrack;
-  }
+    public get SelectedTrack(): RaceTrackComponent {
+        return this.selectedTrack;
+    }
 
-  public set SelectTrack(track: RaceTrackComponent) {
-    this.selectedTrack = track;
-  }
+    public set SelectTrack(track: RaceTrackComponent) {
+        this.selectedTrack = track;
+    }
 }
