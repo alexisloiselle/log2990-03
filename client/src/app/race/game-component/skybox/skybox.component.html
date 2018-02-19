@@ -1,7 +1,9 @@
+<div>skybox works!!</div>
+
 <div id="container">
-    <canvas class="canvas" #canvas id="canvas">
-        <!--We add an event binding to the click event-->
-    </canvas>
+  <canvas class="canvas" #canvas id="canvas"  oncontextmenu="return false;" (mouseup)="canvasMouseUp($event)" (mousedown)="canvasMouseDown($event)" (mousemove)="canvasMouseMoved($event)">
+      <!--We add an event binding to the click event-->
+  </canvas>
 </div>
 
 

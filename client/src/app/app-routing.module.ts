@@ -11,6 +11,7 @@ import { CrosswordMainComponent } from "./crossword/crossword-main/crossword-mai
 import { SinglePlayerMenuComponent } from "./crossword/single-player-menu/single-player-menu.component";
 import { MultiplayerMenuComponent } from "./crossword/multiplayer-menu/multiplayer-menu.component";
 import { SinglePlayerGameComponent } from "./crossword/single-player-game/single-player-game.component";
+import { SkyboxComponent } from "./race/game-component/skybox/skybox.component";
 
 const routes: Routes = [
   { path: "", redirectTo: "/homepage", pathMatch: "full" },
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: "car-game", component: GameComponent },
   { path: "race-track", component: RaceTrackComponent },
   { path: "track-editor", component: TrackEditorComponent },
+  { path: "game-component/skybox", component: SkyboxComponent },
   { path: "track-list", component: TrackListComponent },
   { path: "race", component: RaceMainComponent },
   { path: "crossword", component: CrosswordMainComponent },
