@@ -8,7 +8,7 @@ const BRAKE_KEYCODE: number = 83;       // s
 const RIGHT_KEYCODE: number = 68;       // d
 const ZOOM_KEYCODE: number = 88;         // z
 const UNZOOM_KEYCODE: number = 90;       // x
-const ZOOM_FACTOR: number = 1.03;
+const ZOOM_FACTOR: number = 1.03;        // 
 
 
 // @Injectable() WE DON'T NEED IT BECAUSE NOTHING IS INJECTED TO THIS SERVICE
