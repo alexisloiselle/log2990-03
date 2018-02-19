@@ -4,8 +4,7 @@ import * as request from "request";
 import {
     WORD_API_URL,
     API_DEFS,
-    MAX_DEFS,
-    USELESS_CHAR
+    MAX_DEFS
 } from "../config";
 
 export class Lexicon {
@@ -28,7 +27,7 @@ export class Lexicon {
                 body = JSON.parse(body);
                 try {
                     definitions = body[0].defs.slice(0, MAX_DEFS).map((def: string) => {
-                        return def.slice(USELESS_CHAR);
+                        return def.split("\t").pop();
                     });
                 } catch (e) {
                     reject(new Error(`There's no such word as ${word}`));
