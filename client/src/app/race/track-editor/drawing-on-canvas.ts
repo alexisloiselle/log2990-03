@@ -1,12 +1,10 @@
-import { Injectable } from "@angular/core";
-import { PointCoordinates } from "./pointCoordinates";
+import { PointCoordinates } from "./point-coordinates";
 import { TrackEditorModel } from "./track-editor-model";
 
 const WIDTH_OF_CANVAS: number = 800;
 const HEIGHT_OF_CANVAS: number = 800;
 const STANDARD_SIZE_CIRCLE: number = 10;
 
-@Injectable()
 export class DrawingOnCanvas {
     private ctx: CanvasRenderingContext2D;
 

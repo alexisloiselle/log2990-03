@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
-// import { TrackEditorComponent } from "./track-editor.component";
 import { Vector } from "./vector/vector";
-import { PointCoordinates } from "./pointCoordinates";
+import { PointCoordinates } from "./point-coordinates";
 
 const MIN_ANGLE_IN_DEGREE: number = 45;
 @Injectable()

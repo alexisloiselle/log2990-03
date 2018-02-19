@@ -2,7 +2,7 @@
 // import { TestBed, inject } from "@angular/core/testing";
 
 // import { TrackEditorConstraintService } from "./track-editor-constraint.service";
-import { PointCoordinates } from "./pointCoordinates";
+import { PointCoordinates } from "./point-coordinates";
 import { Vector } from "./vector/vector";
 import {TrackEditorConstraintService} from "./track-editor-constraint.service";
 

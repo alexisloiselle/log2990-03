@@ -1,4 +1,4 @@
-import { PointCoordinates } from "./pointCoordinates";
+import { PointCoordinates } from "./point-coordinates";
 
 /*Classe qui s'occuppe de manipuler le tableau de points.
 C'est notre modèle.*/

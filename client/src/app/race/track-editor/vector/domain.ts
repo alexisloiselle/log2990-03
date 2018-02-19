@@ -1,4 +1,4 @@
-import { PointCoordinates} from "../pointCoordinates";
+import { PointCoordinates} from "../point-coordinates";
 
 export class Domain {
     private xMin: number;

@@ -1,5 +1,5 @@
 
-import { PointCoordinates} from "../pointCoordinates";
+import { PointCoordinates} from "../point-coordinates";
 import { Domain } from "./domain";
 import { Equation} from "./equation";
 

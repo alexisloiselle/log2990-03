@@ -1,5 +1,5 @@
 /* tslint:disable:no-magic-numbers */
-import { PointCoordinates } from "./pointCoordinates";
+import { PointCoordinates } from "./point-coordinates";
 // import { equation } from "./vector/equation";
 import { Vector } from "./vector/vector";
 // import { TrackEditorComponent} from "./track-editor.component";
