@@ -87,7 +87,7 @@ describe("TrackEditorComponent", () => {
             myTrackModel2.addPoint(point4);
             myTrackModel2.addPoint(point5);
             myTrackModel2.addPoint(point5);
-            myTrackModel2.removeDuplicatedPoints();
+            myTrackModel2.removePointsTooClose();
             expect(myTrackModel2.getPointArrayLength()).toBe(5);
         });
 
