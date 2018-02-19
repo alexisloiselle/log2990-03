@@ -22,55 +22,44 @@ export class TrackEditorConstraintService {
   }
 
   public verifyIsIntersecting(firstVector: Vector, secondVector: Vector): boolean {
-      const intersectionPoint: PointCoordinates = firstVector.calculateVectorIntersection(secondVector);
-    console.log("EST PARALLELE: "+ firstVector.isParallel(secondVector) + "EST DANS LE DOMAINE : "+ firstVector.pointIsInCommunDomain(intersectionPoint, secondVector));
-      return ((!(firstVector.isParallel(secondVector)))
-          && firstVector.pointIsInCommunDomain(intersectionPoint, secondVector));
+    const intersectionPoint: PointCoordinates = firstVector.calculateVectorIntersection(secondVector);
+    console.log("EST PARALLELE: " + firstVector.isParallel(secondVector) + "EST DANS LE DOMAINE : " + firstVector.pointIsInCommunDomain(intersectionPoint, secondVector));
+
+    return (!firstVector.isParallel(secondVector))
+      && firstVector.pointIsInCommunDomain(intersectionPoint, secondVector);
 
   }
   public loopIsClosed(myPointArray: PointCoordinates[]): boolean {
-    if (myPointArray.length >= 3 &&
-        myPointArray[0].getX() === myPointArray[myPointArray.length - 1].getX() &&
-        myPointArray[0].getY() === myPointArray[myPointArray.length - 1].getY() ) {
-          return true;
-       }
-
-    return false;
+    return (myPointArray.length >= 3 &&
+      myPointArray[0].X === myPointArray[myPointArray.length - 1].X &&
+      myPointArray[0].Y === myPointArray[myPointArray.length - 1].Y );
   }
 
   public angleBooleanArray(myPointArray: PointCoordinates[]): boolean[] {
     const myVector: Vector[] = this.createArrayVector(myPointArray);
     const myBooleanArray: boolean[] = [];
-    for (let i = 0; i < myVector.length - 1 ; i++) {
-      if (this.verifyAngle(myVector[i], myVector[i + 1])) {
-        myBooleanArray.push(true);
-      } else {
-        myBooleanArray.push(false);
-      }
+
+    for (let i: number = 0; i < myVector.length - 1 ; i++) {
+      myBooleanArray.push(this.verifyAngle(myVector[i], myVector[i + 1]));
     }
     if (this.loopIsClosed(myPointArray)) {
-      if (this.verifyAngle(myVector[myVector.length - 1], myVector[0])) {
-        myBooleanArray.push(true);
-      } else {
-        myBooleanArray.push(false);
-      }
+      myBooleanArray.push(this.verifyAngle(myVector[myVector.length - 1], myVector[0]));
     }
 
     return myBooleanArray;
-
   }
 
   public intersectionBooleanArray(myPointArray: PointCoordinates[]): boolean[] {
     const myVector: Vector[] = this.createArrayVector(myPointArray);
     const myBooleanArray: boolean[] = [];
     // Initialisation of the boolean array
-    for (let i = 0; i<myVector.length; i++) {
+    for (let i: number = 0; i < myVector.length; i++) {
       myBooleanArray.push(true);
     }
 
-    for (let i = 0; i < myVector.length; i++) {
+    for (let i: number = 0; i < myVector.length; i++) {
       // j = i+2 and not i+1 because two consecutive vectors obviously intersect each other
-      for (let j = i + 2; j < myVector.length; j++) {
+      for (let j: number = i + 2; j < myVector.length; j++) {
         if (!(i === 0 && j === myVector.length - 1 && this.loopIsClosed(myPointArray))) {
           if (this.verifyIsIntersecting(myVector[i], myVector[j])) {
             myBooleanArray[i] = false;

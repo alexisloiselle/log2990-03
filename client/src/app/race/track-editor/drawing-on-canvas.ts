@@ -16,13 +16,13 @@ export class DrawingOnCanvas {
 
   public drawFirstPointOnCanvas(point: PointCoordinates, color: string, size: number): void {
     this.ctx.beginPath();
-    this.ctx.arc(point.getX(), point.getY(), STANDARD_SIZE_CIRCLE, 0, Math.PI * 2);
+    this.ctx.arc(point.X, point.Y, STANDARD_SIZE_CIRCLE, 0, Math.PI * 2);
     this.ctx.lineWidth = 5;
     this.ctx.strokeStyle = "blue";
     this.ctx.stroke();
 
     this.ctx.beginPath();
-    this.ctx.arc(point.getX(), point.getY(), size, 0, Math.PI * 2);
+    this.ctx.arc(point.X, point.Y, size, 0, Math.PI * 2);
     this.ctx.fillStyle = color;
     this.ctx.fill();
     // We reset the line Width
@@ -31,7 +31,7 @@ export class DrawingOnCanvas {
 
   public drawPointOnCanvas(point: PointCoordinates, color: string, size: number): void {
       this.ctx.beginPath();
-      this.ctx.arc(point.getX(), point.getY(), size, 0, Math.PI * 2);
+      this.ctx.arc(point.X, point.Y, size, 0, Math.PI * 2);
       this.ctx.fillStyle = color;
       this.ctx.fill();
   }
@@ -46,14 +46,11 @@ export class DrawingOnCanvas {
     for (const i of myTrackEditorModel.getPointArray()) {
       if (myTrackEditorModel.getPointArray().indexOf(i) !== 0) {
         this.ctx.beginPath();
-        this.ctx.moveTo(myTrackEditorModel.getSinglePoint(myTrackEditorModel.getPointArray().indexOf(i) - 1).getX(),
-                        myTrackEditorModel.getSinglePoint(myTrackEditorModel.getPointArray().indexOf(i) - 1).getY());
-        this.ctx.lineTo(i.getX(), i.getY());
-        if (intersectionBooleanArray[myTrackEditorModel.getPointArray().indexOf(i) - 1]) {
-          this.ctx.strokeStyle = "black";
-        } else {
-          this.ctx.strokeStyle = "red";
-        }
+        this.ctx.moveTo(myTrackEditorModel.getSinglePoint(myTrackEditorModel.getPointArray().indexOf(i) - 1).X,
+                        myTrackEditorModel.getSinglePoint(myTrackEditorModel.getPointArray().indexOf(i) - 1).Y);
+        this.ctx.lineTo(i.X, i.Y);
+        this.ctx.strokeStyle = intersectionBooleanArray[myTrackEditorModel.getPointArray().indexOf(i) - 1] ?
+          "black" : "red";
         this.ctx.stroke();
       }
     }

@@ -7,25 +7,23 @@ export class PointCoordinates {
         this.y = y;
     }
 
-    public getX(): number {
+    public equals(otherPoint: PointCoordinates): boolean {
+        return (this.X === otherPoint.X && this.Y === otherPoint.Y);
+    }
+
+    public get X(): number {
         return this.x;
     }
-    public getY(): number {
-        return this.y;
-    }
-    public setX(x: number): void  {
+
+    public set X(x: number) {
         this.x = x;
     }
-    public setY(y: number): void {
-        this.y = y;
+
+    public get Y(): number {
+        return this.y;
     }
 
-    public equals(otherPoint: PointCoordinates): boolean {
-      if (this.getX() === otherPoint.getX() &&
-         this.getY() === otherPoint.getY()) {
-           return true;
-         }
-
-      return false;
+    public set Y(y: number) {
+        this.y = y;
     }
 }

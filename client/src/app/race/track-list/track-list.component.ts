@@ -12,13 +12,16 @@ export class TrackListComponent implements OnInit {
   private selectedTrack: RaceTrackComponent;
 
   public constructor() {
-   }
+  }
+
   public ngOnInit(): void {
   }
-  public getSelectedTrack(): RaceTrackComponent {
+
+  public get SelectedTrack(): RaceTrackComponent {
     return this.selectedTrack;
   }
-  public setSelectTrack(track: RaceTrackComponent): void {
+
+  public set SelectTrack(track: RaceTrackComponent) {
     this.selectedTrack = track;
   }
 }
