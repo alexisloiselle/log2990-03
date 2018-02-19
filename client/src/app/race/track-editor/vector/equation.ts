@@ -9,24 +9,25 @@ export class Equation {
         this.constant = this.calculateConstant(pointEnd);
     }
     public calculateSlope(pointEnd: PointCoordinates, pointStart: PointCoordinates): number {
-        return((pointEnd.getY() - pointStart.getY()) / (pointEnd.getX() - pointStart.getX()));
+        return((pointEnd.Y - pointStart.Y) / (pointEnd.X - pointStart.X));
     }
 
     public calculateConstant(pointFromTheVector: PointCoordinates): number {
-        return (pointFromTheVector.getY() - this.slope * pointFromTheVector.getX());
+        return (pointFromTheVector.Y - this.slope * pointFromTheVector.X);
     }
 
-    public getSlope(): number {
+    public get Slope(): number {
         return this.slope;
     }
-    public getConstant(): number {
-        return this.constant;
-    }
 
-    public setSlope(slope: number ): void {
+    public set Slope(slope: number ) {
         this.slope = slope;
     }
-    public setConstant( constant: number): void {
+
+    public get Constant(): number {
+        return this.constant;
+    }
+    public set Constant(constant: number) {
         this.constant = constant;
     }
 }

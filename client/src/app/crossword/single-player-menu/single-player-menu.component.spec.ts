@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { SinglePlayerMenuComponent } from './single-player-menu.component';
+import { SinglePlayerMenuComponent } from "./single-player-menu.component";
 
-describe('SinglePlayerMenuComponent', () => {
-  let component: SinglePlayerMenuComponent;
-  let fixture: ComponentFixture<SinglePlayerMenuComponent>;
+describe("SinglePlayerMenuComponent", () => {
+    let component: SinglePlayerMenuComponent;
+    let fixture: ComponentFixture<SinglePlayerMenuComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ SinglePlayerMenuComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [SinglePlayerMenuComponent]
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(SinglePlayerMenuComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(SinglePlayerMenuComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it("should create", () => {
+        expect(component).toBeTruthy();
+    });
 });

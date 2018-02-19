@@ -1,15 +1,14 @@
 import { Component, OnInit } from "@angular/core";
 
 @Component({
-  selector: "app-race-main",
-  templateUrl: "./race-main.component.html",
-  styleUrls: ["./race-main.component.css"]
+    selector: "app-race-main",
+    templateUrl: "./race-main.component.html",
+    styleUrls: ["./race-main.component.css"]
 })
+
 export class RaceMainComponent implements OnInit {
 
-  constructor() { }
+    public constructor() { }
 
-  ngOnInit() {
-  }
-
+    public ngOnInit(): void { }
 }

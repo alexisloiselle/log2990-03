@@ -1,5 +1,5 @@
-import { CarEventHandlerService } from "./car-event-handler.service";
+/*import { CarEventHandlerService } from "./car-event-handler.service";
 
 describe("CarEventHandler service", () => {
 
-});
+});*/
