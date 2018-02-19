@@ -4,7 +4,7 @@ import { Word, Direction } from "./word";
 
 export class DefinitionAdder {
 
-    public addWords(grid: Case[][], words: Word[]): void {
+    public static addWords(grid: Case[][], words: Word[]): void {
         for (const wordInfo of words) {
             let word: string = "";
             let line: number = wordInfo.Line;
@@ -19,7 +19,7 @@ export class DefinitionAdder {
         }
     }
 
-    public async addDefinitions(words: Word[], difficulty: string): Promise<boolean> {
+    public static async addDefinitions(words: Word[], difficulty: string): Promise<boolean> {
         for (const wordInfo of words) {
             const definitions: string[] = await Lexicon.getDefinitions(wordInfo.Word);
             wordInfo.Definition = difficulty === "easy" || definitions.length <= 1 ? definitions[0] : definitions[1];

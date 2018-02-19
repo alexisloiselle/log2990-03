@@ -8,9 +8,8 @@ import { Word } from "./word";
 
 /* tslint:disable:no-magic-numbers */
 describe("Grid Scanner", () => {
-    const blankGridCreator: BlankGridCreator = new BlankGridCreator();
     const DIMENSION: number = 8;
-    const grid: Case[][] = blankGridCreator.createGrid(DIMENSION, DIMENSION);
+    const grid: Case[][] = BlankGridCreator.createGrid(DIMENSION, DIMENSION);
 
     // Black Case setup
     grid[0][0].IsBlack = true;
