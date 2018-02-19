@@ -77,7 +77,7 @@ describe("TrackEditorComponent", () => {
             expect(myTrackModel1.getPointArrayLength()).toBe(1);
         });
 
-        /*const myTrackModel2: TrackEditorModel = new TrackEditorModel();
+        const myTrackModel2: TrackEditorModel = new TrackEditorModel();
 
         it("Should remove a duplicated point.", () => {
             myTrackModel2.addPoint(point1);
@@ -87,9 +87,9 @@ describe("TrackEditorComponent", () => {
             myTrackModel2.addPoint(point4);
             myTrackModel2.addPoint(point5);
             myTrackModel2.addPoint(point5);
-            myTrackModel2.removeDuplicatedPoints();
+            myTrackModel2.removePointsTooClose();
             expect(myTrackModel2.getPointArrayLength()).toBe(5);
-        });*/
+        });
 
         const myTrackModel3: TrackEditorModel = new TrackEditorModel();
 
