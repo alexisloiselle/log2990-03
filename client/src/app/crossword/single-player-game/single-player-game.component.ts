@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { Game } from "../game";
 
 @Component({
@@ -12,7 +12,7 @@ export class SinglePlayerGameComponent implements OnInit {
     public difficulty: string;
     private game: Game;
 
-    public constructor(private route: ActivatedRoute, private router: Router) { }
+    public constructor(private route: ActivatedRoute) { }
 
     public ngOnInit(): void {
         this.route.params.subscribe((params) => {
