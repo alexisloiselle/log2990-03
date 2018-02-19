@@ -1,4 +1,7 @@
 .canvas{
-    margin-top: 200px;
-     border: 3px solid black;
+    margin-top: 100px;
+    margin-left: 20px;
+     border: 3px solid rgb(0, 0, 0);
+     width: 80%;
+     height: 100%;
    }
