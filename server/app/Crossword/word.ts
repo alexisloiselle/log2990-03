@@ -5,27 +5,57 @@ export class Word {
     private column: number;
     private length: number;
     private orientation: Direction;
+    private nbConstraints: number;
+    private word: string;
+    private definition: string;
 
-    constructor (line: number, column: number, length: number, orientation: Direction) {
+    constructor(line: number, column: number, length: number, orientation: Direction, word: string) {
         this.line = line;
         this.column = column;
         this.length = length;
         this.orientation = orientation;
+        this.nbConstraints = 0;
+        this.word = word;
+        this.definition = "";
     }
 
-    public getLine(): number {
+    get Line(): number {
         return this.line;
     }
 
-    public getColumn(): number {
+    get Column(): number {
         return this.column;
     }
 
-    public getLength(): number {
+    get Length(): number {
         return this.length;
     }
 
-    public getOrientation(): Direction {
+    get Orientation(): Direction {
         return this.orientation;
+    }
+
+    get NbConstraints(): number {
+        return this.nbConstraints;
+    }
+
+    set NbConstraints(value: number) {
+        this.nbConstraints = value;
+    }
+
+    get Word(): string {
+        return this.word;
+    }
+
+    set Word(value: string) {
+        this.word = value;
+    }
+
+    get Definition(): string {
+        return this.definition;
+    }
+
+    set Definition(value: string) {
+        this.definition = value;
     }
 }

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CarRaceComponent } from './car-race.component';
+import { MultiplayerMenuComponent } from './multiplayer-menu.component';
 
-describe('CarRaceComponent', () => {
-  let component: CarRaceComponent;
-  let fixture: ComponentFixture<CarRaceComponent>;
+describe('MultiplayerMenuComponent', () => {
+  let component: MultiplayerMenuComponent;
+  let fixture: ComponentFixture<MultiplayerMenuComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CarRaceComponent ]
+      declarations: [ MultiplayerMenuComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CarRaceComponent);
+    fixture = TestBed.createComponent(MultiplayerMenuComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

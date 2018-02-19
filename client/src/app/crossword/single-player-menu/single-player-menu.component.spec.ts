@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CrosswordComponent } from './crossword.component';
+import { SinglePlayerMenuComponent } from './single-player-menu.component';
 
-describe('CrosswordComponent', () => {
-  let component: CrosswordComponent;
-  let fixture: ComponentFixture<CrosswordComponent>;
+describe('SinglePlayerMenuComponent', () => {
+  let component: SinglePlayerMenuComponent;
+  let fixture: ComponentFixture<SinglePlayerMenuComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CrosswordComponent ]
+      declarations: [ SinglePlayerMenuComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CrosswordComponent);
+    fixture = TestBed.createComponent(SinglePlayerMenuComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

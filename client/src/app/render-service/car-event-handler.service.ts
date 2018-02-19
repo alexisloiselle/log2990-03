@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { Car } from "../car/car";
+// import { Injectable } from "@angular/core";
+import { Car } from "../race/car/car";
 
 const ACCELERATE_KEYCODE: number = 87;  // w
 const LEFT_KEYCODE: number = 65;        // a

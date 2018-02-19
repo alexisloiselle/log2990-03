@@ -6,13 +6,10 @@ import { Case } from "./case";
 
 describe("Blank Grid Generator", () => {
 
-    let blankGridManager: BlankGridCreator;
-    blankGridManager = new BlankGridCreator;
-
     const HEIGHT: number = 5;
     const WIDTH: number = 8;
 
-    const cases: Case[][] = blankGridManager.createGrid(HEIGHT, WIDTH);
+    const cases: Case[][] = BlankGridCreator.createGrid(HEIGHT, WIDTH);
 
     describe("Create Grid", () => {
         it("Should have the right width", () => {
