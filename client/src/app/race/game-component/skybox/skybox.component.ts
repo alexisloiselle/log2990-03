@@ -25,7 +25,7 @@ export class SkyboxComponent implements OnInit {
      }
 
     ngOnInit() { 
-	
+		
       this.createScene();
 	}
 	
@@ -45,7 +45,7 @@ export class SkyboxComponent implements OnInit {
     public loadCubeTexture(){
 	   
 		this.scene.background= new CubeTextureLoader()
-		.setPath('./pictures')
+		.setPath('../../../../assets/skybox/')
 		.load([
 			'rt.png',
 			'lf.png',
