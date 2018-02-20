@@ -50,9 +50,6 @@ export class Application {
 
         this.app.use("/api", router);
 
-        const generateCrossword: any = require("./Crossword/grid-manager");
-        this.app.use("/crossword-generator", generateCrossword);
-
         this.errorHandeling();
     }
 

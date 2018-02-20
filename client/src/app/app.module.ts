@@ -45,7 +45,7 @@ import {CarEventHandlerService} from "./render-service/car-event-handler.service
         RenderService,
         BasicService,
         GameService,
-        CrosswordService
+        CrosswordService,
         CarEventHandlerService
     ],
     bootstrap: [AppComponent]
