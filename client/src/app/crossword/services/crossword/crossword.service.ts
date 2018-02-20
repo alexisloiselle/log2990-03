@@ -4,10 +4,14 @@ import { HttpClient } from "@angular/common/http";
 @Injectable()
 export class CrosswordService {
 
-    public constructor(private http: HttpClient) {}
+    public serverUrl: string;
+
+    public constructor(private http: HttpClient) {
+        this.serverUrl = "http://localhost:3000/";
+    }
 
     public generateGrid() {
-        return this.http.get("http://localhost:3000/crossword-generator/generate-grid");
+        return this.http.get(this.serverUrl + "crossword-generator/generate-grid");
     }
 
 }
