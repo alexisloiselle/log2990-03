@@ -4,10 +4,11 @@ import { PointCoordinates } from "./point-coordinates";
 import { TrackEditorModel } from "./track-editor-model";
 import { TrackEditorConstraintService } from "./track-editor-constraint.service";
 import { DrawingOnCanvas } from "./drawing-on-canvas";
+import {RaceType} from "../race-track/race-track.component"
 
 const STANDARD_SIZE_CIRCLE: number = 10;
-const WIDTH_OF_CANVAS: number = 800;
-const HEIGHT_OF_CANVAS: number = 800;
+const WIDTH_OF_CANVAS: number = 500;
+const HEIGHT_OF_CANVAS: number = 500;
 
 @Component({
     selector: "app-track-editor",
@@ -26,6 +27,9 @@ export class TrackEditorComponent implements OnInit {
     private mouseDown: boolean;    // Used for the drag and drop
     private myTrackEditorModel: TrackEditorModel;
     private drawingOnCanvas: DrawingOnCanvas;
+    private trackName: string;
+    private trackDescription: string;
+    private trackType: RaceType;
 
     public ngOnInit(): void {
         // We here initialise the canvas and get the context (ctx)
@@ -39,7 +43,8 @@ export class TrackEditorComponent implements OnInit {
         // We instanciate the model
         this.myTrackEditorModel = new TrackEditorModel();
         this.drawingOnCanvas = new DrawingOnCanvas(this.ctx);
-
+        this.trackName= "";
+        this.trackDescription == "";
     }
 
     public constructor(private trackEditorConstraintService: TrackEditorConstraintService) {
@@ -168,11 +173,29 @@ export class TrackEditorComponent implements OnInit {
         this.trackEditorConstraintService.intersectionBooleanArray(this.myTrackEditorModel.getPointArray()),
         this.trackEditorConstraintService.angleBooleanArray(this.myTrackEditorModel.getPointArray()));
     }
-
     public allConstraintPass(): boolean {
       return this.myTrackEditorModel.allConstraintPass(
         this.trackEditorConstraintService.angleBooleanArray(this.myTrackEditorModel.getPointArray()),
         this.trackEditorConstraintService.intersectionBooleanArray(this.myTrackEditorModel.getPointArray()));
     }
-
+    public get name(): string {
+        return this.name;
+    }
+    public get description(): string {
+        return this.description;
+    }
+    public set name(name: string) {
+        this.name = name;
+    }
+    public set description(description: string) {
+        this.description = description;
+    }
+    public inputTextNotEmpty(trackName: string, trackDescription: string, trackType: RaceType): boolean {
+       return (this.trackName.length !== 0 && this.trackDescription.length !== 0);
+    }
+    public addTrack(trackName: string, trackDescription: string, trackType: RaceType): void {
+        this.trackName = trackName;
+        this.trackDescription = trackDescription;
+        this.trackType= trackType;
+    }
 }

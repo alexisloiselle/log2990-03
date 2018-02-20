@@ -62,7 +62,7 @@ export class RaceTrackComponent implements OnInit {
         this.Desciption = trackDescription;
         this.Type = trackType;
     }
-
+    
     public ngOnInit(): void {
     }
 }

@@ -1,4 +1,18 @@
 .canvas{
-    margin-top: 200px;
     border: 3px solid black;
+    float: left;
+    width: auto;
+}
+.btn-btn-primary{
+    background-color: #3742fa;
+    text-align: center;
+    color: white;
+    padding: 14px 40px;
+    border: none;
+}
+.textInput{
+    float: left;
+    height: 100%;
+    width: auto;
+    margin-top: 50px;
 }

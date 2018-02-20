@@ -1,9 +1,41 @@
 <div id="container">
+  <div class=row>
+  <div class = "col-md">
   <canvas class="canvas" #canvas id="canvas"  oncontextmenu="return false;" (mouseup)="canvasMouseUp($event)" (mousedown)="canvasMouseDown($event)" (mousemove)="canvasMouseMoved($event)">
       <!--We add an event binding to the click event-->
   </canvas>
+  </div>
+<div class = "col-md">
+    <div class="row">
+        <div class="col-xs-12">
+            <h3 class="nouvellePiste"> Nouvelle Piste</h3>
+    
+          <p> Name:
+            <input type="text" [disabled] = "!allConstraintPass()" class="form-control" #trackNameInput>
+          </p>
+    
+    
+          <p>Description:
+          <input type="text" [disabled] = "!allConstraintPass()" class="form-control" #trackDescriptionInput>
+          </p>
+    
+          <div class="niveau">
+          <p> Niveau :
+            <select class="form-control" #trackTypeInput>
+                <option value="Amateur">Amateur</option>
+                <option value="Professionnel">Professionnel</option>
+                </select>
+            </p>
+          </div>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div id="textInput">
+      <p>La piste doit être dessinée et validée avant de pouvoir être enregistré.</p>
+      <button class="btn-btn-primary" id="validate-button" [disabled] = "!allConstraintPass() && !inputTextNotEmpty()"
+      (click)="addTrack(trackNameInput.value, trackDescriptionInput.value, trackTypeInput.value)" routerLink="/track-list" > Validation </button>
+    </div>
 </div>
 
-<button type="button" [disabled] = "!allConstraintPass()" class="btn btn-lg btn-success">Valider shéma</button>
-
-
+    

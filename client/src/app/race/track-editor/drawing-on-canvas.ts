@@ -1,8 +1,8 @@
 import { PointCoordinates } from "./point-coordinates";
 import { TrackEditorModel } from "./track-editor-model";
 
-const WIDTH_OF_CANVAS: number = 800;
-const HEIGHT_OF_CANVAS: number = 800;
+const WIDTH_OF_CANVAS: number = 500;
+const HEIGHT_OF_CANVAS: number = 500;
 const STANDARD_SIZE_CIRCLE: number = 10;
 
 export class DrawingOnCanvas {
