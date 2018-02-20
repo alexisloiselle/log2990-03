@@ -10,12 +10,15 @@ module Route {
     @injectable()
     export class CrosswordRoute {
 
+        private grid: Grid;
+
         public async getGrid(req: Request, res: Response, next: NextFunction): Promise<void> {
             const DIMENSION: number = 10;
             console.log("ajshfkjahfkjashkjhakjshfkjahsfkjfksjvkjbsdsvbs");
-            const grid: Grid = await GridGenerator.generateGrid(DIMENSION, DIMENSION, req.params.difficulty);
+            console.log(this);
+            this.grid = await GridGenerator.generateGrid(DIMENSION, DIMENSION, req.params.difficulty);
 
-            const letters: string[][] = grid.Cases.map((line: Case[]) => {
+            const letters: string[][] = this.grid.Cases.map((line: Case[]) => {
                 return line.map((position: Case) => {
                     return position.RightLetter;
                 });
@@ -26,7 +29,7 @@ module Route {
                 def: string,
                 isHorizontal: boolean,
                 position: {x: number, y: number}
-            }[] = grid.Words.map((wordInfo: Word) => {
+            }[] = this.grid.Words.map((wordInfo: Word) => {
                 return {
                     word: wordInfo.Word,
                     def: wordInfo.Definition,
