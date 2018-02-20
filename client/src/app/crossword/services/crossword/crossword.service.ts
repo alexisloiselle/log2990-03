@@ -7,7 +7,10 @@ import { Observable } from "rxjs/Observable";
 @Injectable()
 export class CrosswordService {
 
-    public constructor(private http: HttpClient) {}
+    public serverUrl: string = "http://localhost:3000/";
+
+    public constructor(private http: HttpClient) {
+    }
 
     public generateGrid(): Observable<FormattedGrid> {
         return this.http.get("http://localhost:3000/crossword-generator/generate-grid")
