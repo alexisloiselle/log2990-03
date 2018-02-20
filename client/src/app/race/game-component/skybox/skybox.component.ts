@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import * as THREE from "three";
+import { CubeTextureLoader } from "three";
 
 
 
@@ -16,53 +17,73 @@ export class SkyboxComponent implements OnInit {
     private scene = new THREE.Scene();
     // private stats // 
     private material: THREE.ShaderMaterial;
-    private renderer = new THREE.WebGLRenderer({antialias: true});
+    private renderer = new THREE.WebGLRenderer();
     private container = document.createElement( 'div' );
     
 
     constructor() {
-        this.createScene();
      }
 
     ngOnInit() { 
-      this.loadCubeTexture();
-      this.initShader();
-      this.initRenderer();
+	
+      this.createScene();
+	}
+	
+	public async createScene() : Promise<void>{
+		
+		
+		this.scene=  new THREE.Scene();
+		this.initSceneMesh();
+		this.loadCubeTexture();
+		this.initShader();
+		
+		
+		this.initRenderer();
+		this.renderer.render(this.scene,this.camera);
+	}
 
-    }
-
-    public loadCubeTexture(): THREE.Texture {
-        let urlPrefix = "./skybox/pictures/";
-        let urls = [urlPrefix + "rt.png", urlPrefix + "lf.png",
-        urlPrefix + "up.png", urlPrefix + "dn.png",
-        urlPrefix + "ft.png", urlPrefix + "bk.png"];
-        return THREE.ImageUtils.loadTextureCube(urls);
+    public loadCubeTexture(){
+	   
+		this.scene.background= new CubeTextureLoader()
+		.setPath('./pictures')
+		.load([
+			'rt.png',
+			'lf.png',
+			'up.png',
+			'dn.png',
+			'ft.png',
+			'bk.png',
+		]);
+	
     }
 
     public initShader() {
-        var shader = THREE.ShaderLib["cube"];
-        var uniforms = THREE.UniformsUtils.clone(shader.uniforms);
+        let shader = THREE.ShaderLib['cube'];
+        let uniforms = THREE.UniformsUtils.clone(shader.uniforms);
         uniforms['tCube'].texture = this.loadCubeTexture();   // textureCube has been init before
         this.material = new THREE.ShaderMaterial({
             fragmentShader: shader.fragmentShader,
             vertexShader: shader.vertexShader,
             uniforms: shader.uniforms,
             depthWrite: false,
-            side: THREE.DoubleSide
+			side: THREE.DoubleSide
+		
         });
-        this.material.needsUpdate = true;
+        // this.scene.add(uniforms);
     }
-    public createScene() {
-        const skyboxMesh = new THREE.Mesh(new THREE.CubeGeometry(100000, 100000, 100000), this.material);
-        this.material.needsUpdate = true;
-        this.scene.add(skyboxMesh);
+    public initSceneMesh() {
+		const skyboxMesh = new THREE.Mesh(new THREE.CubeGeometry(100000, 100000, 100000), this.material);
+		this.scene.add(skyboxMesh);
+       
+        
     }
     public initRenderer() {
 
 	  this.renderer.setSize( window.innerWidth, window.innerHeight );
     this.container.appendChild( this.renderer.domElement );
-    document.body.appendChild(this.container ); // not sure about that
-    this.renderer.render(this.scene,this.camera);
+	document.body.appendChild(this.container ); // not sure about that
+	
+    
     }
 
     
