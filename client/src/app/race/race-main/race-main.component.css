@@ -1,5 +1,5 @@
 input[type=text]{
-    width: 100%;
+    width: 80%;
     padding: 12px 20px;
     margin: 8px 0;
     box-sizing: border-box;
@@ -11,4 +11,7 @@ input[type=text]{
 
 input[type=text]:focus {
   border: 3px solid #555;
+}
+.container {
+  position: center;
 }

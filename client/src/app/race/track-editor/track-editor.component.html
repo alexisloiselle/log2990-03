@@ -33,7 +33,7 @@
       </div>
       <div class="validation">
       <p>La piste doit être dessinée et validée avant de pouvoir être enregistrée.</p>
-      <button class="btn-btn-primary" id="validate-button" [disabled] = "!allConstraintPass()" [disabled] = "!inputTextNotEmpty()"
+      <button class="btn-btn-primary" id="validate-button" [disabled] = "!allConstraintPass() && !inputTextNotEmpty()" 
       (click)="addTrack(trackNameInput.value, trackDescriptionInput.value, trackTypeInput.value)" routerLink="/track-list" > Validation </button>
     </div>
 </div>

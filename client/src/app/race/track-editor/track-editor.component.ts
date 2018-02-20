@@ -191,7 +191,6 @@ export class TrackEditorComponent implements OnInit {
         this.description = description;
     }
     public inputTextNotEmpty(): boolean {
-        console.log(this.trackName.length !== 0 && this.trackDescription.length !== 0);
        return (this.trackName.length !== 0 && this.trackDescription.length !== 0);
     }
     public addTrack(trackName: string, trackDescription: string, trackType: RaceType): void {
