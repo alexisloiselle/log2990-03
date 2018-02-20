@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
+import { Game } from "../game";
 
 @Component({
     selector: "app-single-player-game",
@@ -8,23 +9,16 @@ import { ActivatedRoute, Router } from "@angular/router";
 })
 export class SinglePlayerGameComponent implements OnInit {
 
-    public difficultyInFrench: string;
+    public difficulty: string;
+    private game: Game;
 
-    constructor(private route: ActivatedRoute, private router: Router) { }
+    public constructor(private route: ActivatedRoute) { }
 
-    ngOnInit() {
+    public ngOnInit(): void {
         this.route.params.subscribe((params) => {
-            const difficulty: string = params["difficulty"];
-            if (difficulty === "easy") {
-                this.difficultyInFrench = "Facile";
-            } else if (difficulty === "medium") {
-                this.difficultyInFrench = "Normal";
-            } else if (difficulty === "hard") {
-                this.difficultyInFrench = "Difficile";
-            } else {
-                this.router.navigateByUrl("/crossword");
-            }
+            this.difficulty = params["difficulty"];
         });
+        this.game = new Game(this.difficulty);
     }
 
 }

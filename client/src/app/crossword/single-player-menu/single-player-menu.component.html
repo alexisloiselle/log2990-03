@@ -1,16 +1,16 @@
 <div id="difficultySelector">
-  Veuillez sélectionner la difficulté :
+  Select difficulty :
   <div class="container">
     <div class="row">
       <div class="btn-group  buttonsModeSelector" data-toggle="buttons">
         <button type="button" class="btn btn-outline-success btn-lg  easyButton" (click)="goToGame('easy')">
-          Facile
+          Easy
         </button>
         <button type="button" class="btn btn-outline-warning btn-lg  mediumButton" (click)="goToGame('medium')">
-          Moyen
+          Normal
         </button>
-        <button type="button" class="btn btn-outline-danger btn-lg  hardButton" (click)="goToGame('difficult')">
-          Difficile
+        <button type="button" class="btn btn-outline-danger btn-lg  hard  Button" (click)="goToGame('hard')">
+          Hard
         </button>
       </div>
     </div>
@@ -18,5 +18,5 @@
   <p id="test"></p>
 </div>
 <div id="returnToModeSelection">
-  <a routerLink="/crossword">Retour à la sélection du mode de jeu</a>
+  <a routerLink="/crossword">Return to mode selection</a>
 </div>
