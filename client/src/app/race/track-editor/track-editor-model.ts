@@ -4,9 +4,13 @@ import { PointCoordinates } from "./point-coordinates";
 C'est notre modèle.*/
 
 export class TrackEditorModel {
-    private pointArray: PointCoordinates[] = [];
+    private pointArray: PointCoordinates[];
 
-    public getPointArray(): PointCoordinates[] {
+    public constructor() {
+        this.pointArray = [];
+    }
+
+    public get PointArray(): PointCoordinates[] {
         return this.pointArray;
     }
 
@@ -30,10 +34,10 @@ export class TrackEditorModel {
     }
 
     public addPoint(point: PointCoordinates): void {
-      if (!this.loopIsClosed()) {
-        this.pointArray.push(point);
-        this.removePointsTooClose();
-      }
+        if (!this.loopIsClosed()) {
+            this.pointArray.push(point);
+            this.removePointsTooClose();
+        }
     }
 
     public eraseLastPoint(): void {
@@ -50,7 +54,7 @@ export class TrackEditorModel {
         if (this.pointArray.length > MINIMUM_ARRAY_LENGTH) {
             // We begin with the first point because the first point will
             // have the last point on it when the loop is closed
-            for (let i: number = 1; i < this.pointArray.length - 1; i++) {
+            for (let i: number = this.loopIsClosed() ? 1 : 0; i < this.pointArray.length - 1; i++) {
                 for (let j: number = i + 1; j < this.pointArray.length; j++) {
                     if (this.pointArray[j].X >= this.pointArray[i].X - MINIMUM_RADIUS &&
                         this.pointArray[j].X <= this.pointArray[i].X + MINIMUM_RADIUS &&
@@ -65,20 +69,16 @@ export class TrackEditorModel {
 
     public loopIsClosed(): boolean {
         const MINIMUM_ARRAY_LENGTH: number = 3;
-        if (this.pointArray.length >= MINIMUM_ARRAY_LENGTH) {
-            if (this.pointArray[this.pointArray.length - 1].equals(this.pointArray[0])) {
-                return true;
-            }
-        }
 
-        return false;
+        return (this.pointArray.length >= MINIMUM_ARRAY_LENGTH &&
+            (this.pointArray[this.pointArray.length - 1]).equals(this.pointArray[0]));
     }
 
     public closeLoop(): void {
-      if (this.getPointArrayLength() >= 2) {
-        const point: PointCoordinates = new PointCoordinates(this.pointArray[0].X, this.pointArray[0].Y);
-        this.pointArray.push(point);
-      }
+        if (this.getPointArrayLength() >= 2) {
+            const point: PointCoordinates = new PointCoordinates(this.pointArray[0].X, this.pointArray[0].Y);
+            this.pointArray.push(point);
+        }
     }
 
     public clickedOnExistingPoint(mouseCoordinates: PointCoordinates): boolean {
@@ -95,31 +95,25 @@ export class TrackEditorModel {
 
     public clickedOnFirstPoint(mouseCoordinates: PointCoordinates): boolean {
         const ACCEPTED_RADIUS: number = 10;
-        if ((mouseCoordinates.X <= this.pointArray[0].X + ACCEPTED_RADIUS && mouseCoordinates.X >=
+
+        return (mouseCoordinates.X <= this.pointArray[0].X + ACCEPTED_RADIUS && mouseCoordinates.X >=
             this.pointArray[0].X - ACCEPTED_RADIUS) &&
             (mouseCoordinates.Y <= this.pointArray[0].Y + ACCEPTED_RADIUS && mouseCoordinates.Y >=
-            this.pointArray[0].Y - ACCEPTED_RADIUS)) {
-            return true;
-        }
-
-        return false;
+            this.pointArray[0].Y - ACCEPTED_RADIUS);
     }
 
     public allConstraintPass(angleConstraintsBoolean: boolean[], intersectionConstraintsBoolean: boolean[]): boolean {
-      if (!this.loopIsClosed()) {
-        return false;
-      }
-      for (const angleConstraint of angleConstraintsBoolean) {
-        if (!angleConstraint) {
-          return false;
-        }
-      }
-      for (const intersectionConstraint of intersectionConstraintsBoolean) {
-        if (!intersectionConstraint) {
-          return false;
-        }
-      }
+        let constraintRespected: boolean = this.loopIsClosed();
 
-      return true;
+        if (constraintRespected) {
+            for (const angleConstraint of angleConstraintsBoolean) {
+                constraintRespected = constraintRespected && angleConstraint;
+            }
+            for (const intersectionConstraint of intersectionConstraintsBoolean) {
+                constraintRespected = constraintRespected && intersectionConstraint;
+            }
+        }
+
+        return constraintRespected;
     }
 }
