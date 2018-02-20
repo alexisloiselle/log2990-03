@@ -1,6 +1,6 @@
 import { Case } from "./case";
-import { Word, Direction } from "./word";
 import { Lexicon } from "../lexicon/lexicon";
+import { Word, Direction } from "./word";
 
 export class WordPlacer {
 
@@ -9,7 +9,7 @@ export class WordPlacer {
 
     constructor() {
         this.lexicon = new Lexicon();
-        this.placedWord = new Array();
+        this.placedWord = [];
     }
 
     public fitWord(grid: Case[][], constraintsQueue: Word[], wordInGrid: Word[], pos: number, isUncommon: boolean): boolean {

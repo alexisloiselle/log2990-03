@@ -1,7 +1,7 @@
 import { Case } from "./case";
 
 export class BlankGridCreator {
-    public createGrid(height: number, width: number): Case[][] {
+    public static createGrid(height: number, width: number): Case[][] {
         const grid: Case[][] = [];
         for (let i: number = 0; i < height; i++) {
             grid[i] = [];

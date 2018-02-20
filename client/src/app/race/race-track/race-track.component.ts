@@ -21,42 +21,46 @@ export class RaceTrackComponent implements OnInit {
     public constructor() {
     }
 
-    public getId(): string {
+    public get Id(): string {
         return this.id;
     }
-    public getName(): string {
-        return this.name;
-    }
-    public getDesciption(): string {
-        return this.description;
-    }
 
-    public getRaceType(): RaceType {
-        return this.type;
-    }
-
-    public setId(id: string): void {
+    public set Id(id: string) {
         this.id = id;
     }
 
-    public setName(name: string): void {
+    public get Name(): string {
+        return this.name;
+    }
+
+    public set Name(name: string) {
         this.name = name;
     }
 
-    public setDesciption(description: string): void {
+    public get Desciption(): string {
+        return this.description;
+    }
+
+    public set Desciption(description: string) {
         this.description = description;
     }
-    public setType(raceType: RaceType): void {
-        this.type = raceType;
+
+    public get Type(): RaceType {
+        return this.type;
     }
+
+    public set Type(type: RaceType) {
+        this.type = type;
+    }
+
     public setBestTime(trackTime: TrackTime): void {
-        this.bestTime.setName(trackTime.getName());
-        this.bestTime.setTime(trackTime.getTime());
+        this.bestTime.Name = trackTime.Name;
+        this.bestTime.Time = trackTime.Time;
     }
     public addTrack(trackName: string, trackDescription: string, trackType: RaceType): void {
-        this.setName(trackName);
-        this.setDesciption(trackDescription);
-        this.setType(trackType);
+        this.Name = trackName;
+        this.Desciption = trackDescription;
+        this.Type = trackType;
     }
 
     public ngOnInit(): void {
@@ -67,18 +71,22 @@ export class TrackTime {
     public constructor(
         public time: number,
         public name: string,
-    ) { }
-    public setName(name: string): void {
+    ) {}
+
+    public get Name(): string {
+        return this.name;
+    }
+
+    public set Name(name: string) {
         this.name = name;
     }
-    public setTime(time: number): void {
-        this.time = time;
-    }
-    public getTime(): number {
+
+    public get Time(): number {
         return this.time;
     }
-    public getName(): string {
-        return this.name;
+
+    public set Time(time: number) {
+        this.time = time;
     }
 }
 

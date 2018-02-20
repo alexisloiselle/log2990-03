@@ -2,10 +2,9 @@ import * as fs from "fs";
 import * as request from "request";
 
 import {
-    API_URL,
+    WORD_API_URL,
     API_DEFS,
-    MAX_DEFS,
-    USELESS_CHAR
+    MAX_DEFS
 } from "../config";
 
 export class Lexicon {
@@ -20,15 +19,19 @@ export class Lexicon {
     // see lexicon.spec.ts to see how to use this function
     public static async getDefinitions(word: string): Promise<string[]> {
         let definitions: string[] = [];
-        const url: string = `${API_URL}${word}&${API_DEFS}`;
+        const url: string = `${WORD_API_URL}${word}&${API_DEFS}`;
 
-        return new Promise<string[]>((resolve: Function) => {
+        return new Promise<string[]>((resolve: Function, reject: Function) => {
             /* tslint:disable-next-line:no-any */
             request(url, (error: any, response: any, body: any) => {
                 body = JSON.parse(body);
-                definitions = body[0].defs.slice(0, MAX_DEFS).map((def: string) => {
-                    return def.slice(USELESS_CHAR);
-                });
+                try {
+                    definitions = body[0].defs.slice(0, MAX_DEFS).map((def: string) => {
+                        return def.split("\t").pop();
+                    });
+                } catch (e) {
+                    reject(new Error(`There's no such word as ${word}`));
+                }
                 resolve(definitions);
             });
         });

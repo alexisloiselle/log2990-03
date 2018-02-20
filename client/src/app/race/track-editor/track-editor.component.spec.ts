@@ -1,5 +1,5 @@
 /* tslint:disable:no-magic-numbers */
-import { PointCoordinates } from "./pointCoordinates";
+import { PointCoordinates } from "./point-coordinates";
 // import { equation } from "./vector/equation";
 import { Vector } from "./vector/vector";
 // import { TrackEditorComponent} from "./track-editor.component";
@@ -13,48 +13,48 @@ describe("TrackEditorComponent", () => {
 
         it("Should Create slope", () => {
             const EXPECTED_SLOPE: number = 3;
-            expect(vectorTest.getSlope()).toBe(EXPECTED_SLOPE);
+            expect(vectorTest.Slope).toBe(EXPECTED_SLOPE);
         });
 
         it("Should Create constant", () => {
             const EXPECTED_CONSTANT: number = 0;
-            expect(vectorTest.getConstant()).toBe(EXPECTED_CONSTANT);
+            expect(vectorTest.Constant).toBe(EXPECTED_CONSTANT);
         });
 
         it("Should calculate domain MaxDomainX", () => {
-            expect(vectorTest.findMaxDomain(pointStart, pointEnd).getX()).toBe(pointStart.getX());
+            expect(vectorTest.findMaxDomain(pointStart, pointEnd).X).toBe(pointStart.X);
         });
 
         it("Should calculate domain MinDomainX", () => {
-            expect(vectorTest.findMinDomain(pointStart, pointEnd).getX()).toBe(pointEnd.getX());
+            expect(vectorTest.findMinDomain(pointStart, pointEnd).X).toBe(pointEnd.X);
         });
 
         it("Should calculate domain MaxDomainY", () => {
-            expect(vectorTest.findMaxDomain(pointStart, pointEnd).getY()).toBe(pointStart.getY());
+            expect(vectorTest.findMaxDomain(pointStart, pointEnd).Y).toBe(pointStart.Y);
         });
 
         it("Should calculate domain MinDomainY", () => {
-            expect(vectorTest.findMinDomain(pointStart, pointEnd).getY()).toBe(pointEnd.getY());
+            expect(vectorTest.findMinDomain(pointStart, pointEnd).Y).toBe(pointEnd.Y);
         });
 
         it("minDomainX should be assigned to vector at construction", () => {
             const EXPECTED_DOMAIN_X_MIN: number = 1;
-            expect(vectorTest.getDomainXMin()).toBe(EXPECTED_DOMAIN_X_MIN);
+            expect(vectorTest.DomainXMin).toBe(EXPECTED_DOMAIN_X_MIN);
         });
 
         it("minDomainY should be assigned to vector at construction", () => {
             const EXPECTED_DOMAIN_X_MAX: number = 2;
-            expect(vectorTest.getDomainXmax()).toBe(EXPECTED_DOMAIN_X_MAX);
+            expect(vectorTest.DomainXmax).toBe(EXPECTED_DOMAIN_X_MAX);
         });
 
         it("maxDomainY should be assigned to vector at construction", () => {
             const EXPECTED_DOMAIN_Y_MIN: number = 3;
-            expect(vectorTest.getDomainYMin()).toBe(EXPECTED_DOMAIN_Y_MIN);
+            expect(vectorTest.DomainYMin).toBe(EXPECTED_DOMAIN_Y_MIN);
         });
 
         it("maxDomainY should be assigned to vector at construction", () => {
             const EXPECTED_DOMAIN_Y_MAX: number = 6;
-            expect(vectorTest.getDomainYmax()).toBe(EXPECTED_DOMAIN_Y_MAX);
+            expect(vectorTest.DomainYmax).toBe(EXPECTED_DOMAIN_Y_MAX);
         });
     });
 
@@ -87,7 +87,7 @@ describe("TrackEditorComponent", () => {
             myTrackModel2.addPoint(point4);
             myTrackModel2.addPoint(point5);
             myTrackModel2.addPoint(point5);
-            myTrackModel2.removeDuplicatedPoints();
+            myTrackModel2.removePointsTooClose();
             expect(myTrackModel2.getPointArrayLength()).toBe(5);
         });
 
