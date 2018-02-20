@@ -2,12 +2,15 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { SinglePlayerGameComponent } from "./single-player-game.component";
 
+import { RouterTestingModule } from "@angular/router/testing";
+
 describe("SinglePlayerGameComponent", () => {
-  let component: SinglePlayerGameComponent;
-  let fixture: ComponentFixture<SinglePlayerGameComponent>;
+    let component: SinglePlayerGameComponent;
+    let fixture: ComponentFixture<SinglePlayerGameComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
+            imports: [RouterTestingModule],
             declarations: [SinglePlayerGameComponent]
         })
             .compileComponents();
@@ -19,7 +22,7 @@ describe("SinglePlayerGameComponent", () => {
         fixture.detectChanges();
     });
 
-  // it('should create', () => {
-  //   expect(component).toBeTruthy();
-  // });
+    it("should create", () => {
+        expect(component).toBeTruthy();
+    });
 });
