@@ -3,7 +3,7 @@ import { Case } from "./case";
 const MINIMUMWORDLENGTH: number = 2;
 
 export class BlackCasePlacer {
-    public getColum(grid: Case[][], pos: number): Case[] {
+    public static getColum(grid: Case[][], pos: number): Case[] {
         const column: Case[] = [];
         for (const line of grid) {
             column.push(line[pos]);
@@ -12,7 +12,7 @@ export class BlackCasePlacer {
         return column;
     }
 
-    public placeBlackCase(grid: Case[][], line: number, column: number): boolean {
+    public static placeBlackCase(grid: Case[][], line: number, column: number): boolean {
         // We place a black case if the column and line still have at least a word and
         //  if we don't create 1 or 2 char words
         if (this.tableHas1Word(this.getColum(grid, column), line) && this.tableHas1Word(grid[line], column)
@@ -25,7 +25,7 @@ export class BlackCasePlacer {
         return false;
     }
 
-    private updateCases(grid: Case[][], line: number, column: number): void {
+    private static updateCases(grid: Case[][], line: number, column: number): void {
         // Update newly created word cases info
         let newWordLength: number = grid[line][column].HorizontalWordLength - grid[line][column].HorizontalPositionInWord - 1;
         for (let i: number = 1; i <= grid[line][column].HorizontalPositionInWord; i++) {
@@ -53,7 +53,7 @@ export class BlackCasePlacer {
         grid[line][column].VerticalWordLength = 0;
     }
 
-    private doesntCreateShortWords(grid: Case[][], line: number, column: number): boolean {
+    private static doesntCreateShortWords(grid: Case[][], line: number, column: number): boolean {
         // Tells if placing a black case at this position will create too short words
         if (this.leftWordTooShort(grid, line, column) || this.rightWordTooShort(grid, line, column)
         || this.upperWordTooShort(grid, line, column) || this.lowerWordTooShort(grid, line, column)) {
@@ -63,7 +63,7 @@ export class BlackCasePlacer {
         return true;
     }
 
-    private leftWordTooShort(grid: Case[][], line: number, column: number): boolean {
+    private static leftWordTooShort(grid: Case[][], line: number, column: number): boolean {
         // Tells if the word formed at the left of the black case will be too short
         const leftWordLength: number = grid[line][column].HorizontalPositionInWord;
         if (leftWordLength === 1 || leftWordLength === MINIMUMWORDLENGTH) {
@@ -77,7 +77,7 @@ export class BlackCasePlacer {
         return false;
     }
 
-    private rightWordTooShort(grid: Case[][], line: number, column: number): boolean {
+    private static rightWordTooShort(grid: Case[][], line: number, column: number): boolean {
         // Tells if the word formed at the right of the black case will be too short
         const rightWordLength: number = grid[line][column].HorizontalWordLength - grid[line][column].HorizontalPositionInWord - 1;
         if (rightWordLength === 1 || rightWordLength === MINIMUMWORDLENGTH) {
@@ -91,7 +91,7 @@ export class BlackCasePlacer {
         return false;
     }
 
-    private upperWordTooShort(grid: Case[][], line: number, column: number): boolean {
+    private static upperWordTooShort(grid: Case[][], line: number, column: number): boolean {
         // Tells if the word formed above the black case will be too short
         const upperWordLength: number = grid[line][column].VerticalPositionInWord;
         if (upperWordLength === 1 || upperWordLength === MINIMUMWORDLENGTH) {
@@ -105,7 +105,7 @@ export class BlackCasePlacer {
         return false;
     }
 
-    private lowerWordTooShort(grid: Case[][], line: number, column: number): boolean {
+    private static lowerWordTooShort(grid: Case[][], line: number, column: number): boolean {
         // Tells if the word formed under the black case will be too short
         const lowerWordLength: number = grid[line][column].VerticalWordLength - grid[line][column].VerticalPositionInWord - 1;
         if (lowerWordLength === 1 || lowerWordLength === MINIMUMWORDLENGTH) {
@@ -119,7 +119,7 @@ export class BlackCasePlacer {
         return false;
     }
 
-    private tableHas1Word(table: Case[], position: number): boolean {
+    private static tableHas1Word(table: Case[], position: number): boolean {
         // Tells if the table will still have at least one word after you set the case at pos black
         let nbWhiteCase: number = 0;
 

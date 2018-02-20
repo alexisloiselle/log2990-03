@@ -8,8 +8,7 @@ import { WordPlacer } from "./word-placer";
 
 describe("Word-placer", () => {
     const length: number = 5;
-    const blankGridCreator: BlankGridCreator = new BlankGridCreator();
-    const grid: Case[][] = blankGridCreator.createGrid(length, length);
+    const grid: Case[][] = BlankGridCreator.createGrid(length, length);
     const position: number = 2;
     const wordPlacer: WordPlacer = new WordPlacer;
     const word1: Word = new Word(position, 0, length, Direction.Horizontal, "");

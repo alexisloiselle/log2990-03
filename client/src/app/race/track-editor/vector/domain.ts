@@ -1,4 +1,4 @@
-import { PointCoordinates} from "../pointCoordinates";
+import { PointCoordinates} from "../point-coordinates";
 
 export class Domain {
     private xMin: number;
@@ -7,21 +7,21 @@ export class Domain {
     private yMax: number;
 
     public constructor(coordinatesNewPoint: PointCoordinates, coordinatesLastPointInArray: PointCoordinates) {
-        this.xMin = this.findMinDomain(coordinatesNewPoint, coordinatesLastPointInArray).getX();
-        this.yMin = this.findMinDomain(coordinatesNewPoint, coordinatesLastPointInArray).getY();
-        this.xMax = this.findMaxDomain(coordinatesNewPoint, coordinatesLastPointInArray).getX();
-        this.yMax = this.findMaxDomain(coordinatesNewPoint, coordinatesLastPointInArray).getY();
+        this.xMin = this.findMinDomain(coordinatesNewPoint, coordinatesLastPointInArray).X;
+        this.yMin = this.findMinDomain(coordinatesNewPoint, coordinatesLastPointInArray).Y;
+        this.xMax = this.findMaxDomain(coordinatesNewPoint, coordinatesLastPointInArray).X;
+        this.yMax = this.findMaxDomain(coordinatesNewPoint, coordinatesLastPointInArray).Y;
 
     }
     public findMinDomain(coordinatesNewPoint: PointCoordinates, coordinatesLastPointInArray: PointCoordinates): PointCoordinates {
         let minX: number = 0;
         let minY: number = 0;
 
-        minX = (coordinatesNewPoint.getX() < coordinatesLastPointInArray.getX()) ? coordinatesNewPoint.getX() :
-                coordinatesLastPointInArray.getX();
+        minX = (coordinatesNewPoint.X < coordinatesLastPointInArray.X) ? coordinatesNewPoint.X :
+                coordinatesLastPointInArray.X;
 
-        minY = (coordinatesNewPoint.getY() < coordinatesLastPointInArray.getY()) ? coordinatesNewPoint.getY() :
-                coordinatesLastPointInArray.getY();
+        minY = (coordinatesNewPoint.Y < coordinatesLastPointInArray.Y) ? coordinatesNewPoint.Y :
+                coordinatesLastPointInArray.Y;
 
         return(new PointCoordinates (minX, minY));
     }
@@ -29,37 +29,44 @@ export class Domain {
         let maxX: number = 0;
         let maxY: number = 0;
 
-        maxX = (coordinatesNewPoint.getX() > coordinatesLastPointInArray.getX()) ? coordinatesNewPoint.getX() :
-        coordinatesLastPointInArray.getX();
+        maxX = (coordinatesNewPoint.X > coordinatesLastPointInArray.X) ? coordinatesNewPoint.X :
+        coordinatesLastPointInArray.X;
 
-        maxY = (coordinatesNewPoint.getY() > coordinatesLastPointInArray.getY()) ? coordinatesNewPoint.getY() :
-         coordinatesLastPointInArray.getY();
+        maxY = (coordinatesNewPoint.Y > coordinatesLastPointInArray.Y) ? coordinatesNewPoint.Y :
+         coordinatesLastPointInArray.Y;
 
         return(  new PointCoordinates (maxX, maxY));
     }
-    public getXMin(): number {
+
+    public get XMin(): number {
         return this.xMin;
     }
-    public getYMin(): number {
+
+    public set XMin(xMin: number) {
+        this.xMin = xMin;
+    }
+
+    public get YMin(): number {
         return this.yMin;
     }
-    public getXMax(): number {
+
+    public set YMin(yMin: number) {
+        this.yMin = yMin;
+    }
+
+    public get XMax(): number {
         return this.xMax;
     }
-    public getYMax(): number {
+
+    public set XMax(xMax: number) {
+        this.xMax = xMax;
+    }
+
+    public get YMax(): number {
         return this.yMax;
     }
 
-    public setXMin(xMin: number): void {
-        this.xMin = xMin;
-    }
-    public setXMax(xMax: number): void {
-        this.xMax = xMax;
-    }
-    public setYMin(yMin: number): void {
-        this.yMin = yMin;
-    }
-    public setYMax(yMax: number): void {
+    public set YMax(yMax: number) {
         this.yMax = yMax;
     }
 }
