@@ -7,6 +7,7 @@ import { GameComponent } from "./race/game-component/game.component";
 
 import { RenderService } from "./render-service/render.service";
 import { BasicService } from "./basic.service";
+import { CrosswordService } from "./crossword/services/crossword/crossword.service";
 import { TrackEditorComponent } from "./race/track-editor/track-editor.component";
 
 import { GameService} from "./game.service";
@@ -44,6 +45,7 @@ import {CarEventHandlerService} from "./render-service/car-event-handler.service
         RenderService,
         BasicService,
         GameService,
+        CrosswordService,
         CarEventHandlerService
     ],
     bootstrap: [AppComponent]

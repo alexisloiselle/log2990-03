@@ -2,12 +2,15 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { SinglePlayerMenuComponent } from "./single-player-menu.component";
 
+import { RouterTestingModule } from "@angular/router/testing";
+
 describe("SinglePlayerMenuComponent", () => {
-  let component: SinglePlayerMenuComponent;
-  let fixture: ComponentFixture<SinglePlayerMenuComponent>;
+    let component: SinglePlayerMenuComponent;
+    let fixture: ComponentFixture<SinglePlayerMenuComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
+            imports: [RouterTestingModule],
             declarations: [SinglePlayerMenuComponent]
         })
             .compileComponents();
@@ -19,7 +22,7 @@ describe("SinglePlayerMenuComponent", () => {
         fixture.detectChanges();
     });
 
-  // it('should create', () => {
-  //   expect(component).toBeTruthy();
-  // });
+    it("should create", () => {
+        expect(component).toBeTruthy();
+    });
 });

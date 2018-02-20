@@ -14,27 +14,24 @@ export class GridGenerator {
         let grid: Case[][];
         const BLACK_CASE_PERCENTAGE: number = 38;
 
-        return new Promise<Grid>(async (resolve: Function) => {
+        grid = BlankGridCreator.createGrid(height, width);
+        BlackCaseGenerator.generateBlackCases(grid, BLACK_CASE_PERCENTAGE);
 
-            grid = BlankGridCreator.createGrid(height, width);
-            BlackCaseGenerator.generateBlackCases(grid, BLACK_CASE_PERCENTAGE);
+        words = GridScanner.findWords(grid);
+        GridScanner.identifyConstraint(grid, words);
+        words.sort((a: Word, b: Word) => b.NbConstraints - a.NbConstraints);
 
-            words = GridScanner.findWords(grid);
-            GridScanner.identifyConstraint(grid, words);
-            words.sort((a: Word, b: Word) => b.NbConstraints - a.NbConstraints);
+        const constraintsQueue: Word[] = [];
+        constraintsQueue.push(words[0]);
 
-            const constraintsQueue: Word[] = [];
-            constraintsQueue.push(words[0]);
+        const wordPlacer: WordPlacer = new WordPlacer();
+        const isUncommon: boolean = difficulty === "hard" ? true : false;
+        wordPlacer.fitWord(grid, constraintsQueue, words, 0, isUncommon);
 
-            const wordPlacer: WordPlacer = new WordPlacer();
-            const isUncommon: boolean = difficulty === "hard" ? true : false;
-            wordPlacer.fitWord(grid, constraintsQueue, words, 0, isUncommon);
+        words = GridScanner.findWords(grid);
+        DefinitionAdder.addWords(grid, words);
+        await DefinitionAdder.addDefinitions(words, difficulty);
 
-            words = GridScanner.findWords(grid);
-            DefinitionAdder.addWords(grid, words);
-            await DefinitionAdder.addDefinitions(words, difficulty);
-
-            resolve(new Grid(grid, words));
-        });
+        return new Grid(grid, words);
     }
 }

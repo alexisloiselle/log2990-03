@@ -10,10 +10,10 @@ export class SinglePlayerMenuComponent implements OnInit {
 
     public difficulty: string;
 
-    constructor(private router: Router) {
+    public constructor(private router: Router) {
     }
 
-    ngOnInit() {
+    public ngOnInit(): void {
 
     }
 
