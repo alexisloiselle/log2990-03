@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { Game } from "../game";
+// import { Game } from "../game";
 import { CrosswordService } from "./../services/crossword/crossword.service";
 
 @Component({
@@ -11,17 +11,17 @@ import { CrosswordService } from "./../services/crossword/crossword.service";
 export class SinglePlayerGameComponent implements OnInit {
 
     public difficulty: string;
-    private game: Game;
+    // private game: Game;
 
     public constructor(protected crosswordService: CrosswordService, private route: ActivatedRoute) { }
 
-    public ngOnInit(): void {
+    public async ngOnInit(): Promise<void> {
         this.route.params.subscribe((params) => {
             this.difficulty = params["difficulty"];
         });
-        this.crosswordService.generateGrid(this.difficulty);
-
-        this.game = new Game(this.difficulty);
+        const res = await this.crosswordService.generateGrid(this.difficulty);
+        console.log(res);
+        // this.game = new Game(this.difficulty);
     }
 
 }
