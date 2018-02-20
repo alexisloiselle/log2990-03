@@ -33,7 +33,7 @@ export class SkyboxComponent implements OnInit {
 		
 		
 		this.scene=  new THREE.Scene();
-		this.initSceneMesh();
+		await this.initSceneMesh();
 		this.loadCubeTexture();
 		this.initShader();
 		
