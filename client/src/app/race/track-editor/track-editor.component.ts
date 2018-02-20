@@ -190,7 +190,8 @@ export class TrackEditorComponent implements OnInit {
     public set description(description: string) {
         this.description = description;
     }
-    public inputTextNotEmpty(trackName: string, trackDescription: string, trackType: RaceType): boolean {
+    public inputTextNotEmpty(): boolean {
+        console.log(this.trackName.length !== 0 && this.trackDescription.length !== 0);
        return (this.trackName.length !== 0 && this.trackDescription.length !== 0);
     }
     public addTrack(trackName: string, trackDescription: string, trackType: RaceType): void {

@@ -2,6 +2,8 @@
     border: 3px solid black;
     float: left;
     width: auto;
+    margin-left: 3%;
+    margin-right: 3%;
 }
 .btn-btn-primary{
     background-color: #3742fa;
@@ -10,9 +12,10 @@
     padding: 14px 40px;
     border: none;
 }
-.textInput{
+.validation{
     float: left;
     height: 100%;
     width: auto;
-    margin-top: 50px;
+    margin-top: 2%;
+    margin-left: 5%;
 }
