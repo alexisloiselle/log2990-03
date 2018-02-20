@@ -1,9 +1,41 @@
-<div id="container">
+<div class="container">
   <canvas class="canvas" #canvas id="canvas"  oncontextmenu="return false;" (mouseup)="canvasMouseUp($event)" (mousedown)="canvasMouseDown($event)" (mousemove)="canvasMouseMoved($event)">
       <!--We add an event binding to the click event-->
   </canvas>
 </div>
 
-<button type="button" [disabled] = "!allConstraintPass()" class="btn btn-lg btn-success">Valider shéma</button>
+<div class="container">
+  <div class="row">
+      <div class="col-xs-12">
+          <h3 class="nouvellePiste"> Nouvelle Piste</h3>
+  
+        <p>Name: 
+          <input type="text" class="form-control" #trackNameInput>
+        </p>
+  
+        <p>Description : 
+        <input type="text" class="form-control" #trackDescriptionInput>
+        </p>
+  
+        <div class="niveau">
+        <p> Niveau : 
+          <select class="form-control" #trackTypeInput>
+              <option value="Amateur">Amateur</option>
+              <option value="Professionnel">Professionnel</option>
+              </select>
+          </p>
+        </div>
+          <p>La piste doit être dessinée et validée avant de pouvoir être enregistré.</p>
+          <button class="btn btn-lg btn-success" id="validate-button" [disabled] = "!allConstraintPass()"
+          (click)="addTrack(trackNameInput.value, trackDescriptionInput.value, trackTypeInput.value)"> Validation </button> 
+      </div>
+      <p> Nom :  {{name}}  </p> 
+      <p> Description : {{description}} </p> 
+      <p> Type : {{type}} </p> 
+      <p> Nombre de fois joué : {{timesPlayed}}</p>
+    </div>
+  </div>
+
+
 
 
