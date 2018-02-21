@@ -39,13 +39,22 @@ export class Vector {
     }
 
     public calculateVectorIntersection(secondVector: Vector): PointCoordinates {
-        // calculate intersection point
-        console.log("isParallel : " + this.isParallel(secondVector));
+        // Calculer point d'intersection
+        let xIntersection: number = 0;
+        let yIntersection: number = 0;
         if (!(this.isParallel(secondVector))) {
-            const xIntersection: number = (secondVector.Constant - this.Constant) / (this.Slope - secondVector.Slope);
-            const yIntersection: number = xIntersection * this.Slope + this.Constant;
+          if (this.equation.Slope === Infinity || this.equation.Slope === -Infinity) {
+            xIntersection = this.domain.XMin;
+            yIntersection = (secondVector.equation.Slope * xIntersection) + secondVector.equation.Constant;
+          } else if (secondVector.equation.Slope === Infinity || secondVector.equation.Slope === -Infinity) {
+            xIntersection = secondVector.domain.XMin;
+            yIntersection = (this.equation.Slope * xIntersection) + this.equation.Constant;
+          } else {
+            xIntersection = (secondVector.equation.Constant - this.equation.Constant) / (this.equation.Slope - secondVector.equation.Slope);
+            yIntersection = xIntersection * this.equation.Slope + this.equation.Constant;
+          }
 
-            return (new PointCoordinates(xIntersection, yIntersection));
+          return (new PointCoordinates(xIntersection, yIntersection));
         } else {
             return (new PointCoordinates(-1, -1));
         }
