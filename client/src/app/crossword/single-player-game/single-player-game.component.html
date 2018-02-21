@@ -22,7 +22,7 @@
     <li class="case">{{fGrid.letters.indexOf(line)+1}}</li>
     <div *ngFor="let letter of line">
       <li *ngIf="letter === ''" class="case bordercase blackCase"></li>
-      <li *ngIf="letter !== ''" class="case bordercase letterCase"></li>
+      <li *ngIf="letter !== ''" class="case bordercase letterCase"><input type="text" class="whiteCaseInput" maxlength="1"/> </li>
     </div>
   </div>
 </ul>
