@@ -11,3 +11,17 @@
     <br/>
   </div>
 </ul>
+<div class="defintion">
+  <ul>
+    <div *ngFor="let definition of horizontalWords" id="defintion">
+      {{definition.Line + 1}} : {{definition.Def}}
+    </div>
+  </ul>
+</div>
+<div class="defintion">
+  <ul>
+    <div *ngFor="let definition of verticalWords">
+      {{definition.Column + 1}} : {{definition.Def}}
+    </div>
+  </ul>
+</div>
