@@ -46,6 +46,7 @@ export class Application {
         router.get("/lexicon/common/:pattern", lexicon.getCommonWithPattern.bind(lexicon));
         router.get("/lexicon/uncommon/:pattern", lexicon.getUncommonWithPattern.bind(lexicon));
 
+        router.get("/crossword/mock", crossword.getMockGrid.bind(crossword));
         router.get("/crossword/:difficulty", crossword.getGrid.bind(crossword));
 
         this.app.use("/api", router);

@@ -2,3 +2,45 @@
 <div id="changeDifficulty">
   <a routerLink="/single-player">Change difficulty</a>
 </div>
+<div id="cheatMode">
+  Cheat Mode
+  <button *ngIf="isCheatModeOn == false" type="button" class="btn btn-outline-primary  cheatModeOff" (click)="isCheatModeOn = true">
+    Cheat Mode Off
+  </button>
+  <button *ngIf="isCheatModeOn == true" type="button" class="btn btn-outline-primary  cheatModeOn" (click)="isCheatModeOn = false">
+    Cheat Mode On
+  </button>
+</div>
+<ul>
+  <div class="row">
+    <div *ngFor="let line of fGrid.letters">
+      <li *ngIf="fGrid.letters.indexOf(line)===0" class="case"></li>
+      <li class="case">{{fGrid.letters.indexOf(line)+1}}</li>
+    </div>
+  </div>
+  <div *ngFor="let line of fGrid.letters" class="row">
+    <li class="case">{{fGrid.letters.indexOf(line)+1}}</li>
+    <div *ngFor="let letter of line">
+      <li *ngIf="letter === ''" class="case bordercase blackCase"></li>
+      <li *ngIf="letter !== ''" class="case bordercase letterCase"><input type="text" class="whiteCaseInput" maxlength="1"/> </li>
+    </div>
+  </div>
+</ul>
+<div class="defintion">
+  Horizontal Words:
+  <ul>
+    <div *ngFor="let definition of horizontalWords" id="defintion">
+      <p *ngIf="isCheatModeOn == false"> {{definition.Line + 1}} : {{definition.Def}}</p>
+      <p *ngIf="isCheatModeOn == true"> {{definition.Line + 1}} : {{definition.Word}}</p>
+    </div>
+  </ul>
+</div>
+<div class="defintion">
+  Vertical Words:
+  <ul>
+    <div *ngFor="let definition of verticalWords">
+      <p *ngIf="isCheatModeOn == false">{{definition.Column + 1}} : {{definition.Def}}</p>
+      <p *ngIf="isCheatModeOn == true">{{definition.Column + 1}} : {{definition.Word}}</p>
+    </div>
+  </ul>
+</div>

@@ -1,6 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { Game } from "../game";
+// import { Game } from "../game";
+import { CrosswordService } from "./../services/crossword/crossword.service";
+import { FormattedGrid } from "../formatted-grid";
+import { DefintionsSorter } from "./../definitions-sorter";
+import { Word } from "./../word";
 
 @Component({
     selector: "app-single-player-game",
@@ -10,15 +14,28 @@ import { Game } from "../game";
 export class SinglePlayerGameComponent implements OnInit {
 
     public difficulty: string;
-    private game: Game;
+    public fGrid: FormattedGrid;
+    public horizontalWords: Word[];
+    public verticalWords: Word[];
+    public isCheatModeOn: boolean;
+    // private game: Game;
 
-    public constructor(private route: ActivatedRoute) { }
+    public constructor(protected crosswordService: CrosswordService, private route: ActivatedRoute) {}
 
-    public ngOnInit(): void {
+    public async ngOnInit(): Promise<void> {
         this.route.params.subscribe((params) => {
-            this.difficulty = params["difficulty"];
+            // this.difficulty = params["difficulty"];
+            this.difficulty = "mock";
         });
-        this.game = new Game(this.difficulty);
+        this.isCheatModeOn = false;
+        this.fGrid = await this.crosswordService.generateGrid(this.difficulty);
+        // this.game = new Game(this.difficulty);
+        const definitionsSorter: DefintionsSorter = new DefintionsSorter(this.fGrid);
+        this.horizontalWords = definitionsSorter.HorizontalDefintions;
+        this.verticalWords = definitionsSorter.VerticalDefinitions;
     }
 
+    public set IsCheatModeOn(isCheatModeOn: boolean) {
+        this.isCheatModeOn = isCheatModeOn;
+    }
 }
