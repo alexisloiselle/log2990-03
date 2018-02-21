@@ -17,4 +17,8 @@ export class CrosswordService {
             .toPromise()
             .then((data: any) => data as FormattedGrid);
     }
+
+    public renderCase(letter: string): string {
+        return `<div>${letter}</div>`;
+    }
 }

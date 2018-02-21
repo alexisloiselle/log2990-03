@@ -2,3 +2,12 @@
 <div id="changeDifficulty">
   <a routerLink="/single-player">Change difficulty</a>
 </div>
+<ul>
+  <div *ngFor="let line of fGrid.letters">
+    <div *ngFor="let letter of line">
+      <li *ngIf="letter === ''" class="case blackCase">{{renderCase(letter)}}</li>
+      <li *ngIf="letter !== ''" class="case letterCase">{{renderCase(letter)}}</li>
+    </div>
+    <br/>
+  </div>
+</ul>

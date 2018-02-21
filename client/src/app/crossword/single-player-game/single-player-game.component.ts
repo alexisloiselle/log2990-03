@@ -15,7 +15,9 @@ export class SinglePlayerGameComponent implements OnInit {
     public fGrid: FormattedGrid;
     // private game: Game;
 
-    public constructor(protected crosswordService: CrosswordService, private route: ActivatedRoute) { }
+    public constructor(protected crosswordService: CrosswordService, private route: ActivatedRoute) 
+    {
+    }
 
     public async ngOnInit(): Promise<void> {
         this.route.params.subscribe((params) => {
@@ -23,7 +25,11 @@ export class SinglePlayerGameComponent implements OnInit {
             this.difficulty = "mock";
         });
         this.fGrid = await this.crosswordService.generateGrid(this.difficulty);
+
         // this.game = new Game(this.difficulty);
     }
 
+    public renderCase(letter: string) {
+        return letter;
+    }
 }

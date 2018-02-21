@@ -6,3 +6,18 @@
 #changeDifficulty {
     font-size: 14pt;
 }
+
+li.case {
+    list-style-type: none;
+    float: left;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    border-width: 1px;
+    border-color: black;
+    border-style: solid;
+}
+
+.blackCase {
+    background-color: black;
+}
