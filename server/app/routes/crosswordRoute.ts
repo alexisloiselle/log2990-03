@@ -198,6 +198,6 @@ module Route {
         }
     }
 }
-}
+
 
 export = Route;
