@@ -17,15 +17,17 @@ export class SinglePlayerGameComponent implements OnInit {
     public fGrid: FormattedGrid;
     public horizontalWords: Word[];
     public verticalWords: Word[];
+    public isCheatModeOn: boolean;
     // private game: Game;
 
-    public constructor(protected crosswordService: CrosswordService, private route: ActivatedRoute){}
+    public constructor(protected crosswordService: CrosswordService, private route: ActivatedRoute) {}
 
     public async ngOnInit(): Promise<void> {
         this.route.params.subscribe((params) => {
             // this.difficulty = params["difficulty"];
             this.difficulty = "mock";
         });
+        this.isCheatModeOn = false;
         this.fGrid = await this.crosswordService.generateGrid(this.difficulty);
 
         // this.game = new Game(this.difficulty);
@@ -36,5 +38,9 @@ export class SinglePlayerGameComponent implements OnInit {
 
     public renderCase(letter: string) {
         return letter;
+    }
+
+    public set IsCheatModeOn(isCheatModeOn: boolean) {
+        this.isCheatModeOn = isCheatModeOn;
     }
 }

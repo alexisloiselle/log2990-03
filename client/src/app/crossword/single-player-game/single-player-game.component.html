@@ -2,6 +2,15 @@
 <div id="changeDifficulty">
   <a routerLink="/single-player">Change difficulty</a>
 </div>
+<div id="cheatMode">
+  Cheat Mode
+  <button *ngIf="isCheatModeOn == false" type="button" class="btn btn-outline-primary  cheatModeOff" (click)="isCheatModeOn = true">
+    Cheat Mode Off
+  </button>
+  <button *ngIf="isCheatModeOn == true" type="button" class="btn btn-outline-primary  cheatModeOn" (click)="isCheatModeOn = false">
+    Cheat Mode On
+  </button>
+</div>
 <ul>
   <div *ngFor="let line of fGrid.letters">
     <div *ngFor="let letter of line">
@@ -12,16 +21,20 @@
   </div>
 </ul>
 <div class="defintion">
+  Horizontal Words:
   <ul>
     <div *ngFor="let definition of horizontalWords" id="defintion">
-      {{definition.Line + 1}} : {{definition.Def}}
+      <p *ngIf="isCheatModeOn == false"> {{definition.Line + 1}} : {{definition.Def}}</p>
+      <p *ngIf="isCheatModeOn == true"> {{definition.Line + 1}} : {{definition.Word}}</p>
     </div>
   </ul>
 </div>
 <div class="defintion">
+  Vertical Words:
   <ul>
     <div *ngFor="let definition of verticalWords">
-      {{definition.Column + 1}} : {{definition.Def}}
+      <p *ngIf="isCheatModeOn == false">{{definition.Column + 1}} : {{definition.Def}}</p>
+      <p *ngIf="isCheatModeOn == true">{{definition.Line + 1}} : {{definition.Word}}</p>
     </div>
   </ul>
 </div>

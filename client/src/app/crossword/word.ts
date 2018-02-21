@@ -24,4 +24,8 @@ export class Word {
     public get Def(): string {
         return this.def;
     }
+
+    public get Word(): string {
+        return this.word;
+    }
 }
