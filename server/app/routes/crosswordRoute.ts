@@ -40,7 +40,7 @@ module Route {
         }
 
         // tslint:disable-next-line:max-func-body-length
-        public getMockGrid(req: Request, res: Response, next: NextFunction): void {
+        public async getMockGrid(req: Request, res: Response, next: NextFunction): Promise<void> {
             const letters: string[][] =
                 [["", "a", "", "", "b", "a", "c", "o", "n", ""],
                  ["s", "l", "", "m", "o", "r", "a", "l", "", "a"],

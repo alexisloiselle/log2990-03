@@ -15,6 +15,6 @@ export class CrosswordService {
         console.log(`${this.serverUrl}crossword/${difficulty}`);
         return this.http.get(`${this.serverUrl}crossword/${difficulty}`)
             .toPromise()
-            .then((data: any) => data.json() as FormattedGrid);
+            .then((data: any) => data as FormattedGrid);
     }
 }
