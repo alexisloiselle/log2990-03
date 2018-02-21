@@ -40,7 +40,7 @@
   <ul>
     <div *ngFor="let definition of verticalWords">
       <p *ngIf="isCheatModeOn == false">{{definition.Column + 1}} : {{definition.Def}}</p>
-      <p *ngIf="isCheatModeOn == true">{{definition.Line + 1}} : {{definition.Word}}</p>
+      <p *ngIf="isCheatModeOn == true">{{definition.Column + 1}} : {{definition.Word}}</p>
     </div>
   </ul>
 </div>
