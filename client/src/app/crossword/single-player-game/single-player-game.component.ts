@@ -29,7 +29,6 @@ export class SinglePlayerGameComponent implements OnInit {
         });
         this.isCheatModeOn = false;
         this.fGrid = await this.crosswordService.generateGrid(this.difficulty);
-
         // this.game = new Game(this.difficulty);
         const definitionsSorter: DefintionsSorter = new DefintionsSorter(this.fGrid);
         this.horizontalWords = definitionsSorter.HorizontalDefintions;
