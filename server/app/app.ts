@@ -34,19 +34,20 @@ export class Application {
         this.app.use(cors());
     }
 
-    public routes(): void {
+    public async routes(): Promise<void> {
         const router: express.Router = express.Router();
         router.use(this.api.routes);
 
         const lexicon: LexiconRoute = new LexiconRoute();
         const crossword: CrosswordRoute = new CrosswordRoute();
 
-        router.get("/lexicon", lexicon.getAllWords);
-        router.get("/lexicon/definition/:word", lexicon.getDefinitions);
-        router.get("/lexicon/common/:pattern", lexicon.getCommonWithPattern);
-        router.get("/lexicon/uncommon/:pattern", lexicon.getUncommonWithPattern);
+        router.get("/lexicon", lexicon.getAllWords.bind(lexicon));
+        router.get("/lexicon/definition/:word", lexicon.getDefinitions.bind(lexicon));
+        router.get("/lexicon/common/:pattern", lexicon.getCommonWithPattern.bind(lexicon));
+        router.get("/lexicon/uncommon/:pattern", lexicon.getUncommonWithPattern.bind(lexicon));
 
-        router.get("/crossword/:difficulty", crossword.getGrid);
+        router.get("/crossword/mock", crossword.getMockGrid.bind(crossword));
+        router.get("/crossword/:difficulty", crossword.getGrid.bind(crossword));
 
         this.app.use("/api", router);
 
