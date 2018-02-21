@@ -1,11 +1,9 @@
 <h2>Pistes</h2>
 <div class="list-group">
-    <li *ngFor="let track of tracks">
-            {{track.name}}
-            {{track.description}}
-     </li>
+  <li *ngFor="let track of tracks">
+    {{track.name}} {{track.description}}
+  </li>
 </div>
 <div *ngIf="!tracks || tracks.lenght === 0">
   <h4>Pas de pistes disponibles pour l'instant. Seul un administrateur peut en créer.</h4>
 </div>
-

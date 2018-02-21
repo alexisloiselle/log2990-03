@@ -11,7 +11,7 @@
     // map tells the System loader where to look for things
     map: {
       // other libraries
-      
+
       // our app is within the out folder
       app: 'out/'
     },

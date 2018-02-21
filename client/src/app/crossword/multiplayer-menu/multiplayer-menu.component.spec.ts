@@ -8,9 +8,9 @@ describe('MultiplayerMenuComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MultiplayerMenuComponent ]
+      declarations: [MultiplayerMenuComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

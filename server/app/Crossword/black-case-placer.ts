@@ -16,7 +16,7 @@ export class BlackCasePlacer {
         // We place a black case if the column and line still have at least a word and
         //  if we don't create 1 or 2 char words
         if (this.tableHas1Word(this.getColum(grid, column), line) && this.tableHas1Word(grid[line], column)
-        && this.doesntCreateShortWords(grid, line, column)) {
+            && this.doesntCreateShortWords(grid, line, column)) {
             this.updateCases(grid, line, column);
 
             return true;
@@ -56,7 +56,7 @@ export class BlackCasePlacer {
     private static doesntCreateShortWords(grid: Case[][], line: number, column: number): boolean {
         // Tells if placing a black case at this position will create too short words
         if (this.leftWordTooShort(grid, line, column) || this.rightWordTooShort(grid, line, column)
-        || this.upperWordTooShort(grid, line, column) || this.lowerWordTooShort(grid, line, column)) {
+            || this.upperWordTooShort(grid, line, column) || this.lowerWordTooShort(grid, line, column)) {
             return false;
         }
 

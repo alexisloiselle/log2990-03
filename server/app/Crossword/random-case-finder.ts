@@ -18,7 +18,7 @@ export class RandomCaseFinder {
 
     private findCaseByPosition(position: [number, number]): number {
         for (let i: number = 0; i < this.unusedCases.length; i++) {
-            if (this.unusedCases[i][0] === position[0] && this.unusedCases[i][1] === position[1] ) {
+            if (this.unusedCases[i][0] === position[0] && this.unusedCases[i][1] === position[1]) {
                 return i;
             }
         }

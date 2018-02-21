@@ -1,4 +1,4 @@
-import { PointCoordinates} from "../pointCoordinates";
+import { PointCoordinates } from "../pointCoordinates";
 
 export class Equation {
     private slope: number;
@@ -9,7 +9,7 @@ export class Equation {
         this.constant = this.calculateConstant(pointEnd);
     }
     public calculateSlope(pointEnd: PointCoordinates, pointStart: PointCoordinates): number {
-        return((pointEnd.getY() - pointStart.getY()) / (pointEnd.getX() - pointStart.getX()));
+        return ((pointEnd.getY() - pointStart.getY()) / (pointEnd.getX() - pointStart.getX()));
     }
 
     public calculateConstant(pointFromTheVector: PointCoordinates): number {
@@ -23,10 +23,10 @@ export class Equation {
         return this.constant;
     }
 
-    public setSlope(slope: number ): void {
+    public setSlope(slope: number): void {
         this.slope = slope;
     }
-    public setConstant( constant: number): void {
+    public setConstant(constant: number): void {
         this.constant = constant;
     }
 }

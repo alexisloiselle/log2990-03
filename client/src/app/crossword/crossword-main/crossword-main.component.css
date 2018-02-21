@@ -1,9 +1,9 @@
-.btn-primary{
+.btn-primary {
     background-color: transparent;
     border-color: transparent;
 }
 
-img{
+img {
     width: 70%;
     height: 70%;
     position: relative;
@@ -15,42 +15,41 @@ img{
 }
 
 .gameMode {
-    position:relative;
+    position: relative;
     width: 400px;
     height: 400px;
     font-size: 16pt;
     margin: 3pt;
- }
+}
 
 .btn-group-wrap {
     text-align: center;
 }
 
 div.btn-group {
-    margin: 0 auto; 
+    margin: 0 auto;
     text-align: center;
     width: inherit;
     display: inline-block;
 }
 
+.buttonsModeSelector {
+    margin-top: 5%
+}
 
- .buttonsModeSelector{
-     margin-top: 5%
- }
-
- .gameMode:hover {
+.gameMode:hover {
     background-color: #008cff34;
- }
+}
 
- .btn-primary:focus, .btn-primary:active, .btn-primary.active {
-     background-color: transparent;
-     border-color: transparent;
- }
+.btn-primary:focus, .btn-primary:active, .btn-primary.active {
+    background-color: transparent;
+    border-color: transparent;
+}
 
- #copyrights {
+#copyrights {
     position: fixed;
     bottom: 0;
     width: 100%;
     font-size: 12pt;
     text-align: center;
- }
+}

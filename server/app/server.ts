@@ -7,7 +7,7 @@ import { IServerAddress } from "./iserver.address";
 @injectable()
 export class Server {
 
-    private readonly appPort: string|number|boolean = this.normalizePort(process.env.PORT || "3000");
+    private readonly appPort: string | number | boolean = this.normalizePort(process.env.PORT || "3000");
     private readonly baseDix: number = 10;
     private server: http.Server;
 
@@ -54,7 +54,7 @@ export class Server {
     /**
      * Se produit lorsque le serveur se met à écouter sur le port.
      */
-    private  onListening(): void {
+    private onListening(): void {
         const addr: IServerAddress = this.server.address();
         const bind: string = (typeof addr === "string") ? `pipe ${addr}` : `port ${addr.port}`;
         // tslint:disable-next-line:no-console

@@ -83,18 +83,20 @@ export class RenderService {
         this.createSkybox();
     }
 
-    
+
     private createSkybox(): void {
         this.initSkybox();
-        this.skybox = new THREE.Mesh(new THREE.CubeGeometry(1000,1000,1000), this.material);
+        this.skybox = new THREE.Mesh(new THREE.CubeGeometry(1000, 1000, 1000), this.material);
         this.scene.add(this.skybox);
     }
 
     private initSkybox(): void {
-        const urlPrefix = "../../assets/skybox/"
-        const urls = [urlPrefix + "lf.png", urlPrefix + "rt.png",
-        urlPrefix + "up.png", urlPrefix + "dn.png",
-        urlPrefix + "ft.png", urlPrefix + "bk.png"];
+        const urlPrefix = "../../assets/skybox/";
+        const urls = [
+            urlPrefix + "lf.png", urlPrefix + "rt.png",
+            urlPrefix + "up.png", urlPrefix + "dn.png",
+            urlPrefix + "ft.png", urlPrefix + "bk.png"
+        ];
         let materialArray: THREE.MeshBasicMaterial[] = [];
         urls.forEach((image: string) => {
             materialArray.push(new THREE.MeshBasicMaterial({
@@ -137,7 +139,6 @@ export class RenderService {
     }
 
     public handleKeyUp(event: KeyboardEvent): void {
-      this.carEventHandlerService.handleKeyUp(event, this._car);
+        this.carEventHandlerService.handleKeyUp(event, this._car);
     }
-
 }

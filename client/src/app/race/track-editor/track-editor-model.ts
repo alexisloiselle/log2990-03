@@ -30,10 +30,10 @@ export class TrackEditorModel {
     }
 
     public addPoint(point: PointCoordinates): void {
-      if (!this.loopIsClosed()) {
-        this.pointArray.push(point);
-        this.removePointsTooClose();
-      }
+        if (!this.loopIsClosed()) {
+            this.pointArray.push(point);
+            this.removePointsTooClose();
+        }
     }
 
     public eraseLastPoint(): void {
@@ -75,10 +75,10 @@ export class TrackEditorModel {
     }
 
     public closeLoop(): void {
-      if (this.getPointArrayLength() >= 2) {
-        const point: PointCoordinates = new PointCoordinates(this.pointArray[0].getX(), this.pointArray[0].getY());
-        this.pointArray.push(point);
-      }
+        if (this.getPointArrayLength() >= 2) {
+            const point: PointCoordinates = new PointCoordinates(this.pointArray[0].getX(), this.pointArray[0].getY());
+            this.pointArray.push(point);
+        }
     }
 
     public clickedOnExistingPoint(mouseCoordinates: PointCoordinates): boolean {
@@ -98,7 +98,7 @@ export class TrackEditorModel {
         if ((mouseCoordinates.getX() <= this.pointArray[0].getX() + ACCEPTED_RADIUS && mouseCoordinates.getX() >=
             this.pointArray[0].getX() - ACCEPTED_RADIUS) &&
             (mouseCoordinates.getY() <= this.pointArray[0].getY() + ACCEPTED_RADIUS && mouseCoordinates.getY() >=
-            this.pointArray[0].getY() - ACCEPTED_RADIUS)) {
+                this.pointArray[0].getY() - ACCEPTED_RADIUS)) {
             return true;
         }
 
@@ -106,20 +106,20 @@ export class TrackEditorModel {
     }
 
     public allConstraintPass(angleConstraintsBoolean: boolean[], intersectionConstraintsBoolean: boolean[]): boolean {
-      if (!this.loopIsClosed()) {
-        return false;
-      }
-      for (const angleConstraint of angleConstraintsBoolean) {
-        if (!angleConstraint) {
-          return false;
+        if (!this.loopIsClosed()) {
+            return false;
         }
-      }
-      for (const intersectionConstraint of intersectionConstraintsBoolean) {
-        if (!intersectionConstraint) {
-          return false;
+        for (const angleConstraint of angleConstraintsBoolean) {
+            if (!angleConstraint) {
+                return false;
+            }
         }
-      }
+        for (const intersectionConstraint of intersectionConstraintsBoolean) {
+            if (!intersectionConstraint) {
+                return false;
+            }
+        }
 
-      return true;
+        return true;
     }
 }

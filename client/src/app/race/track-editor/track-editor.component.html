@@ -1,9 +1,8 @@
 <div id="container">
-  <canvas class="canvas" #canvas id="canvas"  oncontextmenu="return false;" (mouseup)="canvasMouseUp($event)" (mousedown)="canvasMouseDown($event)" (mousemove)="canvasMouseMoved($event)">
-      <!--We add an event binding to the click event-->
+  <canvas class="canvas" #canvas id="canvas" oncontextmenu="return false;" (mouseup)="canvasMouseUp($event)" (mousedown)="canvasMouseDown($event)"
+    (mousemove)="canvasMouseMoved($event)">
+    <!--We add an event binding to the click event-->
   </canvas>
 </div>
 
-<button type="button" [disabled] = "!allConstraintPass()" class="btn btn-lg btn-success">Valider shéma</button>
-
-
+<button type="button" [disabled]="!allConstraintPass()" class="btn btn-lg btn-success">Valider shéma</button>

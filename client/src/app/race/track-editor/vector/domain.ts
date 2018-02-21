@@ -1,4 +1,4 @@
-import { PointCoordinates} from "../pointCoordinates";
+import { PointCoordinates } from "../pointCoordinates";
 
 export class Domain {
     private xMin: number;
@@ -17,25 +17,29 @@ export class Domain {
         let minX: number = 0;
         let minY: number = 0;
 
-        minX = (coordinatesNewPoint.getX() < coordinatesLastPointInArray.getX()) ? coordinatesNewPoint.getX() :
-                coordinatesLastPointInArray.getX();
+        minX = (coordinatesNewPoint.getX() < coordinatesLastPointInArray.getX()) ?
+            coordinatesNewPoint.getX() :
+            coordinatesLastPointInArray.getX();
 
-        minY = (coordinatesNewPoint.getY() < coordinatesLastPointInArray.getY()) ? coordinatesNewPoint.getY() :
-                coordinatesLastPointInArray.getY();
+        minY = (coordinatesNewPoint.getY() < coordinatesLastPointInArray.getY()) ?
+            coordinatesNewPoint.getY() :
+            coordinatesLastPointInArray.getY();
 
-        return(new PointCoordinates (minX, minY));
+        return (new PointCoordinates(minX, minY));
     }
     public findMaxDomain(coordinatesNewPoint: PointCoordinates, coordinatesLastPointInArray: PointCoordinates): PointCoordinates {
         let maxX: number = 0;
         let maxY: number = 0;
 
-        maxX = (coordinatesNewPoint.getX() > coordinatesLastPointInArray.getX()) ? coordinatesNewPoint.getX() :
-        coordinatesLastPointInArray.getX();
+        maxX = (coordinatesNewPoint.getX() > coordinatesLastPointInArray.getX()) ?
+            coordinatesNewPoint.getX() :
+            coordinatesLastPointInArray.getX();
 
-        maxY = (coordinatesNewPoint.getY() > coordinatesLastPointInArray.getY()) ? coordinatesNewPoint.getY() :
-         coordinatesLastPointInArray.getY();
+        maxY = (coordinatesNewPoint.getY() > coordinatesLastPointInArray.getY()) ?
+            coordinatesNewPoint.getY() :
+            coordinatesLastPointInArray.getY();
 
-        return(  new PointCoordinates (maxX, maxY));
+        return (new PointCoordinates(maxX, maxY));
     }
     public getXMin(): number {
         return this.xMin;
