@@ -41,13 +41,13 @@ export class DrawingOnCanvas {
     }
 
     public redrawLinesOnCanvas(myTrackEditorModel: TrackEditorModel, intersectionBooleanArray: boolean[]): void {
-        for (const i of myTrackEditorModel.getPointArray()) {
-            if (myTrackEditorModel.getPointArray().indexOf(i) !== 0) {
+        for (const i of myTrackEditorModel.PointArray) {
+            if (myTrackEditorModel.PointArray.indexOf(i) !== 0) {
                 this.ctx.beginPath();
-                this.ctx.moveTo(myTrackEditorModel.getSinglePoint(myTrackEditorModel.getPointArray().indexOf(i) - 1).X,
-                                myTrackEditorModel.getSinglePoint(myTrackEditorModel.getPointArray().indexOf(i) - 1).Y);
+                this.ctx.moveTo(myTrackEditorModel.getSinglePoint(myTrackEditorModel.PointArray.indexOf(i) - 1).X,
+                                myTrackEditorModel.getSinglePoint(myTrackEditorModel.PointArray.indexOf(i) - 1).Y);
                 this.ctx.lineTo(i.X, i.Y);
-                this.ctx.strokeStyle = intersectionBooleanArray[myTrackEditorModel.getPointArray().indexOf(i) - 1] ?
+                this.ctx.strokeStyle = intersectionBooleanArray[myTrackEditorModel.PointArray.indexOf(i) - 1] ?
                     "black" : "red";
                 this.ctx.stroke();
             }
@@ -55,10 +55,10 @@ export class DrawingOnCanvas {
     }
 
     public redrawPointsOnCanvas(myTrackEditorModel: TrackEditorModel, angleBooleanArray: boolean[]): void {
-        for (const i of myTrackEditorModel.getPointArray()) {
-            if (myTrackEditorModel.getPointArray().indexOf(i) - 1 >= 0 &&
-                myTrackEditorModel.getPointArray().indexOf(i) - 1 < angleBooleanArray.length) {
-                if (angleBooleanArray[myTrackEditorModel.getPointArray().indexOf(i) - 1]) {
+        for (const i of myTrackEditorModel.PointArray) {
+            if (myTrackEditorModel.PointArray.indexOf(i) - 1 >= 0 &&
+                myTrackEditorModel.PointArray.indexOf(i) - 1 < angleBooleanArray.length) {
+                if (angleBooleanArray[myTrackEditorModel.PointArray.indexOf(i) - 1]) {
                     this.drawPointOnCanvas(i, "black", STANDARD_SIZE_CIRCLE);
                 } else {
                     this.drawPointOnCanvas(i, "red", STANDARD_SIZE_CIRCLE);
@@ -67,7 +67,7 @@ export class DrawingOnCanvas {
                 this.drawPointOnCanvas(i, "black", STANDARD_SIZE_CIRCLE);
             }
             // We redraw the first point
-            if (myTrackEditorModel.getPointArray().indexOf(i) === 0) {
+            if (myTrackEditorModel.PointArray.indexOf(i) === 0) {
                 this.drawFirstPointOnCanvas(i, "black", STANDARD_SIZE_CIRCLE);
             }
         }
