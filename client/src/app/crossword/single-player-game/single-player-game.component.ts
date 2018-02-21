@@ -35,10 +35,6 @@ export class SinglePlayerGameComponent implements OnInit {
         this.verticalWords = definitionsSorter.VerticalDefinitions;
     }
 
-    public renderCase(letter: string) {
-        return letter;
-    }
-
     public set IsCheatModeOn(isCheatModeOn: boolean) {
         this.isCheatModeOn = isCheatModeOn;
     }

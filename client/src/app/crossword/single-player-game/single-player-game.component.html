@@ -21,8 +21,8 @@
   <div *ngFor="let line of fGrid.letters" class="row">
     <li class="case">{{fGrid.letters.indexOf(line)+1}}</li>
     <div *ngFor="let letter of line">
-      <li *ngIf="letter === ''" class="case bordercase blackCase">{{renderCase(letter)}}</li>
-      <li *ngIf="letter !== ''" class="case bordercase letterCase">{{renderCase(letter)}}</li>
+      <li *ngIf="letter === ''" class="case bordercase blackCase"></li>
+      <li *ngIf="letter !== ''" class="case bordercase letterCase"></li>
     </div>
   </div>
 </ul>
