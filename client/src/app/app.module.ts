@@ -34,7 +34,7 @@ import {CarEventHandlerService} from "./render-service/car-event-handler.service
         SinglePlayerMenuComponent,
         MultiplayerMenuComponent,
         SinglePlayerGameComponent
-    ],
+        ],
     imports: [
         BrowserModule,
         HttpClientModule,
