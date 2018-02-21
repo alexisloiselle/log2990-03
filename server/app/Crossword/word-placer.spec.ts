@@ -1,4 +1,4 @@
-import { } from "jasmine";
+import {} from "jasmine";
 import { expect } from "chai";
 
 import { Case } from "./case";

@@ -8,9 +8,9 @@ describe('SinglePlayerGameComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [SinglePlayerGameComponent]
+      declarations: [ SinglePlayerGameComponent ]
     })
-      .compileComponents();
+    .compileComponents();
   }));
 
   beforeEach(() => {

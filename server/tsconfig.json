@@ -14,9 +14,6 @@
         "noUnusedLocals": true,
         "noImplicitReturns": true,
         "suppressImplicitAnyIndexErrors": true,
-        "types": [
-            "node",
-            "express"
-        ]
+        "types" : ["node", "express"]
     }
 }

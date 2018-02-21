@@ -156,6 +156,7 @@
         "use-pipe-transform-interface": true,
         "component-class-suffix": true,
         "directive-class-suffix": true,
+
         "no-sparse-arrays": true,
         "no-irregular-whitespace": true,
         "cyclomatic-complexity": [

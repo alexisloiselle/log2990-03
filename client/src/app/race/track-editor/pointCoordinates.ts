@@ -13,7 +13,7 @@ export class PointCoordinates {
     public getY(): number {
         return this.y;
     }
-    public setX(x: number): void {
+    public setX(x: number): void  {
         this.x = x;
     }
     public setY(y: number): void {
@@ -21,11 +21,11 @@ export class PointCoordinates {
     }
 
     public equals(otherPoint: PointCoordinates): boolean {
-        if (this.getX() === otherPoint.getX() &&
-            this.getY() === otherPoint.getY()) {
-            return true;
-        }
+      if (this.getX() === otherPoint.getX() &&
+         this.getY() === otherPoint.getY()) {
+           return true;
+         }
 
-        return false;
+      return false;
     }
 }

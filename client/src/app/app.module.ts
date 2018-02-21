@@ -9,7 +9,7 @@ import { RenderService } from "./render-service/render.service";
 import { BasicService } from "./basic.service";
 import { TrackEditorComponent } from "./race/track-editor/track-editor.component";
 
-import { GameService } from "./game.service";
+import { GameService} from "./game.service";
 import { TrackListComponent } from "./race/track-list/track-list.component";
 import { RaceTrackComponent } from "./race/race-track/race-track.component";
 import { AppRoutingModule } from "./app-routing.module";
@@ -19,7 +19,7 @@ import { HomepageComponent } from "./homepage/homepage.component";
 import { SinglePlayerMenuComponent } from "./crossword/single-player-menu/single-player-menu.component";
 import { MultiplayerMenuComponent } from "./crossword/multiplayer-menu/multiplayer-menu.component";
 import { SinglePlayerGameComponent } from "./crossword/single-player-game/single-player-game.component";
-import { CarEventHandlerService } from "./render-service/car-event-handler.service";
+import {CarEventHandlerService} from "./render-service/car-event-handler.service";
 
 @NgModule({
     declarations: [
@@ -34,7 +34,7 @@ import { CarEventHandlerService } from "./render-service/car-event-handler.servi
         SinglePlayerMenuComponent,
         MultiplayerMenuComponent,
         SinglePlayerGameComponent
-    ],
+        ],
     imports: [
         BrowserModule,
         HttpClientModule,

@@ -4,7 +4,7 @@
 // import { TrackEditorConstraintService } from "./track-editor-constraint.service";
 import { PointCoordinates } from "./pointCoordinates";
 import { Vector } from "./vector/vector";
-import { TrackEditorConstraintService } from "./track-editor-constraint.service";
+import {TrackEditorConstraintService} from "./track-editor-constraint.service";
 
 describe("Track-Editor-Constraint", () => {
 
@@ -19,9 +19,9 @@ describe("Track-Editor-Constraint", () => {
     const VECTOR_TEST_LESS_45: Vector = new Vector(POINT_LESS_45, POINT_END);
     const VECTOR_PARALLEL: Vector = new Vector(POINT_START, POINT_END);
     const VECTOR_INVERSE_PARALLEL: Vector = new Vector(POINT_END, POINT_START);
-    const VECTOR_X_ABSCISSE: Vector = new Vector(new PointCoordinates(0, 0), new PointCoordinates(0, 1));
-    const VECTOR_Y_ABSCISSE: Vector = new Vector(new PointCoordinates(0, 1), new PointCoordinates(1, 1));
-    const FIRST_VECTOR_INTERSECTION: Vector = new Vector(new PointCoordinates(0, 0), new PointCoordinates(5, 5));
+    const VECTOR_X_ABSCISSE : Vector =new Vector (new PointCoordinates (0,0), new PointCoordinates (0,1));
+    const VECTOR_Y_ABSCISSE : Vector = new Vector (new PointCoordinates (0,1), new PointCoordinates (1,1));
+    const FIRST_VECTOR_INTERSECTION: Vector = new Vector( new PointCoordinates(0, 0), new PointCoordinates(5, 5));
     const SECOND_VECTOR_INTERSECTION: Vector = new Vector(new PointCoordinates(0, 5), new PointCoordinates(5, 0));
 
     // let pointArray: PointCoordinates[];
@@ -53,7 +53,7 @@ describe("Track-Editor-Constraint", () => {
         expect(VECTOR_PARALLEL.isParallel(VECTOR_INVERSE_PARALLEL)).toBeTruthy();
     });
 
-
+    
 
     it("Intersection X shouln't exist", () => {
         expect(VECTOR_PARALLEL.calculateVectorIntersection(VECTOR_INVERSE_PARALLEL).getX()).toBe(-1);
@@ -103,13 +103,13 @@ describe("Track-Editor-Constraint", () => {
     // });
 
     it("Shouldn't be intersecting  ", () => {
-        const trackEditorConstraintService: TrackEditorConstraintService = new TrackEditorConstraintService;
-        expect(trackEditorConstraintService.verifyIsIntersecting(SECONDEVECTOR45DEGREE, FIRSTVECTOR45DEGREE)).toBeFalsy();
+      const trackEditorConstraintService: TrackEditorConstraintService = new TrackEditorConstraintService;
+      expect(trackEditorConstraintService.verifyIsIntersecting(SECONDEVECTOR45DEGREE, FIRSTVECTOR45DEGREE)).toBeFalsy();
     });
 
     it("Angle verification shouldn't pass", () => {
-        const trackEditorConstraintService: TrackEditorConstraintService = new TrackEditorConstraintService;
-        expect(trackEditorConstraintService.verifyAngle(VECTOR_TEST, VECTOR_TEST_LESS_45)).toBeFalsy();
+      const trackEditorConstraintService: TrackEditorConstraintService = new TrackEditorConstraintService;
+      expect(trackEditorConstraintService.verifyAngle(VECTOR_TEST, VECTOR_TEST_LESS_45)).toBeFalsy();
     });
 
     // it("All constraint shouldn't pass because vector parallel", () => {

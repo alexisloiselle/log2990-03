@@ -8,9 +8,9 @@ describe('SinglePlayerMenuComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [SinglePlayerMenuComponent]
+      declarations: [ SinglePlayerMenuComponent ]
     })
-      .compileComponents();
+    .compileComponents();
   }));
 
   beforeEach(() => {
