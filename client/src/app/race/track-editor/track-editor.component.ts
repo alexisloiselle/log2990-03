@@ -20,6 +20,12 @@ const HEIGHT_OF_CANVAS: number = 500;
 export class TrackEditorComponent implements OnInit {
     @ViewChild("canvas")
     private canvasRef: ElementRef;
+    @ViewChild("trackDescriptionInput")
+    private trackDescriptionInput: ElementRef; 
+    @ViewChild("trackNameInput")
+    private trackNameInput: ElementRef; 
+
+    
     private ctx: CanvasRenderingContext2D;
     // private currentPoint : number
     private mouseMovedEvent: MouseEvent;  // So that each method can access the coordinates
@@ -190,7 +196,18 @@ export class TrackEditorComponent implements OnInit {
     public set description(description: string) {
         this.description = description;
     }
+
+    public setTrackName() {
+        this.trackName = this.trackNameInput.nativeElement.value;
+    }
+    public setTrackDescription() {
+        this.trackDescription = this.trackDescriptionInput.nativeElement.value;
+    }
+
     public inputTextNotEmpty(): boolean {
+        console.log(this.trackDescription);
+        console.log(this.trackName)
+        console.log(this.trackName.length !== 0 && this.trackDescription.length !== 0);
        return (this.trackName.length !== 0 && this.trackDescription.length !== 0);
     }
     public addTrack(trackName: string, trackDescription: string, trackType: RaceType): void {
