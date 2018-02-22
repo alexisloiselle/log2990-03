@@ -15,7 +15,8 @@
 <input type="password" class="form-control" #passwordInput>
 </p>
 
-<a class="btn btn-lg btn-info"  routerLink="/admin" href="#" role="button">  Valider </a>
+<a class="btn btn-lg btn-info" (click)="validateUserNameAndPassword(userNameInput.value,passwordInput.value)" role="button">  Valider </a>
 <div *ngIf="error">
-        <p class="text-danger">Mauvais nom d'utilisateur et mot de passe!</p>
+        <p class="text-danger"> Mauvais nom d'utilisateur et mot de passe!</p>
     </div>
+<div *ngIf="!error" routerLink="/admin"></div>

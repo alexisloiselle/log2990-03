@@ -13,17 +13,15 @@ export class RaceMainComponent implements OnInit {
     }
 
     public ngOnInit(): void { }
-
-    private userName: string;
-    private password: string;
     private error: boolean;
     public validPassword = false;
 
-
-     public validateUserNameAndPassword(): void {
+     public validateUserNameAndPassword(passwordInput: string, userNameInput: string ): void {
+        console.log("WRONG");
         this.error = false;
-        this.authService.connect(this.password).then(isOk => this.grantAccess(isOk));
-        this.authService.connect(this.userName).then(isOk => this.grantAccess(isOk));
+        console.log(userNameInput);
+        console.log(passwordInput);
+        this.authService.connect(userNameInput, passwordInput).then(isOk => this.grantAccess(isOk));
     }
 
     private grantAccess(isValid: boolean): void {
@@ -33,6 +31,5 @@ export class RaceMainComponent implements OnInit {
         } else {
             this.error = true;
         }
-        this.password = "";
     }
 }
