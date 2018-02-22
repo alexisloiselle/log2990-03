@@ -25,6 +25,7 @@ import { ChangePasswordComponent } from './admin/change-password/change-password
 import { PasswordFormComponent } from './admin/auth/password-form/password-form.component';
 import {AuthService} from "./admin/auth/auth.service";
 import { UserComponent } from './admin/auth/new-user/user/user.component';
+import { TrackService } from "./track.service";
 
 @NgModule({
     declarations: [
@@ -55,7 +56,8 @@ import { UserComponent } from './admin/auth/new-user/user/user.component';
         GameService,
         CarEventHandlerService, 
         AuthService,
-        HttpClientModule
+        HttpClientModule,
+        TrackService
     ],
     bootstrap: [AppComponent]
 })

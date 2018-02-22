@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import { injectable, } from "inversify";
 
-const MONGO_URL = "mongodb://<dbuser>:<dbpassword>@ds233218.mlab.com:33218/log2990-03-db";
+const MONGO_URL = "mongodb://lesChats:ChatonsRoux123@ds233218.mlab.com:33218/log2990-03-db";
 
 module Route {
 
     @injectable()
-    export class Index {
+    export class AuthRoute {
     public auth(req: Request, res: Response, next: NextFunction) {
     require('mongodb').MongoClient.connect(MONGO_URL, function (err: any, db: any) {
         const collection = db.collection('options');
