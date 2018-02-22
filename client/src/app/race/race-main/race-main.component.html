@@ -7,15 +7,18 @@
 </nav>
 
 <h3> SVP entrez votre nom d'utilisateur ainsi que votre mot de passe : </h3>
-<p>Name:
+<p>Nom d'utilisateur :
 <input type="text" class="form-control" #userNameInput>
 </p>
 
-<p>Description :
-<input type="text" class="form-control" #descriptionNameInput>
+<p>Mot de Passe:
+<input type="text" class="form-control" #passwordInput>
 </p>
 
 <a class="btn btn-lg btn-info"routerLink="/admin" href="#" role="button">  Valider </a>
+
+<p>Sinon, créer un utilisateur. </p>
+<a class="btn btn-lg btn-info"routerLink="/UserComponent" href="#" role="button">  Créer l'utilisateur </a>
 
 </div>
 <router-outlet></router-outlet>

@@ -1,4 +1,7 @@
 <div id="container">
+  <div id="bouttonRetour">
+  <button class="btn btn-lg btn-info"routerLink="/admin" href="#" role="button">  Retour  </button>
+</div>
   <div class=row>
   <div class = "col-md">
   <canvas class="canvas" #canvas id="canvas"  oncontextmenu="return false;" (mouseup)="canvasMouseUp($event)" (mousedown)="canvasMouseDown($event)" (mousemove)="canvasMouseMoved($event)">
@@ -37,5 +40,7 @@
       (click)="addTrack(trackNameInput.value, trackDescriptionInput.value, trackTypeInput.value)" routerLink="/track-list" > Validation </button>
     </div>
 </div>
+
+
 
     

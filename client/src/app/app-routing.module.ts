@@ -12,12 +12,14 @@ import { SinglePlayerMenuComponent } from "./crossword/single-player-menu/single
 import { MultiplayerMenuComponent } from "./crossword/multiplayer-menu/multiplayer-menu.component";
 import { SinglePlayerGameComponent } from "./crossword/single-player-game/single-player-game.component";
 import {AdminComponent} from "./admin/admin/admin.component";
-import {ChangePasswordComponent} from "./admin/change-password/change-password.component"
+import {ChangePasswordComponent} from "./admin/change-password/change-password.component";
+import {UserComponent} from "./admin/auth/new-user/user/user.component";
 
 const routes: Routes = [
     { path: "", redirectTo: "/homepage", pathMatch: "full" },
     { path : "passwordChange",component: ChangePasswordComponent},
     { path: "admin", component: AdminComponent},
+    { path: "UserComponent", component: UserComponent},
     { path: "homepage", component: HomepageComponent },
     { path: "car-game", component: GameComponent },
     { path: "race-track", component: RaceTrackComponent },

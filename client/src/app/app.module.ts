@@ -24,6 +24,7 @@ import { AdminComponent } from './admin/admin/admin.component';
 import { ChangePasswordComponent } from './admin/change-password/change-password.component';
 import { PasswordFormComponent } from './admin/auth/password-form/password-form.component';
 import {AuthService} from "./admin/auth/auth.service";
+import { UserComponent } from './admin/auth/new-user/user/user.component';
 
 @NgModule({
     declarations: [
@@ -40,7 +41,8 @@ import {AuthService} from "./admin/auth/auth.service";
         SinglePlayerGameComponent,
         AdminComponent,
         ChangePasswordComponent,
-        PasswordFormComponent
+        PasswordFormComponent,
+        UserComponent
     ],
     imports: [
         BrowserModule,
