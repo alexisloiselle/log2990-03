@@ -86,16 +86,14 @@ export class SinglePlayerGameComponent implements OnInit {
     }
 
     private focusOnArrowCase(keyCode: number, i: number, j: number): void {
-
     }
 
-    private focusOnCase(i: number, j: number): boolean {
+    private focusOnCase(i: number, j: number): void {
         const c: any = this.cases.toArray().find((ca: any) => {
             return ca.nativeElement.getAttribute("id") === `${i}${j}`;
         });
         console.log(c);
         c.nativeElement.focus();
-        return true;
     }
 
     private isPartHorizontalWord(i: number, j: number): boolean {
