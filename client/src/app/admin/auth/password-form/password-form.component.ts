@@ -17,7 +17,6 @@ export class PasswordFormComponent implements OnInit {
 
   ngOnInit() {
   }
-  
     public validatePassword(): void {
         this.error = false;
         this.authService.connect(this.password).then(isOk => this.grantAccess(isOk));
