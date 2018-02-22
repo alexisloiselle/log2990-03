@@ -9,13 +9,12 @@ import { WordPlacer } from "./word-placer";
 
 export class GridGenerator {
 
-    public static async generateGrid(height: number, width: number, difficulty: string): Promise<Grid> {
+    public static generateGrid(height: number, width: number, difficulty: string): Promise<Grid> {
         let words: Word[] = [];
         let grid: Case[][];
         const BLACK_CASE_PERCENTAGE: number = 38;
 
         return new Promise<Grid>(async (resolve: Function) => {
-
             grid = BlankGridCreator.createGrid(height, width);
             BlackCaseGenerator.generateBlackCases(grid, BLACK_CASE_PERCENTAGE);
 

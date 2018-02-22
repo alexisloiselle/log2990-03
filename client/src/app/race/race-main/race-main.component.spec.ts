@@ -2,24 +2,27 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { RaceMainComponent } from "./race-main.component";
 
-describe("CarRaceComponent", () => {
-  let component: RaceMainComponent;
-  let fixture: ComponentFixture<RaceMainComponent>;
+import { RouterTestingModule } from "@angular/router/testing";
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ RaceMainComponent ]
-    })
-    .compileComponents();
-  }));
+describe("RaceMainComponent", () => {
+    let component: RaceMainComponent;
+    let fixture: ComponentFixture<RaceMainComponent>;
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(RaceMainComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [RouterTestingModule],
+            declarations: [RaceMainComponent]
+        })
+            .compileComponents();
+    }));
 
-  it("should create", () => {
-    expect(component).toBeTruthy();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(RaceMainComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
+
+    it("should create", () => {
+        expect(component).toBeTruthy();
+    });
 });

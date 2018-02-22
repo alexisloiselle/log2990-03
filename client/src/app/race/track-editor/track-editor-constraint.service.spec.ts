@@ -2,7 +2,7 @@
 // import { TestBed, inject } from "@angular/core/testing";
 
 // import { TrackEditorConstraintService } from "./track-editor-constraint.service";
-import { PointCoordinates } from "./pointCoordinates";
+import { PointCoordinates } from "./point-coordinates";
 import { Vector } from "./vector/vector";
 import {TrackEditorConstraintService} from "./track-editor-constraint.service";
 
@@ -19,8 +19,8 @@ describe("Track-Editor-Constraint", () => {
     const VECTOR_TEST_LESS_45: Vector = new Vector(POINT_LESS_45, POINT_END);
     const VECTOR_PARALLEL: Vector = new Vector(POINT_START, POINT_END);
     const VECTOR_INVERSE_PARALLEL: Vector = new Vector(POINT_END, POINT_START);
-    const VECTOR_X_ABSCISSE : Vector =new Vector (new PointCoordinates (0,0), new PointCoordinates (0,1));
-    const VECTOR_Y_ABSCISSE : Vector = new Vector (new PointCoordinates (0,1), new PointCoordinates (1,1));
+    const VECTOR_X_ABSCISSE: Vector = new Vector (new PointCoordinates (0, 0), new PointCoordinates (0, 1));
+    const VECTOR_Y_ABSCISSE: Vector = new Vector (new PointCoordinates (0, 1), new PointCoordinates (1, 1));
     const FIRST_VECTOR_INTERSECTION: Vector = new Vector( new PointCoordinates(0, 0), new PointCoordinates(5, 5));
     const SECOND_VECTOR_INTERSECTION: Vector = new Vector(new PointCoordinates(0, 5), new PointCoordinates(5, 0));
 
@@ -53,38 +53,36 @@ describe("Track-Editor-Constraint", () => {
         expect(VECTOR_PARALLEL.isParallel(VECTOR_INVERSE_PARALLEL)).toBeTruthy();
     });
 
-    
-
     it("Intersection X shouln't exist", () => {
-        expect(VECTOR_PARALLEL.calculateVectorIntersection(VECTOR_INVERSE_PARALLEL).getX()).toBe(-1);
+        expect(VECTOR_PARALLEL.calculateVectorIntersection(VECTOR_INVERSE_PARALLEL).X).toBe(-1);
     });
 
     it("Intersection Y shouln't exist", () => {
-        expect(VECTOR_PARALLEL.calculateVectorIntersection(VECTOR_INVERSE_PARALLEL).getY()).toBe(-1);
+        expect(VECTOR_PARALLEL.calculateVectorIntersection(VECTOR_INVERSE_PARALLEL).Y).toBe(-1);
     });
 
     it("Intersection Y should be 0", () => {
-        expect(FIRSTVECTOR45DEGREE.calculateVectorIntersection(SECONDEVECTOR45DEGREE).getX()).toBe(0);
+        expect(FIRSTVECTOR45DEGREE.calculateVectorIntersection(SECONDEVECTOR45DEGREE).X).toBe(0);
     });
 
     it("Intersection Y should be 0", () => {
-        expect(FIRSTVECTOR45DEGREE.calculateVectorIntersection(SECONDEVECTOR45DEGREE).getY()).toBe(0);
+        expect(FIRSTVECTOR45DEGREE.calculateVectorIntersection(SECONDEVECTOR45DEGREE).Y).toBe(0);
     });
 
     it("XMin commun domain should be 0", () => {
-        expect(VECTOR_TEST.calculateCommunDomain(FIRSTVECTOR45DEGREE).getXMin()).toBe(0);
+        expect(VECTOR_TEST.calculateCommunDomain(FIRSTVECTOR45DEGREE).XMin).toBe(0);
     });
 
     it("YMin commun domain should be 0", () => {
-        expect(VECTOR_TEST.calculateCommunDomain(FIRSTVECTOR45DEGREE).getYMin()).toBe(0);
+        expect(VECTOR_TEST.calculateCommunDomain(FIRSTVECTOR45DEGREE).YMin).toBe(0);
     });
 
     it("XMax commun domain should be 5", () => {
-        expect(VECTOR_TEST.calculateCommunDomain(FIRSTVECTOR45DEGREE).getXMax()).toBe(5);
+        expect(VECTOR_TEST.calculateCommunDomain(FIRSTVECTOR45DEGREE).XMax).toBe(5);
     });
 
     it("YMax commun domain should be 6", () => {
-        expect(VECTOR_TEST.calculateCommunDomain(FIRSTVECTOR45DEGREE).getYMax()).toBe(6);
+        expect(VECTOR_TEST.calculateCommunDomain(FIRSTVECTOR45DEGREE).YMax).toBe(6);
     });
 
     it("Point should be in the domain", () => {
@@ -133,11 +131,11 @@ describe("Track-Editor-Constraint", () => {
     });
 
     it("Intersection Y should be 2.5", () => {
-        expect(FIRST_VECTOR_INTERSECTION.calculateVectorIntersection(SECOND_VECTOR_INTERSECTION).getX()).toBe(2.5);
+        expect(FIRST_VECTOR_INTERSECTION.calculateVectorIntersection(SECOND_VECTOR_INTERSECTION).X).toBe(2.5);
     });
 
     it("Intersection Y should be 2.5", () => {
-        expect(FIRST_VECTOR_INTERSECTION.calculateVectorIntersection(SECOND_VECTOR_INTERSECTION).getY()).toBe(2.5);
+        expect(FIRST_VECTOR_INTERSECTION.calculateVectorIntersection(SECOND_VECTOR_INTERSECTION).Y).toBe(2.5);
     });
 
 });

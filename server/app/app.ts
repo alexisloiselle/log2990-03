@@ -8,6 +8,7 @@ import Types from "./types";
 import { injectable, inject } from "inversify";
 import { Routes } from "./routes";
 import { LexiconRoute } from "./routes/lexiconRoute";
+import { CrosswordRoute } from "./routes/crosswordRoute";
 
 @injectable()
 export class Application {
@@ -38,11 +39,15 @@ export class Application {
         router.use(this.api.routes);
 
         const lexicon: LexiconRoute = new LexiconRoute();
+        const crossword: CrosswordRoute = new CrosswordRoute();
 
-        router.get("/lexicon", lexicon.getAllWords);
-        router.get("/lexicon/definition/:word", lexicon.getDefinitions);
-        router.get("/lexicon/common/:pattern", lexicon.getCommonWithPattern);
-        router.get("/lexicon/uncommon/:pattern", lexicon.getUncommonWithPattern);
+        router.get("/lexicon", lexicon.getAllWords.bind(lexicon));
+        router.get("/lexicon/definition/:word", lexicon.getDefinitions.bind(lexicon));
+        router.get("/lexicon/common/:pattern", lexicon.getCommonWithPattern.bind(lexicon));
+        router.get("/lexicon/uncommon/:pattern", lexicon.getUncommonWithPattern.bind(lexicon));
+
+        router.get("/crossword/mock", crossword.getMockGrid.bind(crossword));
+        router.get("/crossword/:difficulty", crossword.getGrid.bind(crossword));
 
         this.app.use("/api", router);
 

@@ -1,6 +1,6 @@
 import { Case } from "./case";
-import { Lexicon } from "../lexicon/lexicon";
 import { Word, Direction } from "./word";
+import * as request from "request";
 
 export class DefinitionAdder {
 
@@ -21,7 +21,14 @@ export class DefinitionAdder {
 
     public static async addDefinitions(words: Word[], difficulty: string): Promise<boolean> {
         for (const wordInfo of words) {
-            const definitions: string[] = await Lexicon.getDefinitions(wordInfo.Word);
+            //mettre url dans config
+            const url: string = `http://localhost:3000/api/lexicon/definition/${wordInfo.Word}`;
+            const definitions: string[] = await new Promise<string[]>((resolve: Function) => {
+                // tslint:disable-next-line:no-any
+                request(url, (error: any, response: any, body: any) => {
+                    resolve(JSON.parse(body));
+                });
+            });
             wordInfo.Definition = difficulty === "easy" || definitions.length <= 1 ? definitions[0] : definitions[1];
         }
 

@@ -7,9 +7,9 @@ import { Component, OnInit } from "@angular/core";
 })
 export class MultiplayerMenuComponent implements OnInit {
 
-    constructor() { }
+    public constructor() { }
 
-    ngOnInit() {
+    public ngOnInit(): void {
     }
 
 }
