@@ -5,6 +5,7 @@ import { CrosswordService } from "./../services/crossword/crossword.service";
 import { FormattedGrid } from "../formatted-grid";
 import { DefintionsSorter } from "./../definitions-sorter";
 import { Word } from "./../word";
+import { InputService } from "../services/crossword/inputService";
 
 @Component({
     selector: "app-single-player-game",
@@ -21,7 +22,11 @@ export class SinglePlayerGameComponent implements OnInit {
     public isCheatModeOn: boolean;
     // private game: Game;
 
-    public constructor(protected crosswordService: CrosswordService, private route: ActivatedRoute) {
+    public constructor(
+        private crosswordService: CrosswordService,
+        private inputService: InputService,
+        private route: ActivatedRoute,
+    ) {
         this.listenLetterInput();
         this.listenBackspaceInput();
         this.listenArrowInput();
@@ -41,19 +46,19 @@ export class SinglePlayerGameComponent implements OnInit {
     }
 
     private listenLetterInput(): void {
-        this.crosswordService.LetterInputSub.subscribe((res) => {
+        this.inputService.LetterInputSub.subscribe((res) => {
             this.focusOnNextCase(res.i, res.j);
         });
     }
 
     private listenBackspaceInput(): void {
-        this.crosswordService.BackspaceInputSub.subscribe((res) => {
+        this.inputService.BackspaceInputSub.subscribe((res) => {
             this.focusOnPreviousCase(res.i, res.j);
         });
     }
 
     private listenArrowInput(): void {
-        this.crosswordService.ArrowInputSub.subscribe((res) => {
+        this.inputService.ArrowInputSub.subscribe((res) => {
             this.focusOnArrowCase(res.keyCode, res.i, res.j);
         });
     }
