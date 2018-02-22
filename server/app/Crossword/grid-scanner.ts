@@ -34,7 +34,7 @@ export class GridScanner {
 
                     const wordsWithPos: Word[] = this.getWordsWithPos(wordsInGrid, i, j);
                     for (const word of wordsWithPos) {
-                        word.NbConstraints = word.NbConstraints + 1;
+                        word.NbConstraints++;
                     }
                 }
             }
