@@ -30,7 +30,7 @@ export class PasswordFormComponent implements OnInit {
         } else {
             this.error = true;
         }
-        this.password = '';
+        this.password = "";
     }
 }
 

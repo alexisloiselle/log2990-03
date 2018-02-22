@@ -52,7 +52,8 @@ import {AuthService} from "./admin/auth/auth.service";
         BasicService,
         GameService,
         CarEventHandlerService, 
-        AuthService
+        AuthService,
+        HttpClientModule
     ],
     bootstrap: [AppComponent]
 })

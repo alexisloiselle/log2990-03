@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Http } from "@angular/http";
+import { HttpClient } from '@angular/common/http';
 import "rxjs/add/operator/toPromise";
 
 @Injectable()
@@ -8,7 +8,7 @@ export class AuthService {
   private authenticateUrl = 'http://localhost:3000/auth';
   private changePasswordUrl = 'http://localhost:3000/change-password';
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
     this.isAdminValue = false;
    }
  
@@ -20,7 +20,7 @@ export class AuthService {
       return this.http.post(this.authenticateUrl, body)
           .toPromise()
           .then(response => {
-              this.isAdminValue = response.json() as boolean;
+              this.isAdminValue = response as boolean;
               return this.isAdmin;
           })
           .catch(this.handleError);
@@ -34,7 +34,7 @@ export class AuthService {
       const body = { newPassword: newPassword };
       return this.http.put(this.changePasswordUrl, body)
           .toPromise().
-          then(response => response.json() as boolean)
+          then(response => response as boolean)
           .catch(this.handleError);
   }
 
