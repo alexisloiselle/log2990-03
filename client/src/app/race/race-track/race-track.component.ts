@@ -18,7 +18,7 @@ export class RaceTrackComponent implements OnInit {
     public times: TrackTime[] = [];
     public bestTime: TrackTime;
 
-    public constructor(init?: Partial<RaceTrackComponent>, ) {
+    public constructor(init?: Partial<RaceTrackComponent>) {
         Object.assign(this, init);
     }
 

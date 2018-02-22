@@ -7,6 +7,7 @@ module Route {
 
     @injectable()
     export class AuthRoute {
+    
     public auth(req: Request, res: Response, next: NextFunction) {
     require('mongodb').MongoClient.connect(MONGO_URL, function (err: any, db: any) {
         const collection = db.collection('options');
@@ -17,7 +18,6 @@ module Route {
         db.close();
      });
     }
-
     public changePassword(req: Request, res: Response, next: NextFunction) {
     require('mongodb').MongoClient.connect(MONGO_URL, function (err: any, db: any) {
         const collection = db.collection('options');
