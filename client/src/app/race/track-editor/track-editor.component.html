@@ -3,23 +3,25 @@
   <button class="btn btn-lg btn-info"routerLink="/admin" href="#" role="button">  Retour  </button>
 </div>
   <div class=row>
+    <div class = "col-md">
+      <canvas class="canvas" #canvas id="canvas"  oncontextmenu="return false;" (mouseup)="canvasMouseUp($event)" (mousedown)="canvasMouseDown($event)" (mousemove)="canvasMouseMoved($event)">
+          <!--We add an event binding to the click event-->
+      </canvas>
+    </div>
   <div class = "col-md">
-  <canvas class="canvas" #canvas id="canvas"  oncontextmenu="return false;" (mouseup)="canvasMouseUp($event)" (mousedown)="canvasMouseDown($event)" (mousemove)="canvasMouseMoved($event)">
-      <!--We add an event binding to the click event-->
-  </canvas>
-  </div>
-<div class = "col-md">
     <div class="row">
         <div class="col-xs-12">
             <h3 class="nouvellePiste"> Nouvelle Piste</h3>
     
           <p> Name:
-            <input type="text" [disabled] = "!allConstraintPass()" class="form-control" #trackNameInput>
+            <input type="text" [disabled] = "!allConstraintPass()" (keyup)="setTrackName()"
+             class="form-control" #trackNameInput>
           </p>
     
     
           <p>Description:
-          <input type="text" [disabled] = "!allConstraintPass()" class="form-control" #trackDescriptionInput>
+          <input type="text" [disabled] = "!allConstraintPass()" (keyup)="setTrackDescription()"
+          class="form-control" #trackDescriptionInput>
           </p>
     
           <div class="niveau">
@@ -32,13 +34,14 @@
           </div>
           </div>
         </div>
+        <div class="validation">
+          <p>La piste doit être dessinée et validée avant de pouvoir être enregistrée.</p>
+          <button class="btn btn-primary" id="validate-button" [disabled] = "!(allConstraintPass() && inputTextNotEmpty())" 
+          (click)="addTrack(trackNameInput.value, trackDescriptionInput.value, trackTypeInput.value)" routerLink="/track-list" > Validation </button>
         </div>
       </div>
-      <div class="validation">
-      <p>La piste doit être dessinée et validée avant de pouvoir être enregistrée.</p>
-      <button class="btn-btn-primary" id="validate-button" [disabled] = "!allConstraintPass() && !inputTextNotEmpty()" 
-      (click)="addTrack(trackNameInput.value, trackDescriptionInput.value, trackTypeInput.value)" routerLink="/track-list" > Validation </button>
-    </div>
+</div>
+      
 </div>
 
 
