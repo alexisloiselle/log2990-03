@@ -24,6 +24,7 @@ export class AuthService {
               return this.isAdmin;
           })
           .catch(this.handleError);
+         
   }
 
   public disconnect(): void {

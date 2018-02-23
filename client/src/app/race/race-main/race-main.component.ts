@@ -17,15 +17,13 @@ export class RaceMainComponent implements OnInit {
     public validPassword = false;
 
      public validate(passwordInput: string): void {
-        console.log("WRONG");
         this.error = false;
-    
-        console.log(passwordInput);
         this.authService.connect(passwordInput).then(isOk => this.grantAccess(isOk));
     }
 
     private grantAccess(isValid: boolean): void {
         if (isValid) {
+            console.log("ISVALID");
             this.success.emit(undefined);
             this.validPassword = true;
         } else {
