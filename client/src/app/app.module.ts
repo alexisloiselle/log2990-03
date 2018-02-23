@@ -56,8 +56,7 @@ import { TrackService } from "./track.service";
         BasicService,
         GameService,
         CrosswordService,
-        CarEventHandlerService
-        CarEventHandlerService, 
+        CarEventHandlerService,
         AuthService,
         HttpClientModule,
         TrackService

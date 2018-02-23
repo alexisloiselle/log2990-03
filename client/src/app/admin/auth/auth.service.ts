@@ -6,7 +6,7 @@ import "rxjs/add/operator/toPromise";
 export class AuthService {
   private isAdminValue: boolean;
   private authenticateUrl = "http://localhost:3000/api/auth";
-  private changePasswordUrl = "http://localhost:3000/passwordChange";
+  private changePasswordUrl = "http://localhost:3000/api/passwordChange";
 
   constructor(private http: HttpClient) {
     this.isAdminValue = false;
@@ -17,7 +17,6 @@ export class AuthService {
     }
     public connect(password: string): Promise<boolean> {
       const body = {password: password} ;
-      console.log(body.password);
       return this.http.post(this.authenticateUrl, body)
           .toPromise()
           .then(response => {

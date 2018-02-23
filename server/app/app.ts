@@ -53,18 +53,14 @@ export class Application {
         router.get("/crossword/mock", crossword.getMockGrid.bind(crossword));
         router.get("/crossword/:difficulty", crossword.getGrid.bind(crossword));
 
-        //router.post("/auth", function(req:express.Request, res: express.Response, next: express.NextFunction){
-            //console.log("rentreNouvelleFonction");
-           // res.send("hello");
-        //});
-        router.post("/auth/:body", auth.auth.bind(auth.auth));
-        router.put("/change-password/:body", auth.changePassword.bind(auth.changePassword));
+        router.post("/auth", auth.auth.bind(auth));
+        router.put("/change-password/:body", auth.changePassword.bind(auth));
 
-        router.post("/tracks/add", track.addTrack.bind(track.addTrack));
-        router.get("/tracks/all", track.getTracks.bind(track.getTracks));
-        router.get("/tracks/:id", track.getTrack.bind(track.getTrack));
-        router.put("/tracks/:id", track.updateTrack.bind(track.updateTrack));
-        router.delete("/tracks/:id", track.deleteTrack.bind(track.deleteTrack));
+        router.post("/tracks/add", track.addTrack.bind(track));
+        router.get("/tracks/all", track.getTracks.bind(track));
+        router.get("/tracks/:id", track.getTrack.bind(track));
+        router.put("/tracks/:id", track.updateTrack.bind(track));
+        router.delete("/tracks/:id", track.deleteTrack.bind(track));
 
         
         this.app.use("/api", router);

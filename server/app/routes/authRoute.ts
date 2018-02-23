@@ -3,18 +3,16 @@ import { injectable, } from "inversify";
 
 const MONGO_URL = "mongodb://lesChats:ChatonsRoux123@ds233218.mlab.com:33218/log2990-03-db";
 
+
 module Route {
 
     @injectable()
     export class AuthRoute {
     
     public auth(req: Request, res: Response, next: NextFunction) {
-        console.log("auth auth");
         require("mongodb").MongoClient.connect(MONGO_URL, function (err: any, db: any) {
-            console.log("DB connect");
-            const collection = db.collection('admin'); 
-            collection.findOne({ _id: 'password' }, function (findErr: any, doc: any) {
-                console.log(doc);
+            const collection = db.getCollection("admin"); 
+            collection.findOne({ id: "password" }, function (findErr: any, doc: any) {
                 const isPassOk: boolean = req.body.password === doc.value; 
                 res.send(JSON.stringify(isPassOk));
             });
@@ -24,7 +22,7 @@ module Route {
     public changePassword(req: Request, res: Response, next: NextFunction) {
     require("mongodb").MongoClient.connect(MONGO_URL, function (err: any, db: any) {
         const collection = db.collection("admin");
-        collection.updateOne({ _id: "password" }, { $set: { value: req.body.newPassword } }, null,
+        collection.updateOne({ id: "password" }, { $set: { value: req.body.newPassword } }, null,
             function (updateErr: any, updateDb: any) {
                 const isOk = updateErr === null;
                 res.send(JSON.stringify(isOk));
