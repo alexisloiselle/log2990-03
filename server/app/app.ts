@@ -51,15 +51,18 @@ export class Application {
         router.get("/lexicon/uncommon/:pattern", lexicon.getUncommonWithPattern);
         router.get("/crossword/:difficulty", crossword.getGrid);
 
-        
+        //router.post("/auth", function(req:express.Request, res: express.Response, next: express.NextFunction){
+            //console.log("rentreNouvelleFonction");
+           // res.send("hello");
+        //});
         router.post("/auth/:body", auth.auth.bind(auth.auth));
-        router.put('/change-password/:body', auth.changePassword.bind(auth.changePassword));
+        router.put("/change-password/:body", auth.changePassword.bind(auth.changePassword));
 
-        router.post('/tracks/add', track.addTrack.bind(track.addTrack));
-        router.get('/tracks/all', track.getTracks.bind(track.getTracks));
-        router.get('/tracks/:id', track.getTrack.bind(track.getTrack));
-        router.put('/tracks/:id', track.updateTrack.bind(track.updateTrack));
-        router.delete('/tracks/:id', track.deleteTrack.bind(track.deleteTrack));
+        router.post("/tracks/add", track.addTrack.bind(track.addTrack));
+        router.get("/tracks/all", track.getTracks.bind(track.getTracks));
+        router.get("/tracks/:id", track.getTrack.bind(track.getTrack));
+        router.put("/tracks/:id", track.updateTrack.bind(track.updateTrack));
+        router.delete("/tracks/:id", track.deleteTrack.bind(track.deleteTrack));
 
         
         this.app.use("/api", router);

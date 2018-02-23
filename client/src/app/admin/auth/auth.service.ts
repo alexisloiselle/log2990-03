@@ -5,7 +5,7 @@ import "rxjs/add/operator/toPromise";
 @Injectable()
 export class AuthService {
   private isAdminValue: boolean;
-  private authenticateUrl = "http://localhost:3000/admin";
+  private authenticateUrl = "http://localhost:3000/api/auth";
   private changePasswordUrl = "http://localhost:3000/passwordChange";
 
   constructor(private http: HttpClient) {
@@ -17,6 +17,7 @@ export class AuthService {
     }
     public connect(password: string): Promise<boolean> {
       const body = {password: password} ;
+      console.log(body.password);
       return this.http.post(this.authenticateUrl, body)
           .toPromise()
           .then(response => {

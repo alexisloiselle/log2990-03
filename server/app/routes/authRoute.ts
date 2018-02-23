@@ -9,15 +9,17 @@ module Route {
     export class AuthRoute {
     
     public auth(req: Request, res: Response, next: NextFunction) {
-    require("mongodb").MongoClient.connect(MONGO_URL, function (err: any, db: any) {
-        const collection = db.collection('admin'); 
-        collection.findOne({ _id: 'password' }, function (findErr: any, doc: any) {
-            const isPassOk = req.body.password === doc.value; 
-            //req = body, doc retour du find on
-            res.send(JSON.stringify(isPassOk));
+        console.log("auth auth");
+        require("mongodb").MongoClient.connect(MONGO_URL, function (err: any, db: any) {
+            console.log("DB connect");
+            const collection = db.collection('admin'); 
+            collection.findOne({ _id: 'password' }, function (findErr: any, doc: any) {
+                console.log(doc);
+                const isPassOk: boolean = req.body.password === doc.value; 
+                res.send(JSON.stringify(isPassOk));
+            });
+            db.close();
         });
-        db.close();
-     });
     }
     public changePassword(req: Request, res: Response, next: NextFunction) {
     require("mongodb").MongoClient.connect(MONGO_URL, function (err: any, db: any) {
