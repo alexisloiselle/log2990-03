@@ -34,7 +34,7 @@ export class Application {
         this.app.use(cors());
     }
 
-    public async routes(): Promise<void> {
+    public routes(): void {
         const router: express.Router = express.Router();
         router.use(this.api.routes);
 

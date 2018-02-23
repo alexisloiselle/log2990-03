@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import Stats = require("stats.js");
-import { PerspectiveCamera, WebGLRenderer, Scene, AmbientLight } from "three";
+import * as THREE from "three";
 import { Car } from "../race/car/car";
 import { CarEventHandlerService } from "./car-event-handler.service";
 
@@ -8,19 +8,21 @@ const FAR_CLIPPING_PLANE: number = 1000;
 const NEAR_CLIPPING_PLANE: number = 1;
 const FIELD_OF_VIEW: number = 70;
 
-const INITIAL_CAMERA_POSITION_Y: number = 25;
+// const INITIAL_CAMERA_POSITION_Y: number = 25;
 const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
 
 @Injectable()
 export class RenderService {
-    private camera: PerspectiveCamera;
+    private camera: THREE.PerspectiveCamera;
     private container: HTMLDivElement;
     private _car: Car;
-    private renderer: WebGLRenderer;
+    private renderer: THREE.WebGLRenderer;
     private scene: THREE.Scene;
     private stats: Stats;
     private lastDate: number;
+    private skybox: THREE.Mesh;
+    private material: THREE.MeshFaceMaterial;
 
     public get car(): Car {
         return this._car;
@@ -53,9 +55,9 @@ export class RenderService {
     }
 
     private async createScene(): Promise<void> {
-        this.scene = new Scene();
+        this.scene = new THREE.Scene();
 
-        this.camera = new PerspectiveCamera(
+        this.camera = new THREE.PerspectiveCamera(
             FIELD_OF_VIEW,
             this.getAspectRatio(),
             NEAR_CLIPPING_PLANE,
@@ -63,10 +65,44 @@ export class RenderService {
         );
 
         await this._car.init();
-        this.camera.position.set(0, INITIAL_CAMERA_POSITION_Y, 0);
+
+        // this for third person camera (test skybox)
+        this.camera.position.z = 10;
+        this.camera.position.y = 5;
         this.camera.lookAt(this._car.position);
+        this.car.attachCamera(this.camera);
+
+        // this for top view (as given)
+        // this.camera.position.set(0, INITIAL_CAMERA_POSITION_Y, 0);
+        // this.camera.lookAt(this._car.position);
+
         this.scene.add(this._car);
-        this.scene.add(new AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY));
+        this.scene.add(new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY));
+
+        // skybox
+        this.createSkybox();
+    }
+
+    
+    private createSkybox(): void {
+        this.initSkybox();
+        this.skybox = new THREE.Mesh(new THREE.CubeGeometry(1000,1000,1000), this.material);
+        this.scene.add(this.skybox);
+    }
+
+    private initSkybox(): void {
+        const urlPrefix = "../../assets/skybox/"
+        const urls = [urlPrefix + "lf.png", urlPrefix + "rt.png",
+        urlPrefix + "up.png", urlPrefix + "dn.png",
+        urlPrefix + "ft.png", urlPrefix + "bk.png"];
+        let materialArray: THREE.MeshBasicMaterial[] = [];
+        urls.forEach((image: string) => {
+            materialArray.push(new THREE.MeshBasicMaterial({
+                map: THREE.ImageUtils.loadTexture(image),
+                side: THREE.DoubleSide
+            }));
+        });
+        this.material = new THREE.MeshFaceMaterial(materialArray);
     }
 
     private getAspectRatio(): number {
@@ -74,7 +110,7 @@ export class RenderService {
     }
 
     private startRenderingLoop(): void {
-        this.renderer = new WebGLRenderer();
+        this.renderer = new THREE.WebGLRenderer();
         this.renderer.setPixelRatio(devicePixelRatio);
         this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
 
