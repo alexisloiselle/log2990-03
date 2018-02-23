@@ -13,11 +13,11 @@ export class DefinitionService {
         this.selectWordSub = new Subject();
     }
 
-    get SelectWordSub(): Observable<any> {
+    public get SelectWordSub(): Observable<any> {
         return this.selectWordSub.asObservable();
     }
 
-    get SelectedWord(): Word {
+    public get SelectedWord(): Word {
         return this.selectedWord;
     }
 

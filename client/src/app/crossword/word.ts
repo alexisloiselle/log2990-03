@@ -13,23 +13,23 @@ export class Word {
         this.column = column;
     }
 
-    get Line(): number {
+    public get Line(): number {
         return this.line;
     }
 
-    get Column(): number {
+    public get Column(): number {
         return this.column;
     }
 
-    get Def(): string {
+    public get Def(): string {
         return this.def;
     }
 
-    get Word(): string {
+    public get Word(): string {
         return this.word;
     }
 
-    get IsHorizontal(): boolean {
+    public get IsHorizontal(): boolean {
         return this.isHorizontal;
     }
 
