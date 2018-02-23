@@ -18,12 +18,19 @@
       <li class="case">{{fGrid.letters.indexOf(line)+1}}</li>
     </div>
   </div>
-  <div *ngFor="let line of fGrid.letters" class="row">
+  <div *ngFor="let line of fGrid.letters; let i  = index" class="row">
     <li class="case">{{fGrid.letters.indexOf(line)+1}}</li>
-    <div *ngFor="let letter of line">
+    <div *ngFor="let letter of line; let j = index">
       <li *ngIf="letter === ''" class="case bordercase blackCase"></li>
       <li *ngIf="letter !== ''" class="case bordercase letterCase">
-        <input type="text" class="whiteCaseInput" maxlength="1"/>
+        <input 
+          id="{{i}}{{j}}"
+          type="text"
+          class="whiteCaseInput"
+          maxlength="1"
+          (keydown)="crosswordService.handleKey($event, i, j )"
+          #case
+          />
       </li>
     </div>
   </div>

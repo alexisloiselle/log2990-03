@@ -55,6 +55,10 @@ export class Car extends Object3D {
         return carDirection;
     }
 
+    get Position(): Vector3 {
+        return this.mesh.position;
+    }
+
     public attachCamera(camera: PerspectiveCamera): void {
         this.mesh.add(camera);
     }

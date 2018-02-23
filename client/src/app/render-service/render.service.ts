@@ -52,6 +52,7 @@ export class RenderService {
         const timeSinceLastFrame: number = Date.now() - this.lastDate;
         this._car.update(timeSinceLastFrame);
         this.lastDate = Date.now();
+        this.skybox.position.set(this._car.Position.x,this._car.Position.y,this._car.Position.z);
     }
 
     private async createScene(): Promise<void> {
