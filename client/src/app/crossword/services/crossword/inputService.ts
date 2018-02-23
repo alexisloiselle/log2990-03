@@ -28,10 +28,11 @@ export class InputService {
     }
 
     public handleKey(event: any, i: number, j: number): boolean {
+        const letter = String.fromCharCode(event.keyCode);
         console.log(event);
         if(this.isLetter(event.keyCode)){
-            console.log('letter inpput');
-            this.letterInputSub.next({i, j});
+            console.log('letter input');
+            this.letterInputSub.next({letter ,i, j});
             return true;
         } else if (this.isBackspace(event.keyCode)){
             console.log('backspace input');
