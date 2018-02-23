@@ -5,7 +5,7 @@ export class Grid {
     private cases: Case[][];
     private words: Word[];
 
-    constructor(cases: Case[][], words: Word[]) {
+    constructor(cases?: Case[][], words?: Word[]) {
         this.cases = cases;
         this.words = words;
     }

@@ -36,7 +36,7 @@ export class Application {
         this.app.use(cors());
     }
 
-    public routes(): void {
+    public async routes(): Promise<void> {
         const router: express.Router = express.Router();
         router.use(this.api.routes);
 
@@ -45,11 +45,13 @@ export class Application {
         const auth: AuthRoute = new AuthRoute();
         const track: TrackRoute = new TrackRoute();
 
-        router.get("/lexicon", lexicon.getAllWords);
-        router.get("/lexicon/definition/:word", lexicon.getDefinitions);
-        router.get("/lexicon/common/:pattern", lexicon.getCommonWithPattern);
-        router.get("/lexicon/uncommon/:pattern", lexicon.getUncommonWithPattern);
-        router.get("/crossword/:difficulty", crossword.getGrid);
+        router.get("/lexicon", lexicon.getAllWords.bind(lexicon));
+        router.get("/lexicon/definition/:word", lexicon.getDefinitions.bind(lexicon));
+        router.get("/lexicon/common/:pattern", lexicon.getCommonWithPattern.bind(lexicon));
+        router.get("/lexicon/uncommon/:pattern", lexicon.getUncommonWithPattern.bind(lexicon));
+
+        router.get("/crossword/mock", crossword.getMockGrid.bind(crossword));
+        router.get("/crossword/:difficulty", crossword.getGrid.bind(crossword));
 
         //router.post("/auth", function(req:express.Request, res: express.Response, next: express.NextFunction){
             //console.log("rentreNouvelleFonction");

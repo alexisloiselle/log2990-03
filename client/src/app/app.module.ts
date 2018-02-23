@@ -7,6 +7,7 @@ import { GameComponent } from "./race/game-component/game.component";
 
 import { RenderService } from "./render-service/render.service";
 import { BasicService } from "./basic.service";
+import { CrosswordService } from "./crossword/services/crossword/crossword.service";
 import { TrackEditorComponent } from "./race/track-editor/track-editor.component";
 
 import { GameService} from "./game.service";
@@ -54,6 +55,8 @@ import { TrackService } from "./track.service";
         RenderService,
         BasicService,
         GameService,
+        CrosswordService,
+        CarEventHandlerService
         CarEventHandlerService, 
         AuthService,
         HttpClientModule,
