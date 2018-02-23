@@ -7,7 +7,7 @@ export class TrackService {
 
     public constructor(private http: HttpClient) { }
 
-    private baseUrl = 'http://localhost:3000/tracks';
+    private baseUrl = "http://localhost:3000/tracks";
 
     public getAll(): Promise<RaceTrackComponent[]> {
         return this.http.get(this.baseUrl + "/all")
@@ -23,7 +23,7 @@ export class TrackService {
     public getTrack(id: string): Promise<RaceTrackComponent> {
         return this.http.get(this.baseUrl + "/" + id)
             .toPromise()
-            .then(response => new RaceTrackComponent(response))
+            .then(response => new RaceTrackComponent())
             .catch(this.handleError);
     }
 

@@ -16,12 +16,12 @@ export class RaceMainComponent implements OnInit {
     private error: boolean;
     public validPassword = false;
 
-     public validateUserNameAndPassword(passwordInput: string, userNameInput: string ): void {
+     public validate(passwordInput: string): void {
         console.log("WRONG");
         this.error = false;
-        console.log(userNameInput);
+    
         console.log(passwordInput);
-        this.authService.connect(userNameInput, passwordInput).then(isOk => this.grantAccess(isOk));
+        this.authService.connect(passwordInput).then(isOk => this.grantAccess(isOk));
     }
 
     private grantAccess(isValid: boolean): void {
