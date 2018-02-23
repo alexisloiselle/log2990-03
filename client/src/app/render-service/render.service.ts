@@ -3,6 +3,7 @@ import Stats = require("stats.js");
 import * as THREE from "three";
 import { Car } from "../race/car/car";
 import { CarEventHandlerService } from "./car-event-handler.service";
+import { CubeTextureLoader } from "three";
 
 const FAR_CLIPPING_PLANE: number = 1000;
 const NEAR_CLIPPING_PLANE: number = 1;
@@ -21,8 +22,6 @@ export class RenderService {
     private scene: THREE.Scene;
     private stats: Stats;
     private lastDate: number;
-    private skybox: THREE.Mesh;
-    private material: THREE.MeshFaceMaterial;
 
     public get car(): Car {
         return this._car;
@@ -52,7 +51,6 @@ export class RenderService {
         const timeSinceLastFrame: number = Date.now() - this.lastDate;
         this._car.update(timeSinceLastFrame);
         this.lastDate = Date.now();
-        this.skybox.position.set(this._car.Position.x,this._car.Position.y,this._car.Position.z);
     }
 
     private async createScene(): Promise<void> {
@@ -84,26 +82,17 @@ export class RenderService {
         this.createSkybox();
     }
 
-    
     private createSkybox(): void {
-        this.initSkybox();
-        this.skybox = new THREE.Mesh(new THREE.CubeGeometry(1000,1000,1000), this.material);
-        this.scene.add(this.skybox);
-    }
-
-    private initSkybox(): void {
-        const urlPrefix = "../../assets/skybox/"
-        const urls = [urlPrefix + "lf.png", urlPrefix + "rt.png",
-        urlPrefix + "up.png", urlPrefix + "dn.png",
-        urlPrefix + "ft.png", urlPrefix + "bk.png"];
-        let materialArray: THREE.MeshBasicMaterial[] = [];
-        urls.forEach((image: string) => {
-            materialArray.push(new THREE.MeshBasicMaterial({
-                map: THREE.ImageUtils.loadTexture(image),
-                side: THREE.DoubleSide
-            }));
-        });
-        this.material = new THREE.MeshFaceMaterial(materialArray);
+        this.scene.background = new CubeTextureLoader()
+        .setPath("../../assets/skybox/")
+        .load([
+            "lf.png",
+            "rt.png",
+            "up.png", 
+            "dn.png",
+            "ft.png", 
+            "bk.png"
+        ]);
     }
 
     private getAspectRatio(): number {
