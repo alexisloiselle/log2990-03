@@ -18,29 +18,43 @@
       <li class="case">{{fGrid.letters.indexOf(line)+1}}</li>
     </div>
   </div>
-  <div *ngFor="let line of fGrid.letters" class="row">
+  <div *ngFor="let line of fGrid.letters; let i  = index" class="row">
     <li class="case">{{fGrid.letters.indexOf(line)+1}}</li>
-    <div *ngFor="let letter of line">
+    <div *ngFor="let letter of line; let j = index">
       <li *ngIf="letter === ''" class="case bordercase blackCase"></li>
       <li *ngIf="letter !== ''" class="case bordercase letterCase">
-        <input type="text" class="whiteCaseInput" maxlength="1"/>
+        <input 
+          id="{{i}}{{j}}"
+          type="text"
+          class="whiteCaseInput"
+          maxlength="1"
+          (keydown)="inputService.handleKey($event, i, j ); $event.preventDefault()"
+          [(value)]="letterGrid[i][j]"
+          #case
+          />
       </li>
     </div>
   </div>
 </ul>
-<div class="defintion">
+<div class="definition-container">
   Horizontal Words:
   <ul>
-    <div *ngFor="let definition of horizontalWords" id="defintion">
+    <div *ngFor="let definition of horizontalWords" 
+          class="definition"  
+          (click)="defService.handleClickDef(definition);"
+          >
       <p *ngIf="isCheatModeOn == false"> {{definition.Line + 1}} : {{definition.Def}}</p>
       <p *ngIf="isCheatModeOn == true"> {{definition.Line + 1}} : {{definition.Word}}</p>
     </div>
   </ul>
 </div>
-<div class="defintion">
+<div class="definition-container">
   Vertical Words:
   <ul>
-    <div *ngFor="let definition of verticalWords">
+    <div *ngFor="let definition of verticalWords" 
+          class="definition"
+          (click)="defService.handleClickDef(definition);"
+          >
       <p *ngIf="isCheatModeOn == false">{{definition.Column + 1}} : {{definition.Def}}</p>
       <p *ngIf="isCheatModeOn == true">{{definition.Column + 1}} : {{definition.Word}}</p>
     </div>

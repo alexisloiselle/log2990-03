@@ -19,43 +19,43 @@ export class Word {
         this.definition = "";
     }
 
-    get Line(): number {
+    public get Line(): number {
         return this.line;
     }
 
-    get Column(): number {
+    public get Column(): number {
         return this.column;
     }
 
-    get Length(): number {
+    public get Length(): number {
         return this.length;
     }
 
-    get Orientation(): Direction {
+    public get Orientation(): Direction {
         return this.orientation;
     }
 
-    get NbConstraints(): number {
+    public get NbConstraints(): number {
         return this.nbConstraints;
     }
 
-    set NbConstraints(value: number) {
+    public set NbConstraints(value: number) {
         this.nbConstraints = value;
     }
 
-    get Word(): string {
+    public get Word(): string {
         return this.word;
     }
 
-    set Word(value: string) {
+    public set Word(value: string) {
         this.word = value;
     }
 
-    get Definition(): string {
+    public get Definition(): string {
         return this.definition;
     }
 
-    set Definition(value: string) {
+    public set Definition(value: string) {
         this.definition = value;
     }
 }

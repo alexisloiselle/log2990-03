@@ -17,59 +17,59 @@ export class Case {
         this.rightLetter = "";
     }
 
-    get IsBlack(): boolean {
+    public get IsBlack(): boolean {
         return this.isBlack;
     }
 
-    set IsBlack(value: boolean) {
+    public set IsBlack(value: boolean) {
         this.isBlack = value;
     }
 
-    get HorizontalWordLength(): number {
+    public get HorizontalWordLength(): number {
         return this.horizontalWordLength;
     }
 
-    set HorizontalWordLength(value: number) {
+    public set HorizontalWordLength(value: number) {
         this.horizontalWordLength = value;
     }
 
-    get HorizontalPositionInWord(): number {
+    public get HorizontalPositionInWord(): number {
         return this.horizontalPositionInWord;
     }
 
-    set HorizontalPositionInWord(value: number) {
+    public set HorizontalPositionInWord(value: number) {
         this.horizontalPositionInWord = value;
     }
 
-    get VerticalWordLength(): number {
+    public get VerticalWordLength(): number {
         return this.verticalWordLength;
     }
 
-    set VerticalWordLength(value: number) {
+    public set VerticalWordLength(value: number) {
         this.verticalWordLength = value;
     }
 
-    get VerticalPositionInWord(): number {
+    public get VerticalPositionInWord(): number {
         return this.verticalPositionInWord;
     }
 
-    set VerticalPositionInWord(value: number) {
+    public set VerticalPositionInWord(value: number) {
         this.verticalPositionInWord = value;
     }
 
-    get RightLetter(): string {
+    public get RightLetter(): string {
         return this.rightLetter;
     }
 
-    set RightLetter(value: string) {
+    public set RightLetter(value: string) {
         this.rightLetter = value;
     }
 
-    get IsAConstraint(): boolean {
+    public get IsAConstraint(): boolean {
         return this.isAConstraint;
     }
 
-    set IsAConstraint(value: boolean) {
+    public set IsAConstraint(value: boolean) {
         this.isAConstraint = value;
     }
 }
