@@ -35,7 +35,7 @@ export class TrackService {
             .catch(this.handleError);
     }
 
-    public updateTrack(id: string, track: Partial<RaceTrack>): Promise<boolean> {
+    public updateTrack(id: string, track: RaceTrack): Promise<boolean> {
         if (id === undefined) {
             throw new Error("Impossible to update a track without an id.");
         }
