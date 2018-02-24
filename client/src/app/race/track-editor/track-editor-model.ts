@@ -50,16 +50,13 @@ export class TrackEditorModel {
     // the points that are too close to each other
     public removePointsTooClose(): void {
         const MINIMUM_ARRAY_LENGTH: number = 2;
-        const MINIMUM_RADIUS: number = 20;
         if (this.pointArray.length > MINIMUM_ARRAY_LENGTH) {
-            // We begin with the first point because the first point will
-            // have the last point on it when the loop is closed
+            // We begin with the first point because the first point when
+            // the loop is not closed and with the first point when the
+            // loop is not closed
             for (let i: number = this.loopIsClosed() ? 1 : 0; i < this.pointArray.length - 1; i++) {
                 for (let j: number = i + 1; j < this.pointArray.length; j++) {
-                    if (this.pointArray[j].X >= this.pointArray[i].X - MINIMUM_RADIUS &&
-                        this.pointArray[j].X <= this.pointArray[i].X + MINIMUM_RADIUS &&
-                        this.pointArray[j].Y >= this.pointArray[i].Y - MINIMUM_RADIUS &&
-                        this.pointArray[j].Y <= this.pointArray[i].Y + MINIMUM_RADIUS) {
+                    if (this.pointArray[i].isTooClose(this.pointArray[j])) {
                         this.pointArray.splice(this.pointArray.indexOf(this.pointArray[j]), 1);
                     }
                 }

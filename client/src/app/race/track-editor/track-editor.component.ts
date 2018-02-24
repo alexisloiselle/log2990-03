@@ -43,7 +43,7 @@ export class TrackEditorComponent implements OnInit {
     }
 
     public constructor(private trackEditorConstraintService: TrackEditorConstraintService) {
-
+        //We only initialize the service
     }
 
     public canvasMouseDown(event: {}): void {
@@ -65,7 +65,7 @@ export class TrackEditorComponent implements OnInit {
         // The points can be absorbed if you do a drag and
         // drop. We make sure the array doesn't contain any duplicated
         // points with this function.
-        this.removePointsTooClose();
+        this.removePointsTooClose();   
     }
     public canvasMouseMoved(event: MouseEvent): void {
         this.mouseMovedEvent = event;  // We stock the mouseCoordinates inside the mouseMovedEvent variable
@@ -85,39 +85,24 @@ export class TrackEditorComponent implements OnInit {
           this.canvasCloseLoop(); // I can close the circuit
       } else if (!this.myTrackEditorModel.clickedOnExistingPoint(mouseCoordinates)) {
           this.myTrackEditorModel.addPoint(mouseCoordinates);
-          this.drawingOnCanvas.redrawCanvas(
-            this.myTrackEditorModel,
-            this.trackEditorConstraintService.intersectionBooleanArray(this.myTrackEditorModel.PointArray),
-            this.trackEditorConstraintService.angleBooleanArray(this.myTrackEditorModel.PointArray));
+          this.redrawCanvas();
       }
-  }
+    }
 
     public canvasEraseLastPoint(): void {
       this.myTrackEditorModel.eraseLastPoint();
-
-      this.drawingOnCanvas.redrawCanvas(
-        this.myTrackEditorModel,
-        this.trackEditorConstraintService.intersectionBooleanArray(this.myTrackEditorModel.PointArray),
-        this.trackEditorConstraintService.angleBooleanArray(this.myTrackEditorModel.PointArray));
+      this.redrawCanvas();
     }
 
     public removePointsTooClose(): void {
         this.myTrackEditorModel.removePointsTooClose();
-
-        this.drawingOnCanvas.redrawCanvas(
-          this.myTrackEditorModel,
-          this.trackEditorConstraintService.intersectionBooleanArray(this.myTrackEditorModel.PointArray),
-          this.trackEditorConstraintService.angleBooleanArray(this.myTrackEditorModel.PointArray));
+        this.redrawCanvas();
     }
 
     // As soon as the loop is closed, we verify if all the constraints pass
     public canvasCloseLoop(): void {
         this.myTrackEditorModel.closeLoop();
-
-        this.drawingOnCanvas.redrawCanvas(
-          this.myTrackEditorModel,
-          this.trackEditorConstraintService.intersectionBooleanArray(this.myTrackEditorModel.PointArray),
-          this.trackEditorConstraintService.angleBooleanArray(this.myTrackEditorModel.PointArray));
+        this.redrawCanvas();
     }
 
     public checkMouseFocus(): void { // Checks if the focus is on a point or not
@@ -149,11 +134,8 @@ export class TrackEditorComponent implements OnInit {
               this.myTrackEditorModel.setPointCoordinates(this.myTrackEditorModel.PointArray.indexOf(point), mouseCoordinates);
           }
       }
-      this.drawingOnCanvas.redrawCanvas(
-        this.myTrackEditorModel,
-        this.trackEditorConstraintService.intersectionBooleanArray(this.myTrackEditorModel.PointArray),
-        this.trackEditorConstraintService.angleBooleanArray(this.myTrackEditorModel.PointArray));
-  }
+      this.redrawCanvas();
+    }
 
     // If the focus is on the point, it becomes green
     public mouseOnPoint(x: number, y: number): void {
@@ -163,10 +145,14 @@ export class TrackEditorComponent implements OnInit {
 
     // If the focus is not on the point, it stays black
     public mouseNotOnPoint(x: number, y: number): void {
-      this.drawingOnCanvas.redrawCanvas(
-        this.myTrackEditorModel,
-        this.trackEditorConstraintService.intersectionBooleanArray(this.myTrackEditorModel.PointArray),
-        this.trackEditorConstraintService.angleBooleanArray(this.myTrackEditorModel.PointArray));
+      this.redrawCanvas();
+    }
+
+    public redrawCanvas(): void {
+        this.drawingOnCanvas.redrawCanvas(
+            this.myTrackEditorModel,
+            this.trackEditorConstraintService.intersectionBooleanArray(this.myTrackEditorModel.PointArray),
+            this.trackEditorConstraintService.angleBooleanArray(this.myTrackEditorModel.PointArray));
     }
 
     public allConstraintPass(): boolean {

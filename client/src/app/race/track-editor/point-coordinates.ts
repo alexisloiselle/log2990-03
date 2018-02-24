@@ -1,3 +1,5 @@
+const MINIMUM_DISTANCE_BETWEEN_POINTS: number = 30;
+
 export class PointCoordinates {
     public x: number;
     public y: number;
@@ -9,6 +11,13 @@ export class PointCoordinates {
 
     public equals(otherPoint: PointCoordinates): boolean {
         return (this.X === otherPoint.X && this.Y === otherPoint.Y);
+    }
+
+    public isTooClose(otherPoint: PointCoordinates): boolean {
+        return (this.X >= otherPoint.X - MINIMUM_DISTANCE_BETWEEN_POINTS &&
+                this.X <= otherPoint.X + MINIMUM_DISTANCE_BETWEEN_POINTS &&
+                this.Y >= otherPoint.Y - MINIMUM_DISTANCE_BETWEEN_POINTS &&
+                this.Y <= otherPoint.Y + MINIMUM_DISTANCE_BETWEEN_POINTS);
     }
 
     public get X(): number {
