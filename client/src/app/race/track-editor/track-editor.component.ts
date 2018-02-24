@@ -6,6 +6,7 @@ import { TrackEditorConstraintService } from "./track-editor-constraint.service"
 import { DrawingOnCanvas } from "./drawing-on-canvas";
 import {TrackService} from "../../track.service";
 import {RaceTrack, RaceType} from "../raceTrack";
+import {TrackListComponent} from "./track-list/track-list.component";
 
 const STANDARD_SIZE_CIRCLE: number = 10;
 const WIDTH_OF_CANVAS: number = 500;
@@ -25,6 +26,8 @@ export class TrackEditorComponent implements OnInit {
     private trackDescriptionInput: ElementRef; 
     @ViewChild("trackNameInput")
     private trackNameInput: ElementRef; 
+    @ViewChild("track-list") 
+    private trackList: TrackListComponent;
 
     
     private ctx: CanvasRenderingContext2D;
@@ -52,6 +55,7 @@ export class TrackEditorComponent implements OnInit {
         this.drawingOnCanvas = new DrawingOnCanvas(this.ctx);
         this.trackName= "";
         this.trackDescription == "";
+        this.trackList.getTracks();
     }
 
     public constructor(private trackEditorConstraintService: TrackEditorConstraintService, private trackService: TrackService) {

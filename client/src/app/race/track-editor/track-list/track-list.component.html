@@ -1,8 +1,7 @@
 <h2>Pistes</h2>
 <div class="list-group">
   <ul>
-    <li *ngFor="let track of tracks"
-    (click)="onSelectTrack(track)">
+    <li *ngFor="let track of tracks" (click)="onSelectTrack(track)">
             {{track.name}}
             {{track.description}}
      </li>

@@ -16,6 +16,7 @@ export class TrackListComponent implements OnInit {
     }
 
     public ngOnInit(): void {
+        this.getTracks();
     }
 
     public get SelectedTrack(): RaceTrack {
@@ -26,6 +27,7 @@ export class TrackListComponent implements OnInit {
         this.selectedTrack = track;
     }
     public getTracks(){
+        console.log("FUNCTION CALLED BITCH");
         this.trackService.getTracks().then(data => this.tracks = data);
     }
     public selectTrack(index: number): string {
