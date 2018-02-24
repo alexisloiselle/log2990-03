@@ -22,7 +22,6 @@ export class TrackEditorConstraintService {
 
     public verifyIsIntersecting(firstVector: Vector, secondVector: Vector): boolean {
         const intersectionPoint: PointCoordinates = firstVector.calculateVectorIntersection(secondVector);
-        console.log("EST PARALLELE: " + firstVector.isParallel(secondVector) + "EST DANS LE DOMAINE : " + firstVector.pointIsInCommunDomain(intersectionPoint, secondVector));
 
         return (!firstVector.isParallel(secondVector))
             && firstVector.pointIsInCommunDomain(intersectionPoint, secondVector);
