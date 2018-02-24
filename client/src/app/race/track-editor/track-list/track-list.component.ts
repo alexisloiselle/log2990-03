@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import {RaceTrack} from "../raceTrack";
-import {TrackService} from "../../track.service";
+import {RaceTrack} from "../../raceTrack";
+import {TrackService} from "../../../track.service";
 
 @Component({
     selector: "app-track-list",
@@ -31,5 +31,9 @@ export class TrackListComponent implements OnInit {
     public selectTrack(index: number): string {
         this.selectedTrack = this.tracks[index];
         return this.selectedTrack.id;
+    }
+
+    public onSelectTrack(track: RaceTrack): void {
+        this.selectedTrack = track;
     }
 }

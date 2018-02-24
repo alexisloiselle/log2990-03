@@ -11,7 +11,7 @@ import { CrosswordService } from "./crossword/services/crossword/crossword.servi
 import { TrackEditorComponent } from "./race/track-editor/track-editor.component";
 
 import { GameService} from "./game.service";
-import { TrackListComponent } from "./race/track-list/track-list.component";
+import { TrackListComponent } from "./race/track-editor/track-list//track-list.component";
 import { AppRoutingModule } from "./app-routing.module";
 import { CrosswordMainComponent } from "./crossword/crossword-main/crossword-main.component";
 import { RaceMainComponent } from "./race/race-main/race-main.component";
