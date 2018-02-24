@@ -219,4 +219,15 @@ export class TrackEditorComponent implements OnInit {
         let raceTrack: RaceTrack = new RaceTrack(raceTrackInterface);
         this.trackService.addTrack(raceTrack);
     }
+    public updateTrack(trackName: string, trackDescription: string, trackType: RaceType): void {
+        this.trackName = trackName;
+        this.trackDescription = trackDescription;
+        this.trackType= trackType;
+        let raceTrackInterface: RaceTrackInterface;
+        raceTrackInterface.name = trackName; raceTrackInterface.description = trackDescription; raceTrackInterface.type = trackType;
+        raceTrackInterface.points = this.myTrackEditorModel.PointArray;
+        let raceTrack: RaceTrack = new RaceTrack(raceTrackInterface);
+        this.trackService.updateTrack("id", raceTrack);
+
+    }
 }

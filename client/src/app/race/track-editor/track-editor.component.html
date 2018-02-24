@@ -39,6 +39,7 @@
             <div *ngIf = "!(allConstraintPass() && inputTextNotEmpty())" class="alert alert-danger fade in">La piste doit être dessinée et validée avant de pouvoir être enregistrée.</div>
             <button class="btn btn-primary" id="validate-button" [disabled] = "!(allConstraintPass() && inputTextNotEmpty())" 
             (click)="addTrack(trackNameInput.value, trackDescriptionInput.value, trackTypeInput.value)" routerLink="/track-list" > Validation </button>
+            <button class="btn btn-info">Update</button>
           </div>
         </div>
       </div>
