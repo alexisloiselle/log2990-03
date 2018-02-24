@@ -9,8 +9,8 @@ export class TrackService {
 
     private baseUrl = "http://localhost:3000/api/tracks";
 
-    public getTracks(): Promise<RaceTrack[]> {
-        return this.http.get(this.baseUrl + "/all")
+    public async getTracks(): Promise<RaceTrack[]> {
+        return await this.http.get(this.baseUrl + "/all")
             .toPromise()
             .then(function (response) {
                 const tracks: any[] = [];
@@ -20,37 +20,37 @@ export class TrackService {
             .catch(this.handleError);
     }
 
-    public getTrack(id: string): Promise<RaceTrack> {
-        return this.http.get(this.baseUrl + "/" + id)
+    public async getTrack(id: string): Promise<RaceTrack> {
+        return await this.http.get(this.baseUrl + "/" + id)
             .toPromise()
             .then(response => {return response})
             .catch(this.handleError);
     }
 
-    public addTrack(track: RaceTrack): Promise<boolean> {
+    public async addTrack(track: RaceTrack): Promise<boolean> {
         const body = { track : JSON.stringify(track)};
-        return this.http.post(this.baseUrl + "/add", body)
+        return await this.http.post(this.baseUrl + "/add", body)
             .toPromise()
             .then(response => response as boolean) 
             .catch(this.handleError);
     }
 
-    public updateTrack(id: string, track: RaceTrack): Promise<boolean> {
+    public async updateTrack(id: string, track: RaceTrack): Promise<boolean> {
         if (id === undefined) {
             throw new Error("Impossible to update a track without an id.");
         }
         const update = { $set: track };
-        return this.http.put(this.baseUrl + '/' + id, update)
+        return await this.http.put(this.baseUrl + '/' + id, update)
             .toPromise()
             .then(response => response as boolean)
             .catch(this.handleError);
     }
 
-    public deleteTrack(id: string): Promise<boolean> {
+    public async deleteTrack(id: string): Promise<boolean> {
         if (id === undefined) {
             throw new Error("Impossible to delete a track without a valid id");
         }
-        return this.http.delete(this.baseUrl + '/' + id)
+        return await this.http.delete(this.baseUrl + '/' + id)
             .toPromise()
             .then(response => response as boolean)
             .catch(this.handleError);

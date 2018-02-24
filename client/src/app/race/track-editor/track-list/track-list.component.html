@@ -2,8 +2,7 @@
 <div class="list-group">
   <ul>
     <li *ngFor="let track of tracks" (click)="onSelectTrack(track)">
-            {{track.name}}
-            {{track.description}}
+        <span class="badge">{{track.name}} </span> {{track.description}}
      </li>
   </ul>
 </div>

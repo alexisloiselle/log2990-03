@@ -16,6 +16,9 @@ export class TrackListComponent implements OnInit {
     }
 
     public ngOnInit(): void {
+        this.reload();
+    }
+    public reload() {
         this.getTracks();
     }
 
@@ -26,9 +29,16 @@ export class TrackListComponent implements OnInit {
     public set SelectTrack(track: RaceTrack) {
         this.selectedTrack = track;
     }
-    public getTracks(){
-        console.log("FUNCTION CALLED BITCH");
-        this.trackService.getTracks().then(data => this.tracks = data);
+    public async getTracks() {
+        const tempTracks = await this.trackService.getTracks();
+        this.tracks = [];
+        for ( const id in tempTracks)
+        {
+            if (tempTracks != null) {
+                this.tracks.push(tempTracks[id]);
+            }
+        }
+        console.log(this.tracks);
     }
     public selectTrack(index: number): string {
         this.selectedTrack = this.tracks[index];
