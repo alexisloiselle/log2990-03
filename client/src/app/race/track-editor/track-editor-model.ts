@@ -99,15 +99,18 @@ export class TrackEditorModel {
             this.pointArray[0].Y - ACCEPTED_RADIUS);
     }
 
-    public allConstraintPass(angleConstraintsBoolean: boolean[], intersectionConstraintsBoolean: boolean[]): boolean {
+    public allConstraintPass(angleConstraints: boolean[], intersectionConstraints: boolean[], lengthConstraints: boolean[]): boolean {
         let constraintRespected: boolean = this.loopIsClosed();
 
         if (constraintRespected) {
-            for (const angleConstraint of angleConstraintsBoolean) {
+            for (const angleConstraint of angleConstraints) {
                 constraintRespected = constraintRespected && angleConstraint;
             }
-            for (const intersectionConstraint of intersectionConstraintsBoolean) {
+            for (const intersectionConstraint of intersectionConstraints) {
                 constraintRespected = constraintRespected && intersectionConstraint;
+            }
+            for (const lengthConstraint of lengthConstraints) {
+                constraintRespected = constraintRespected && lengthConstraint;
             }
         }
 

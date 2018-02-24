@@ -81,7 +81,7 @@ export class TrackEditorComponent implements OnInit {
         // The points can be absorbed if you do a drag and
         // drop. We make sure the array doesn't contain any duplicated
         // points with this function.
-        this.removePointsTooClose();   
+        this.removePointsTooClose();
     }
     public canvasMouseMoved(event: MouseEvent): void {
         this.mouseMovedEvent = event;  // We stock the mouseCoordinates inside the mouseMovedEvent variable
@@ -174,7 +174,8 @@ export class TrackEditorComponent implements OnInit {
     public allConstraintPass(): boolean {
       return this.myTrackEditorModel.allConstraintPass(
         this.trackEditorConstraintService.angleBooleanArray(this.myTrackEditorModel.PointArray),
-        this.trackEditorConstraintService.intersectionBooleanArray(this.myTrackEditorModel.PointArray));
+        this.trackEditorConstraintService.intersectionBooleanArray(this.myTrackEditorModel.PointArray),
+        this.trackEditorConstraintService.lengthBooleanArray(this.myTrackEditorModel.PointArray));
     }
     public get name(): string {
         return this.name;

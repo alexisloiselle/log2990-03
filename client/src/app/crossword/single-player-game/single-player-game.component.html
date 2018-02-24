@@ -28,26 +28,33 @@
           type="text"
           class="whiteCaseInput"
           maxlength="1"
-          (keydown)="crosswordService.handleKey($event, i, j )"
+          (keydown)="inputService.handleKey($event, i, j ); $event.preventDefault()"
+          [(value)]="letterGrid[i][j]"
           #case
           />
       </li>
     </div>
   </div>
 </ul>
-<div class="defintion">
+<div class="definition-container">
   Horizontal Words:
   <ul>
-    <div *ngFor="let definition of horizontalWords" id="defintion">
+    <div *ngFor="let definition of horizontalWords" 
+          class="definition"  
+          (click)="defService.handleClickDef(definition);"
+          >
       <p *ngIf="isCheatModeOn == false"> {{definition.Line + 1}} : {{definition.Def}}</p>
       <p *ngIf="isCheatModeOn == true"> {{definition.Line + 1}} : {{definition.Word}}</p>
     </div>
   </ul>
 </div>
-<div class="defintion">
+<div class="definition-container">
   Vertical Words:
   <ul>
-    <div *ngFor="let definition of verticalWords">
+    <div *ngFor="let definition of verticalWords" 
+          class="definition"
+          (click)="defService.handleClickDef(definition);"
+          >
       <p *ngIf="isCheatModeOn == false">{{definition.Column + 1}} : {{definition.Def}}</p>
       <p *ngIf="isCheatModeOn == true">{{definition.Column + 1}} : {{definition.Word}}</p>
     </div>

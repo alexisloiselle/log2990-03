@@ -15,23 +15,24 @@ export class InputService {
         this.arrowInputSub = new Subject();
     }
 
-    get LetterInputSub(): Observable<any> {
+    public get LetterInputSub(): Observable<any> {
         return this.letterInputSub.asObservable();
     }
 
-    get BackspaceInputSub(): Observable<any> {
+    public get BackspaceInputSub(): Observable<any> {
         return this.backspaceInputSub.asObservable();
     }
 
-    get ArrowInputSub(): Observable<any> {
+    public get ArrowInputSub(): Observable<any> {
         return this.arrowInputSub.asObservable();
     }
 
     public handleKey(event: any, i: number, j: number): boolean {
+        const letter = String.fromCharCode(event.keyCode);
         console.log(event);
         if(this.isLetter(event.keyCode)){
-            console.log('letter inpput');
-            this.letterInputSub.next({i, j});
+            console.log('letter input');
+            this.letterInputSub.next({letter ,i, j});
             return true;
         } else if (this.isBackspace(event.keyCode)){
             console.log('backspace input');
