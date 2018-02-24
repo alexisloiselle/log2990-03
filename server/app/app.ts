@@ -9,6 +9,8 @@ import { injectable, inject } from "inversify";
 import { Routes } from "./routes";
 import { LexiconRoute } from "./routes/lexiconRoute";
 import { CrosswordRoute } from "./routes/crosswordRoute";
+import {AuthRoute } from "./routes/authRoute";
+import {TrackRoute} from "./routes/trackRoute";
 
 @injectable()
 export class Application {
@@ -40,6 +42,8 @@ export class Application {
 
         const lexicon: LexiconRoute = new LexiconRoute();
         const crossword: CrosswordRoute = new CrosswordRoute();
+        const auth: AuthRoute = new AuthRoute();
+        const track: TrackRoute = new TrackRoute();
 
         router.get("/lexicon", lexicon.getAllWords.bind(lexicon));
         router.get("/lexicon/definition/:word", lexicon.getDefinitions.bind(lexicon));
@@ -49,6 +53,16 @@ export class Application {
         router.get("/crossword/mock", crossword.getMockGrid.bind(crossword));
         router.get("/crossword/:difficulty", crossword.getGrid.bind(crossword));
 
+        router.post("/auth", auth.auth.bind(auth));
+        router.put("/change-password/:body", auth.changePassword.bind(auth));
+
+        router.post("/tracks/add", track.addTrack.bind(track.addTrack));
+        router.get("/tracks/all", track.getTracks.bind(track.getTracks));
+        router.get("/tracks/:id", track.getTrack.bind(track.getTrack));
+        router.put("/tracks/:id", track.updateTrack.bind(track.updateTrack));
+        router.delete("/tracks/:id", track.deleteTrack.bind(track.deleteTrack));
+
+        
         this.app.use("/api", router);
 
         this.errorHandeling();

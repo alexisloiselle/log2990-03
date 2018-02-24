@@ -1,0 +1,13 @@
+<h2>Pistes</h2>
+<div class="list-group">
+  <ul>
+    <li *ngFor="let track of tracks" (click)="onSelectTrack(track)">
+       {{track.name}}  {{track.description}} {{nom}}
+     </li>
+  </ul>
+</div>
+<div class="panel panel-danger" *ngIf="!tracks || tracks.lenght === 0">
+  <h4>Pas de pistes disponibles pour l'instant. Seul un administrateur peut en créer.</h4>
+</div>
+
+<a class="btn btn-lg btn-info"routerLink="/race" href="#" role="button">  Retour  </a>

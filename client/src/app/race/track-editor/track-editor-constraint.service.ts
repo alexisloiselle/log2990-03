@@ -22,7 +22,7 @@ export class TrackEditorConstraintService {
 
     public verifyIsIntersecting(firstVector: Vector, secondVector: Vector): boolean {
         const intersectionPoint: PointCoordinates = firstVector.calculateVectorIntersection(secondVector);
-
+        
         return (!firstVector.isParallel(secondVector))
             && firstVector.pointIsInCommunDomain(intersectionPoint, secondVector);
 
