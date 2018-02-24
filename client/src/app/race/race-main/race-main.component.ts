@@ -29,7 +29,7 @@ export class RaceMainComponent implements OnInit {
     private grantAccess(isValid: boolean): void {
         if (isValid) {
             this.validPassword = true;
-            this.router.navigateByUrl("/track-editor");
+            this.router.navigateByUrl("/admin");
         } else {
             this.error = true;
         }

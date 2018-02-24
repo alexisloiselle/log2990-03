@@ -22,6 +22,7 @@ export class RaceTrack{
     }
 
     public ngOnInit(): void {
+        this.name = "leNom";
     }
 }
 

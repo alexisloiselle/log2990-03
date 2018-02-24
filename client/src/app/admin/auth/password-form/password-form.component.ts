@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from "@angular/core";
 import { AuthService } from "../auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-password-form',
@@ -13,19 +14,21 @@ export class PasswordFormComponent implements OnInit {
   public error = false;
   public password: string;
 
-  constructor(private authService: AuthService) { }
+
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
   }
-    public validatePassword(): void {
+    
+  public validatePassword(password: string): void {
         this.error = false;
-        this.authService.connect(this.password).then(isOk => this.grantAccess(isOk));
+        this.authService.connect(password).then(isOk => this.grantAccess(isOk));
     }
 
     private grantAccess(isValid: boolean): void {
         if (isValid) {
-            this.success.emit(undefined);
             this.validPassword = true;
+            this.router.navigateByUrl("/passwordChange");
         } else {
             this.error = true;
         }

@@ -11,12 +11,14 @@ import {TrackService} from "../../../track.service";
 export class TrackListComponent implements OnInit {
     public tracks: RaceTrack[];
     private selectedTrack: RaceTrack;
+    public nom: string;
 
     public constructor(private trackService: TrackService) {
     }
 
     public ngOnInit(): void {
         this.reload();
+        this.nom = "kathou";
     }
     public reload() {
         this.getTracks();
@@ -38,7 +40,6 @@ export class TrackListComponent implements OnInit {
                 this.tracks.push(tempTracks[id]);
             }
         }
-        console.log(this.tracks);
     }
     public selectTrack(index: number): string {
         this.selectedTrack = this.tracks[index];
