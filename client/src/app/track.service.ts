@@ -1,8 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import {RaceTrack} from "./race/raceTrack";
-import {RaceTrackInterface} from "./race/raceTrack-Interface";
-
 
 @Injectable()
 export class TrackService {
@@ -11,27 +9,26 @@ export class TrackService {
 
     private baseUrl = "http://localhost:3000/api/tracks";
 
-    public getAll(): Promise<RaceTrack[]> {
+    public getTracks(): Promise<RaceTrack[]> {
         return this.http.get(this.baseUrl + "/all")
             .toPromise()
             .then(function (response) {
-                const tracks:RaceTrack[] = [];
+                const tracks: any[] = [];
+                tracks.push(response);
                 return tracks;
             })
             .catch(this.handleError);
     }
 
     public getTrack(id: string): Promise<RaceTrack> {
-        let raceTrackInterface: RaceTrackInterface;
         return this.http.get(this.baseUrl + "/" + id)
             .toPromise()
-            .then(response => new RaceTrack(response))
+            .then(response => {return response})
             .catch(this.handleError);
     }
 
     public addTrack(track: RaceTrack): Promise<boolean> {
-        console.log("SERVICE");
-        const body = { track : JSON.stringify(track.Interface) };
+        const body = { track : JSON.stringify(track)};
         return this.http.post(this.baseUrl + "/add", body)
             .toPromise()
             .then(response => response as boolean) 
