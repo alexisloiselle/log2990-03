@@ -16,11 +16,11 @@ export class RaceTrack{
     public points: PointCoordinates[] = []; 
     public interface: RaceTrackInterface;
 
-    public constructor(name: string, description: string, raceType: RaceType, points: PointCoordinates[]) {
-        this.name = name;
-        this.description = description;
-        this.type = raceType;
-        this.points = points;
+    public constructor(theInterface: RaceTrackInterface) {
+        this.name = theInterface.name;
+        this.description = theInterface.description;
+        this.type = theInterface.type;
+        this.points = theInterface.points;
     }
 
     public get Id(): string {

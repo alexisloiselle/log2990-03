@@ -56,11 +56,11 @@ export class Application {
         router.post("/auth", auth.auth.bind(auth));
         router.put("/change-password/:body", auth.changePassword.bind(auth));
 
-        router.post("/tracks/add", track.addTrack.bind(track));
-        router.get("/tracks/all", track.getTracks.bind(track));
-        router.get("/tracks/:id", track.getTrack.bind(track));
-        router.put("/tracks/:id", track.updateTrack.bind(track));
-        router.delete("/tracks/:id", track.deleteTrack.bind(track));
+        router.post("/tracks/add", track.addTrack.bind(track.addTrack));
+        router.get("/tracks/all", track.getTracks.bind(track.getTracks));
+        router.get("/tracks/:id", track.getTrack.bind(track.getTrack));
+        router.put("/tracks/:id", track.updateTrack.bind(track.updateTrack));
+        router.delete("/tracks/:id", track.deleteTrack.bind(track.deleteTrack));
 
         
         this.app.use("/api", router);

@@ -2,7 +2,7 @@ import {RaceType, TrackTime} from "./raceTrack";
 import {PointCoordinates} from "./track-editor/point-coordinates";
 
 export class RaceTrackInterface{
-    private id: string;
+    public id: string;
     public name: string;
     public description: string;
     public lapNumber: number;

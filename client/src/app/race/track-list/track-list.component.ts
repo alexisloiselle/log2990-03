@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { RaceTrackComponent } from "../race-track/race-track.component";
+import {RaceTrack} from "../raceTrack";
 
 @Component({
     selector: "app-track-list",
@@ -8,8 +8,8 @@ import { RaceTrackComponent } from "../race-track/race-track.component";
 })
 
 export class TrackListComponent implements OnInit {
-    public tracks: RaceTrackComponent[];
-    private selectedTrack: RaceTrackComponent;
+    public tracks: RaceTrack[];
+    private selectedTrack: RaceTrack;
 
     public constructor() {
     }
@@ -17,11 +17,11 @@ export class TrackListComponent implements OnInit {
     public ngOnInit(): void {
     }
 
-    public get SelectedTrack(): RaceTrackComponent {
+    public get SelectedTrack(): RaceTrack {
         return this.selectedTrack;
     }
 
-    public set SelectTrack(track: RaceTrackComponent) {
+    public set SelectTrack(track: RaceTrack) {
         this.selectedTrack = track;
     }
 }
