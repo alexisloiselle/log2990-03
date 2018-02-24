@@ -1,4 +1,4 @@
-const MINIMUM_DISTANCE_BETWEEN_POINTS: number = 30;
+const MINIMUM_DISTANCE_BETWEEN_POINTS: number = 20;
 
 export class PointCoordinates {
     public x: number;

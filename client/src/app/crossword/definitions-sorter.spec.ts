@@ -1,6 +1,7 @@
 import { DefintionsSorter } from "./definitions-sorter";
 import { FormattedGrid } from "./formatted-grid";
 import { Word } from "./word";
+import {} from "jasmine";
 
 describe("DefinitionSorter", () => {
     // tslint:disable:no-magic-numbers
@@ -61,7 +62,7 @@ describe("DefinitionSorter", () => {
     verticalWords.push(word5);
 
     it("Should the array in two arrays", () => {
-        expect(defitionsSorter.HorizontalDefintions).toEqual(horizontalWords);
+        expect(defitionsSorter.HorizontalDefinitions).toEqual(horizontalWords);
         expect(defitionsSorter.VerticalDefinitions).toEqual(verticalWords);
     });
 });
