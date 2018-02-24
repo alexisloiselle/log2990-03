@@ -59,6 +59,8 @@ import { TrackService } from "./track.service";
         CarEventHandlerService,
         AuthService,
         HttpClientModule,
+        DefinitionService,
+        InputService,
         TrackService
     ],
     bootstrap: [AppComponent]

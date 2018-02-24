@@ -177,15 +177,19 @@ export class TrackEditorComponent implements OnInit {
         this.trackEditorConstraintService.intersectionBooleanArray(this.myTrackEditorModel.PointArray),
         this.trackEditorConstraintService.lengthBooleanArray(this.myTrackEditorModel.PointArray));
     }
+
     public get name(): string {
         return this.name;
     }
+
     public get description(): string {
         return this.description;
     }
+
     public set name(name: string) {
         this.name = name;
     }
+
     public set description(description: string) {
         this.description = description;
     }
@@ -200,6 +204,7 @@ export class TrackEditorComponent implements OnInit {
     public inputTextNotEmpty(): boolean {
        return (this.trackName.length !== 0 && this.trackDescription.length !== 0);
     }
+
     public addTrack(trackName: string, trackDescription: string, trackType: RaceType): void {
         this.trackName = trackName;
         this.trackDescription = trackDescription;
@@ -207,6 +212,7 @@ export class TrackEditorComponent implements OnInit {
         let raceTrack: RaceTrack = new RaceTrack(trackName, trackDescription, trackType, this.myTrackEditorModel.PointArray);
         this.trackService.addTrack(raceTrack);
     }
+    
     public updateTrack(trackName: string, trackDescription: string, trackType: RaceType): void {
         this.trackName = trackName;
         this.trackDescription = trackDescription;
