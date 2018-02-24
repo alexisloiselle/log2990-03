@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
-import { RaceTrackComponent } from "./race/race-track/race-track.component";
+import {RaceTrack} from "./race/raceTrack";
+
 
 @Injectable()
 export class TrackService {
@@ -8,35 +9,36 @@ export class TrackService {
     public constructor(private http: HttpClient) { }
 
     private baseUrl = "http://localhost:3000/tracks";
-/*
-    public getAll(): Promise<RaceTrackComponent[]> {
+
+    public getAll(): Promise<RaceTrack[]> {
         return this.http.get(this.baseUrl + "/all")
             .toPromise()
             .then(function (response) {
-                const tracks:RaceTrackComponent[] = [];
-                Object.keys(response).forEach(track => tracks.push(new RaceTrackComponent()));
+                const tracks:RaceTrack[] = [];
+               // Object.keys(response).forEach(track => tracks.push(new RaceTrack()));
                 return tracks;
             })
             .catch(this.handleError);
     }
 
-    public getTrack(id: string): Promise<RaceTrackComponent> {
+    /*
+    public getTrack(id: string): Promise<RaceTrack> {
         return this.http.get(this.baseUrl + "/" + id)
             .toPromise()
-            .then(response => new RaceTrackComponent())
+            .then(response => new RaceTrack("","",{},{}))
             .catch(this.handleError);
     }
 */
-    public addTrack(track: RaceTrackComponent): Promise<boolean> {
+    public addTrack(track: RaceTrack): Promise<boolean> {
         console.log("SERVICE");
-        const body = JSON.stringify(track);
+        const body = JSON.stringify(track.Interface);
         return this.http.post(this.baseUrl + "/add", body)
             .toPromise()
-            .then(response => response as boolean)
+            .then(response => response as boolean) 
             .catch(this.handleError);
     }
 
-    public updateTrack(id: string, track: Partial<RaceTrackComponent>): Promise<boolean> {
+    public updateTrack(id: string, track: Partial<RaceTrack>): Promise<boolean> {
         if (id === undefined) {
             throw new Error("Impossible to update a track without an id. To add a new track, use addTrack()");
         }

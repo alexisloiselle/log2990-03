@@ -1,13 +1,8 @@
-import { Component, OnInit } from "@angular/core";
-import {PointCoordinates} from "../track-editor/point-coordinates";
+import {PointCoordinates} from "./track-editor/point-coordinates";
+import {RaceTrackInterface} from "./raceTrack-Interface";
 
-@Component({
-    selector: "app-race-track",
-    templateUrl: "./race-track.component.html",
-    styleUrls: ["./race-track.component.css"]
-})
 
-export class RaceTrackComponent implements OnInit {
+export class RaceTrack{
 
     private id: string;
     public name: string;
@@ -19,13 +14,13 @@ export class RaceTrackComponent implements OnInit {
     public times: TrackTime[] = [];
     public bestTime: TrackTime;
     public points: PointCoordinates[] = []; 
+    public interface: RaceTrackInterface;
 
     public constructor(name: string, description: string, raceType: RaceType, points: PointCoordinates[]) {
         this.name = name;
         this.description = description;
         this.type = raceType;
         this.points = points;
-        Object.assign(this);
     }
 
     public get Id(): string {
@@ -58,6 +53,10 @@ export class RaceTrackComponent implements OnInit {
 
     public set Type(type: RaceType) {
         this.type = type;
+    }
+
+    public get Interface() {
+        return this.interface;
     }
 
     public setBestTime(trackTime: TrackTime): void {
@@ -95,3 +94,4 @@ export enum RaceType {
     Amateur,
     Professional
 }
+
