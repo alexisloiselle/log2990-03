@@ -1,7 +1,8 @@
 import { injectable, } from "inversify";
 import * as express from 'express';
+import {MongoClient} from "mongodb";
 
-const MONGO_URL = "mongodb://lesChats:ChatonsRoux123@ds233218.mlab.com:33218/log2990-03-db";
+const MONGO_URL = "mongodb://admin:password@ds233218.mlab.com:33218/log2990-03-db";
 const ObjectId = require('mongodb').ObjectID;
 
 module Route {
@@ -9,11 +10,13 @@ module Route {
     export class TrackRoute {
 
         public addTrack(req: express.Request, res: express.Response, next: express.NextFunction) {
-            require('mongodb').MongoClient.connect(MONGO_URL, function (err: any, db: any) {
+            require('mongodb').MongoClient.connect(MONGO_URL, function (err: any, db: MongoClient) {
+                console.log("BITASS");
+                if (err){console.log(err);}
                 req.body._id = undefined;
-                const collection = db.collection('tracks');
-                collection.insertOne(req.body, function (insertErr: any, insertDb: any) {
-                    const isOk = insertErr === null;
+                const collection = db.db("log2990-03-db");
+                collection.collection("tracks").insertOne(req.body, function (insertErr: any, insertDb: any) {
+                    const isOk = (insertErr === null);
                     res.send(JSON.stringify(isOk));
                 });
                 db.close();

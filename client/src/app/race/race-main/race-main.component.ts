@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from "@angular/core";
+import { Component, OnInit} from "@angular/core";
 import {AuthService} from "../../admin/auth/auth.service"
 import {Router} from "@angular/router";
 @Component({
@@ -8,7 +8,6 @@ import {Router} from "@angular/router";
 })
 
 export class RaceMainComponent implements OnInit {
-    @Output() public success: EventEmitter<any> = new EventEmitter();
     public constructor(private authService: AuthService, private router: Router) { 
 
     }
@@ -17,16 +16,20 @@ export class RaceMainComponent implements OnInit {
     private error: boolean;
     public validPassword = false;
 
-     public validate(passwordInput: string): void {
+     public validate(passwordInput: string, userName: string): void {
         this.error = false;
+        if (userName === "admin")
+        {
         this.authService.connect(passwordInput).then(isOk => this.grantAccess(isOk));
+        }
+        else 
+        {this.grantAccess(false)};
     }
 
     private grantAccess(isValid: boolean): void {
         if (isValid) {
-            this.success.emit(undefined);
             this.validPassword = true;
-            this.router.navigateByUrl("/track-list");
+            this.router.navigateByUrl("/track-editor");
         } else {
             this.error = true;
         }

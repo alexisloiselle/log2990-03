@@ -8,7 +8,7 @@ export class TrackService {
     public constructor(private http: HttpClient) { }
 
     private baseUrl = "http://localhost:3000/tracks";
-
+/*
     public getAll(): Promise<RaceTrackComponent[]> {
         return this.http.get(this.baseUrl + "/all")
             .toPromise()
@@ -26,9 +26,11 @@ export class TrackService {
             .then(response => new RaceTrackComponent())
             .catch(this.handleError);
     }
-
+*/
     public addTrack(track: RaceTrackComponent): Promise<boolean> {
-        return this.http.post(this.baseUrl + "/add", track)
+        console.log("SERVICE");
+        const body = JSON.stringify(track);
+        return this.http.post(this.baseUrl + "/add", body)
             .toPromise()
             .then(response => response as boolean)
             .catch(this.handleError);

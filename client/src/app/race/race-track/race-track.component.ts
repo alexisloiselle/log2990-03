@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import {PointCoordinates} from "../track-editor/point-coordinates";
 
 @Component({
     selector: "app-race-track",
@@ -17,8 +18,13 @@ export class RaceTrackComponent implements OnInit {
     public timesPlayed: number = 0;
     public times: TrackTime[] = [];
     public bestTime: TrackTime;
+    public points: PointCoordinates[] = []; 
 
-    public constructor() {
+    public constructor(name: string, description: string, raceType: RaceType, points: PointCoordinates[]) {
+        this.name = name;
+        this.description = description;
+        this.type = raceType;
+        this.points = points;
         Object.assign(this);
     }
 
@@ -57,13 +63,7 @@ export class RaceTrackComponent implements OnInit {
     public setBestTime(trackTime: TrackTime): void {
         this.bestTime.Name = trackTime.Name;
         this.bestTime.Time = trackTime.Time;
-    }
-    public addTrack(trackName: string, trackDescription: string, trackType: RaceType): void {
-        this.Name = trackName;
-        this.Desciption = trackDescription;
-        this.Type = trackType;
-    }
-    
+    }    
     public ngOnInit(): void {
     }
 }

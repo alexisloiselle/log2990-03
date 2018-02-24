@@ -5,6 +5,8 @@ import { TrackEditorModel } from "./track-editor-model";
 import { TrackEditorConstraintService } from "./track-editor-constraint.service";
 import { DrawingOnCanvas } from "./drawing-on-canvas";
 import {RaceType} from "../race-track/race-track.component"
+import {TrackService} from "../../track.service";
+import {RaceTrackComponent} from "../race-track/race-track.component";
 
 const STANDARD_SIZE_CIRCLE: number = 10;
 const WIDTH_OF_CANVAS: number = 500;
@@ -53,7 +55,7 @@ export class TrackEditorComponent implements OnInit {
         this.trackDescription == "";
     }
 
-    public constructor(private trackEditorConstraintService: TrackEditorConstraintService) {
+    public constructor(private trackEditorConstraintService: TrackEditorConstraintService, private trackService: TrackService) {
 
     }
 
@@ -211,5 +213,7 @@ export class TrackEditorComponent implements OnInit {
         this.trackName = trackName;
         this.trackDescription = trackDescription;
         this.trackType= trackType;
+        let raceTrackComponent: RaceTrackComponent = new RaceTrackComponent(trackName, trackDescription, trackType, this.myTrackEditorModel.PointArray);
+        this.trackService.addTrack(raceTrackComponent);
     }
 }
