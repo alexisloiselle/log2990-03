@@ -11,6 +11,7 @@ export class DefinitionService {
 
     public constructor() {
         this.selectWordSub = new Subject();
+        window.document.addEventListener("click", (ev) => this.unselectWord(ev));
     }
 
     public get SelectWordSub(): Observable<any> {
@@ -25,5 +26,11 @@ export class DefinitionService {
         this.selectedWord = word;
         this.selectWordSub.next({word});
         return true;
+    }
+
+    private unselectWord(event: any): void {
+        if(event.path[0].getAttribute("id") !== "definition"){
+            this.selectedWord = undefined;
+        }
     }
 }

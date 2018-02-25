@@ -8,11 +8,13 @@ export class InputService {
     private letterInputSub: Subject<any>;
     private backspaceInputSub: Subject<any>;
     private arrowInputSub: Subject<any>;
+    private enterInputSub: Subject<any>;
 
     public constructor() {
         this.letterInputSub = new Subject();
         this.backspaceInputSub = new Subject();
         this.arrowInputSub = new Subject();
+        this.enterInputSub = new Subject();
     }
 
     public get LetterInputSub(): Observable<any> {
@@ -25,6 +27,10 @@ export class InputService {
 
     public get ArrowInputSub(): Observable<any> {
         return this.arrowInputSub.asObservable();
+    }
+    
+    public get EnterInputSub(): Observable<any> {
+        return this.enterInputSub.asObservable();
     }
 
     public handleKey(event: any, i: number, j: number): boolean {
@@ -40,9 +46,11 @@ export class InputService {
             return true;
         } else if (this.isArrow(event.keyCode)) {
             console.log('arrow input');
-            let allo = event.keyCode;
-            this.arrowInputSub.next({allo, i, j});
+            let keyCode = event.keyCode;
+            this.arrowInputSub.next({keyCode, i, j});
             return true;
+        } else if (this.isEnter(event.keyCode)) {
+            this.enterInputSub.next({});
         }
         return false;
     }
@@ -57,5 +65,9 @@ export class InputService {
 
     private isArrow(keyCode: number): boolean {
         return keyCode >= 37 && keyCode <= 40;
+    }
+
+    private isEnter(keyCode: number): boolean {
+        return keyCode === 13;
     }
 }

@@ -11,52 +11,60 @@
     Cheat Mode On
   </button>
 </div>
-<ul>
-  <div class="row">
-    <div *ngFor="let line of fGrid.letters">
-      <li *ngIf="fGrid.letters.indexOf(line)===0" class="case"></li>
-      <li class="case">{{fGrid.letters.indexOf(line)+1}}</li>
+<div id="all">
+  <div id="crossword">
+    <ul>
+      <div class="row">
+        <div *ngFor="let line of fGrid.letters">
+          <li *ngIf="fGrid.letters.indexOf(line)===0" class="case"></li>
+          <li class="case">{{fGrid.letters.indexOf(line)+1}}</li>
+        </div>
+      </div>
+      <div *ngFor="let line of fGrid.letters; let i  = index" class="row">
+        <li class="case">{{fGrid.letters.indexOf(line)+1}}</li>
+        <div *ngFor="let letter of line; let j = index">
+          <li *ngIf="letter === ''" class="case bordercase blackCase"></li>
+          <li *ngIf="letter !== ''" class="case bordercase letterCase">
+            <input id="{{i}}{{j}}" type="text" [ngClass]="{
+                      'whiteCaseInput': true,
+                      'selected': isCaseOfSelectedWord(i,j),
+                      'placed': letterGrid[i][j].IsPlaced
+                    }" 
+                    maxlength="1"
+                    (keydown)="inputService.handleKey($event, i, j ); $event.preventDefault()"
+                    (click)="selectWord(i, j)"
+                    [(value)]="letterGrid[i][j].Letter"
+              #case />
+          </li>
+        </div>
+      </div>
+    </ul>
+
+  </div>
+  <div id="definitions">
+    <div class="definition-container">
+      Horizontal Words:
+      <ul>
+        <div *ngFor="let word of horizontalWords" (click)="defService.handleClickDef(word);" [ngClass]="{
+                    'definition': true,
+                    'selected': isDefOfSelectedWord(word),
+                    'placed': word.IsPlaced
+                  }">
+          <p id="definition"> {{word.Line + 1}} : {{isCheatModeOn ? word.Word : word.Def}}</p>
+        </div>
+      </ul>
+    </div>
+    <div class="definition-container">
+      Vertical Words:
+      <ul>
+        <div *ngFor="let word of verticalWords" (click)="defService.handleClickDef(word);" [ngClass]="{
+                  'definition': true,
+                  'selected': isDefOfSelectedWord(word),
+                  'placed': word.IsPlaced
+                }">
+          <p id="definition">{{word.Column + 1}} : {{isCheatModeOn ? word.Word : word.Def}}</p>
+        </div>
+      </ul>
     </div>
   </div>
-  <div *ngFor="let line of fGrid.letters; let i  = index" class="row">
-    <li class="case">{{fGrid.letters.indexOf(line)+1}}</li>
-    <div *ngFor="let letter of line; let j = index">
-      <li *ngIf="letter === ''" class="case bordercase blackCase"></li>
-      <li *ngIf="letter !== ''" class="case bordercase letterCase">
-        <input 
-          id="{{i}}{{j}}"
-          type="text"
-          class="whiteCaseInput"
-          maxlength="1"
-          (keydown)="inputService.handleKey($event, i, j ); $event.preventDefault()"
-          [(value)]="letterGrid[i][j]"
-          #case
-          />
-      </li>
-    </div>
-  </div>
-</ul>
-<div class="definition-container">
-  Horizontal Words:
-  <ul>
-    <div *ngFor="let definition of horizontalWords" 
-          class="definition"  
-          (click)="defService.handleClickDef(definition);"
-          >
-      <p *ngIf="isCheatModeOn == false"> {{definition.Line + 1}} : {{definition.Def}}</p>
-      <p *ngIf="isCheatModeOn == true"> {{definition.Line + 1}} : {{definition.Word}}</p>
-    </div>
-  </ul>
-</div>
-<div class="definition-container">
-  Vertical Words:
-  <ul>
-    <div *ngFor="let definition of verticalWords" 
-          class="definition"
-          (click)="defService.handleClickDef(definition);"
-          >
-      <p *ngIf="isCheatModeOn == false">{{definition.Column + 1}} : {{definition.Def}}</p>
-      <p *ngIf="isCheatModeOn == true">{{definition.Column + 1}} : {{definition.Word}}</p>
-    </div>
-  </ul>
 </div>
