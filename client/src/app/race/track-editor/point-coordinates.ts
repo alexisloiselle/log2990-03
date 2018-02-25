@@ -10,7 +10,7 @@ export class PointCoordinates {
     }
 
     public equals(otherPoint: PointCoordinates): boolean {
-        return (this.X === otherPoint.X && this.Y === otherPoint.Y);
+        return this.X === otherPoint.X && this.Y === otherPoint.Y;
     }
 
     public isTooClose(otherPoint: PointCoordinates): boolean {

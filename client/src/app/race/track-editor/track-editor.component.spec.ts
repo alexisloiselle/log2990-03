@@ -1,8 +1,8 @@
-/* tslint:disable:no-magic-numbers */
 import { PointCoordinates } from "./point-coordinates";
 import { Vector } from "./vector/vector";
 import { TrackEditorModel } from "./track-editor-model";
 
+/* tslint:disable:no-magic-numbers */
 describe("TrackEditorComponent", () => {
     describe("vectorClass", () => {
         const pointStart: PointCoordinates = new PointCoordinates(2, 6);
@@ -17,22 +17,6 @@ describe("TrackEditorComponent", () => {
         it("Should Create constant", () => {
             const EXPECTED_CONSTANT: number = 0;
             expect(vectorTest.Constant).toBe(EXPECTED_CONSTANT);
-        });
-
-        it("Should calculate domain MaxDomainX", () => {
-            expect(vectorTest.findMaxDomain(pointStart, pointEnd).X).toBe(pointStart.X);
-        });
-
-        it("Should calculate domain MinDomainX", () => {
-            expect(vectorTest.findMinDomain(pointStart, pointEnd).X).toBe(pointEnd.X);
-        });
-
-        it("Should calculate domain MaxDomainY", () => {
-            expect(vectorTest.findMaxDomain(pointStart, pointEnd).Y).toBe(pointStart.Y);
-        });
-
-        it("Should calculate domain MinDomainY", () => {
-            expect(vectorTest.findMinDomain(pointStart, pointEnd).Y).toBe(pointEnd.Y);
         });
 
         it("minDomainX should be assigned to vector at construction", () => {

@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import {RaceTrack} from "../raceTrack";
 import {TrackService} from "../../track.service";
 import {Location} from "@angular/common";
+
 @Component({
     selector: "app-track-list",
     templateUrl: "./track-list.component.html",
@@ -34,16 +35,15 @@ export class TrackListComponent implements OnInit {
     public async getTracks() {
         const tempTracks = await this.trackService.getTracks();
         this.tracks = [];
-        for ( const id in tempTracks)
-        {
+        for (const id in tempTracks) {
             if (tempTracks != null) {
                 this.tracks.push(tempTracks[id]);
             }
         }
 
-        for(let i = 0; i<this.tracks[0].length; i++) {
-            var temp1 = JSON.parse(this.tracks[0][i].track);
-            var id = this.tracks[0][i]._id;
+        for (let i: number = 0; i < this.tracks[0].length; i++) {
+            let temp1 = JSON.parse(this.tracks[0][i].track);
+            let id = this.tracks[0][i]._id;
             this.realTracks.push(temp1);
             this.realTracks[i].id = id;
         }
@@ -51,6 +51,7 @@ export class TrackListComponent implements OnInit {
 
     public selectTrack(index: number): string {
         this.selectedTrack = this.tracks[index];
+
         return this.selectedTrack.id;
     }
 
@@ -59,20 +60,17 @@ export class TrackListComponent implements OnInit {
     }
 
     public deleteTrack(track: RaceTrack): void {
-        this.trackService.deleteTrack(track.id).then(isOk => this.onSuccess(isOk))
+        this.trackService.deleteTrack(track.id).then((isOk) => this.onSuccess(isOk))
     }
-    public onSuccess(isOk: boolean){
-        if (isOk)
-        {
+    public onSuccess(isOk: boolean): void {
+        if (isOk) {
             alert("Track deleted !");
-        }
-        else
-        {    
+        } else {
             this.error = "Une erreur s'est produite lors de la supression de track";
         }
         this.ngOnInit();
     }
-    public goBack():void {
+    public goBack(): void {
         this.location.back();
     }
 }

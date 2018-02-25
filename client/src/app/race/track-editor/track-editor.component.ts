@@ -1,12 +1,10 @@
 import { Component, OnInit, ElementRef, ViewChild } from "@angular/core";
-// We need to import the pointCoordinates class
 import { PointCoordinates } from "./point-coordinates";
 import { TrackEditorModel } from "./track-editor-model";
 import { TrackEditorConstraintService } from "./track-editor-constraint.service";
 import { DrawingOnCanvas } from "./drawing-on-canvas";
 import {TrackService} from "../../track.service";
 import {RaceTrack, RaceType} from "../raceTrack";
-
 
 const STANDARD_SIZE_CIRCLE: number = 10;
 const WIDTH_OF_CANVAS: number = 500;
@@ -25,9 +23,8 @@ export class TrackEditorComponent implements OnInit {
     @ViewChild("trackDescriptionInput")
     private trackDescriptionInput: ElementRef;
     @ViewChild("trackNameInput")
-    private trackNameInput: ElementRef; 
+    private trackNameInput: ElementRef;
 
-    
     private ctx: CanvasRenderingContext2D;
     // private currentPoint : number
     private mouseMovedEvent: MouseEvent;  // So that each method can access the coordinates
@@ -42,21 +39,16 @@ export class TrackEditorComponent implements OnInit {
     public ngOnInit(): void {
         // We here initialise the canvas and get the context (ctx)
         this.ctx = this.canvasRef.nativeElement.getContext("2d");
-        // we set the canvas height and width attribute
         this.canvasRef.nativeElement.height = HEIGHT_OF_CANVAS;
         this.canvasRef.nativeElement.width = WIDTH_OF_CANVAS;
-
-        // We initialise the mouse down event to false
         this.mouseDown = false;
-        // We instanciate the model
         this.myTrackEditorModel = new TrackEditorModel();
         this.drawingOnCanvas = new DrawingOnCanvas(this.ctx);
-        this.trackName= "";
-        this.trackDescription == "";
+        this.trackName = "";
+        this.trackDescription = "";
     }
 
     public constructor(private trackEditorConstraintService: TrackEditorConstraintService, private trackService: TrackService) {
-
     }
 
     public canvasMouseDown(event: {}): void {
@@ -112,7 +104,6 @@ export class TrackEditorComponent implements OnInit {
         this.redrawCanvas();
     }
 
-    // As soon as the loop is closed, we verify if all the constraints pass
     public canvasCloseLoop(): void {
         this.myTrackEditorModel.closeLoop();
         this.redrawCanvas();

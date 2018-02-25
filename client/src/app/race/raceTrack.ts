@@ -1,7 +1,6 @@
 import {PointCoordinates} from "./track-editor/point-coordinates";
 
-
-export class RaceTrack{
+export class RaceTrack {
 
     public id: string;
     public name: string;
@@ -12,7 +11,7 @@ export class RaceTrack{
     public timesPlayed: number = 0;
     public times: TrackTime[] = [];
     public bestTime: TrackTime;
-    public points: PointCoordinates[] = []; 
+    public points: PointCoordinates[] = [];
 
     public constructor(name: string, description: string, type: RaceType, points: PointCoordinates[] ) {
         this.name = name;
@@ -37,4 +36,3 @@ export enum RaceType {
     Amateur,
     Professional
 }
-
