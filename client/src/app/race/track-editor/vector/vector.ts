@@ -1,4 +1,3 @@
-
 import { PointCoordinates} from "../point-coordinates";
 import { Domain } from "./domain";
 import { Equation} from "./equation";
@@ -99,12 +98,13 @@ export class Vector {
 
     public calculateAngle(firstVector: Vector): number {
         const oppositeVectorFromAngle: Vector = new Vector (this.endPoint, firstVector.startPoint);
+        const straightAngle: number = 180;
 
-        return (180 * (Math.acos(((Math.pow(this.calculateVectorLenght(), POWER_OF_TWO)) +
-                    (Math.pow(firstVector.calculateVectorLenght(), POWER_OF_TWO)) -
-                    (Math.pow(oppositeVectorFromAngle.calculateVectorLenght(), POWER_OF_TWO))) /
-                    (LAW_OF_COSINUS_CONSTANT * this.calculateVectorLenght() *
-                    firstVector.calculateVectorLenght()))) / Math.PI);
+        return (Math.acos(((Math.pow(this.calculateVectorLenght(), POWER_OF_TWO)) +
+                Math.pow(firstVector.calculateVectorLenght(), POWER_OF_TWO) -
+                Math.pow(oppositeVectorFromAngle.calculateVectorLenght(), POWER_OF_TWO)) /
+                (LAW_OF_COSINUS_CONSTANT * this.calculateVectorLenght() *
+                firstVector.calculateVectorLenght()))) * straightAngle / Math.PI;
 
     }
 

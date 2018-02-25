@@ -10,11 +10,11 @@ export class Grid {
         this.words = words;
     }
 
-    get Cases(): Case[][] {
+    public get Cases(): Case[][] {
         return this.cases;
     }
 
-    get Words(): Word[] {
+    public get Words(): Word[] {
         return this.words;
     }
 }

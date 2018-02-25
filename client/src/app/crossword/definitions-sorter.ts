@@ -27,7 +27,7 @@ export class DefintionsSorter {
         }
     }
 
-    public get HorizontalDefintions(): Word[] {
+    public get HorizontalDefinitions(): Word[] {
         return this.horizontalDefinitions;
     }
 

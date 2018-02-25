@@ -3,6 +3,7 @@ import { Vector } from "./vector/vector";
 import { PointCoordinates } from "./point-coordinates";
 
 const MIN_ANGLE_IN_DEGREE: number = 45;
+const DEFAULT_TRACK_WIDTH: number = 60;
 @Injectable()
 export class TrackEditorConstraintService {
 
@@ -21,14 +22,17 @@ export class TrackEditorConstraintService {
     }
 
     public verifyIsIntersecting(firstVector: Vector, secondVector: Vector): boolean {
-        const intersectionPoint: PointCoordinates = firstVector.calculateVectorIntersection(secondVector);
-
         return (!firstVector.isParallel(secondVector))
-            && firstVector.pointIsInCommunDomain(intersectionPoint, secondVector);
+            && firstVector.pointIsInCommunDomain(firstVector.calculateVectorIntersection(secondVector), secondVector);
 
     }
+
+    public verifyLength(segment: Vector, width: number): boolean {
+        return (segment.calculateVectorLenght() >= width * 2);
+    }
+
     public loopIsClosed(myPointArray: PointCoordinates[]): boolean {
-        return (myPointArray.length >= 3 &&
+        return (myPointArray.length > 2 &&
             myPointArray[0].X === myPointArray[myPointArray.length - 1].X &&
             myPointArray[0].Y === myPointArray[myPointArray.length - 1].Y);
     }
@@ -65,6 +69,17 @@ export class TrackEditorConstraintService {
                     }
                 }
             }
+        }
+
+        return myBooleanArray;
+    }
+
+    public lengthBooleanArray(myPointArray: PointCoordinates[]): boolean[] {
+        const myVector: Vector[] = this.createArrayVector(myPointArray);
+        const myBooleanArray: boolean[] = [];
+
+        for (let i: number = 0; i < myVector.length - 1; i++) {
+            myBooleanArray.push(this.verifyLength(myVector[i], DEFAULT_TRACK_WIDTH));
         }
 
         return myBooleanArray;

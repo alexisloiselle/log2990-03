@@ -1,11 +1,24 @@
 <h2>Pistes</h2>
 <div class="list-group">
-    <li *ngFor="let track of tracks">
-            {{track.name}}
-            {{track.description}}
+  <ul class="tracks">
+    <li *ngFor="let track of realTracks"
+      [class.selected]="track === selectedTrack"
+      (click)="onSelectTrack(track)">
+       {{track.name}} 
+       <button class="btn btn-lg btn-warning" type="button" (click)= "deleteTrack(track)" role="button"> x </button>
      </li>
+  </ul>
 </div>
-<div *ngIf="!tracks || tracks.lenght === 0">
+<div *ngIf="selectedTrack">
+  {{selectedTrack.name}}
+  {{selectedTrack.description}}
+</div>
+<div *ngIf="!tracks || tracks.lenght === 0" class="panel panel-danger" >
   <h4>Pas de pistes disponibles pour l'instant. Seul un administrateur peut en créer.</h4>
 </div>
 
+<div *ngIf="error">
+    <p class="text-danger">{{error}}</p>
+</div>
+
+<a class="btn btn-lg btn-info"routerLink="/admin" role="button">  Retour  </a>
