@@ -12,7 +12,7 @@ module Route {
         require("mongodb").MongoClient.connect(MONGO_URL, function (err: any, db: MongoClient) {
             if (err){console.log(err); }
             const collection = db.db("log2990-03-db");
-            collection.collection("admin").findOne({ password: "password" }, function (findErr: any, doc: any) {
+            collection.collection("admin").findOne({ value: "password" }, function (findErr: any, doc: any) {
                 const isPassOk: boolean = (req.body.password === doc.password); 
                 res.send(JSON.stringify(isPassOk));;
                 });
@@ -23,7 +23,7 @@ module Route {
         require("mongodb").MongoClient.connect(MONGO_URL, function (err: any, db: MongoClient) {
             if (err){console.log(err); }
             const collection = db.db("log2990-03-db");
-            collection.collection("admin").updateOne({ id: "password" }, { $set: { value: req.body.newPassword } }, null,
+            collection.collection("admin").updateOne({ value: "password"}, { $set: { password: req.body.newPassword } }, null,
             function (updateErr: any, updateDb: any) {
                 const isOk = (updateErr === null);
                 res.send(JSON.stringify(isOk));

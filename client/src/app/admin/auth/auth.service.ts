@@ -5,11 +5,13 @@ import "rxjs/add/operator/toPromise";
 @Injectable()
 export class AuthService {
   private isAdminValue: boolean;
+  private passwordChanged: boolean;
   private authenticateUrl = "http://localhost:3000/api/auth";
   private changePasswordUrl = "http://localhost:3000/api/passwordChange";
 
   constructor(private http: HttpClient) {
     this.isAdminValue = false;
+    this.passwordChanged = false;
    }
  
     public get isAdmin() {
@@ -31,12 +33,14 @@ export class AuthService {
       this.isAdminValue = false;
   }
 
-  public changePassword(newPassword: string): Promise<boolean> {
+  public async changePassword(newPassword: string): Promise<boolean> {
       const body = { newPassword: newPassword };
-      return this.http.put(this.changePasswordUrl, body)
-          .toPromise().
-          then(response => response as boolean)
-          .catch(this.handleError);
+      return await this.http.put(this.changePasswordUrl, body)
+        .toPromise()
+        .then(response => {response as boolean;
+        this.passwordChanged = response as boolean;
+        return this.passwordChanged;})
+        .catch(this.handleError);
   }
 
   private handleError(error: any): Promise<any> {
