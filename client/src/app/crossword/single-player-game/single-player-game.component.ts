@@ -88,7 +88,6 @@ export class SinglePlayerGameComponent implements OnInit {
 
     private listenArrowInput(): void {
         this.inputService.ArrowInputSub.subscribe((res) => {
-            console.log('arrow listened');
             this.focusOnArrowCase(res.keyCode, res.i, res.j);
         });
     }
@@ -118,7 +117,6 @@ export class SinglePlayerGameComponent implements OnInit {
 
         if (Word.isEndOfWord(this.defService.SelectedWord, i, j) && this.isValidWord()) {
             this.placeWord();
-            console.log('word placed');
         }
     }
 
@@ -153,15 +151,26 @@ export class SinglePlayerGameComponent implements OnInit {
         return word.Word === this.defService.SelectedWord.Word;
     }
 
-    private selectWord(i: number, j: number): void {
-        
+    private selectWordFromCase(i: number, j: number): void {
+        for(const word of this.horizontalWords) {
+            if(Word.isPartOfWord(word, i, j)) {
+                this.defService.handleClickDef(word);
+                return;
+            }
+        }
+
+        for(const word of this.verticalWords) {
+            if(Word.isPartOfWord(word, i, j)) {
+                this.defService.handleClickDef(word);
+                return;
+            }
+        }
     }
 
     private isValidWord(): boolean {
         let i: number = this.defService.SelectedWord.Line;
         let j: number = this.defService.SelectedWord.Column;
         for (const letter of this.defService.SelectedWord.Word.split("")) {
-            console.log(`${letter} : ${letter === this.letterGrid[i][j].Letter}`);
             if (letter.toUpperCase() !== this.letterGrid[i][j].Letter) {
                 return false;
             }
@@ -203,7 +212,6 @@ export class SinglePlayerGameComponent implements OnInit {
     }
 
     private focusOnArrowCase(keyCode: number, i: number, j: number): void {
-        console.log(keyCode);
         switch (keyCode) {
             case 37: // left
                 this.focusOnCase(i, j - 1);

@@ -27,12 +27,13 @@
           <li *ngIf="letter !== ''" class="case bordercase letterCase">
             <input id="{{i}}{{j}}" type="text" [ngClass]="{
                       'whiteCaseInput': true,
+                      'canSelect': true,
                       'selected': isCaseOfSelectedWord(i,j),
                       'placed': letterGrid[i][j].IsPlaced
                     }" 
                     maxlength="1"
                     (keydown)="inputService.handleKey($event, i, j ); $event.preventDefault()"
-                    (click)="selectWord(i, j)"
+                    (click)="selectWordFromCase(i, j)"
                     [(value)]="letterGrid[i][j].Letter"
               #case />
           </li>
@@ -50,7 +51,7 @@
                     'selected': isDefOfSelectedWord(word),
                     'placed': word.IsPlaced
                   }">
-          <p id="definition"> {{word.Line + 1}} : {{isCheatModeOn ? word.Word : word.Def}}</p>
+          <p class="canSelect"> {{word.Line + 1}} : {{isCheatModeOn ? word.Word : word.Def}}</p>
         </div>
       </ul>
     </div>
@@ -62,7 +63,7 @@
                   'selected': isDefOfSelectedWord(word),
                   'placed': word.IsPlaced
                 }">
-          <p id="definition">{{word.Column + 1}} : {{isCheatModeOn ? word.Word : word.Def}}</p>
+          <p class="canSelect">{{word.Column + 1}} : {{isCheatModeOn ? word.Word : word.Def}}</p>
         </div>
       </ul>
     </div>

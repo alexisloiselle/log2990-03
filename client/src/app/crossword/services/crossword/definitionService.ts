@@ -21,6 +21,10 @@ export class DefinitionService {
     public get SelectedWord(): Word {
         return this.selectedWord;
     }
+    
+    public set SelectedWord(value: Word) {
+        this.selectedWord = value;
+    }
 
     public handleClickDef(word: Word): boolean {
         this.selectedWord = word;
@@ -29,7 +33,9 @@ export class DefinitionService {
     }
 
     private unselectWord(event: any): void {
-        if(event.path[0].getAttribute("id") !== "definition"){
+        const classes = event.path[0].getAttribute("class");
+        console.log(classes);
+        if(classes === null || !classes.includes("canSelect")) {
             this.selectedWord = undefined;
         }
     }
