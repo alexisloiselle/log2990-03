@@ -34,20 +34,21 @@ export class DrawingOnCanvas {
         this.ctx.fill();
     }
 
-    public redrawCanvas(myTrackEditorModel: TrackEditorModel, intersectionBooleanArray: boolean[], angleBooleanArray: boolean[]): void {
+    public redrawCanvas(myTrackEditorModel: TrackEditorModel, intersectionBooleanArray: boolean[],angleBooleanArray: boolean[], lengthBooleanArray: boolean[]): void {
         this.eraseCanvas();
-        this.redrawLinesOnCanvas(myTrackEditorModel, intersectionBooleanArray);
+        this.redrawLinesOnCanvas(myTrackEditorModel, intersectionBooleanArray, lengthBooleanArray);
         this.redrawPointsOnCanvas(myTrackEditorModel, angleBooleanArray);
     }
 
-    public redrawLinesOnCanvas(myTrackEditorModel: TrackEditorModel, intersectionBooleanArray: boolean[]): void {
+    public redrawLinesOnCanvas(myTrackEditorModel: TrackEditorModel, intersectionBooleanArray: boolean[], lengthBooleanArray: boolean[]): void {
         for (const i of myTrackEditorModel.PointArray) {
             if (myTrackEditorModel.PointArray.indexOf(i) !== 0) {
                 this.ctx.beginPath();
                 this.ctx.moveTo(myTrackEditorModel.getSinglePoint(myTrackEditorModel.PointArray.indexOf(i) - 1).X,
                                 myTrackEditorModel.getSinglePoint(myTrackEditorModel.PointArray.indexOf(i) - 1).Y);
                 this.ctx.lineTo(i.X, i.Y);
-                this.ctx.strokeStyle = intersectionBooleanArray[myTrackEditorModel.PointArray.indexOf(i) - 1] ?
+                this.ctx.strokeStyle = intersectionBooleanArray[myTrackEditorModel.PointArray.indexOf(i) - 1] 
+                                    && lengthBooleanArray[myTrackEditorModel.PointArray.indexOf(i) - 1] ?
                     "black" : "red";
                 this.ctx.stroke();
             }

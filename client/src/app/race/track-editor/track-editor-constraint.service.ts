@@ -70,7 +70,6 @@ export class TrackEditorConstraintService {
                 }
             }
         }
-
         return myBooleanArray;
     }
 
@@ -78,10 +77,9 @@ export class TrackEditorConstraintService {
         const myVector: Vector[] = this.createArrayVector(myPointArray);
         const myBooleanArray: boolean[] = [];
 
-        for (let i: number = 0; i < myVector.length - 1; i++) {
+        for (let i: number = 0; i < myVector.length; i++) {
             myBooleanArray.push(this.verifyLength(myVector[i], DEFAULT_TRACK_WIDTH));
         }
-
         return myBooleanArray;
     }
 }
