@@ -1,26 +1,25 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../auth/auth.service';
-import {Router} from "@angular/router"
+import { Component, OnInit } from "@angular/core";
+import { AuthService } from "../auth/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-change-password',
-  templateUrl: './change-password.component.html',
-  styleUrls: ['./change-password.component.css']
+  selector: "app-change-password",
+  templateUrl: "./change-password.component.html",
+  styleUrls: ["./change-password.component.css"]
 })
 
-
 export class ChangePasswordComponent implements OnInit {
-  public requiresPermission = true;
+  public requiresPermission: boolean = true;
   public error: string;
 
-  constructor( private authService: AuthService, private router: Router) { }
+  public constructor( private authService: AuthService, private router: Router) { }
 
-  ngOnInit() {
+  public ngOnInit(): void {
   }
   public changePassword(password: string, confirmPassword: string): void {
     if (password === confirmPassword) {
         this.error = undefined;
-        this.authService.changePassword(password).then(isOk => this.onSuccess(isOk));
+        this.authService.changePassword(password).then((isOk) => this.onSuccess(isOk));
     } else {
         this.error = "Les mots de passe ne sont pas les memes";
     }
@@ -31,12 +30,6 @@ export class ChangePasswordComponent implements OnInit {
         this.router.navigateByUrl("/admin");
     } else {
         this.error = "Erreur de modification du mot de passe";
-    } 
+    }
   }
 }
-
-
-
-
-
-

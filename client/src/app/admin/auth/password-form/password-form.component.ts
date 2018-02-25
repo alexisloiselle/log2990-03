@@ -3,29 +3,27 @@ import { AuthService } from "../auth.service";
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-password-form',
-  templateUrl: './password-form.component.html',
-  styleUrls: ['./password-form.component.css']
+  selector: "app-password-form",
+  templateUrl: "./password-form.component.html",
+  styleUrls: ["./password-form.component.css"]
 })
 export class PasswordFormComponent implements OnInit {
+  // tslint:disable-next-line:no-any
   @Output() public success: EventEmitter<any> = new EventEmitter();
-  public requiresPermission = true;
-  public validPassword = false;
-  public error = false;
+  public requiresPermission: boolean = true;
+  public validPassword: boolean = false;
+  public error: boolean= false;
   public password: string;
 
+  public constructor(private authService: AuthService, private router: Router) { }
 
-  constructor(private authService: AuthService, private router: Router) { }
-
-  ngOnInit() {
+  public ngOnInit(): void {
   }
-    
   public validatePassword(password: string): void {
         this.error = false;
-        this.authService.connect(password).then(isOk => this.grantAccess(isOk));
+        this.authService.connect(password).then((isOk) => this.grantAccess(isOk));
     }
-
-    private grantAccess(isValid: boolean): void {
+  private grantAccess(isValid: boolean): void {
         if (isValid) {
             this.validPassword = true;
             this.router.navigateByUrl("/passwordChange");
@@ -35,5 +33,3 @@ export class PasswordFormComponent implements OnInit {
         this.password = "";
     }
 }
-
-
