@@ -165,7 +165,8 @@ export class TrackEditorComponent implements OnInit {
         this.drawingOnCanvas.redrawCanvas(
             this.myTrackEditorModel,
             this.trackEditorConstraintService.intersectionBooleanArray(this.myTrackEditorModel.PointArray),
-            this.trackEditorConstraintService.angleBooleanArray(this.myTrackEditorModel.PointArray));
+            this.trackEditorConstraintService.angleBooleanArray(this.myTrackEditorModel.PointArray),
+            this.trackEditorConstraintService.lengthBooleanArray(this.myTrackEditorModel.PointArray));
     }
 
     public allConstraintPass(): boolean {
