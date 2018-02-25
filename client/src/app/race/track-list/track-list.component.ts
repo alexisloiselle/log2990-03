@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import {RaceTrack} from "../raceTrack";
 import {TrackService} from "../../track.service";
-
+import {Location} from "@angular/common";
 @Component({
     selector: "app-track-list",
     templateUrl: "./track-list.component.html",
@@ -15,7 +15,7 @@ export class TrackListComponent implements OnInit {
     public nom: string;
     public error: string;
 
-    public constructor(private trackService: TrackService) {
+    public constructor(private trackService: TrackService, private location: Location) {
     }
 
     public ngOnInit(): void {
@@ -71,5 +71,8 @@ export class TrackListComponent implements OnInit {
             this.error = "Une erreur s'est produite lors de la supression de track";
         }
         this.ngOnInit();
+    }
+    public goBack():void {
+        this.location.back();
     }
 }
