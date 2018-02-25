@@ -18,11 +18,14 @@ export class AuthService {
         return this.isAdminValue;
     }
   public connect(password: string): Promise<boolean> {
+      // tslint:disable-next-line:no-any
       const body: any = {password: password} ;
+
       return this.http.post(this.authenticateUrl, body)
           .toPromise()
           .then((response) => {
               this.isAdminValue = response as boolean;
+
               return this.isAdmin;
           })
           .catch(this.handleError);
@@ -34,18 +37,22 @@ export class AuthService {
   }
 
   public async changePassword(newPassword: string): Promise<boolean> {
+      // tslint:disable-next-line:no-any
       const body: any = { newPassword: newPassword };
 
       return this.http.put(this.changePasswordUrl, body)
         .toPromise()
-        .then((response) => {response as boolean;
-                             this.passwordChanged = response as boolean;
+        // tslint:disable-next-line:no-unused-expression
+        .then((response) => {
+            this.passwordChanged = response as boolean;
 
-                             return this.passwordChanged; })
+            return this.passwordChanged; })
         .catch(this.handleError);
   }
 
-  private handleError(error: {}): Promise<{}> {
+  // tslint:disable-next-line:typedef
+  // tslint:disable-next-line:no-any
+  private handleError(error: any): Promise<any> {
       console.error("An error occurred", error);
 
       return Promise.reject(error.message || error);
