@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import {RaceTrack} from "../../raceTrack";
-import {TrackService} from "../../../track.service";
+import {RaceTrack} from "../raceTrack";
+import {TrackService} from "../../track.service";
 
 @Component({
     selector: "app-track-list",
@@ -9,7 +9,8 @@ import {TrackService} from "../../../track.service";
 })
 
 export class TrackListComponent implements OnInit {
-    public tracks: RaceTrack[];
+    public tracks: any[];
+    public realTracks: any[];
     private selectedTrack: RaceTrack;
     public nom: string;
 
@@ -17,11 +18,9 @@ export class TrackListComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.reload();
-        this.nom = "kathou";
-    }
-    public reload() {
+        this.realTracks = [];
         this.getTracks();
+        this.nom = "kathou";
     }
 
     public get SelectedTrack(): RaceTrack {
@@ -40,7 +39,13 @@ export class TrackListComponent implements OnInit {
                 this.tracks.push(tempTracks[id]);
             }
         }
+
+        for(let i = 0; i<this.tracks[0].length; i++) {
+            var temp1 = JSON.parse(this.tracks[0][i].track);
+            this.realTracks.push(temp1);
+        }
     }
+
     public selectTrack(index: number): string {
         this.selectedTrack = this.tracks[index];
         return this.selectedTrack.id;
@@ -48,5 +53,9 @@ export class TrackListComponent implements OnInit {
 
     public onSelectTrack(track: RaceTrack): void {
         this.selectedTrack = track;
+    }
+
+    public loadSelectedTrackOnEditor(): void {
+        
     }
 }

@@ -4,7 +4,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { HomepageComponent } from "./homepage/homepage.component";
 import { GameComponent } from "./race/game-component/game.component";
 import { TrackEditorComponent } from "./race/track-editor/track-editor.component";
-import { TrackListComponent } from "./race/track-editor/track-list/track-list.component";
+import { TrackListComponent } from "./race/track-list/track-list.component";
 import { RaceMainComponent } from "./race/race-main/race-main.component";
 import { CrosswordMainComponent } from "./crossword/crossword-main/crossword-main.component";
 import { SinglePlayerMenuComponent } from "./crossword/single-player-menu/single-player-menu.component";
