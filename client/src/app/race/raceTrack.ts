@@ -20,6 +20,7 @@ export class RaceTrack {
         this.points = points;
     }
 
+    // tslint:disable-next-line:use-life-cycle-interface
     public ngOnInit(): void {
         this.name = "leNom";
     }

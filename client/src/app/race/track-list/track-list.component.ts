@@ -9,7 +9,9 @@ import {Location} from "@angular/common";
     styleUrls: ["./track-list.component.css"]
 })
 
+/* tslint:disable no-any */
 export class TrackListComponent implements OnInit {
+
     public tracks: any[];
     public realTracks: RaceTrack[];
     private selectedTrack: RaceTrack;
@@ -32,9 +34,11 @@ export class TrackListComponent implements OnInit {
     public set SelectTrack(track: RaceTrack) {
         this.selectedTrack = track;
     }
-    public async getTracks() {
-        const tempTracks = await this.trackService.getTracks();
+
+    public async getTracks(): Promise<void> {
+        const tempTracks: RaceTrack[] = await this.trackService.getTracks();
         this.tracks = [];
+
         for (const id in tempTracks) {
             if (tempTracks != null) {
                 this.tracks.push(tempTracks[id]);
@@ -42,10 +46,8 @@ export class TrackListComponent implements OnInit {
         }
 
         for (let i: number = 0; i < this.tracks[0].length; i++) {
-            let temp1 = JSON.parse(this.tracks[0][i].track);
-            let id = this.tracks[0][i]._id;
-            this.realTracks.push(temp1);
-            this.realTracks[i].id = id;
+            this.realTracks.push(JSON.parse(this.tracks[0][i].track));
+            this.realTracks[i].id = this.tracks[0][i]._id;
         }
     }
 
@@ -60,8 +62,9 @@ export class TrackListComponent implements OnInit {
     }
 
     public deleteTrack(track: RaceTrack): void {
-        this.trackService.deleteTrack(track.id).then((isOk) => this.onSuccess(isOk))
+        this.trackService.deleteTrack(track.id).then((isOk) => this.onSuccess(isOk));
     }
+
     public onSuccess(isOk: boolean): void {
         if (isOk) {
             alert("Track deleted !");
@@ -70,6 +73,7 @@ export class TrackListComponent implements OnInit {
         }
         this.ngOnInit();
     }
+
     public goBack(): void {
         this.location.back();
     }
