@@ -10,9 +10,10 @@ import {TrackService} from "../../track.service";
 
 export class TrackListComponent implements OnInit {
     public tracks: any[];
-    public realTracks: any[];
+    public realTracks: RaceTrack[];
     private selectedTrack: RaceTrack;
     public nom: string;
+    public error: string;
 
     public constructor(private trackService: TrackService) {
     }
@@ -20,7 +21,7 @@ export class TrackListComponent implements OnInit {
     public ngOnInit(): void {
         this.realTracks = [];
         this.getTracks();
-        this.nom = "kathou";
+        this.error = undefined;
     }
 
     public get SelectedTrack(): RaceTrack {
@@ -42,7 +43,9 @@ export class TrackListComponent implements OnInit {
 
         for(let i = 0; i<this.tracks[0].length; i++) {
             var temp1 = JSON.parse(this.tracks[0][i].track);
+            var id = this.tracks[0][i]._id;
             this.realTracks.push(temp1);
+            this.realTracks[i].id = id;
         }
     }
 
@@ -55,7 +58,18 @@ export class TrackListComponent implements OnInit {
         this.selectedTrack = track;
     }
 
-    public loadSelectedTrackOnEditor(): void {
-        
+    public deleteTrack(track: RaceTrack): void {
+        this.trackService.deleteTrack(track.id).then(isOk => this.onSuccess(isOk))
+    }
+    public onSuccess(isOk: boolean){
+        if (isOk)
+        {
+            alert("Track deleted !");
+        }
+        else
+        {    
+            this.error = "Une erreur s'est produite lors de la supression de track";
+        }
+        this.ngOnInit();
     }
 }

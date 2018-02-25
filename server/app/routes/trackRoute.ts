@@ -69,8 +69,9 @@ module Route {
                 if (err){console.log(err);}
                 const collection = db.db("log2990-03-db");
                 collection.collection("tracks").remove({ _id: new ObjectId(req.params.id) }, function (deleteErr: any, deleteDb: any) {
-                    const isOk = deleteErr === null;
+                    const isOk = (deleteErr === null);
                     res.send(JSON.stringify(isOk));
+                    console.log(isOk);
                 });
                 db.close();
             });
