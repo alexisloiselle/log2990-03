@@ -62,7 +62,6 @@ export class Application {
         router.put("/tracks/:id", track.updateTrack.bind(track.updateTrack));
         router.delete("/tracks/:id", track.deleteTrack.bind(track.deleteTrack));
 
-        
         this.app.use("/api", router);
 
         this.errorHandeling();
