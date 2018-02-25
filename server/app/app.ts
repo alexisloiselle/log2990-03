@@ -53,8 +53,8 @@ export class Application {
         router.get("/crossword/mock", crossword.getMockGrid.bind(crossword));
         router.get("/crossword/:difficulty", crossword.getGrid.bind(crossword));
 
-        router.post("/auth", auth.auth.bind(auth));
-        router.put("/change-password/:body", auth.changePassword.bind(auth));
+        router.post("/auth", auth.auth.bind(auth.auth));
+        router.put("/passwordChange", auth.changePassword.bind(auth.changePassword));
 
         router.post("/tracks/add", track.addTrack.bind(track.addTrack));
         router.get("/tracks/all", track.getTracks.bind(track.getTracks));

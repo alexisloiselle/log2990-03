@@ -23,10 +23,9 @@ export class TrackEditorComponent implements OnInit {
     @ViewChild("canvas")
     private canvasRef: ElementRef;
     @ViewChild("trackDescriptionInput")
-    private trackDescriptionInput: ElementRef; 
+    private trackDescriptionInput: ElementRef;
     @ViewChild("trackNameInput")
     private trackNameInput: ElementRef; 
-
 
     
     private ctx: CanvasRenderingContext2D;
@@ -92,20 +91,20 @@ export class TrackEditorComponent implements OnInit {
     }
 
     public canvasDrawPoint(mouseCoordinates: PointCoordinates): void {
-      // If I clicked on a point and the arrayLength is superior to three
-      const MINIMUM_LENGTH: number = 3;
-      if (this.myTrackEditorModel.getPointArrayLength() >= MINIMUM_LENGTH &&
-          this.myTrackEditorModel.clickedOnFirstPoint(mouseCoordinates)) {
-          this.canvasCloseLoop(); // I can close the circuit
-      } else if (!this.myTrackEditorModel.clickedOnExistingPoint(mouseCoordinates)) {
-          this.myTrackEditorModel.addPoint(mouseCoordinates);
-          this.redrawCanvas();
-      }
+        // If I clicked on a point and the arrayLength is superior to three
+        const MINIMUM_LENGTH: number = 3;
+        if (this.myTrackEditorModel.getPointArrayLength() >= MINIMUM_LENGTH &&
+            this.myTrackEditorModel.clickedOnFirstPoint(mouseCoordinates)) {
+            this.canvasCloseLoop(); // I can close the circuit
+        } else if (!this.myTrackEditorModel.clickedOnExistingPoint(mouseCoordinates)) {
+            this.myTrackEditorModel.addPoint(mouseCoordinates);
+            this.redrawCanvas();
+        }
     }
 
     public canvasEraseLastPoint(): void {
-      this.myTrackEditorModel.eraseLastPoint();
-      this.redrawCanvas();
+        this.myTrackEditorModel.eraseLastPoint();
+        this.redrawCanvas();
     }
 
     public removePointsTooClose(): void {
@@ -137,18 +136,18 @@ export class TrackEditorComponent implements OnInit {
     }
 
     public dragNDrop(): void {
-      const mouseCoordinates: PointCoordinates = new PointCoordinates(this.mouseMovedEvent.layerX, this.mouseMovedEvent.layerY);
-      // We identify the point on wich the user clicked
-      for (const point of this.myTrackEditorModel.PointArray) {
-          const ACCEPTED_RADIUS: number = 15;
-          if (this.mouseMovedEvent.layerX >= point.X - ACCEPTED_RADIUS &&
-              this.mouseMovedEvent.layerX <= point.X + ACCEPTED_RADIUS &&
-              this.mouseMovedEvent.layerY >= point.Y - ACCEPTED_RADIUS &&
-              this.mouseMovedEvent.layerY <= point.Y + ACCEPTED_RADIUS) {
-              this.myTrackEditorModel.setPointCoordinates(this.myTrackEditorModel.PointArray.indexOf(point), mouseCoordinates);
-          }
-      }
-      this.redrawCanvas();
+        const mouseCoordinates: PointCoordinates = new PointCoordinates(this.mouseMovedEvent.layerX, this.mouseMovedEvent.layerY);
+        // We identify the point on wich the user clicked
+        for (const point of this.myTrackEditorModel.PointArray) {
+            const ACCEPTED_RADIUS: number = 15;
+            if (this.mouseMovedEvent.layerX >= point.X - ACCEPTED_RADIUS &&
+                this.mouseMovedEvent.layerX <= point.X + ACCEPTED_RADIUS &&
+                this.mouseMovedEvent.layerY >= point.Y - ACCEPTED_RADIUS &&
+                this.mouseMovedEvent.layerY <= point.Y + ACCEPTED_RADIUS) {
+                this.myTrackEditorModel.setPointCoordinates(this.myTrackEditorModel.PointArray.indexOf(point), mouseCoordinates);
+            }
+        }
+        this.redrawCanvas();
     }
 
     // If the focus is on the point, it becomes green
@@ -159,7 +158,7 @@ export class TrackEditorComponent implements OnInit {
 
     // If the focus is not on the point, it stays black
     public mouseNotOnPoint(x: number, y: number): void {
-      this.redrawCanvas();
+        this.redrawCanvas();
     }
 
     public redrawCanvas(): void {
@@ -170,32 +169,33 @@ export class TrackEditorComponent implements OnInit {
     }
 
     public allConstraintPass(): boolean {
-      return this.myTrackEditorModel.allConstraintPass(
-        this.trackEditorConstraintService.angleBooleanArray(this.myTrackEditorModel.PointArray),
-        this.trackEditorConstraintService.intersectionBooleanArray(this.myTrackEditorModel.PointArray),
-        this.trackEditorConstraintService.lengthBooleanArray(this.myTrackEditorModel.PointArray));
+        return this.myTrackEditorModel.allConstraintPass(
+            this.trackEditorConstraintService.angleBooleanArray(this.myTrackEditorModel.PointArray),
+            this.trackEditorConstraintService.intersectionBooleanArray(this.myTrackEditorModel.PointArray),
+            this.trackEditorConstraintService.lengthBooleanArray(this.myTrackEditorModel.PointArray));
     }
 
     public get name(): string {
         return this.name;
     }
 
-    public get description(): string {
-        return this.description;
-    }
-
     public set name(name: string) {
         this.name = name;
+    }
+
+    public get description(): string {
+        return this.description;
     }
 
     public set description(description: string) {
         this.description = description;
     }
 
-    public setTrackName() {
+    public setTrackName(): void {
         this.trackName = this.trackNameInput.nativeElement.value;
     }
-    public setTrackDescription() {
+
+    public setTrackDescription(): void {
         this.trackDescription = this.trackDescriptionInput.nativeElement.value;
     }
 
@@ -206,16 +206,16 @@ export class TrackEditorComponent implements OnInit {
     public addTrack(trackName: string, trackDescription: string, trackType: RaceType): void {
         this.trackName = trackName;
         this.trackDescription = trackDescription;
-        this.trackType= trackType;
-        let raceTrack: RaceTrack = new RaceTrack(trackName, trackDescription, trackType, this.myTrackEditorModel.PointArray);
+        this.trackType = trackType;
+        const raceTrack: RaceTrack = new RaceTrack(trackName, trackDescription, trackType, this.myTrackEditorModel.PointArray);
         this.trackService.addTrack(raceTrack);
     }
-    
+
     public updateTrack(trackName: string, trackDescription: string, trackType: RaceType): void {
         this.trackName = trackName;
         this.trackDescription = trackDescription;
-        this.trackType= trackType;
-        let raceTrack: RaceTrack = new RaceTrack(trackName, trackDescription, trackType, this.myTrackEditorModel.PointArray);
+        this.trackType = trackType;
+        const raceTrack: RaceTrack = new RaceTrack(trackName, trackDescription, trackType, this.myTrackEditorModel.PointArray);
         this.trackService.updateTrack("id", raceTrack);
 
     }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 import { AuthService } from '../auth/auth.service';
+import {Router} from "@angular/router"
 
 @Component({
   selector: 'app-change-password',
@@ -11,34 +11,28 @@ import { AuthService } from '../auth/auth.service';
 
 export class ChangePasswordComponent implements OnInit {
   public requiresPermission = true;
-  public password: string;
-  public confirmPassword: string;
   public error: string;
 
-  constructor( private authService: AuthService, private location: Location) { }
+  constructor( private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
   }
-  public changePassword(): void {
-    if (this.password === this.confirmPassword) {
+  public changePassword(password: string, confirmPassword: string): void {
+    if (password === confirmPassword) {
         this.error = undefined;
-        this.authService.changePassword(this.password).then(isOk => this.onSuccess(isOk));
+        this.authService.changePassword(password).then(isOk => this.onSuccess(isOk));
     } else {
-        this.error = "le mots de passe ne fonctionne pas";
+        this.error = "Les mots de passe ne sont pas les memes";
     }
 }
   public onSuccess(isOk: boolean): void {
     if (isOk) {
         alert("Le mot de passe a été changé !");
-        this.goBack();
+        this.router.navigateByUrl("/admin");
     } else {
         this.error = "Erreur de modification du mot de passe";
-    }
-}
-  public goBack(): void {
-    this.location.back();
+    } 
   }
-
 }
 
 
