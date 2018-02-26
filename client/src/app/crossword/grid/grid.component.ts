@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChildren, ElementRef } from "@angular/core";
 import { CrosswordService } from "../services/crossword/crossword.service";
-import { InputService } from "../services/crossword/inputService";
-import { DefinitionService } from "../services/crossword/definitionService";
+import { InputService } from "../services/crossword/input.service";
+import { DefinitionService } from "../services/crossword/definition.service";
 import { Word } from "../word";
 import { Case } from "../case";
 
@@ -47,7 +47,7 @@ export class GridComponent implements OnInit {
     }
 
     // used in html
-    protected isCaseOfSelectedWord(i: number, j: number): boolean {
+    public isCaseOfSelectedWord(i: number, j: number): boolean {
         if (this.defService.SelectedWord === undefined) {
             return false;
         }
@@ -56,7 +56,7 @@ export class GridComponent implements OnInit {
     }
 
     // used in html
-    protected selectWordFromCase(i: number, j: number): void {
+    public selectWordFromCase(i: number, j: number): void {
         for (const word of this.defService.HorizontalWords) {
             if (Word.isPartOfWord(word, i, j)) {
                 this.defService.handleClickDef(word);
