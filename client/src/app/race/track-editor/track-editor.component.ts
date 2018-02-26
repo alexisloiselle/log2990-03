@@ -33,7 +33,9 @@ export class TrackEditorComponent implements OnInit {
     private drawingOnCanvas: DrawingOnCanvas;
     private trackName: string;
     private trackDescription: string;
+    private selectedTrack: RaceTrack;
     private trackType: RaceType;
+    private itemsOnTrack: number;
 
     public myTrackEditorModel: TrackEditorModel;
 
@@ -47,6 +49,7 @@ export class TrackEditorComponent implements OnInit {
         this.drawingOnCanvas = new DrawingOnCanvas(this.ctx);
         this.trackName = "";
         this.trackDescription = "";
+        this.itemsOnTrack = 0;
     }
 
     public constructor(private trackEditorConstraintService: TrackEditorConstraintService, public trackService: TrackService) {
@@ -72,7 +75,6 @@ export class TrackEditorComponent implements OnInit {
         // drop. We make sure the array doesn't contain any duplicated
         // points with this function.
         this.removePointsTooClose();
-        console.log(this.myTrackEditorModel.PointArray);
     }
     public canvasMouseMoved(event: MouseEvent): void {
         this.mouseMovedEvent = event;  // We stock the mouseCoordinates inside the mouseMovedEvent variable
@@ -197,20 +199,19 @@ export class TrackEditorComponent implements OnInit {
        return (this.trackName.length !== 0 && this.trackDescription.length !== 0);
     }
 
-    public addTrack(trackName: string, trackDescription: string, trackType: RaceType): void {
-        this.trackName = trackName;
-        this.trackDescription = trackDescription;
+    public addTrack(trackName: string, trackDescription: string, trackType: RaceType, itemsOnTrack:number): void {
+        this.name = trackName;
+        this.description = trackDescription;
         this.trackType = trackType;
-        const raceTrack: RaceTrack = new RaceTrack(trackName, trackDescription, trackType, this.myTrackEditorModel.PointArray);
+        this.itemsOnTrack = itemsOnTrack;
+        const raceTrack: RaceTrack = new RaceTrack(trackName, trackDescription, trackType, this.myTrackEditorModel.PointArray, itemsOnTrack);
         this.trackService.addTrack(raceTrack);
     }
 
-    public updateTrack(trackName: string, trackDescription: string, trackType: RaceType): void {
-        this.trackName = trackName;
-        this.trackDescription = trackDescription;
-        this.trackType = trackType;
-        const raceTrack: RaceTrack = new RaceTrack(trackName, trackDescription, trackType, this.myTrackEditorModel.PointArray);
-        this.trackService.updateTrack("id", raceTrack);
-
+    /*
+    public updateTrack(trackName: string, trackDescription: string, trackType: RaceType, itemsOnTrack: number): void {
+        const newRaceTrack: RaceTrack = new RaceTrack(trackName, trackDescription, trackType, this.myTrackEditorModel.PointArray, itemsOnTrack);
+        this.trackService.updateTrack(this.selectedTrack.id, newRaceTrack );
     }
+    */
 }

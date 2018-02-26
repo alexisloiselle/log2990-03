@@ -12,6 +12,7 @@
 <div *ngIf="selectedTrack">
   {{selectedTrack.name}}
   {{selectedTrack.description}}
+  {{selectedTrack.itemsOnTrack}}
 </div>
 <div *ngIf="!tracks || tracks.lenght === 0" class="panel panel-danger" >
   <h4>Pas de pistes disponibles pour l'instant. Seul un administrateur peut en créer.</h4>
@@ -22,7 +23,7 @@
 </div>
 
 <a class="btn btn-lg btn-info" (click)= "goBack()" role="button">  Retour  </a>
-
-<app-track-editor #updateTrack></app-track-editor>
-<button class="btn btn-info" *ngIf="selectedTrack"
+<app-track-editor #trackEditor></app-track-editor>
+<button class="btn btn-lg btn-info" *ngIf="selectedTrack"
 [disabled]="!constraintPass()" (click)="updateMyTrack(selectedTrack)">Update</button>
+
