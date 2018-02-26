@@ -1,7 +1,8 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import {RaceTrack} from "../raceTrack";
 import {TrackService} from "../../track.service";
 import {Location} from "@angular/common";
+import {PointCoordinates} from "../track-editor/point-coordinates";
 
 @Component({
     selector: "app-track-list",
@@ -11,7 +12,8 @@ import {Location} from "@angular/common";
 
 /* tslint:disable no-any */
 export class TrackListComponent implements OnInit {
-
+    @ViewChild("updateTrack")
+    private updateTrack: ElementRef;
     public tracks: any[];
     public realTracks: RaceTrack[];
     private selectedTrack: RaceTrack;
@@ -38,12 +40,13 @@ export class TrackListComponent implements OnInit {
     public async getTracks(): Promise<void> {
         const tempTracks: RaceTrack[] = await this.trackService.getTracks();
         this.tracks = [];
-
+        
         for (const id in tempTracks) {
             if (tempTracks != null) {
                 this.tracks.push(tempTracks[id]);
             }
         }
+        console.log(this.tracks);
 
         for (let i: number = 0; i < this.tracks[0].length; i++) {
             this.realTracks.push(JSON.parse(this.tracks[0][i].track));
@@ -59,8 +62,25 @@ export class TrackListComponent implements OnInit {
 
     public onSelectTrack(track: RaceTrack): void {
         this.selectedTrack = track;
-    }
+        let newPointArray: PointCoordinates[] = [];
 
+        for(let i = 0; i<track.points.length; i++) {
+            let tempPoint:PointCoordinates = new PointCoordinates(track.points[i].x, track.points[i].y);
+            newPointArray.push(tempPoint);
+        }
+        this.updateTrack.myTrackEditorModel.PointArray = newPointArray;
+        this.updateTrack.redrawCanvas();
+    }
+    public constraintPass(): boolean {
+        console.log(this.updateTrack.allConstraintPass());
+        return this.updateTrack.allConstraintPass();
+    }
+    public updateMyTrack(selectedTrack :RaceTrack):void {
+        console.log(selectedTrack);
+        
+        this.updateTrack.trackService.updateTrack(selectedTrack.id, selectedTrack);
+        this.ngOnInit();
+    }
     public deleteTrack(track: RaceTrack): void {
         this.trackService.deleteTrack(track.id).then((isOk) => this.onSuccess(isOk));
     }

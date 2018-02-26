@@ -22,3 +22,7 @@
 </div>
 
 <a class="btn btn-lg btn-info" (click)= "goBack()" role="button">  Retour  </a>
+
+<app-track-editor #updateTrack></app-track-editor>
+<button class="btn btn-info" *ngIf="selectedTrack"
+[disabled]="!constraintPass()" (click)="updateMyTrack(selectedTrack)">Update</button>

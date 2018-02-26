@@ -13,6 +13,10 @@ export class TrackEditorModel {
         return this.pointArray;
     }
 
+    public set PointArray(otherPointArray: PointCoordinates[]) {
+        this.pointArray = otherPointArray;
+    }
+
     public getPointArrayLength(): number {
         return this.pointArray.length;
     }
@@ -59,7 +63,7 @@ export class TrackEditorModel {
 
     public loopIsClosed(): boolean {
         return (this.pointArray.length > MINIMUM_ARRAY_LENGTH &&
-            (this.pointArray[this.pointArray.length - 1]).equals(this.pointArray[0]));
+        (this.pointArray[this.pointArray.length - 1]).equals(this.pointArray[0]));
     }
 
     public closeLoop(): void {

@@ -71,6 +71,7 @@ export class TrackEditorComponent implements OnInit {
         // drop. We make sure the array doesn't contain any duplicated
         // points with this function.
         this.removePointsTooClose();
+        console.log(this.myTrackEditorModel.PointArray);
     }
     public canvasMouseMoved(event: MouseEvent): void {
         this.mouseMovedEvent = event;  // We stock the mouseCoordinates inside the mouseMovedEvent variable
