@@ -1,62 +1,15 @@
 <div id="difficultyTitle">Difficulty : {{difficulty}}</div>
-<div id="changeDifficulty">
-  <a routerLink="/single-player">Change difficulty</a>
-</div>
-<div id="cheatMode">
-  Cheat Mode
-  <button *ngIf="isCheatModeOn == false" type="button" class="btn btn-outline-primary  cheatModeOff" (click)="isCheatModeOn = true">
-    Cheat Mode Off
-  </button>
-  <button *ngIf="isCheatModeOn == true" type="button" class="btn btn-outline-primary  cheatModeOn" (click)="isCheatModeOn = false">
-    Cheat Mode On
-  </button>
-</div>
-<ul>
+<a class="btn btn-outline-primary" routerLink="/single-player">Change difficulty</a>
+<button type="button" class="btn btn-outline-primary" (click)="defService.isCheatModeOn = !defService.isCheatModeOn">
+  {{defService.isCheatModeOn ? 'Disable Cheat Mode' : 'Enable Cheat Mode'}}
+</button>
+<div *ngIf="isConfigured">
   <div class="row">
-    <div *ngFor="let line of fGrid.letters">
-      <li *ngIf="fGrid.letters.indexOf(line)===0" class="case"></li>
-      <li class="case">{{fGrid.letters.indexOf(line)+1}}</li>
+    <div id="crossword" class="col-sm-5">
+      <app-grid></app-grid>
+    </div>
+    <div id="definitions" class="col-sm-7">
+      <app-definitions></app-definitions>
     </div>
   </div>
-  <div *ngFor="let line of fGrid.letters; let i  = index" class="row">
-    <li class="case">{{fGrid.letters.indexOf(line)+1}}</li>
-    <div *ngFor="let letter of line; let j = index">
-      <li *ngIf="letter === ''" class="case bordercase blackCase"></li>
-      <li *ngIf="letter !== ''" class="case bordercase letterCase">
-        <input 
-          id="{{i}}{{j}}"
-          type="text"
-          class="whiteCaseInput"
-          maxlength="1"
-          (keydown)="inputService.handleKey($event, i, j ); $event.preventDefault()"
-          [(value)]="letterGrid[i][j]"
-          #case
-          />
-      </li>
-    </div>
-  </div>
-</ul>
-<div class="definition-container">
-  Horizontal Words:
-  <ul>
-    <div *ngFor="let definition of horizontalWords" 
-          class="definition"  
-          (click)="defService.handleClickDef(definition);"
-          >
-      <p *ngIf="isCheatModeOn == false"> {{definition.Line + 1}} : {{definition.Def}}</p>
-      <p *ngIf="isCheatModeOn == true"> {{definition.Line + 1}} : {{definition.Word}}</p>
-    </div>
-  </ul>
-</div>
-<div class="definition-container">
-  Vertical Words:
-  <ul>
-    <div *ngFor="let definition of verticalWords" 
-          class="definition"
-          (click)="defService.handleClickDef(definition);"
-          >
-      <p *ngIf="isCheatModeOn == false">{{definition.Column + 1}} : {{definition.Def}}</p>
-      <p *ngIf="isCheatModeOn == true">{{definition.Column + 1}} : {{definition.Word}}</p>
-    </div>
-  </ul>
 </div>

@@ -5,6 +5,7 @@ import { TrackEditorConstraintService } from "./track-editor-constraint.service"
 import { DrawingOnCanvas } from "./drawing-on-canvas";
 import {TrackService} from "../../track.service";
 import {RaceTrack, RaceType} from "../raceTrack";
+import {Location} from "@angular/common";
 
 const STANDARD_SIZE_CIRCLE: number = 10;
 const WIDTH_OF_CANVAS: number = 500;
@@ -24,6 +25,8 @@ export class TrackEditorComponent implements OnInit {
     private trackDescriptionInput: ElementRef;
     @ViewChild("trackNameInput")
     private trackNameInput: ElementRef;
+    @ViewChild("trackTypeInput")
+    private trackTypeInput: ElementRef;
 
     private ctx: CanvasRenderingContext2D;
     // private currentPoint : number
@@ -31,11 +34,10 @@ export class TrackEditorComponent implements OnInit {
     // at all times
     private mouseDown: boolean;    // Used for the drag and drop
     private drawingOnCanvas: DrawingOnCanvas;
-    private trackName: string;
     private trackDescription: string;
-    private selectedTrack: RaceTrack;
     private trackType: RaceType;
-    private itemsOnTrack: number;
+    private track: RaceTrack;
+    private trackName: string;
 
     public myTrackEditorModel: TrackEditorModel;
 
@@ -49,10 +51,10 @@ export class TrackEditorComponent implements OnInit {
         this.drawingOnCanvas = new DrawingOnCanvas(this.ctx);
         this.trackName = "";
         this.trackDescription = "";
-        this.itemsOnTrack = 0;
+        this.trackType = 0;
     }
 
-    public constructor(private trackEditorConstraintService: TrackEditorConstraintService, public trackService: TrackService) {
+    public constructor(private trackEditorConstraintService: TrackEditorConstraintService, public trackService: TrackService, private location: Location) {
     }
 
     public canvasMouseDown(event: {}): void {
@@ -171,28 +173,14 @@ export class TrackEditorComponent implements OnInit {
             this.trackEditorConstraintService.lengthBooleanArray(this.myTrackEditorModel.PointArray));
     }
 
-    public get name(): string {
-        return this.name;
-    }
-
-    public set name(name: string) {
-        this.name = name;
-    }
-
-    public get description(): string {
-        return this.description;
-    }
-
-    public set description(description: string) {
-        this.description = description;
-    }
-
     public setTrackName(): void {
         this.trackName = this.trackNameInput.nativeElement.value;
+        this.trackType = this.trackTypeInput.nativeElement.value;
     }
 
     public setTrackDescription(): void {
         this.trackDescription = this.trackDescriptionInput.nativeElement.value;
+        this.trackType = this.trackTypeInput.nativeElement.value;
     }
 
     public inputTextNotEmpty(): boolean {
@@ -200,18 +188,19 @@ export class TrackEditorComponent implements OnInit {
     }
 
     public addTrack(trackName: string, trackDescription: string, trackType: RaceType, itemsOnTrack:number): void {
-        this.name = trackName;
-        this.description = trackDescription;
+        this.trackName = trackName;
+        this.trackDescription = trackDescription;
         this.trackType = trackType;
-        this.itemsOnTrack = itemsOnTrack;
-        const raceTrack: RaceTrack = new RaceTrack(trackName, trackDescription, trackType, this.myTrackEditorModel.PointArray, itemsOnTrack);
-        this.trackService.addTrack(raceTrack);
+        this.track  = new RaceTrack(trackName, trackDescription, trackType, this.myTrackEditorModel.PointArray);
+        this.trackService.addTrack(this.track);
     }
 
-    /*
-    public updateTrack(trackName: string, trackDescription: string, trackType: RaceType, itemsOnTrack: number): void {
-        const newRaceTrack: RaceTrack = new RaceTrack(trackName, trackDescription, trackType, this.myTrackEditorModel.PointArray, itemsOnTrack);
-        this.trackService.updateTrack(this.selectedTrack.id, newRaceTrack );
+    public getTrack() {
+        this.track  = new RaceTrack(this.trackName, this.trackDescription, this.trackType, this.myTrackEditorModel.PointArray);
+        return this.track;
     }
-    */
+
+    public goBack(): void {
+        this.location.back();
+    }
 }

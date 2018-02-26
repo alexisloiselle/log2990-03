@@ -1,0 +1,24 @@
+<div class="definition-container">
+  Horizontal Words:
+  <ul>
+    <div *ngFor="let word of defService.horizontalWords" (click)="defService.handleClickDef(word);" [ngClass]="{
+                    'definition': true,
+                    'selected': defService.SelectedWord != undefined && word.Word == defService.SelectedWord.Word,
+                    'placed': word.IsPlaced
+                  }">
+      <p class="canSelect"> {{word.Line + 1}} : {{defService.isCheatModeOn ? word.Word : word.Def}}</p>
+    </div>
+  </ul>
+</div>
+<div class="definition-container">
+  Vertical Words:
+  <ul>
+    <div *ngFor="let word of defService.verticalWords" (click)="defService.handleClickDef(word);" [ngClass]="{
+                  'definition': true,
+                  'selected': defService.SelectedWord != undefined && word.Word == defService.SelectedWord.Word,
+                  'placed': word.IsPlaced
+                }">
+      <p class="canSelect">{{word.Column + 1}} : {{defService.isCheatModeOn ? word.Word : word.Def}}</p>
+    </div>
+  </ul>
+</div>

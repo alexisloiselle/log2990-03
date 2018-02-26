@@ -66,7 +66,8 @@ module Route {
                 const collection: any = db.db("log2990-03-db");
                 collection.collection("tracks").updateOne({ _id: new ObjectId(req.params.id) },
                                                           // tslint:disable-next-line:no-any
-                                                          req.body, function (updateErr: any, updateDb: any): void {
+                 {$set: {"track": JSON.stringify(req.body.$set)}}, function (updateErr: any, updateDb: any): void {
+                                                        
                     const isOk: boolean = updateErr === null;
                     res.send(JSON.stringify(isOk));
                 });

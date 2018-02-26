@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import {RaceTrack} from "../raceTrack";
 import {TrackService} from "../../track.service";
-import {Location} from "@angular/common";
 import {PointCoordinates} from "../track-editor/point-coordinates";
 import {TrackEditorComponent} from "../track-editor/track-editor.component";
 
@@ -22,7 +21,7 @@ export class TrackListComponent implements OnInit {
     public error: string;
     
 
-    public constructor(private trackService: TrackService, private location: Location) {
+    public constructor(private trackService: TrackService) {
     }
 
     public ngOnInit(): void {
@@ -48,11 +47,11 @@ export class TrackListComponent implements OnInit {
                 this.tracks.push(tempTracks[id]);
             }
         }
-
         for (let i: number = 0; i < this.tracks[0].length; i++) {
             this.realTracks.push(JSON.parse(this.tracks[0][i].track));
             this.realTracks[i].id = this.tracks[0][i]._id;
         }
+       
     }
 
     public selectTrack(index: number): string {
@@ -75,11 +74,10 @@ export class TrackListComponent implements OnInit {
     public constraintPass(): boolean {
         return this.trackEditor.allConstraintPass();
     }
-    
-    public updateMyTrack(selectedTrack :RaceTrack):void {
-        console.log("track-list");
-        this.trackService.updateTrack(this.trackEditor., selectedTrack);
+    public updateMyTrack(selectedTrack: RaceTrack):void {
+        this.trackService.updateTrack(selectedTrack.id, this.trackEditor.getTrack());
         this.ngOnInit();
+        
     }
 
     public deleteTrack(track: RaceTrack): void {
@@ -93,9 +91,5 @@ export class TrackListComponent implements OnInit {
             this.error = "Une erreur s'est produite lors de la supression de track";
         }
         this.ngOnInit();
-    }
-
-    public goBack(): void {
-        this.location.back();
     }
 }

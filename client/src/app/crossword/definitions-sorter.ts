@@ -1,7 +1,7 @@
 import { FormattedGrid } from "./formatted-grid";
 import { Word } from "./word";
 
-export class DefintionsSorter {
+export class DefinitionsSorter {
 
     private horizontalDefinitions: Word[];
     private verticalDefinitions: Word[];

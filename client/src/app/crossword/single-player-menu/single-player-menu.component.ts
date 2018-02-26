@@ -13,14 +13,11 @@ export class SinglePlayerMenuComponent implements OnInit {
     public constructor(private router: Router) {
     }
 
-    public ngOnInit(): void {
-
-    }
+    public ngOnInit(): void { }
 
     public goToGame(difficulty: string): void {
         this.difficulty = difficulty;
         document.getElementById("test").innerHTML = this.difficulty;
         this.router.navigate(["single-player-game", this.difficulty]);
     }
-
 }
