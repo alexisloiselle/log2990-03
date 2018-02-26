@@ -51,6 +51,7 @@ export class TrackListComponent implements OnInit {
             this.realTracks.push(JSON.parse(this.tracks[0][i].track));
             this.realTracks[i].id = this.tracks[0][i]._id;
         }
+       
     }
 
     public selectTrack(index: number): string {
@@ -76,6 +77,7 @@ export class TrackListComponent implements OnInit {
     public updateMyTrack(selectedTrack: RaceTrack):void {
         this.trackService.updateTrack(selectedTrack.id, this.trackEditor.getTrack());
         this.ngOnInit();
+        
     }
 
     public deleteTrack(track: RaceTrack): void {
