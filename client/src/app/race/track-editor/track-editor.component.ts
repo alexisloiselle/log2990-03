@@ -24,6 +24,8 @@ export class TrackEditorComponent implements OnInit {
     private trackDescriptionInput: ElementRef;
     @ViewChild("trackNameInput")
     private trackNameInput: ElementRef;
+    @ViewChild("trackTypeInpu")
+    private trackTypeInput: ElementRef;
 
     private ctx: CanvasRenderingContext2D;
     // private currentPoint : number
@@ -34,6 +36,7 @@ export class TrackEditorComponent implements OnInit {
     private trackName: string;
     private trackDescription: string;
     private trackType: RaceType;
+    private track: RaceTrack;
 
     public myTrackEditorModel: TrackEditorModel;
 
@@ -47,6 +50,7 @@ export class TrackEditorComponent implements OnInit {
         this.drawingOnCanvas = new DrawingOnCanvas(this.ctx);
         this.trackName = "";
         this.trackDescription = "";
+        this.trackType = 0;
     }
 
     public constructor(private trackEditorConstraintService: TrackEditorConstraintService, public trackService: TrackService) {
@@ -187,10 +191,12 @@ export class TrackEditorComponent implements OnInit {
 
     public setTrackName(): void {
         this.trackName = this.trackNameInput.nativeElement.value;
+        this.trackType = this.trackTypeInput.nativeElement.value;
     }
 
     public setTrackDescription(): void {
         this.trackDescription = this.trackDescriptionInput.nativeElement.value;
+        this.trackType = this.trackTypeInput.nativeElement.value;
     }
 
     public inputTextNotEmpty(): boolean {
@@ -201,16 +207,12 @@ export class TrackEditorComponent implements OnInit {
         this.trackName = trackName;
         this.trackDescription = trackDescription;
         this.trackType = trackType;
-        const raceTrack: RaceTrack = new RaceTrack(trackName, trackDescription, trackType, this.myTrackEditorModel.PointArray);
-        this.trackService.addTrack(raceTrack);
+        this.track  = new RaceTrack(trackName, trackDescription, trackType, this.myTrackEditorModel.PointArray);
+        this.trackService.addTrack(this.track);
     }
 
-    public updateTrack(trackName: string, trackDescription: string, trackType: RaceType): void {
-        this.trackName = trackName;
-        this.trackDescription = trackDescription;
-        this.trackType = trackType;
-        const raceTrack: RaceTrack = new RaceTrack(trackName, trackDescription, trackType, this.myTrackEditorModel.PointArray);
-        this.trackService.updateTrack("id", raceTrack);
-
+    public getTrack() {
+        this.track  = new RaceTrack(this.trackName, this.trackDescription, this.trackType, this.myTrackEditorModel.PointArray);
+        return this.track;
     }
 }

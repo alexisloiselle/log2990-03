@@ -27,9 +27,9 @@
       
           <div class="niveau">
             <p> Niveau :
-              <select class="form-control" #trackTypeInput>
-                <option value="Amateur">Amateur</option>
-                <option value="Professionnel">Professionnel</option>
+              <select class="form-control" #trackTypeInput> 
+                <option value="Amateur"> Amateur</option>
+                <option value="Professionnel"> Professionnel</option>
               </select>
             </p>
           </div>
@@ -39,7 +39,6 @@
             <div *ngIf = "!(allConstraintPass() && inputTextNotEmpty())" class="alert alert-danger fade in">La piste doit être dessinée et validée avant de pouvoir être enregistrée.</div>
             <button class="btn btn-primary" id="validate-button" [disabled] = "!(allConstraintPass() && inputTextNotEmpty())" 
             (click)="addTrack(trackNameInput.value, trackDescriptionInput.value, trackTypeInput.value)" routerLink="/track-list" > Validation </button>
-            <button class="btn btn-info" (click)="updateTrack(trackNameInput.value, trackDescriptionInput.value, trackTypeInput.value)">Update</button>
           </div>
         </div>
       </div>

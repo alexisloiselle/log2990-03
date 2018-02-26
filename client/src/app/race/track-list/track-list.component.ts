@@ -13,8 +13,8 @@ import {TrackEditorComponent} from "../track-editor/track-editor.component";
 
 /* tslint:disable no-any */
 export class TrackListComponent implements OnInit {
-    @ViewChild("updateTrack")
-    private updateTrack: TrackEditorComponent;
+    @ViewChild("trackEditor")
+    private trackEditor: TrackEditorComponent;
     public tracks: any[];
     public realTracks: RaceTrack[];
     private selectedTrack: RaceTrack;
@@ -48,8 +48,6 @@ export class TrackListComponent implements OnInit {
                 this.tracks.push(tempTracks[id]);
             }
         }
-        console.log(this.tracks);
-
         for (let i: number = 0; i < this.tracks[0].length; i++) {
             this.realTracks.push(JSON.parse(this.tracks[0][i].track));
             this.realTracks[i].id = this.tracks[0][i]._id;
@@ -70,17 +68,15 @@ export class TrackListComponent implements OnInit {
             let tempPoint:PointCoordinates = new PointCoordinates(track.points[i].x, track.points[i].y);
             newPointArray.push(tempPoint);
         }
-        this.updateTrack.myTrackEditorModel.PointArray = newPointArray;
-        this.updateTrack.redrawCanvas();
+        this.trackEditor.myTrackEditorModel.PointArray = newPointArray;
+        this.trackEditor.redrawCanvas();
     }
     public constraintPass(): boolean {
-        console.log(this.updateTrack.allConstraintPass());
-        return this.updateTrack.allConstraintPass();
+        return this.trackEditor.allConstraintPass();
     }
-    public updateMyTrack(selectedTrack :RaceTrack):void {
-        console.log(selectedTrack);
-        
-        this.updateTrack.trackService.updateTrack(selectedTrack.id, selectedTrack);
+    public updateMyTrack(selectedTrack: RaceTrack):void {
+        console.log(this.trackEditor.getTrack());
+        this.trackService.updateTrack(selectedTrack.id, this.trackEditor.getTrack());
         this.ngOnInit();
     }
     public deleteTrack(track: RaceTrack): void {
