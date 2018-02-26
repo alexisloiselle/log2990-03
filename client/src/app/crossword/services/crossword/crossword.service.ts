@@ -8,17 +8,15 @@ export class CrosswordService {
     private serverUrl: string = "http://localhost:3000/api/";
     private fGrid: FormattedGrid;
 
-    public constructor(private http: HttpClient) {}
+    public constructor(private http: HttpClient) { }
 
     public async generateGrid(difficulty: string): Promise<void> {
         this.fGrid = await this.http.get(`${this.serverUrl}crossword/${difficulty}`)
             .toPromise()
-            .then((data: any) => data as FormattedGrid);
+            .then((data: FormattedGrid) => data);
     }
 
-    
-    public get FGrid() : FormattedGrid {
+    public get FGrid(): FormattedGrid {
         return this.fGrid;
     }
-    
 }

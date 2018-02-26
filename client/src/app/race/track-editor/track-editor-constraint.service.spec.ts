@@ -1,11 +1,8 @@
-/* tslint:disable:no-magic-numbers */
-// import { TestBed, inject } from "@angular/core/testing";
-
-// import { TrackEditorConstraintService } from "./track-editor-constraint.service";
 import { PointCoordinates } from "./point-coordinates";
 import { Vector } from "./vector/vector";
 import {TrackEditorConstraintService} from "./track-editor-constraint.service";
 
+/* tslint:disable:no-magic-numbers */
 describe("Track-Editor-Constraint", () => {
 
     const FORTY_FIVE_DEGREE: number = 45;
@@ -23,11 +20,6 @@ describe("Track-Editor-Constraint", () => {
     const VECTOR_Y_ABSCISSE: Vector = new Vector (new PointCoordinates (0, 1), new PointCoordinates (1, 1));
     const FIRST_VECTOR_INTERSECTION: Vector = new Vector( new PointCoordinates(0, 0), new PointCoordinates(5, 5));
     const SECOND_VECTOR_INTERSECTION: Vector = new Vector(new PointCoordinates(0, 5), new PointCoordinates(5, 0));
-
-    // let pointArray: PointCoordinates[];
-    // pointArray.push(POINT_START);
-    // pointArray.push(POINT_END);
-    // pointArray.push(POINT_LESS_45);
 
     it("Angle should be less than 45 degree", () => {
         expect(VECTOR_TEST.calculateAngle(VECTOR_TEST_LESS_45).toFixed(3)).toBeLessThan(FORTY_FIVE_DEGREE);
@@ -69,22 +61,6 @@ describe("Track-Editor-Constraint", () => {
         expect(FIRSTVECTOR45DEGREE.calculateVectorIntersection(SECONDEVECTOR45DEGREE).Y).toBe(0);
     });
 
-    it("XMin commun domain should be 0", () => {
-        expect(VECTOR_TEST.calculateCommunDomain(FIRSTVECTOR45DEGREE).XMin).toBe(0);
-    });
-
-    it("YMin commun domain should be 0", () => {
-        expect(VECTOR_TEST.calculateCommunDomain(FIRSTVECTOR45DEGREE).YMin).toBe(0);
-    });
-
-    it("XMax commun domain should be 5", () => {
-        expect(VECTOR_TEST.calculateCommunDomain(FIRSTVECTOR45DEGREE).XMax).toBe(5);
-    });
-
-    it("YMax commun domain should be 6", () => {
-        expect(VECTOR_TEST.calculateCommunDomain(FIRSTVECTOR45DEGREE).YMax).toBe(6);
-    });
-
     it("Point should be in the domain", () => {
         expect(FIRSTVECTOR45DEGREE.pointIsInCommunDomain
             (FIRSTVECTOR45DEGREE.calculateVectorIntersection(VECTOR_TEST_IS_IN_DOMAIN), VECTOR_TEST_IS_IN_DOMAIN)).toBeTruthy();
@@ -95,11 +71,6 @@ describe("Track-Editor-Constraint", () => {
             (VECTOR_TEST.calculateVectorIntersection(FIRSTVECTOR45DEGREE), FIRSTVECTOR45DEGREE)).toBeFalsy();
     });
 
-    // it("All constraint should pass because no intersection and angle ok", () => {
-    //   const trackEditorConstraintService: TrackEditorConstraintService = new TrackEditorConstraintService;
-    //   expect(trackEditorConstraintService.allConstraintPass(pointArray)).toBeTruthy();
-    // });
-
     it("Shouldn't be intersecting  ", () => {
       const trackEditorConstraintService: TrackEditorConstraintService = new TrackEditorConstraintService;
       expect(trackEditorConstraintService.verifyIsIntersecting(SECONDEVECTOR45DEGREE, FIRSTVECTOR45DEGREE)).toBeFalsy();
@@ -109,16 +80,6 @@ describe("Track-Editor-Constraint", () => {
       const trackEditorConstraintService: TrackEditorConstraintService = new TrackEditorConstraintService;
       expect(trackEditorConstraintService.verifyAngle(VECTOR_TEST, VECTOR_TEST_LESS_45)).toBeFalsy();
     });
-
-    // it("All constraint shouldn't pass because vector parallel", () => {
-    //     const trackEditorConstraintService: TrackEditorConstraintService = new TrackEditorConstraintService;
-    //     expect(trackEditorConstraintService.allConstraintPass(pointArray)).toBeFalsy();
-    //   });
-
-    // it("All constraint shouldn't pass because there's an intersection", () => {
-    //     const trackEditorConstraintService: TrackEditorConstraintService = new TrackEditorConstraintService;
-    //     expect(trackEditorConstraintService.allConstraintPass(pointArray)).toBeFalsy();
-    // });
 
     it("Vectors Should be intersecting ", () => {
         const trackEditorConstraintService: TrackEditorConstraintService = new TrackEditorConstraintService;

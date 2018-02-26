@@ -1,18 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { DefinitionService } from '../services/crossword/definitionService';
+import { Component, OnInit } from "@angular/core";
+import { DefinitionService } from "../services/crossword/definitionService";
 
 @Component({
-    selector: 'app-definitions',
-    templateUrl: './definitions.component.html',
-    styleUrls: ['./definitions.component.css']
+    selector: "app-definitions",
+    templateUrl: "./definitions.component.html",
+    styleUrls: ["./definitions.component.css"]
 })
 export class DefinitionsComponent implements OnInit {
 
-    constructor(
+    public constructor(
         // used in html
         private defService: DefinitionService
     ) { }
 
-    ngOnInit() {
+    public ngOnInit(): void {
     }
 }

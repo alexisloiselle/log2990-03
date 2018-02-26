@@ -14,8 +14,6 @@ export class DefinitionsSorter {
         this.horizontalDefinitions.sort((a: Word, b: Word) => a.Line - b.Line);
         this.verticalDefinitions.sort((a: Word, b: Word) => a.Line - b.Line);
         this.verticalDefinitions.sort((a: Word, b: Word) => a.Column - b.Column);
-        console.log(this.horizontalDefinitions);
-        console.log(this.verticalDefinitions);
     }
 
     private separateVerticalFromHorizontal(fGrid: FormattedGrid): void {

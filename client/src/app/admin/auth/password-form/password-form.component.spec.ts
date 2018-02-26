@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { DefinitionsComponent } from "./definitions.component";
+import { PasswordFormComponent } from "./password-form.component";
 
-describe("DefinitionsComponent", () => {
-  let component: DefinitionsComponent;
-  let fixture: ComponentFixture<DefinitionsComponent>;
+describe("PasswordFormComponent", () => {
+  let component: PasswordFormComponent;
+  let fixture: ComponentFixture<PasswordFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DefinitionsComponent ]
+      declarations: [ PasswordFormComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DefinitionsComponent);
+    fixture = TestBed.createComponent(PasswordFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

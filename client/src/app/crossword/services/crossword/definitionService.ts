@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, ElementRef } from "@angular/core";
 import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
 import { Word } from "../../word";
@@ -8,7 +8,7 @@ import { DefinitionsSorter } from "../../definitions-sorter";
 @Injectable()
 export class DefinitionService {
 
-    private selectWordSub: Subject<any>;
+    private selectWordSub: Subject<{word: Word}>;
     private selectedWord: Word;
 
     private horizontalWords: Word[];
@@ -22,12 +22,16 @@ export class DefinitionService {
         window.document.addEventListener("click", (ev) => this.unselectWord(ev));
     }
 
-    public get SelectWordSub(): Observable<any> {
+    public get SelectWordSub(): Observable<{word: Word}> {
         return this.selectWordSub.asObservable();
     }
 
     public get SelectedWord(): Word {
         return this.selectedWord;
+    }
+
+    public set SelectedWord(value: Word) {
+        this.selectedWord = value;
     }
 
     public get HorizontalWords(): Word[] {
@@ -46,10 +50,6 @@ export class DefinitionService {
         this.isCheatModeOn = value;
     }
 
-    public set SelectedWord(value: Word) {
-        this.selectedWord = value;
-    }
-
     public configureDefinitions(): void {
         const definitionsSorter: DefinitionsSorter = new DefinitionsSorter(this.crosswordService.FGrid);
         this.horizontalWords = definitionsSorter.HorizontalDefinitions;
@@ -59,12 +59,14 @@ export class DefinitionService {
     public handleClickDef(word: Word): boolean {
         this.selectedWord = word;
         this.selectWordSub.next({ word });
+
         return true;
     }
 
+    // TS doesn't recognize path on type MouseEvent
+    // tslint:disable-next-line:no-any
     private unselectWord(event: any): void {
-        const classes = event.path[0].getAttribute("class");
-        console.log(classes);
+        const classes: ElementRef["nativeElement"] = event.path[0].getAttribute("class");
         if (classes === null || !classes.includes("canSelect")) {
             this.selectedWord = undefined;
         }

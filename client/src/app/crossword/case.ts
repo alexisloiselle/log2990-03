@@ -1,6 +1,6 @@
 export class Case {
     private letter: string;
-    private isPlaced: boolean
+    private isPlaced: boolean;
 
     public constructor() {
         this.letter = "";

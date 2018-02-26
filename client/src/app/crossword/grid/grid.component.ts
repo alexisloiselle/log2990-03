@@ -1,21 +1,28 @@
-import { Component, OnInit, ViewChildren } from '@angular/core';
-import { CrosswordService } from '../services/crossword/crossword.service';
-import { InputService } from '../services/crossword/inputService';
-import { DefinitionService } from '../services/crossword/definitionService';
-import { Word } from '../word';
-import { Case } from '../case';
+import { Component, OnInit, ViewChildren, ElementRef } from "@angular/core";
+import { CrosswordService } from "../services/crossword/crossword.service";
+import { InputService } from "../services/crossword/inputService";
+import { DefinitionService } from "../services/crossword/definitionService";
+import { Word } from "../word";
+import { Case } from "../case";
+
+const LEFT_KEYCODE: number = 37;
+const UP_KEYCODE: number = 38;
+const RIGHT_KEYCODE: number = 39;
+const DOWN_KEYCODE: number = 40;
 
 @Component({
-    selector: 'app-grid',
-    templateUrl: './grid.component.html',
-    styleUrls: ['./grid.component.css']
+    selector: "app-grid",
+    templateUrl: "./grid.component.html",
+    styleUrls: ["./grid.component.css"]
 })
 export class GridComponent implements OnInit {
+    // Doesn't work with QueryList<"case"> or QueryList<ElementRef>
+    // tslint:disable-next-line:no-any
     @ViewChildren("case") public cases: any;
 
     public letterGrid: Case[][];
 
-    constructor(
+    public constructor(
         private crosswordService: CrosswordService,
         private inputService: InputService,
         private defService: DefinitionService
@@ -27,17 +34,16 @@ export class GridComponent implements OnInit {
         this.listenEnterInput();
     }
 
-    ngOnInit() {
+    public ngOnInit(): void {
         this.letterGrid = this.initLetterGrid(this.crosswordService.FGrid.letters.length);
-        console.log(this.letterGrid);
     }
 
     private initLetterGrid(length: number): Case[][] {
         return Array.apply(null, Array(length)).map(() => {
             return Array.apply(null, Array(length)).map(() => {
                 return new Case();
-            })
-        })
+            });
+        });
     }
 
     // used in html
@@ -54,6 +60,7 @@ export class GridComponent implements OnInit {
         for (const word of this.defService.HorizontalWords) {
             if (Word.isPartOfWord(word, i, j)) {
                 this.defService.handleClickDef(word);
+
                 return;
             }
         }
@@ -61,6 +68,7 @@ export class GridComponent implements OnInit {
         for (const word of this.defService.VerticalWords) {
             if (Word.isPartOfWord(word, i, j)) {
                 this.defService.handleClickDef(word);
+
                 return;
             }
         }
@@ -126,13 +134,14 @@ export class GridComponent implements OnInit {
             i = this.defService.SelectedWord.IsHorizontal ? i : i + 1;
             j = this.defService.SelectedWord.IsHorizontal ? j + 1 : j;
         }
+
         return true;
     }
 
     private placeWord(): void {
         let i: number = this.defService.SelectedWord.Line;
         let j: number = this.defService.SelectedWord.Column;
-        for (let cpt = 0; cpt < this.defService.SelectedWord.Word.length; cpt++) {
+        for (const letter of this.defService.SelectedWord.Word.split("")) {
             this.letterGrid[i][j].IsPlaced = true;
             i = this.defService.SelectedWord.IsHorizontal ? i : i + 1;
             j = this.defService.SelectedWord.IsHorizontal ? j + 1 : j;
@@ -166,19 +175,21 @@ export class GridComponent implements OnInit {
 
     private focusOnArrowCase(keyCode: number, i: number, j: number): void {
         switch (keyCode) {
-            case 37: // left
-            case 38: // up
+            case LEFT_KEYCODE:
+            case UP_KEYCODE:
                 this.focusOnPreviousCase(i, j);
                 break;
-            case 39: // right
-            case 40: // down
+            case RIGHT_KEYCODE:
+            case DOWN_KEYCODE:
                 this.focusOnNextCase(i, j);
+                break;
+            default:
                 break;
         }
     }
 
     private focusOnCase(i: number, j: number): void {
-        const caseFound: any = this.cases.toArray().find((c: any) => {
+        const caseFound: ElementRef = this.cases.toArray().find((c: ElementRef) => {
             return c.nativeElement.getAttribute("id") === `${i}${j}`;
         });
         if (caseFound !== undefined) {

@@ -9,10 +9,9 @@ import { DefinitionService } from "../services/crossword/definitionService";
     styleUrls: ["./single-player-game.component.css"]
 })
 export class SinglePlayerGameComponent implements OnInit {
-    
+
     public difficulty: string;
     public isConfigured: boolean = false;
-
 
     public constructor(
         private crosswordService: CrosswordService,
