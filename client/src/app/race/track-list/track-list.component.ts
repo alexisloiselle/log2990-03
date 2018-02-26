@@ -19,7 +19,6 @@ export class TrackListComponent implements OnInit {
     private selectedTrack: RaceTrack;
     public nom: string;
     public error: string;
-    
 
     public constructor(private trackService: TrackService) {
     }
@@ -41,7 +40,7 @@ export class TrackListComponent implements OnInit {
     public async getTracks(): Promise<void> {
         const tempTracks: RaceTrack[] = await this.trackService.getTracks();
         this.tracks = [];
-        
+
         for (const id in tempTracks) {
             if (tempTracks != null) {
                 this.tracks.push(tempTracks[id]);
@@ -51,7 +50,6 @@ export class TrackListComponent implements OnInit {
             this.realTracks.push(JSON.parse(this.tracks[0][i].track));
             this.realTracks[i].id = this.tracks[0][i]._id;
         }
-       
     }
 
     public selectTrack(index: number): string {
@@ -62,11 +60,10 @@ export class TrackListComponent implements OnInit {
 
     public onSelectTrack(track: RaceTrack): void {
         this.selectedTrack = track;
-        let newPointArray: PointCoordinates[] = [];
+        const newPointArray: PointCoordinates[] = [];
 
-        for(let i = 0; i<track.points.length; i++) {
-            let tempPoint:PointCoordinates = new PointCoordinates(track.points[i].x, track.points[i].y);
-            newPointArray.push(tempPoint);
+        for (const point of track.points) {
+            newPointArray.push(new PointCoordinates(point.x, point.y));
         }
         this.trackEditor.myTrackEditorModel.PointArray = newPointArray;
         this.trackEditor.redrawCanvas();
@@ -74,10 +71,9 @@ export class TrackListComponent implements OnInit {
     public constraintPass(): boolean {
         return this.trackEditor.allConstraintPass();
     }
-    public updateMyTrack(selectedTrack: RaceTrack):void {
+    public updateMyTrack(selectedTrack: RaceTrack): void {
         this.trackService.updateTrack(selectedTrack.id, this.trackEditor.getTrack());
         this.ngOnInit();
-        
     }
 
     public deleteTrack(track: RaceTrack): void {
