@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { RaceMainComponent } from "./race-main.component";
 import { RouterTestingModule } from "@angular/router/testing";
+import { AuthService } from "../../admin/auth/auth.service";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
 
 describe("RaceMainComponent", () => {
     let component: RaceMainComponent;
@@ -8,8 +10,9 @@ describe("RaceMainComponent", () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [RouterTestingModule],
-            declarations: [RaceMainComponent]
+            imports: [HttpClientTestingModule, RouterTestingModule],
+            declarations: [RaceMainComponent],
+            providers: [AuthService]
         })
             .compileComponents();
     }));
