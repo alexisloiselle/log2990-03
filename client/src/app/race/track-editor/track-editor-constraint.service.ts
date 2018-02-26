@@ -4,12 +4,15 @@ import { PointCoordinates } from "./point-coordinates";
 
 const MIN_ANGLE_IN_DEGREE: number = 45;
 const DEFAULT_TRACK_WIDTH: number = 60;
+
+/* tslint:disable:no-magic-numbers */
 @Injectable()
 export class TrackEditorConstraintService {
 
-    public createArrayVector(arrayPointCoordinates: PointCoordinates[]): Vector[] { // a tester
-        const arrayVector: Vector[] = []; // mis const a cause de tslint
-        for (let i: number = 0; i < arrayPointCoordinates.length - 1; i++) { // 2 pour ne pas lire la derniere case du array
+    public createArrayVector(arrayPointCoordinates: PointCoordinates[]): Vector[] {
+        const arrayVector: Vector[] = [];
+
+        for (let i: number = 0; i < arrayPointCoordinates.length - 1; i++) {
             const newVector: Vector = new Vector(arrayPointCoordinates[i], arrayPointCoordinates[i + 1]);
             arrayVector.push(newVector);
         }
@@ -38,14 +41,14 @@ export class TrackEditorConstraintService {
     }
 
     public angleBooleanArray(myPointArray: PointCoordinates[]): boolean[] {
-        const myVector: Vector[] = this.createArrayVector(myPointArray);
+        const vectors: Vector[] = this.createArrayVector(myPointArray);
         const myBooleanArray: boolean[] = [];
 
-        for (let i: number = 0; i < myVector.length - 1; i++) {
-            myBooleanArray.push(this.verifyAngle(myVector[i], myVector[i + 1]));
+        for (let i: number = 0; i < vectors.length - 1; i++) {
+            myBooleanArray.push(this.verifyAngle(vectors[i], vectors[i + 1]));
         }
         if (this.loopIsClosed(myPointArray)) {
-            myBooleanArray.push(this.verifyAngle(myVector[myVector.length - 1], myVector[0]));
+            myBooleanArray.push(this.verifyAngle(vectors[vectors.length - 1], vectors[0]));
         }
 
         return myBooleanArray;
@@ -54,32 +57,32 @@ export class TrackEditorConstraintService {
     public intersectionBooleanArray(myPointArray: PointCoordinates[]): boolean[] {
         const myVector: Vector[] = this.createArrayVector(myPointArray);
         const myBooleanArray: boolean[] = [];
-        // Initialisation of the boolean array
+
+        // tslint:disable-next-line:prefer-for-of
         for (let i: number = 0; i < myVector.length; i++) {
             myBooleanArray.push(true);
         }
 
         for (let i: number = 0; i < myVector.length; i++) {
-            // j = i+2 and not i+1 because two consecutive vectors obviously intersect each other
             for (let j: number = i + 2; j < myVector.length; j++) {
-                if (!(i === 0 && j === myVector.length - 1 && this.loopIsClosed(myPointArray))) {
-                    if (this.verifyIsIntersecting(myVector[i], myVector[j])) {
-                        myBooleanArray[i] = false;
-                        myBooleanArray[j] = false;
-                    }
+                if (!(i === 0 && j === myVector.length - 1 && this.loopIsClosed(myPointArray)) &&
+                    this.verifyIsIntersecting(myVector[i], myVector[j])) {
+                    myBooleanArray[i] = myBooleanArray[j] = false;
                 }
             }
         }
+
         return myBooleanArray;
     }
 
     public lengthBooleanArray(myPointArray: PointCoordinates[]): boolean[] {
-        const myVector: Vector[] = this.createArrayVector(myPointArray);
+        const vectors: Vector[] = this.createArrayVector(myPointArray);
         const myBooleanArray: boolean[] = [];
 
-        for (let i: number = 0; i < myVector.length; i++) {
-            myBooleanArray.push(this.verifyLength(myVector[i], DEFAULT_TRACK_WIDTH));
+        for (const vector of vectors) {
+            myBooleanArray.push(this.verifyLength(vector, DEFAULT_TRACK_WIDTH));
         }
+
         return myBooleanArray;
     }
 }

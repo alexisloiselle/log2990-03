@@ -1,7 +1,6 @@
 import {PointCoordinates} from "./track-editor/point-coordinates";
 
-
-export class RaceTrack{
+export class RaceTrack {
 
     public id: string;
     public name: string;
@@ -12,15 +11,18 @@ export class RaceTrack{
     public timesPlayed: number = 0;
     public times: TrackTime[] = [];
     public bestTime: TrackTime;
-    public points: PointCoordinates[] = []; 
+    public points: PointCoordinates[] = [];
+    public itemsOnTrack: number;
 
-    public constructor(name: string, description: string, type: RaceType, points: PointCoordinates[] ) {
+    public constructor(name: string, description: string, type: RaceType, points: PointCoordinates[], itemsOnTrack: number) {
         this.name = name;
         this.description = description;
         this.type = type;
         this.points = points;
+        this.itemsOnTrack = itemsOnTrack;
     }
 
+    // tslint:disable-next-line:use-life-cycle-interface
     public ngOnInit(): void {
         this.name = "leNom";
     }
@@ -37,4 +39,3 @@ export enum RaceType {
     Amateur,
     Professional
 }
-

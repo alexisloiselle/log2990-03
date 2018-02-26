@@ -55,7 +55,7 @@ export class Car extends Object3D {
         return carDirection;
     }
 
-    get Position(): Vector3 {
+    public get Position(): Vector3 {
         return this.mesh.position;
     }
 
@@ -99,7 +99,7 @@ export class Car extends Object3D {
         this._speed = new Vector3(0, 0, 0);
     }
 
-    // TODO: move loading code outside of car class.
+    // move loading code outside of car class eventually
     private async load(): Promise<Object3D> {
         return new Promise<Object3D>((resolve, reject) => {
             const loader: ObjectLoader = new ObjectLoader();

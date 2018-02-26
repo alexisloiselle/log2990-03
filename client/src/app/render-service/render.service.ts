@@ -3,18 +3,18 @@ import Stats = require("stats.js");
 import * as THREE from "three";
 import { Car } from "../race/car/car";
 import { CarEventHandlerService } from "./car-event-handler.service";
+// tslint:disable-next-line:no-duplicate-imports
 import { CubeTextureLoader } from "three";
 
 const FAR_CLIPPING_PLANE: number = 1000;
 const NEAR_CLIPPING_PLANE: number = 1;
 const FIELD_OF_VIEW: number = 70;
-
-// const INITIAL_CAMERA_POSITION_Y: number = 25;
 const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
 
 @Injectable()
 export class RenderService {
+
     private camera: THREE.PerspectiveCamera;
     private container: HTMLDivElement;
     private _car: Car;
@@ -53,6 +53,7 @@ export class RenderService {
         this.lastDate = Date.now();
     }
 
+    /* tslint:disable:no-magic-numbers */
     private async createScene(): Promise<void> {
         this.scene = new THREE.Scene();
 
@@ -71,14 +72,9 @@ export class RenderService {
         this.camera.lookAt(this._car.position);
         this.car.attachCamera(this.camera);
 
-        // this for top view (as given)
-        // this.camera.position.set(0, INITIAL_CAMERA_POSITION_Y, 0);
-        // this.camera.lookAt(this._car.position);
-
         this.scene.add(this._car);
         this.scene.add(new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY));
 
-        // skybox
         this.createSkybox();
     }
 
@@ -88,9 +84,9 @@ export class RenderService {
         .load([
             "lf.png",
             "rt.png",
-            "up.png", 
+            "up.png",
             "dn.png",
-            "ft.png", 
+            "ft.png",
             "bk.png"
         ]);
     }
@@ -129,5 +125,4 @@ export class RenderService {
     public handleKeyUp(event: KeyboardEvent): void {
       this.carEventHandlerService.handleKeyUp(event, this._car, this.camera);
     }
-
 }

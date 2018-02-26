@@ -24,6 +24,10 @@
             <input type="text" [disabled] = "!allConstraintPass()" (keyup)="setTrackDescription()"
             class="form-control" #trackDescriptionInput>
           </p>
+          <p>Nombre d'items sur la piste:
+            <input type="number" min="1" max="10" [disabled] = "!allConstraintPass()" 
+            class="form-control" #itemsInput>
+          </p>
       
           <div class="niveau">
             <p> Niveau :
@@ -38,8 +42,7 @@
             <hr>
             <div *ngIf = "!(allConstraintPass() && inputTextNotEmpty())" class="alert alert-danger fade in">La piste doit être dessinée et validée avant de pouvoir être enregistrée.</div>
             <button class="btn btn-primary" id="validate-button" [disabled] = "!(allConstraintPass() && inputTextNotEmpty())" 
-            (click)="addTrack(trackNameInput.value, trackDescriptionInput.value, trackTypeInput.value)" routerLink="/track-list" > Validation </button>
-            <button class="btn btn-info" (click)="updateTrack(trackNameInput.value, trackDescriptionInput.value, trackTypeInput.value)">Update</button>
+            (click)="addTrack(trackNameInput.value, trackDescriptionInput.value, trackTypeInput.value, itemsInput.value)" routerLink="/admin" > Validation </button>
           </div>
         </div>
       </div>
