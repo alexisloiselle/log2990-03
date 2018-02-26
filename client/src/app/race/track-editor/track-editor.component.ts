@@ -30,11 +30,12 @@ export class TrackEditorComponent implements OnInit {
     private mouseMovedEvent: MouseEvent;  // So that each method can access the coordinates
     // at all times
     private mouseDown: boolean;    // Used for the drag and drop
-    private myTrackEditorModel: TrackEditorModel;
     private drawingOnCanvas: DrawingOnCanvas;
     private trackName: string;
     private trackDescription: string;
     private trackType: RaceType;
+
+    public myTrackEditorModel: TrackEditorModel;
 
     public ngOnInit(): void {
         // We here initialise the canvas and get the context (ctx)
@@ -48,7 +49,7 @@ export class TrackEditorComponent implements OnInit {
         this.trackDescription = "";
     }
 
-    public constructor(private trackEditorConstraintService: TrackEditorConstraintService, private trackService: TrackService) {
+    public constructor(private trackEditorConstraintService: TrackEditorConstraintService, public trackService: TrackService) {
     }
 
     public canvasMouseDown(event: {}): void {

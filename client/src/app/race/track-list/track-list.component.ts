@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import {RaceTrack} from "../raceTrack";
 import {TrackService} from "../../track.service";
 import {Location} from "@angular/common";
 import {PointCoordinates} from "../track-editor/point-coordinates";
+import {TrackEditorComponent} from "../track-editor/track-editor.component";
 
 @Component({
     selector: "app-track-list",
@@ -13,12 +14,13 @@ import {PointCoordinates} from "../track-editor/point-coordinates";
 /* tslint:disable no-any */
 export class TrackListComponent implements OnInit {
     @ViewChild("updateTrack")
-    private updateTrack: ElementRef;
+    private updateTrack: TrackEditorComponent;
     public tracks: any[];
     public realTracks: RaceTrack[];
     private selectedTrack: RaceTrack;
     public nom: string;
     public error: string;
+    
 
     public constructor(private trackService: TrackService, private location: Location) {
     }
