@@ -54,7 +54,8 @@ export class TrackEditorComponent implements OnInit {
         this.trackType = 0;
     }
 
-    public constructor(private trackEditorConstraintService: TrackEditorConstraintService, public trackService: TrackService, private location: Location) {
+    public constructor(private trackEditorConstraintService: TrackEditorConstraintService, public trackService: TrackService,
+                       private location: Location) {
     }
 
     public canvasMouseDown(event: {}): void {
@@ -187,7 +188,7 @@ export class TrackEditorComponent implements OnInit {
        return (this.trackName.length !== 0 && this.trackDescription.length !== 0);
     }
 
-    public addTrack(trackName: string, trackDescription: string, trackType: RaceType, itemsOnTrack:number): void {
+    public addTrack(trackName: string, trackDescription: string, trackType: RaceType, itemsOnTrack: number): void {
         this.trackName = trackName;
         this.trackDescription = trackDescription;
         this.trackType = trackType;
@@ -195,8 +196,9 @@ export class TrackEditorComponent implements OnInit {
         this.trackService.addTrack(this.track);
     }
 
-    public getTrack() {
+    public get Track(): RaceTrack {
         this.track  = new RaceTrack(this.trackName, this.trackDescription, this.trackType, this.myTrackEditorModel.PointArray);
+
         return this.track;
     }
 
