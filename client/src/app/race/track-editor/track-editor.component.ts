@@ -5,6 +5,7 @@ import { TrackEditorConstraintService } from "./track-editor-constraint.service"
 import { DrawingOnCanvas } from "./drawing-on-canvas";
 import {TrackService} from "../../track.service";
 import {RaceTrack, RaceType} from "../raceTrack";
+import {Location} from "@angular/common";
 
 const STANDARD_SIZE_CIRCLE: number = 10;
 const WIDTH_OF_CANVAS: number = 500;
@@ -54,7 +55,7 @@ export class TrackEditorComponent implements OnInit {
         this.trackType = 0;
     }
 
-    public constructor(private trackEditorConstraintService: TrackEditorConstraintService, public trackService: TrackService) {
+    public constructor(private trackEditorConstraintService: TrackEditorConstraintService, public trackService: TrackService, private location: Location) {
     }
 
     public canvasMouseDown(event: {}): void {
@@ -215,5 +216,7 @@ export class TrackEditorComponent implements OnInit {
         this.track  = new RaceTrack(this.trackName, this.trackDescription, this.trackType, this.myTrackEditorModel.PointArray);
         return this.track;
     }
-    */
+    public goBack(): void {
+        this.location.back();
+    }
 }
