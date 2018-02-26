@@ -24,6 +24,10 @@
             <input type="text" [disabled] = "!allConstraintPass()" (keyup)="setTrackDescription()"
             class="form-control" #trackDescriptionInput>
           </p>
+          <p>Nombre d'items sur la piste:
+            <input type="number" min="1" max="10" [disabled] = "!allConstraintPass()" 
+            class="form-control" #itemsInput>
+          </p>
       
           <div class="niveau">
             <p> Niveau :

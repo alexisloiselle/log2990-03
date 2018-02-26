@@ -12,12 +12,14 @@ export class RaceTrack {
     public times: TrackTime[] = [];
     public bestTime: TrackTime;
     public points: PointCoordinates[] = [];
+    public itemsOnTrack: number;
 
-    public constructor(name: string, description: string, type: RaceType, points: PointCoordinates[] ) {
+    public constructor(name: string, description: string, type: RaceType, points: PointCoordinates[], itemsOnTrack: number) {
         this.name = name;
         this.description = description;
         this.type = type;
         this.points = points;
+        this.itemsOnTrack = itemsOnTrack;
     }
 
     // tslint:disable-next-line:use-life-cycle-interface

@@ -42,6 +42,7 @@ export class TrackService {
     }
 
     public async updateTrack(id: string, track: RaceTrack): Promise<boolean> {
+        console.log("service");
         if (id === undefined) {
             throw new Error("Impossible to update a track without an id.");
         }

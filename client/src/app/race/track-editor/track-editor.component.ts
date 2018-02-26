@@ -35,6 +35,7 @@ export class TrackEditorComponent implements OnInit {
     private drawingOnCanvas: DrawingOnCanvas;
     private trackName: string;
     private trackDescription: string;
+    private selectedTrack: RaceTrack;
     private trackType: RaceType;
     private track: RaceTrack;
 
@@ -76,7 +77,6 @@ export class TrackEditorComponent implements OnInit {
         // drop. We make sure the array doesn't contain any duplicated
         // points with this function.
         this.removePointsTooClose();
-        console.log(this.myTrackEditorModel.PointArray);
     }
     public canvasMouseMoved(event: MouseEvent): void {
         this.mouseMovedEvent = event;  // We stock the mouseCoordinates inside the mouseMovedEvent variable
@@ -203,9 +203,9 @@ export class TrackEditorComponent implements OnInit {
        return (this.trackName.length !== 0 && this.trackDescription.length !== 0);
     }
 
-    public addTrack(trackName: string, trackDescription: string, trackType: RaceType): void {
-        this.trackName = trackName;
-        this.trackDescription = trackDescription;
+    public addTrack(trackName: string, trackDescription: string, trackType: RaceType, itemsOnTrack:number): void {
+        this.name = trackName;
+        this.description = trackDescription;
         this.trackType = trackType;
         this.track  = new RaceTrack(trackName, trackDescription, trackType, this.myTrackEditorModel.PointArray);
         this.trackService.addTrack(this.track);
@@ -215,4 +215,5 @@ export class TrackEditorComponent implements OnInit {
         this.track  = new RaceTrack(this.trackName, this.trackDescription, this.trackType, this.myTrackEditorModel.PointArray);
         return this.track;
     }
+    */
 }

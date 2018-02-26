@@ -79,6 +79,7 @@ export class TrackListComponent implements OnInit {
         this.trackService.updateTrack(selectedTrack.id, this.trackEditor.getTrack());
         this.ngOnInit();
     }
+
     public deleteTrack(track: RaceTrack): void {
         this.trackService.deleteTrack(track.id).then((isOk) => this.onSuccess(isOk));
     }
