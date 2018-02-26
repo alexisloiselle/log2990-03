@@ -1,6 +1,6 @@
-import { PointCoordinates } from "./point-coordinates";
+import { PointCoordinates } from "./canvas/point-coordinates";
 import { Vector } from "./vector/vector";
-import { TrackEditorModel } from "./track-editor-model";
+import { TrackEditorModel } from "./canvas/track-editor-model";
 
 /* tslint:disable:no-magic-numbers */
 describe("TrackEditorComponent", () => {

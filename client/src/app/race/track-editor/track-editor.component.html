@@ -5,9 +5,7 @@
 
   <div class=row>
     <div id="canvasColumn" class = "col-md">
-      <canvas class="canvas" #canvas id="canvas"  oncontextmenu="return false;" (mouseup)="canvasMouseUp($event)" (mousedown)="canvasMouseDown($event)" (mousemove)="canvasMouseMoved($event)">
-          <!--We add an event binding to the click event-->
-      </canvas>
+      <app-canvas #canvasEditor></app-canvas>
     </div>
     <div id = "infoColumn" class = "col-md">
       <div class="row">
@@ -45,6 +43,8 @@
     </div>
   </div>
 </div>
+
+
 
 
 

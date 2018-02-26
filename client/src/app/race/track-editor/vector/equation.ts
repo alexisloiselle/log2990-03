@@ -1,4 +1,4 @@
-import { PointCoordinates} from "../point-coordinates";
+import { PointCoordinates} from "../canvas/point-coordinates";
 
 export class Equation {
     private slope: number;

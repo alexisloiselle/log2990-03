@@ -20,6 +20,6 @@
 <div *ngIf="error">
     <p class="text-danger">{{error}}</p>
 </div>
-<app-track-editor #trackEditor></app-track-editor>
+<app-canvas #trackEditor></app-canvas>
 <button class="btn btn-lg btn-info" *ngIf="selectedTrack"
 [disabled]="!constraintPass()" (click)="updateMyTrack(selectedTrack)">Update</button>

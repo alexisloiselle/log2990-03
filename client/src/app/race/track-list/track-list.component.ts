@@ -1,19 +1,20 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import {RaceTrack} from "../raceTrack";
 import {TrackService} from "../../track.service";
-import {PointCoordinates} from "../track-editor/point-coordinates";
-import {TrackEditorComponent} from "../track-editor/track-editor.component";
+import {PointCoordinates} from "../track-editor/canvas/point-coordinates";
+import {CanvasComponent} from "../track-editor/canvas/canvas.component";
 
 @Component({
     selector: "app-track-list",
     templateUrl: "./track-list.component.html",
-    styleUrls: ["./track-list.component.css"]
+    styleUrls: ["./track-list.component.css"],
+    providers: [TrackService]
 })
 
 /* tslint:disable no-any */
 export class TrackListComponent implements OnInit {
     @ViewChild("trackEditor")
-    private trackEditor: TrackEditorComponent;
+    private trackEditor: CanvasComponent;
     public tracks: any[];
     public realTracks: RaceTrack[];
     private selectedTrack: RaceTrack;
@@ -72,7 +73,9 @@ export class TrackListComponent implements OnInit {
         return this.trackEditor.allConstraintPass();
     }
     public updateMyTrack(selectedTrack: RaceTrack): void {
-        this.trackService.updateTrack(selectedTrack.id, this.trackEditor.getTrack());
+        let updatedTrack :RaceTrack = selectedTrack;
+        updatedTrack.points = this.trackEditor.myTrackEditorModel.PointArray;
+        this.trackService.updateTrack(selectedTrack.id, updatedTrack);
         this.ngOnInit();
     }
 

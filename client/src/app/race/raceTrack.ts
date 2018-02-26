@@ -1,4 +1,4 @@
-import {PointCoordinates} from "./track-editor/point-coordinates";
+import {PointCoordinates} from "./track-editor/canvas/point-coordinates";
 
 export class RaceTrack {
 
