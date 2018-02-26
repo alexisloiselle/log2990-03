@@ -196,7 +196,7 @@ export class TrackEditorComponent implements OnInit {
         this.trackService.addTrack(this.track);
     }
 
-    public get Track(): RaceTrack {
+    public getTrack(): RaceTrack {
         this.track  = new RaceTrack(this.trackName, this.trackDescription, this.trackType, this.myTrackEditorModel.PointArray);
 
         return this.track;
