@@ -120,9 +120,9 @@ export class TrackEditorComponent implements OnInit {
         if (this.myTrackEditorModel.getPointArrayLength() > 0) {
             for (const point of this.myTrackEditorModel.PointArray) {
                 const ACCEPTED_RADIUS: number = 10;
-                if (this.mouseMovedEvent.layerX >= point.X - ACCEPTED_RADIUS && this.mouseMovedEvent.layerX <=
+                if (this.mouseMovedEvent.offsetX >= point.X - ACCEPTED_RADIUS && this.mouseMovedEvent.offsetX <=
                     point.X + ACCEPTED_RADIUS &&
-                    this.mouseMovedEvent.layerY >= point.Y - ACCEPTED_RADIUS && this.mouseMovedEvent.layerY <=
+                    this.mouseMovedEvent.offsetY >= point.Y - ACCEPTED_RADIUS && this.mouseMovedEvent.offsetY <=
                     point.Y + ACCEPTED_RADIUS) {
                     this.mouseOnPoint(point.X, point.Y);
                     break;
@@ -134,14 +134,14 @@ export class TrackEditorComponent implements OnInit {
     }
 
     public dragNDrop(): void {
-        const mouseCoordinates: PointCoordinates = new PointCoordinates(this.mouseMovedEvent.layerX, this.mouseMovedEvent.layerY);
+        const mouseCoordinates: PointCoordinates = new PointCoordinates(this.mouseMovedEvent.offsetX, this.mouseMovedEvent.offsetY);
         // We identify the point on wich the user clicked
         for (const point of this.myTrackEditorModel.PointArray) {
             const ACCEPTED_RADIUS: number = 15;
-            if (this.mouseMovedEvent.layerX >= point.X - ACCEPTED_RADIUS &&
-                this.mouseMovedEvent.layerX <= point.X + ACCEPTED_RADIUS &&
-                this.mouseMovedEvent.layerY >= point.Y - ACCEPTED_RADIUS &&
-                this.mouseMovedEvent.layerY <= point.Y + ACCEPTED_RADIUS) {
+            if (this.mouseMovedEvent.offsetX >= point.X - ACCEPTED_RADIUS &&
+                this.mouseMovedEvent.offsetX <= point.X + ACCEPTED_RADIUS &&
+                this.mouseMovedEvent.offsetY >= point.Y - ACCEPTED_RADIUS &&
+                this.mouseMovedEvent.offsetY <= point.Y + ACCEPTED_RADIUS) {
                 this.myTrackEditorModel.setPointCoordinates(this.myTrackEditorModel.PointArray.indexOf(point), mouseCoordinates);
             }
         }
