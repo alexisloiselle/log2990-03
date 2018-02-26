@@ -25,7 +25,7 @@ export class TrackEditorComponent implements OnInit {
     private trackDescriptionInput: ElementRef;
     @ViewChild("trackNameInput")
     private trackNameInput: ElementRef;
-    @ViewChild("trackTypeInpu")
+    @ViewChild("trackTypeInput")
     private trackTypeInput: ElementRef;
 
     private ctx: CanvasRenderingContext2D;
@@ -34,11 +34,10 @@ export class TrackEditorComponent implements OnInit {
     // at all times
     private mouseDown: boolean;    // Used for the drag and drop
     private drawingOnCanvas: DrawingOnCanvas;
-    private trackName: string;
     private trackDescription: string;
-    private selectedTrack: RaceTrack;
     private trackType: RaceType;
     private track: RaceTrack;
+    private trackName: string;
 
     public myTrackEditorModel: TrackEditorModel;
 
@@ -174,22 +173,6 @@ export class TrackEditorComponent implements OnInit {
             this.trackEditorConstraintService.lengthBooleanArray(this.myTrackEditorModel.PointArray));
     }
 
-    public get name(): string {
-        return this.name;
-    }
-
-    public set name(name: string) {
-        this.name = name;
-    }
-
-    public get description(): string {
-        return this.description;
-    }
-
-    public set description(description: string) {
-        this.description = description;
-    }
-
     public setTrackName(): void {
         this.trackName = this.trackNameInput.nativeElement.value;
         this.trackType = this.trackTypeInput.nativeElement.value;
@@ -205,8 +188,8 @@ export class TrackEditorComponent implements OnInit {
     }
 
     public addTrack(trackName: string, trackDescription: string, trackType: RaceType, itemsOnTrack:number): void {
-        this.name = trackName;
-        this.description = trackDescription;
+        this.trackName = trackName;
+        this.trackDescription = trackDescription;
         this.trackType = trackType;
         this.track  = new RaceTrack(trackName, trackDescription, trackType, this.myTrackEditorModel.PointArray);
         this.trackService.addTrack(this.track);
@@ -216,6 +199,7 @@ export class TrackEditorComponent implements OnInit {
         this.track  = new RaceTrack(this.trackName, this.trackDescription, this.trackType, this.myTrackEditorModel.PointArray);
         return this.track;
     }
+
     public goBack(): void {
         this.location.back();
     }

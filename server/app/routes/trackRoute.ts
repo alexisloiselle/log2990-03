@@ -64,15 +64,12 @@ module Route {
             require("mongodb").MongoClient.connect(MONGO_URL, function (err: any, db: any): void {
                 // tslint:disable-next-line:no-any
                 const collection: any = db.db("log2990-03-db");
-                console.log(req.body.$set);
-                console.log(JSON.stringify(req.body.$set));
                 collection.collection("tracks").updateOne({ _id: new ObjectId(req.params.id) },
                                                           // tslint:disable-next-line:no-any
                  {$set: {"track": JSON.stringify(req.body.$set)}}, function (updateErr: any, updateDb: any): void {
                                                         
                     const isOk: boolean = updateErr === null;
                     res.send(JSON.stringify(isOk));
-                    console.log(isOk);
                 });
                 db.close();
             });
