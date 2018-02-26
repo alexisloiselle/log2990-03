@@ -9,8 +9,7 @@ import { DefinitionService } from "../services/crossword/definitionService";
 export class DefinitionsComponent implements OnInit {
 
     public constructor(
-        // used in html
-        private defService: DefinitionService
+        protected defService: DefinitionService
     ) { }
 
     public ngOnInit(): void {
