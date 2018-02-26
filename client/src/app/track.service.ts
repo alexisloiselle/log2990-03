@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import {RaceTrack} from "./race/raceTrack";
+import { RaceTrack } from "./race/raceTrack";
 
 @Injectable()
 export class TrackService {
@@ -27,15 +27,16 @@ export class TrackService {
             .toPromise()
             .then((response) => {
 
-                return (response); })
+                return (response);
+            })
             .catch(this.handleError);
     }
 
     public async addTrack(track: RaceTrack): Promise<boolean> {
         // tslint:disable-next-line:no-any
-        const body: any = { track : JSON.stringify(track)};
+        const body: any = { track: JSON.stringify(track) };
 
-        return  this.http.post(this.baseUrl + "/add", body)
+        return this.http.post(this.baseUrl + "/add", body)
             .toPromise()
             .then((response) => response as boolean)
             .catch(this.handleError);
