@@ -5,14 +5,20 @@ import { FormattedGrid } from "../../formatted-grid";
 @Injectable()
 export class CrosswordService {
 
-    public serverUrl: string = "http://localhost:3000/api/";
+    private serverUrl: string = "http://localhost:3000/api/";
+    private fGrid: FormattedGrid;
 
     public constructor(private http: HttpClient) {}
 
-    public generateGrid(difficulty: string): Promise<FormattedGrid> {
-        console.log(`${this.serverUrl}crossword/${difficulty}`);
-        return this.http.get(`${this.serverUrl}crossword/${difficulty}`)
+    public async generateGrid(difficulty: string): Promise<void> {
+        this.fGrid = await this.http.get(`${this.serverUrl}crossword/${difficulty}`)
             .toPromise()
             .then((data: any) => data as FormattedGrid);
     }
+
+    
+    public get FGrid() : FormattedGrid {
+        return this.fGrid;
+    }
+    
 }

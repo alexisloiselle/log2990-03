@@ -1,0 +1,23 @@
+<ul>
+  <div class="row">
+    <div *ngFor="let line of crosswordService.FGrid.letters">
+      <li *ngIf="crosswordService.FGrid.letters.indexOf(line)===0" class="case"></li>
+      <li class="case">{{crosswordService.FGrid.letters.indexOf(line)+1}}</li>
+    </div>
+  </div>
+  <div *ngFor="let line of crosswordService.FGrid.letters; let i  = index" class="row">
+    <li class="case">{{crosswordService.FGrid.letters.indexOf(line)+1}}</li>
+    <div *ngFor="let letter of line; let j = index">
+      <li *ngIf="letter === ''" class="case bordercase blackCase"></li>
+      <li *ngIf="letter !== ''" class="case bordercase letterCase">
+        <input id="{{i}}{{j}}" type="text" [ngClass]="{
+                        'whiteCaseInput': true,
+                        'canSelect': true,
+                        'selected': isCaseOfSelectedWord(i,j),
+                        'placed': letterGrid[i][j].IsPlaced
+                      }" maxlength="1" (keydown)="inputService.handleKey($event, i, j )" (click)="selectWordFromCase(i, j)"
+          [(value)]="letterGrid[i][j].Letter" #case />
+      </li>
+    </div>
+  </div>
+</ul>

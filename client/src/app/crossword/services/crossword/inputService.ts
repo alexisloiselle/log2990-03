@@ -34,25 +34,26 @@ export class InputService {
     }
 
     public handleKey(event: any, i: number, j: number): boolean {
+        event.preventDefault();
         const letter = String.fromCharCode(event.keyCode);
-        console.log(event);
-        if(this.isLetter(event.keyCode)){
-            console.log('letter input');
-            this.letterInputSub.next({letter ,i, j});
-            return true;
-        } else if (this.isBackspace(event.keyCode)){
-            console.log('backspace input');
-            this.backspaceInputSub.next({i, j});
-            return true;
-        } else if (this.isArrow(event.keyCode)) {
-            console.log('arrow input');
-            let keyCode = event.keyCode;
-            this.arrowInputSub.next({keyCode, i, j});
-            return true;
-        } else if (this.isEnter(event.keyCode)) {
-            this.enterInputSub.next({});
+
+        switch (true) {
+            case this.isLetter(event.keyCode):
+                this.letterInputSub.next({ letter, i, j });
+                return true;
+            case this.isBackspace(event.keyCode):
+                this.backspaceInputSub.next({ i, j });
+                return true;
+            case this.isArrow(event.keyCode):
+                let keyCode = event.keyCode;
+                this.arrowInputSub.next({ keyCode, i, j });
+                return true;
+            case this.isEnter(event.keyCode):
+                this.enterInputSub.next({});
+                return true;
+            default:
+                return false;
         }
-        return false;
     }
 
     private isLetter(keyCode: number): boolean {

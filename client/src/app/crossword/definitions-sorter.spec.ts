@@ -1,4 +1,4 @@
-import { DefintionsSorter } from "./definitions-sorter";
+import { DefinitionsSorter } from "./definitions-sorter";
 import { FormattedGrid } from "./formatted-grid";
 import { Word } from "./word";
 
@@ -42,7 +42,7 @@ describe("DefinitionSorter", () => {
         position: { x: 4, y: 5 }
     });
 
-    const defitionsSorter: DefintionsSorter = new DefintionsSorter(fGrid);
+    const defitionsSorter: DefinitionsSorter = new DefinitionsSorter(fGrid);
 
     const word1: Word = new Word("foo", "foo-def", true, 3, 4);
     const word2: Word = new Word("bar", "bar-def", true, 1, 1);

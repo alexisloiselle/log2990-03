@@ -1,71 +1,15 @@
 <div id="difficultyTitle">Difficulty : {{difficulty}}</div>
-<div id="changeDifficulty">
-  <a routerLink="/single-player">Change difficulty</a>
-</div>
-<div id="cheatMode">
-  Cheat Mode
-  <button *ngIf="isCheatModeOn == false" type="button" class="btn btn-outline-primary  cheatModeOff" (click)="isCheatModeOn = true">
-    Cheat Mode Off
-  </button>
-  <button *ngIf="isCheatModeOn == true" type="button" class="btn btn-outline-primary  cheatModeOn" (click)="isCheatModeOn = false">
-    Cheat Mode On
-  </button>
-</div>
-<div id="all">
-  <div id="crossword">
-    <ul>
-      <div class="row">
-        <div *ngFor="let line of fGrid.letters">
-          <li *ngIf="fGrid.letters.indexOf(line)===0" class="case"></li>
-          <li class="case">{{fGrid.letters.indexOf(line)+1}}</li>
-        </div>
-      </div>
-      <div *ngFor="let line of fGrid.letters; let i  = index" class="row">
-        <li class="case">{{fGrid.letters.indexOf(line)+1}}</li>
-        <div *ngFor="let letter of line; let j = index">
-          <li *ngIf="letter === ''" class="case bordercase blackCase"></li>
-          <li *ngIf="letter !== ''" class="case bordercase letterCase">
-            <input id="{{i}}{{j}}" type="text" [ngClass]="{
-                      'whiteCaseInput': true,
-                      'canSelect': true,
-                      'selected': isCaseOfSelectedWord(i,j),
-                      'placed': letterGrid[i][j].IsPlaced
-                    }" 
-                    maxlength="1"
-                    (keydown)="inputService.handleKey($event, i, j ); $event.preventDefault()"
-                    (click)="selectWordFromCase(i, j)"
-                    [(value)]="letterGrid[i][j].Letter"
-              #case />
-          </li>
-        </div>
-      </div>
-    </ul>
-
-  </div>
-  <div id="definitions">
-    <div class="definition-container">
-      Horizontal Words:
-      <ul>
-        <div *ngFor="let word of horizontalWords" (click)="defService.handleClickDef(word);" [ngClass]="{
-                    'definition': true,
-                    'selected': isDefOfSelectedWord(word),
-                    'placed': word.IsPlaced
-                  }">
-          <p class="canSelect"> {{word.Line + 1}} : {{isCheatModeOn ? word.Word : word.Def}}</p>
-        </div>
-      </ul>
+<a class="btn btn-outline-primary" routerLink="/single-player">Change difficulty</a>
+<button type="button" class="btn btn-outline-primary" (click)="defService.isCheatModeOn = !defService.isCheatModeOn">
+  {{defService.isCheatModeOn ? 'Disable Cheat Mode' : 'Enable Cheat Mode'}}
+</button>
+<div *ngIf="isConfigured">
+  <div class="row">
+    <div id="crossword" class="col-sm-5">
+      <app-grid></app-grid>
     </div>
-    <div class="definition-container">
-      Vertical Words:
-      <ul>
-        <div *ngFor="let word of verticalWords" (click)="defService.handleClickDef(word);" [ngClass]="{
-                  'definition': true,
-                  'selected': isDefOfSelectedWord(word),
-                  'placed': word.IsPlaced
-                }">
-          <p class="canSelect">{{word.Column + 1}} : {{isCheatModeOn ? word.Word : word.Def}}</p>
-        </div>
-      </ul>
+    <div id="definitions" class="col-sm-7">
+      <app-definitions></app-definitions>
     </div>
   </div>
 </div>
