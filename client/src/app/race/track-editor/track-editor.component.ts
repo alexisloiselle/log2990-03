@@ -66,7 +66,7 @@ export class TrackEditorComponent implements OnInit {
         const leftClick: number = 0;
         const rightClick: number = 2;
         this.mouseDown = false;
-        const mouseCoordinates: PointCoordinates = new PointCoordinates(event.layerX, event.layerY);
+        const mouseCoordinates: PointCoordinates = new PointCoordinates(event.offsetX, event.offsetY);
         // If it's a left click and the loop is not closed
         if (event.button === leftClick && !this.myTrackEditorModel.loopIsClosed()) {
             this.canvasDrawPoint(mouseCoordinates);
