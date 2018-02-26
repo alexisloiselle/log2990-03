@@ -47,7 +47,7 @@ export class GridComponent implements OnInit {
     }
 
     // used in html
-    private isCaseOfSelectedWord(i: number, j: number): boolean {
+    protected isCaseOfSelectedWord(i: number, j: number): boolean {
         if (this.defService.SelectedWord === undefined) {
             return false;
         }
@@ -56,7 +56,7 @@ export class GridComponent implements OnInit {
     }
 
     // used in html
-    private selectWordFromCase(i: number, j: number): void {
+    protected selectWordFromCase(i: number, j: number): void {
         for (const word of this.defService.HorizontalWords) {
             if (Word.isPartOfWord(word, i, j)) {
                 this.defService.handleClickDef(word);
@@ -141,11 +141,11 @@ export class GridComponent implements OnInit {
     private placeWord(): void {
         let i: number = this.defService.SelectedWord.Line;
         let j: number = this.defService.SelectedWord.Column;
-        for (const letter of this.defService.SelectedWord.Word.split("")) {
+        this.defService.SelectedWord.Word.split("").forEach(() => {
             this.letterGrid[i][j].IsPlaced = true;
             i = this.defService.SelectedWord.IsHorizontal ? i : i + 1;
             j = this.defService.SelectedWord.IsHorizontal ? j + 1 : j;
-        }
+        });
         this.defService.SelectedWord.IsPlaced = true;
     }
 
