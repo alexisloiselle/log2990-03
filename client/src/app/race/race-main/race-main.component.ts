@@ -15,9 +15,9 @@ export class RaceMainComponent implements OnInit {
 
     public ngOnInit(): void { }
 
-    public validate(passwordInput: string, userName: string): void {
+    public async validate(passwordInput: string, userName: string): Promise<void> {
         if (userName === "admin") {
-            this.authService.connect(passwordInput).then((isOk) => this.grantAccess(isOk));
+            await this.authService.connect(passwordInput).then((isOk) => this.grantAccess(isOk));
         } else {
             this.grantAccess(false);
         }

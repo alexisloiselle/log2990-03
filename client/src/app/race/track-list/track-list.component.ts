@@ -31,9 +31,9 @@ export class TrackListComponent implements OnInit {
 
     }
 
-    public ngOnInit(): void {
+    public async ngOnInit(): Promise<void> {
         this.parsedTracks = [];
-        this.getTracks();
+        await this.getTracks();
         this.error = undefined;
     }
 
@@ -73,18 +73,18 @@ export class TrackListComponent implements OnInit {
     public constraintPass(): boolean {
         return this.trackEditor.allConstraintPass();
     }
-    public updateMyTrack(selectedTrack: RaceTrack): void {
+    public async updateMyTrack(selectedTrack: RaceTrack): Promise<void> {
         const updatedTrack: RaceTrack = selectedTrack;
         updatedTrack.points = this.trackEditor.myTrackEditorModel.PointArray;
         updatedTrack.name = this.trackNameInput.nativeElement.value;
         updatedTrack.description = this.trackDescriptionInput.nativeElement.value;
         updatedTrack.type = this.trackTypeInput.nativeElement.value;
-        this.trackService.updateTrack(selectedTrack.id, updatedTrack);
+        await this.trackService.updateTrack(selectedTrack.id, updatedTrack);
         this.ngOnInit();
     }
 
-    public deleteTrack(track: RaceTrack): void {
-        this.trackService.deleteTrack(track.id).then((isOk) => this.onSuccess(isOk));
+    public async deleteTrack(track: RaceTrack): Promise<void> {
+        await this.trackService.deleteTrack(track.id).then((isOk) => this.onSuccess(isOk));
     }
 
     public onSuccess(isOk: boolean): void {

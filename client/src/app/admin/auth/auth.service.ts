@@ -18,7 +18,7 @@ export class AuthService {
         return this.isAdminValue;
     }
 
-    public connect(password: string): Promise<boolean> {
+    public async connect(password: string): Promise<boolean> {
         // tslint:disable-next-line:no-any
         const body: any = { password: password };
 
@@ -54,7 +54,7 @@ export class AuthService {
 
     // tslint:disable-next-line:typedef
     // tslint:disable-next-line:no-any
-    private handleError(error: any): Promise<any> {
+    private async handleError(error: any): Promise<any> {
         console.error("An error occurred", error);
 
         return Promise.reject(error.message || error);
