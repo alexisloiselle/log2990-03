@@ -1,11 +1,11 @@
 <h2>Pistes</h2>
-<div class="list-group">
+<div class="list-group" >
   <ul class="tracks">
-    <li *ngFor="let track of realTracks"
+    <li *ngFor="let track of parsedTracks"
       [class.selected]="track === selectedTrack"
       (click)="onSelectTrack(track)">
        {{track.name}} 
-       <button class="btn btn-lg btn-warning" type="button" (click)= "deleteTrack(track)" role="button"> x </button>
+       <button class="btn btn-sm btn-warning" type="button" (click)= "deleteTrack(track)" role="button"> x </button>
      </li>
   </ul>
 </div>
@@ -13,13 +13,44 @@
   {{selectedTrack.name}}
   {{selectedTrack.description}}
 </div>
-<div *ngIf="!tracks || tracks.lenght === 0" class="panel panel-danger" >
+<div *ngIf="!parsedTracks || parsedTracks.lenght === 0" class="panel panel-danger" >
   <h4>Pas de pistes disponibles pour l'instant. Seul un administrateur peut en créer.</h4>
 </div>
 
 <div *ngIf="error">
     <p class="text-danger">{{error}}</p>
 </div>
-<app-track-editor #trackEditor></app-track-editor>
-<button class="btn btn-lg btn-info" *ngIf="selectedTrack"
-[disabled]="!constraintPass()" (click)="updateMyTrack(selectedTrack)">Update</button>
+
+<div id="container">
+  <div  class="row">
+    <div class="col-md">
+      <app-canvas #trackEditor></app-canvas>
+    </div>
+
+
+
+
+    <div *ngIf= "selectedTrack" class="col-md">
+      <p> Name:
+        <input type="text" [disabled] = "!constraintPass()" [value]="selectedTrack.name" 
+          class="form-control" #trackNameInput>
+      </p>
+
+
+      <p>Description:
+        <input type="text" [disabled] = "!constraintPass()" [value]="selectedTrack.description"
+        class="form-control" #trackDescriptionInput>
+      </p>
+      <div class="niveau">
+        <p> Niveau :
+          <select class="form-control" #trackTypeInput> 
+            <option value="Amateur" [selected]="selectedTrack.type=='Amateur'"> Amateur</option>
+            <option value="Professionnel" [selected]="selectedTrack.type=='Professionnel'"> Professionnel</option>
+          </select>
+        </p>
+      </div>
+      <button class="btn btn-lg btn-info" *ngIf="selectedTrack"
+      [disabled]="!constraintPass()" (click)="updateMyTrack(selectedTrack)">Update</button>
+    </div>
+  </div>
+</div>

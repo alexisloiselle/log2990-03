@@ -1,4 +1,4 @@
-import { PointCoordinates } from "../point-coordinates";
+import { PointCoordinates } from "../canvas/point-coordinates";
 import { Domain } from "./domain";
 import { Equation } from "./equation";
 

@@ -29,6 +29,7 @@ import { ChangePasswordComponent } from "./admin/change-password/change-password
 import { PasswordFormComponent } from "./admin/auth/password-form/password-form.component";
 import {AuthService} from "./admin/auth/auth.service";
 import { TrackService } from "./track.service";
+import { CanvasComponent } from './race/track-editor/canvas/canvas.component';
 
 @NgModule({
     declarations: [
@@ -46,7 +47,8 @@ import { TrackService } from "./track.service";
         GridComponent,
         AdminComponent,
         ChangePasswordComponent,
-        PasswordFormComponent
+        PasswordFormComponent,
+        CanvasComponent
     ],
     imports: [
         BrowserModule,
