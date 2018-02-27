@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 
 @Component({
     selector: "app-multiplayer-menu",
@@ -7,9 +8,17 @@ import { Component, OnInit } from "@angular/core";
 })
 export class MultiplayerMenuComponent implements OnInit {
 
-    public constructor() { }
+    public constructor(private router: Router) { }
 
     public ngOnInit(): void {
+    }
+
+    public goToCreateGame(): void {
+        this.router.navigateByUrl("create-game");
+    }
+
+    public goToJoinGame(): void {
+        this.router.navigateByUrl("join-game");
     }
 
 }
