@@ -17,6 +17,10 @@ export class CrosswordService {
             .then((data: FormattedGrid) => data);
     }
 
+    public async createGame(gameName: string): Promise<boolean> {
+        const body: any = { gameName: gameName};
+    }
+
     public get FGrid(): FormattedGrid {
         return this.fGrid;
     }

@@ -1,6 +1,10 @@
 <div id="createAGame">
-  Create a game
+  <h1 id="pageTitle">Create a game</h1>
   <div id="createAGameForm">
+    Username:
+    <input type="text" (keyup)="updateUsername($event)" />
+    {{userName}}
+    <br>
     Game name:
     <input type="text" (keyup)="updateGameName($event)"/>
     <p *ngIf="nameAlreadyUsed" id="nameAlreadyUsed">Name already exist!</p>
