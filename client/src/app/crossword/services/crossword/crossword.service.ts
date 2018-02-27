@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { FormattedGrid } from "../../formatted-grid";
+import { Difficulty } from "../../../../../../common/difficulty";
 
 @Injectable()
 export class CrosswordService {
@@ -10,7 +11,7 @@ export class CrosswordService {
 
     public constructor(private http: HttpClient) { }
 
-    public async generateGrid(difficulty: string): Promise<void> {
+    public async generateGrid(difficulty: Difficulty): Promise<void> {
         this.fGrid = await this.http.get(`${this.serverUrl}crossword/${difficulty}`)
             .toPromise()
             .then((data: FormattedGrid) => data);

@@ -27,4 +27,34 @@ describe("PasswordFormComponent", () => {
     it("should create", () => {
         expect(component).toBeTruthy();
     });
+
+    describe("Valid Password", () => {
+
+         it("should be false", () => {
+            component.password = "password";
+            component.validatePassword("passfake");
+            expect(component.validPassword).toBeFalsy();
+         });
+
+         it("should be true", () => {
+            component.password = "password";
+            component.validatePassword("password");
+            expect(component.validPassword).toBeTruthy();
+         });
+
+    });
+    describe("Valid Password", () => {
+
+        it("should be true", () => {
+            component.password = "password";
+            component.validatePassword("password");
+            expect(component.error).toBeFalsy();
+        });
+
+        it("should be true", () => {
+            component.password = "password";
+            component.validatePassword("passfake");
+            expect(component.error).toBeTruthy();
+        });
+    });
 });

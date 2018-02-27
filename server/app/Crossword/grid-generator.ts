@@ -6,10 +6,11 @@ import { Grid } from "./grid";
 import { GridScanner } from "./grid-scanner";
 import { Word } from "./word";
 import { WordPlacer } from "./word-placer";
+import { Difficulty } from "../../../common/difficulty";
 
 export class GridGenerator {
 
-    public static generateGrid(height: number, width: number, difficulty: string): Promise<Grid> {
+    public static async generateGrid(height: number, width: number, difficulty: Difficulty): Promise<Grid> {
         let words: Word[] = [];
         let grid: Case[][];
         const BLACK_CASE_PERCENTAGE: number = 38;
@@ -26,7 +27,7 @@ export class GridGenerator {
             constraintsQueue.push(words[0]);
 
             const wordPlacer: WordPlacer = new WordPlacer();
-            const isUncommon: boolean = difficulty === "hard" ? true : false;
+            const isUncommon: boolean = difficulty === Difficulty.Hard ? true : false;
             wordPlacer.fitWord(grid, constraintsQueue, words, 0, isUncommon);
 
             words = GridScanner.findWords(grid);

@@ -14,7 +14,6 @@ module Route {
 
         public async getGrid(req: Request, res: Response, next: NextFunction): Promise<void> {
             const DIMENSION: number = 10;
-            console.log("entered in get crossword on server");
             this.grid = await GridGenerator.generateGrid(DIMENSION, DIMENSION, req.params.difficulty);
             const letters: string[][] = this.grid.Cases.map((line: Case[]) => {
                 return line.map((position: Case) => {

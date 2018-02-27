@@ -4,7 +4,6 @@ import {TrackService} from "../../track.service";
 import {PointCoordinates} from "../track-editor/canvas/point-coordinates";
 import {CanvasComponent} from "../track-editor/canvas/canvas.component";
 
-
 @Component({
     selector: "app-track-list",
     templateUrl: "./track-list.component.html",
@@ -29,7 +28,7 @@ export class TrackListComponent implements OnInit {
     public error: string;
 
     public constructor(private trackService: TrackService) {
-        
+
     }
 
     public ngOnInit(): void {
@@ -75,7 +74,7 @@ export class TrackListComponent implements OnInit {
         return this.trackEditor.allConstraintPass();
     }
     public updateMyTrack(selectedTrack: RaceTrack): void {
-        let updatedTrack :RaceTrack = selectedTrack;
+        const updatedTrack: RaceTrack = selectedTrack;
         updatedTrack.points = this.trackEditor.myTrackEditorModel.PointArray;
         updatedTrack.name = this.trackNameInput.nativeElement.value;
         updatedTrack.description = this.trackDescriptionInput.nativeElement.value;

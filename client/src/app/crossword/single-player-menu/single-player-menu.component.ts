@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { Difficulty } from "../../../../../common/difficulty";
 
 @Component({
     selector: "app-single-player-menu",
@@ -8,7 +9,7 @@ import { Router } from "@angular/router";
 })
 export class SinglePlayerMenuComponent implements OnInit {
 
-    public difficulty: string;
+    public difficulty: Difficulty;
 
     public constructor(private router: Router) {
     }
@@ -16,7 +17,7 @@ export class SinglePlayerMenuComponent implements OnInit {
     public ngOnInit(): void { }
 
     public goToGame(difficulty: string): void {
-        this.difficulty = difficulty;
+        this.difficulty = difficulty as Difficulty;
         document.getElementById("test").innerHTML = this.difficulty;
         this.router.navigate(["single-player-game", this.difficulty]);
     }

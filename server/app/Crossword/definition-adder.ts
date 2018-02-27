@@ -1,6 +1,8 @@
 import { Case } from "./case";
 import { Word, Direction } from "./word";
+import { Difficulty } from "../../../common/difficulty";
 import * as request from "request";
+import { API_URL, DEFS_PARAMS } from "../config";
 
 export class DefinitionAdder {
 
@@ -19,17 +21,16 @@ export class DefinitionAdder {
         }
     }
 
-    public static async addDefinitions(words: Word[], difficulty: string): Promise<boolean> {
+    public static async addDefinitions(words: Word[], difficulty: Difficulty): Promise<boolean> {
         for (const wordInfo of words) {
-            //mettre url dans config
-            const url: string = `http://localhost:3000/api/lexicon/definition/${wordInfo.Word}`;
+            const url: string = `${API_URL}${DEFS_PARAMS}/${wordInfo.Word}`;
             const definitions: string[] = await new Promise<string[]>((resolve: Function) => {
                 // tslint:disable-next-line:no-any
                 request(url, (error: any, response: any, body: any) => {
                     resolve(JSON.parse(body));
                 });
             });
-            wordInfo.Definition = difficulty === "easy" || definitions.length <= 1 ? definitions[0] : definitions[1];
+            wordInfo.Definition = difficulty === Difficulty.Easy || definitions.length <= 1 ? definitions[0] : definitions[1];
         }
 
         return true;

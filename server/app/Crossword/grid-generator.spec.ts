@@ -3,11 +3,12 @@ import { } from "jasmine";
 import { expect } from "chai";
 import { Grid } from "./grid";
 import { GridGenerator } from "./grid-generator";
+import { Difficulty } from "../../../common/difficulty";
 
 describe("grid", () => {
     it("should generate a grid", async () => {
         const DIMENSION: number = 10;
-        const grid: Grid = await GridGenerator.generateGrid(DIMENSION, DIMENSION, "easy");
+        const grid: Grid = await GridGenerator.generateGrid(DIMENSION, DIMENSION, Difficulty.Easy);
         expect(grid).to.be.an("Object");
 
         for (const row of grid.Cases) {
