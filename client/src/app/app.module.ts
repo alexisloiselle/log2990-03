@@ -8,8 +8,8 @@ import { GameComponent } from "./race/game-component/game.component";
 import { RenderService } from "./render-service/render.service";
 import { BasicService } from "./basic.service";
 import { CrosswordService } from "./crossword/services/crossword/crossword.service";
-import { InputService } from "./crossword/services/crossword/inputService";
-import { DefinitionService } from "./crossword/services/crossword/definitionService";
+import { InputService } from "./crossword/services/crossword/input.service";
+import { DefinitionService } from "./crossword/services/crossword/definition.service";
 import { TrackEditorComponent } from "./race/track-editor/track-editor.component";
 
 import { GameService} from "./game.service";

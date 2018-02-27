@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { DefinitionService } from "../services/crossword/definitionService";
+import { DefinitionService } from "../services/crossword/definition.service";
 
 @Component({
     selector: "app-definitions",

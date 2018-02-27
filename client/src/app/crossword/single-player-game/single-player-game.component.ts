@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { CrosswordService } from "../services/crossword/crossword.service";
-import { DefinitionService } from "../services/crossword/definitionService";
+import { DefinitionService } from "../services/crossword/definition.service";
 
 @Component({
     selector: "app-single-player-game",
