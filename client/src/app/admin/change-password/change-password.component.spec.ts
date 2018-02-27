@@ -27,4 +27,24 @@ describe("ChangePasswordComponent", () => {
     it("should create", () => {
         expect(component).toBeTruthy();
     });
+
+    describe("Error", () => {
+
+        it("should be equal to Erreur de modification du mot de passe", () => {
+            component.onSuccess(false);
+            expect(component.error).toMatch("Erreur de modification du mot de passe");
+        });
+
+        it("should be undefinied", () => {
+            component.changePassword("1234", "1234");
+            expect(component.error).toBeUndefined();
+        });
+
+        it("should be undefinied", () => {
+            component.changePassword("1232", "1234");
+            expect(component.error).toMatch("Les mots de passe ne sont pas les memes");
+        });
+
+    });
+
 });
