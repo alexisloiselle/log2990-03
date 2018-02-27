@@ -17,6 +17,8 @@ export class TrackService {
                 const tracks: any[] = [];
                 tracks.push(response);
 
+                console.log(tracks);
+
                 return tracks;
             })
             .catch(this.handleError);

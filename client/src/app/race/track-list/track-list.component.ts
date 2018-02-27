@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
-import {RaceTrack} from "../raceTrack";
-import {TrackService} from "../../track.service";
-import {PointCoordinates} from "../track-editor/canvas/point-coordinates";
-import {CanvasComponent} from "../track-editor/canvas/canvas.component";
+import { RaceTrack } from "../raceTrack";
+import { TrackService } from "../../track.service";
+import { PointCoordinates } from "../track-editor/canvas/point-coordinates";
+import { CanvasComponent } from "../track-editor/canvas/canvas.component";
 
 @Component({
     selector: "app-track-list",
@@ -11,7 +11,6 @@ import {CanvasComponent} from "../track-editor/canvas/canvas.component";
     providers: [TrackService]
 })
 
-/* tslint:disable no-any */
 export class TrackListComponent implements OnInit {
     @ViewChild("trackEditor")
     private trackEditor: CanvasComponent;
@@ -21,6 +20,7 @@ export class TrackListComponent implements OnInit {
     private trackNameInput: ElementRef;
     @ViewChild("trackTypeInput")
     private trackTypeInput: ElementRef;
+    // tslint:disable-next-line:no-any
     public unparsedTracks: any[];
     public parsedTracks: RaceTrack[];
     private selectedTrack: RaceTrack;
@@ -37,7 +37,7 @@ export class TrackListComponent implements OnInit {
         this.error = undefined;
     }
 
-    public set SelectTrack(track: RaceTrack) {
+    public set SelectedTrack(track: RaceTrack) {
         this.selectedTrack = track;
     }
 
@@ -70,9 +70,11 @@ export class TrackListComponent implements OnInit {
         this.trackEditor.myTrackEditorModel.PointArray = newPointArray;
         this.trackEditor.redrawCanvas();
     }
+
     public constraintPass(): boolean {
         return this.trackEditor.allConstraintPass();
     }
+
     public async updateMyTrack(selectedTrack: RaceTrack): Promise<void> {
         const updatedTrack: RaceTrack = selectedTrack;
         updatedTrack.points = this.trackEditor.myTrackEditorModel.PointArray;

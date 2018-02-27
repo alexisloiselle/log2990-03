@@ -17,10 +17,10 @@ export class ChangePasswordComponent implements OnInit {
     public ngOnInit(): void {
     }
 
-    public changePassword(password: string, confirmPassword: string): void {
+    public async changePassword(password: string, confirmPassword: string): Promise<void> {
         if (password === confirmPassword) {
             this.error = undefined;
-            this.authService.changePassword(password).then((isOk) => this.onSuccess(isOk));
+            await this.authService.changePassword(password).then((isOk) => this.onSuccess(isOk));
         } else {
             this.error = "Les mots de passe ne sont pas les memes";
         }
