@@ -3,6 +3,7 @@ import { DefinitionService } from "../services/crossword/definition.service";
 import { ActivatedRoute } from "@angular/router";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/observable/of";
+import { Difficulty } from "../../../../../common/difficulty";
 
 // tslint:disable-next-line:no-any
 const crosswordService: any = {
@@ -325,7 +326,7 @@ class MockActivatedRoute extends ActivatedRoute {
     public constructor() {
         super();
         this.params = Observable.of({
-            difficulty: "mock"
+            difficulty: Difficulty.Mock
         });
     }
 }

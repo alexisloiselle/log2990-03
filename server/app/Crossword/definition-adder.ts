@@ -1,5 +1,6 @@
 import { Case } from "./case";
 import { Word, Direction } from "./word";
+import { Difficulty } from "../../../common/difficulty";
 import * as request from "request";
 
 export class DefinitionAdder {
@@ -19,7 +20,7 @@ export class DefinitionAdder {
         }
     }
 
-    public static async addDefinitions(words: Word[], difficulty: string): Promise<boolean> {
+    public static async addDefinitions(words: Word[], difficulty: Difficulty): Promise<boolean> {
         for (const wordInfo of words) {
             //mettre url dans config
             const url: string = `http://localhost:3000/api/lexicon/definition/${wordInfo.Word}`;
@@ -29,7 +30,7 @@ export class DefinitionAdder {
                     resolve(JSON.parse(body));
                 });
             });
-            wordInfo.Definition = difficulty === "easy" || definitions.length <= 1 ? definitions[0] : definitions[1];
+            wordInfo.Definition = difficulty === Difficulty.Easy || definitions.length <= 1 ? definitions[0] : definitions[1];
         }
 
         return true;
