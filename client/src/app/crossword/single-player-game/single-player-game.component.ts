@@ -11,13 +11,15 @@ import { DefinitionService } from "../services/crossword/definition.service";
 export class SinglePlayerGameComponent implements OnInit {
 
     public difficulty: string;
-    public isConfigured: boolean = false;
+    public isConfigured: boolean;
 
     public constructor(
         private crosswordService: CrosswordService,
         private defService: DefinitionService,
         private route: ActivatedRoute
-    ) { }
+    ) {
+        this.isConfigured = false;
+    }
 
     public async ngOnInit(): Promise<void> {
         this.route.params.subscribe((params) => {
