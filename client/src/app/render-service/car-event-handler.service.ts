@@ -1,4 +1,3 @@
-// import { Injectable } from "@angular/core";
 import { Car } from "../race/car/car";
 import { PerspectiveCamera } from "three";
 
@@ -15,7 +14,6 @@ const UNZOOM_LIMIT: number = 0.6;
 let zoomFactor: number = INITIAL_ZOOM_FACTOR;
 let unzoomFactor: number = INITIAL_ZOOM_FACTOR;
 
-// @Injectable() WE DON'T NEED IT BECAUSE NOTHING IS INJECTED TO THIS SERVICE
 export class CarEventHandlerService {
     public constructor() { }
 

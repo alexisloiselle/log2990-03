@@ -42,7 +42,6 @@ export class TrackEditorComponent implements OnInit {
     }
 
     public allConstraintPass(): boolean {
-        console.log( this.canvasRef.allConstraintPass());
         return this.canvasRef.allConstraintPass();
     }
 
