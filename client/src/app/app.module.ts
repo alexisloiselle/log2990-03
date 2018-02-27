@@ -32,6 +32,7 @@ import { TrackService } from "./track.service";
 import { CanvasComponent } from "./race/track-editor/canvas/canvas.component";
 import { JoinGameComponent } from "./crossword/join-game/join-game.component";
 import { CreateGameComponent } from "./crossword/create-game/create-game.component";
+import { CanvasComponent } from "./race/track-editor/canvas/canvas.component";
 
 @NgModule({
     declarations: [

@@ -1,9 +1,7 @@
 import { TestBed, inject } from "@angular/core/testing";
-import { XHRBackend } from "@angular/http";
 
 import { InputService } from "./input.service";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { MockBackend } from "@angular/http/testing";
 
 // disable magic-numbers to test
 // tslint:disable:no-magic-numbers
@@ -12,7 +10,6 @@ describe("InputService", () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [InputService,
-                  { provide: XHRBackend, useClass: MockBackend }]
     });
   });
 
