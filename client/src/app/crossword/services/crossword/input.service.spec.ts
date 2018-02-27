@@ -9,7 +9,7 @@ describe("InputService", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [InputService,
+      providers: [InputService]
     });
   });
 
