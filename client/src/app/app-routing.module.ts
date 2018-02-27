@@ -13,8 +13,9 @@ import { SinglePlayerGameComponent } from "./crossword/single-player-game/single
 import { AdminComponent } from "./admin/admin/admin.component";
 import { ChangePasswordComponent } from "./admin/change-password/change-password.component";
 import { PasswordFormComponent } from "./admin/auth/password-form/password-form.component";
-import { JoinGameComponent } from "./crossword/join-game/join-game.component";
-import { CreateGameComponent } from "./crossword/create-game/create-game.component";
+import { JoinGameComponent } from "./crossword/multiplayer/join-game/join-game.component";
+import { CreateGameComponent } from "./crossword/multiplayer/create-game/create-game.component";
+import { MultiplayerGameComponent } from "./crossword/multiplayer/multiplayer-game/multiplayer-game.component";
 
 const routes: Routes = [
     { path: "", redirectTo: "/homepage", pathMatch: "full" },
@@ -31,7 +32,8 @@ const routes: Routes = [
     { path: "single-player-game/:difficulty", component: SinglePlayerGameComponent },
     { path: "multiplayer", component: MultiplayerMenuComponent },
     { path: "join-game", component: JoinGameComponent },
-    { path: "create-game", component: CreateGameComponent}
+    { path: "create-game", component: CreateGameComponent},
+    { path: "multiplayer-game/:game-name", component: MultiplayerGameComponent}
 ];
 
 @NgModule({

@@ -4,22 +4,29 @@ import { GridGenerator } from "../Crossword/grid-generator";
 import { Grid } from "../Crossword/grid";
 import { Case } from "../Crossword/case";
 import { Word, Direction } from "../Crossword/word";
+import { ICrosswordGame, ICrosswordGameInfo, IWords } from "./crossword-game";
+import { MongoClient } from "mongodb";
 
 module Route {
+    const MONGO_URL: string = "mongodb://admin:password@ds233218.mlab.com:33218/log2990-03-db";
 
     @injectable()
     export class CrosswordRoute {
 
         private grid: Grid;
 
-        public async getGrid(req: Request, res: Response, next: NextFunction): Promise<void> {
-            const DIMENSION: number = 10;
-            this.grid = await GridGenerator.generateGrid(DIMENSION, DIMENSION, req.params.difficulty);
-            const letters: string[][] = this.grid.Cases.map((line: Case[]) => {
+        private createLetters(grid: Grid): string[][] {
+            return grid.Cases.map((line: Case[]) => {
                 return line.map((position: Case) => {
                     return position.RightLetter;
                 });
             });
+        }
+
+        public async getGrid(req: Request, res: Response, next: NextFunction): Promise<void> {
+            const DIMENSION: number = 10;
+            this.grid = await GridGenerator.generateGrid(DIMENSION, DIMENSION, req.params.difficulty);
+            const letters: string[][] = this.createLetters(this.grid);
 
             const wordsAndDefs: {
                 word: string,
@@ -36,6 +43,35 @@ module Route {
             });
 
             res.send({ letters, words: wordsAndDefs });
+        }
+
+        public async createNewGame(req: Request, res: Response, next: NextFunction): Promise<void> {
+            const DIMENSION: number = 10;
+            const grid: Grid = await GridGenerator.generateGrid(DIMENSION, DIMENSION, req.params.difficulty);
+
+            const gameInfo: ICrosswordGameInfo = req.body;
+            const letters: string[][] = this.createLetters(grid);
+            const wordsAndDefinitions: IWords[] = grid.Words.map((wordInfo: Word) => {
+                return {
+                    word: wordInfo.Word,
+                    def: wordInfo.Definition,
+                    isHorizontal: wordInfo.Orientation === Direction.Horizontal,
+                    position: { x: wordInfo.Line, y: wordInfo.Column }
+                };
+            });
+
+            const game: ICrosswordGame = {gameInfo: gameInfo, letters: letters, words: wordsAndDefinitions};
+
+            // tslint:disable-next-line:no-any
+            require("mongodb").MongoClient.connect(MONGO_URL, async (err: any, db: MongoClient) => {
+                // tslint:disable-next-line:no-any
+                const collection: any = db.db("log2990-03-db");
+                collection.collection("games").insertOne(game, (insertErr: any, insertDb: any) => {
+                    const isOk: boolean = (insertErr === null);
+                    res.send(JSON.stringify(isOk));
+                });
+                await db.close();
+            });
         }
 
         // tslint:disable-next-line:max-func-body-length

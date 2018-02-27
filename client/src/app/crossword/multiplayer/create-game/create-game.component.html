@@ -3,7 +3,6 @@
   <div id="createAGameForm">
     Username:
     <input type="text" (keyup)="updateUsername($event)" />
-    {{userName}}
     <br>
     Game name:
     <input type="text" (keyup)="updateGameName($event)"/>
@@ -20,6 +19,6 @@
         Hard
       </button>
     </div>
-    <button type="button" class="btn" [disabled]="!isFormValid()">Create Game</button>
+    <button type="button" class="btn" [disabled]="!isFormValid()" (click)="createGame()">Create Game</button>
   </div>
 </div>

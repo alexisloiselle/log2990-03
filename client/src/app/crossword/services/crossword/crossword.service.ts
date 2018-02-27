@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { FormattedGrid } from "../../formatted-grid";
 import { Difficulty } from "../../../../../../common/difficulty";
+import { IMultiplayerGame } from "../../multiplayer/multiplayer-game";
 
 @Injectable()
 export class CrosswordService {
@@ -17,8 +18,17 @@ export class CrosswordService {
             .then((data: FormattedGrid) => data);
     }
 
-    public async createGame(gameName: string): Promise<boolean> {
-        const body: any = { gameName: gameName};
+    public async createGame(userName: string, gameName: string, difficulty: string): Promise<string> {
+        const newGame: IMultiplayerGame = { userName1: userName, userName2: "", gameName: gameName, difficulty: difficulty };
+
+        return this.http.post(`${this.serverUrl}crossword/createNewGame`, newGame)
+            .toPromise()
+            .then((response) => {
+                // this.isAdminValue = response as boolean;
+
+                return "okay";
+            });
+            // .catch(this.handleException);
     }
 
     public get FGrid(): FormattedGrid {

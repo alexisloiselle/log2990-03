@@ -1,4 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { CrosswordService } from "../../services/crossword/crossword.service";
+import { Router } from "@angular/router";
 
 @Component({
     selector: "app-create-game",
@@ -11,10 +13,9 @@ export class CreateGameComponent implements OnInit {
     public userName: string;
     public gameName: string;
     public nameAlreadyUsed: boolean;
-
     public test: string;
 
-    public constructor() {
+    public constructor( private router: Router, private crosswordService: CrosswordService ) {
         this.gameName = "";
         this.difficulty = "";
         this.nameAlreadyUsed = false;
@@ -24,12 +25,12 @@ export class CreateGameComponent implements OnInit {
     public ngOnInit(): void {
     }
 
-    public updateUsername(event:any): void {
-        this.userName = event.target.value;
+    public updateUsername(event: KeyboardEvent): void {
+        this.userName = (event.target as HTMLInputElement).value;
     }
 
-    public updateGameName(event: any): void {
-        this.gameName = event.target.value;
+    public updateGameName(event: KeyboardEvent): void {
+        this.gameName = (event.target as HTMLInputElement).value;
         this.nameAlreadyUsed = (this.gameName === this.test);
     }
 
@@ -39,6 +40,10 @@ export class CreateGameComponent implements OnInit {
 
     public setDifficulty(difficulty: string): void {
         this.difficulty = difficulty;
+    }
+
+    public async createGame(): Promise<void> {
+        await this.crosswordService.createGame(this.gameName, this.userName, this.difficulty);
     }
 
 }
