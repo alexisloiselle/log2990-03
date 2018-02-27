@@ -19,7 +19,6 @@ export class CanvasComponent implements OnInit {
     private canvasRef: ElementRef;
 
     private ctx: CanvasRenderingContext2D;
-    // private currentPoint : number
     private mouseMovedEvent: MouseEvent;  // So that each method can access the coordinates
     // at all times
     private mouseDown: boolean;    // Used for the drag and drop

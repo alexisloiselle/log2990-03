@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import {RaceTrack} from "../raceTrack";
 import {TrackService} from "../../track.service";
 import {PointCoordinates} from "../track-editor/canvas/point-coordinates";
 import {CanvasComponent} from "../track-editor/canvas/canvas.component";
+
 
 @Component({
     selector: "app-track-list",
@@ -15,48 +16,49 @@ import {CanvasComponent} from "../track-editor/canvas/canvas.component";
 export class TrackListComponent implements OnInit {
     @ViewChild("trackEditor")
     private trackEditor: CanvasComponent;
-    public tracks: any[];
-    public realTracks: RaceTrack[];
+    @ViewChild("trackDescriptionInput")
+    private trackDescriptionInput: ElementRef;
+    @ViewChild("trackNameInput")
+    private trackNameInput: ElementRef;
+    @ViewChild("trackTypeInput")
+    private trackTypeInput: ElementRef;
+    public unparsedTracks: any[];
+    public parsedTracks: RaceTrack[];
     private selectedTrack: RaceTrack;
     public nom: string;
     public error: string;
 
     public constructor(private trackService: TrackService) {
+        
     }
 
     public ngOnInit(): void {
-        this.realTracks = [];
+        this.parsedTracks = [];
         this.getTracks();
         this.error = undefined;
-    }
-
-    public get SelectedTrack(): RaceTrack {
-        return this.selectedTrack;
     }
 
     public set SelectTrack(track: RaceTrack) {
         this.selectedTrack = track;
     }
 
+    public get SelectedTrack(): RaceTrack {
+        return this.selectedTrack;
+    }
+
     public async getTracks(): Promise<void> {
         const tempTracks: RaceTrack[] = await this.trackService.getTracks();
-        this.tracks = [];
+        this.unparsedTracks = [];
 
         for (const id in tempTracks) {
             if (tempTracks != null) {
-                this.tracks.push(tempTracks[id]);
+                this.unparsedTracks.push(tempTracks[id]);
             }
         }
-        for (let i: number = 0; i < this.tracks[0].length; i++) {
-            this.realTracks.push(JSON.parse(this.tracks[0][i].track));
-            this.realTracks[i].id = this.tracks[0][i]._id;
+        for (let i: number = 0; i < this.unparsedTracks[0].length; i++) {
+            this.parsedTracks.push(JSON.parse(this.unparsedTracks[0][i].track));
+            this.parsedTracks[i].id = this.unparsedTracks[0][i]._id;
         }
-    }
-
-    public selectTrack(index: number): string {
-        this.selectedTrack = this.tracks[index];
-
-        return this.selectedTrack.id;
     }
 
     public onSelectTrack(track: RaceTrack): void {
@@ -75,6 +77,9 @@ export class TrackListComponent implements OnInit {
     public updateMyTrack(selectedTrack: RaceTrack): void {
         let updatedTrack :RaceTrack = selectedTrack;
         updatedTrack.points = this.trackEditor.myTrackEditorModel.PointArray;
+        updatedTrack.name = this.trackNameInput.nativeElement.value;
+        updatedTrack.description = this.trackDescriptionInput.nativeElement.value;
+        updatedTrack.type = this.trackTypeInput.nativeElement.value;
         this.trackService.updateTrack(selectedTrack.id, updatedTrack);
         this.ngOnInit();
     }
