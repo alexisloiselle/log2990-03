@@ -1,3 +1,20 @@
-<p>
-  create-game works!
-</p>
+<div id="createAGame">
+  Create a game
+  <div id="createAGameForm">
+    Game name:
+    <input type="text" (keyup)="updateGameName($event)"/>
+    <div id="selectDifficulty">
+      Select a difficulty:
+      <button type="button" class="btn btn-outline-success btn-lg  easyButton" (click)="setDifficulty('easy')">
+        Easy
+      </button>
+      <button type="button" class="btn btn-outline-warning btn-lg  mediumButton" (click)="setDifficulty('medium')">
+        Normal
+      </button>
+      <button type="button" class="btn btn-outline-danger btn-lg  hard  Button" (click)="setDifficulty('hard')">
+        Hard
+      </button>
+    </div>
+    <button type="button" class="btn" [disabled]="!isFormValid()">Create Game</button>
+  </div>
+</div>

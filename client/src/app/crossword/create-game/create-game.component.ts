@@ -7,9 +7,27 @@ import { Component, OnInit } from "@angular/core";
 })
 export class CreateGameComponent implements OnInit {
 
-    public constructor() { }
+    public difficulty: string;
+    public gameName: string;
+
+    public constructor() {
+        this.gameName = "";
+        this.difficulty = "";
+    }
 
     public ngOnInit(): void {
+    }
+
+    public updateGameName(event: any): void {
+        this.gameName = event.target.value;
+    }
+
+    public isFormValid(): boolean {
+        return (this.gameName.length !== 0 && this.difficulty !== "");
+    }
+
+    public setDifficulty(difficulty: string): void {
+        this.difficulty = difficulty;
     }
 
 }
