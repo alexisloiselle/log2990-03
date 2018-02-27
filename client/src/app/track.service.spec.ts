@@ -1,20 +1,25 @@
 import { TestBed, inject } from "@angular/core/testing";
-import { XHRBackend } from "@angular/http";
 
 import { TrackService } from "./track.service";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { MockBackend } from "@angular/http/testing";
+import { RaceTrack } from "./race/raceTrack";
 
 describe("TrackService", () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
             providers: [TrackService,
-                        { provide: XHRBackend, useClass: MockBackend }]
         });
     });
 
     it("should be created", inject([TrackService], (service: TrackService) => {
         expect(service).toBeTruthy();
     }));
+
+    describe("getTracks()", () => {
+        it("should return ", inject([TrackService], async (service: TrackService) => {
+            const tracks: RaceTrack[] = await service.getTracks();
+            expect(tracks.length).toBeGreaterThan(0);
+        }));
+    });
 });

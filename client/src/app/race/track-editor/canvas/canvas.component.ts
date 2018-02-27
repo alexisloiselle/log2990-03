@@ -1,17 +1,17 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { DrawingOnCanvas } from './drawing-on-canvas';
-import { TrackEditorModel } from './track-editor-model';
-import { PointCoordinates } from './point-coordinates';
-import { TrackEditorConstraintService } from './track-editor-constraint.service';
+import { Component, OnInit, ElementRef, ViewChild } from "@angular/core";
+import { DrawingOnCanvas } from "./drawing-on-canvas";
+import { TrackEditorModel } from "./track-editor-model";
+import { PointCoordinates } from "./point-coordinates";
+import { TrackEditorConstraintService } from "./track-editor-constraint.service";
 
-const HEIGHT_OF_CANVAS = 500;
-const WIDTH_OF_CANVAS = 500;
-const STANDARD_SIZE_CIRCLE = 10;
+const HEIGHT_OF_CANVAS: number = 500;
+const WIDTH_OF_CANVAS: number = 500;
+const STANDARD_SIZE_CIRCLE: number = 10;
 
 @Component({
-  selector: 'app-canvas',
-  templateUrl: './canvas.component.html',
-  styleUrls: ['./canvas.component.css'],
+  selector: "app-canvas",
+  templateUrl: "./canvas.component.html",
+  styleUrls: ["./canvas.component.css"],
   providers: [TrackEditorConstraintService]
 })
 export class CanvasComponent implements OnInit {
@@ -154,5 +154,5 @@ export class CanvasComponent implements OnInit {
             this.trackEditorConstraintService.intersectionBooleanArray(this.myTrackEditorModel.PointArray),
             this.trackEditorConstraintService.lengthBooleanArray(this.myTrackEditorModel.PointArray));
     }
-  
+
 }

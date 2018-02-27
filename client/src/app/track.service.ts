@@ -67,7 +67,7 @@ export class TrackService {
     }
 
     // tslint:disable-next-line:no-any
-    private handleError(error: any): Promise<any> {
+    private async handleError(error: any): Promise<any> {
         console.error("An error occurred", error);
 
         return Promise.reject(error.message || error);
