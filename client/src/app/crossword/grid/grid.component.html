@@ -15,8 +15,9 @@
                         'canSelect': true,
                         'selected': isCaseOfSelectedWord(i,j),
                         'placed': letterGrid[i][j].IsPlaced
-                      }" maxlength="1" (keydown)="inputService.handleKey($event, i, j )" (click)="selectWordFromCase(i, j)"
-          [(value)]="letterGrid[i][j].Letter" #case />
+                      }" maxlength="1" (keydown)="inputService.handleKey($event.keyCode, i, j ); 
+                      $event.preventDefault();" (click)="selectWordFromCase(i, j)" [(value)]="letterGrid[i][j].Letter" #case
+        />
       </li>
     </div>
   </div>
