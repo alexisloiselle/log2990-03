@@ -10,3 +10,4 @@ export const USELESS_CHAR: number = 2;
 
 // Api
 export const API_URL: string = "http://localhost:3000/api";
+export const DEFS_PARAMS: string = "/lexicon/definition";

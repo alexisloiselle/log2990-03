@@ -10,7 +10,7 @@ import { Difficulty } from "../../../common/difficulty";
 
 export class GridGenerator {
 
-    public static generateGrid(height: number, width: number, difficulty: Difficulty): Promise<Grid> {
+    public static async generateGrid(height: number, width: number, difficulty: Difficulty): Promise<Grid> {
         let words: Word[] = [];
         let grid: Case[][];
         const BLACK_CASE_PERCENTAGE: number = 38;
