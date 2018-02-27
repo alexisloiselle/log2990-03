@@ -30,30 +30,30 @@ describe("PasswordFormComponent", () => {
 
     describe("Valid Password", () => {
 
-         it("should be false", () => {
+         it("should be false", async () => {
             component.password = "password";
-            component.validatePassword("passfake");
+            await component.validatePassword("passfake");
             expect(component.validPassword).toBeFalsy();
          });
 
-         it("should be true", () => {
+         it("should be true", async () => {
             component.password = "password";
-            component.validatePassword("password");
+            await component.validatePassword("password");
             expect(component.validPassword).toBeTruthy();
          });
 
     });
     describe("Valid Password", () => {
 
-        it("should be true", () => {
+        it("should be true", async () => {
             component.password = "password";
-            component.validatePassword("password");
+            await component.validatePassword("password");
             expect(component.error).toBeFalsy();
         });
 
-        it("should be true", () => {
+        it("should be true", async () => {
             component.password = "password";
-            component.validatePassword("passfake");
+            await component.validatePassword("passfake");
             expect(component.error).toBeTruthy();
         });
     });
