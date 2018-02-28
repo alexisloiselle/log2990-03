@@ -1,6 +1,6 @@
 import { PointCoordinates } from "./point-coordinates";
 import { Vector } from "../vector/vector";
-import {TrackEditorConstraintService} from "./track-editor-constraint.service";
+import {ConstraintService} from "./track-editor-constraint.service";
 
 /* tslint:disable:no-magic-numbers */
 describe("Track-Editor-Constraint", () => {
@@ -72,22 +72,22 @@ describe("Track-Editor-Constraint", () => {
     });
 
     it("Shouldn't be intersecting  ", () => {
-      const trackEditorConstraintService: TrackEditorConstraintService = new TrackEditorConstraintService;
+      const trackEditorConstraintService: ConstraintService = new ConstraintService;
       expect(trackEditorConstraintService.verifyIsIntersecting(SECONDEVECTOR45DEGREE, FIRSTVECTOR45DEGREE)).toBeFalsy();
     });
 
     it("Angle verification shouldn't pass", () => {
-      const trackEditorConstraintService: TrackEditorConstraintService = new TrackEditorConstraintService;
+      const trackEditorConstraintService: ConstraintService = new ConstraintService;
       expect(trackEditorConstraintService.verifyAngle(VECTOR_TEST, VECTOR_TEST_LESS_45)).toBeFalsy();
     });
 
     it("Vectors Should be intersecting ", () => {
-        const trackEditorConstraintService: TrackEditorConstraintService = new TrackEditorConstraintService;
+        const trackEditorConstraintService: ConstraintService = new ConstraintService;
         expect(trackEditorConstraintService.verifyIsIntersecting(FIRST_VECTOR_INTERSECTION, SECOND_VECTOR_INTERSECTION)).toBeTruthy();
     });
 
     it("Angle verification should pass", () => {
-        const trackEditorConstraintService: TrackEditorConstraintService = new TrackEditorConstraintService;
+        const trackEditorConstraintService: ConstraintService = new ConstraintService;
         expect(trackEditorConstraintService.verifyAngle(FIRSTVECTOR45DEGREE, SECONDEVECTOR45DEGREE)).toBeTruthy();
     });
 

@@ -7,7 +7,7 @@ const DEFAULT_TRACK_WIDTH: number = 60;
 
 /* tslint:disable:no-magic-numbers */
 @Injectable()
-export class TrackEditorConstraintService {
+export class ConstraintService {
 
     public createArrayVector(arrayPointCoordinates: PointCoordinates[]): Vector[] {
         const arrayVector: Vector[] = [];
@@ -58,10 +58,9 @@ export class TrackEditorConstraintService {
         const myVector: Vector[] = this.createArrayVector(myPointArray);
         const myBooleanArray: boolean[] = [];
 
-        // tslint:disable-next-line:prefer-for-of
-        for (let i: number = 0; i < myVector.length; i++) {
+        myVector.forEach(() => {
             myBooleanArray.push(true);
-        }
+        });
 
         for (let i: number = 0; i < myVector.length; i++) {
             for (let j: number = i + 2; j < myVector.length; j++) {

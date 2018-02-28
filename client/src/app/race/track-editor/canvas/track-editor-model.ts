@@ -37,7 +37,7 @@ export class TrackEditorModel {
     }
 
     public addPoint(point: PointCoordinates): void {
-        if (!this.loopIsClosed()) {
+        if (!this.isLoopClosed()) {
             this.pointArray.push(point);
             this.removePointsTooClose();
         }
@@ -51,7 +51,7 @@ export class TrackEditorModel {
 
     public removePointsTooClose(): void {
         if (this.pointArray.length > MINIMUM_ARRAY_LENGTH) {
-            for (let i: number = this.loopIsClosed() ? 1 : 0; i < this.pointArray.length - 1; i++) {
+            for (let i: number = this.isLoopClosed() ? 1 : 0; i < this.pointArray.length - 1; i++) {
                 for (let j: number = i + 1; j < this.pointArray.length; j++) {
                     if (this.pointArray[i].isTooClose(this.pointArray[j])) {
                         this.pointArray.splice(this.pointArray.indexOf(this.pointArray[j]), 1);
@@ -61,7 +61,7 @@ export class TrackEditorModel {
         }
     }
 
-    public loopIsClosed(): boolean {
+    public isLoopClosed(): boolean {
         return (this.pointArray.length > MINIMUM_ARRAY_LENGTH &&
         (this.pointArray[this.pointArray.length - 1]).equals(this.pointArray[0]));
     }
@@ -95,7 +95,7 @@ export class TrackEditorModel {
     }
 
     public allConstraintPass(angleConstraints: boolean[], intersectionConstraints: boolean[], lengthConstraints: boolean[]): boolean {
-        let constraintRespected: boolean = this.loopIsClosed();
+        let constraintRespected: boolean = this.isLoopClosed();
 
         if (constraintRespected) {
             for (const angleConstraint of angleConstraints) {
