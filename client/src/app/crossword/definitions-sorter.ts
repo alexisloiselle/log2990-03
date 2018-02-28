@@ -1,4 +1,4 @@
-import { FormattedGrid } from "./formatted-grid";
+import { IFormattedGrid } from "./formatted-grid";
 import { Word } from "./word";
 
 export class DefinitionsSorter {
@@ -6,7 +6,7 @@ export class DefinitionsSorter {
     private horizontalDefinitions: Word[];
     private verticalDefinitions: Word[];
 
-    public constructor(fGrid: FormattedGrid) {
+    public constructor(fGrid: IFormattedGrid) {
         this.horizontalDefinitions = [];
         this.verticalDefinitions = [];
         this.separateVerticalFromHorizontal(fGrid);
@@ -16,7 +16,7 @@ export class DefinitionsSorter {
         this.verticalDefinitions.sort((a: Word, b: Word) => a.Column - b.Column);
     }
 
-    private separateVerticalFromHorizontal(fGrid: FormattedGrid): void {
+    private separateVerticalFromHorizontal(fGrid: IFormattedGrid): void {
         for (const word of fGrid.words) {
             const currentWord: Word = new Word(word.word, word.def, word.isHorizontal, word.position.x, word.position.y);
             if (word.isHorizontal) {

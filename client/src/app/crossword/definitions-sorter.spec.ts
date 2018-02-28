@@ -1,11 +1,11 @@
 import { DefinitionsSorter } from "./definitions-sorter";
-import { FormattedGrid } from "./formatted-grid";
+import { IFormattedGrid } from "./formatted-grid";
 import { Word } from "./word";
 import { } from "jasmine";
 
 describe("DefinitionSorter", () => {
     // tslint:disable:no-magic-numbers
-    const fGrid: FormattedGrid = { letters: [[]], words: [] };
+    const fGrid: IFormattedGrid = { letters: [[]], words: [] };
     fGrid.words.push({
         word: "foo",
         def: "foo-def",
