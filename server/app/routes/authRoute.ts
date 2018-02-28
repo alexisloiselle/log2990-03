@@ -13,7 +13,7 @@ module Route {
                 // tslint:disable-next-line:typedef
                 const collection = db.db("log2990-03-db");
                 collection.collection("admin").findOne(
-                    { value: "password" },
+                    { "gameName.gameName": req },
                     // tslint:disable-next-line:no-any
                     (findErr: any, doc: any) => {
                         const isPassOk: boolean = (req.body.password === doc.password);

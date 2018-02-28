@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { CrosswordService } from "../../services/crossword/crossword.service";
-import { Router } from "@angular/router";
+//import { Router } from "@angular/router";
 
 @Component({
     selector: "app-create-game",
@@ -15,7 +15,8 @@ export class CreateGameComponent implements OnInit {
     public nameAlreadyUsed: boolean;
     public test: string;
 
-    public constructor( private router: Router, private crosswordService: CrosswordService ) {
+    public constructor( //private router: Router, 
+        private crosswordService: CrosswordService ) {
         this.gameName = "";
         this.difficulty = "";
         this.nameAlreadyUsed = false;
@@ -29,8 +30,10 @@ export class CreateGameComponent implements OnInit {
         this.userName = (event.target as HTMLInputElement).value;
     }
 
-    public updateGameName(event: KeyboardEvent): void {
+    public async updateGameName(event: KeyboardEvent): Promise<void> {
         this.gameName = (event.target as HTMLInputElement).value;
+        // this.crosswordService.isNameAlreadyUsed(this.gameName)
+        // .then((isAlreadyUsed: boolean) => (this.nameAlreadyUsed = isAlreadyUsed));
         this.nameAlreadyUsed = (this.gameName === this.test);
     }
 
@@ -44,6 +47,7 @@ export class CreateGameComponent implements OnInit {
 
     public async createGame(): Promise<void> {
         await this.crosswordService.createGame(this.gameName, this.userName, this.difficulty);
+        // this.router.navigate(["single-player-game", this.gameName]);
     }
 
 }

@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
 @Component({
-  selector: 'app-multiplayer-game',
-  templateUrl: './multiplayer-game.component.html',
-  styleUrls: ['./multiplayer-game.component.css']
+    selector: "app-multiplayer-game",
+    templateUrl: "./multiplayer-game.component.html",
+    styleUrls: ["./multiplayer-game.component.css"]
 })
 export class MultiplayerGameComponent implements OnInit {
 
-  constructor() { }
+    public constructor() { }
 
-  ngOnInit() {
-  }
+    public ngOnInit(): void {
+    }
 
 }

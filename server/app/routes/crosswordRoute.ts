@@ -74,6 +74,19 @@ module Route {
             });
         }
 
+        public async isWordAlreadyUsed(req: Request, res: Response, next: NextFunction): Promise<void> {
+            require("mongodb").MongoClient.connect(MONGO_URL, async (err: any, db: MongoClient) => {
+                // tslint:disable-next-line:typedef
+                const collection = db.db("log2990-03-db");
+                collection.collection("games").find({ "gameInfo.gameName": req.params.gameName }).count().then((size: number) => {
+                    const isAlreadyUsed: boolean = (size !== 0);
+                    console.log(isAlreadyUsed);
+                    res.send(JSON.stringify(isAlreadyUsed));
+                });
+                await db.close();
+            });
+        }
+
         // tslint:disable-next-line:max-func-body-length
         public async getMockGrid(req: Request, res: Response, next: NextFunction): Promise<void> {
             const letters: string[][] =

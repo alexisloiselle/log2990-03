@@ -18,17 +18,17 @@ export class CrosswordService {
             .then((data: FormattedGrid) => data);
     }
 
-    public async createGame(userName: string, gameName: string, difficulty: string): Promise<string> {
+    public async createGame(userName: string, gameName: string, difficulty: string): Promise<void> {
         const newGame: IMultiplayerGame = { userName1: userName, userName2: "", gameName: gameName, difficulty: difficulty };
 
-        return this.http.post(`${this.serverUrl}crossword/createNewGame`, newGame)
+        this.http.post(`${this.serverUrl}crossword/createNewGame`, newGame)
             .toPromise()
-            .then((response) => {
-                // this.isAdminValue = response as boolean;
-
-                return "okay";
-            });
+            .then((response) => {});
             // .catch(this.handleException);
+    }
+
+    public async isNameAlreadyUsed(gameName: string): Promise<boolean> {
+        return this.http.get<boolean>(`${this.serverUrl}crossword/isNameAlreadyUsed/${gameName}`).toPromise();
     }
 
     public get FGrid(): FormattedGrid {

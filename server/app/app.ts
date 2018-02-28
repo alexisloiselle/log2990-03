@@ -55,6 +55,7 @@ export class Application {
         router.get("/crossword/:difficulty", crossword.getGrid.bind(crossword));
 
         router.post("/crossword/createNewGame", crossword.createNewGame.bind(crossword));
+        router.get("/crossword/isNameAlreadyUsed/:gameName", crossword.isWordAlreadyUsed.bind(crossword));
 
         router.post("/auth", auth.auth.bind(auth.auth));
         router.put("/passwordChange", auth.changePassword.bind(auth.changePassword));
