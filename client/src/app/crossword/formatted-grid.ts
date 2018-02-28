@@ -5,7 +5,7 @@ export interface IFormattedGrid {
 
 export interface IWord {
     word: string;
-    def: string;
+    definition: string;
     isHorizontal: boolean;
     position: IPoint;
 }

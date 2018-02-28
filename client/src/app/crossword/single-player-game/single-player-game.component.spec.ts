@@ -165,7 +165,7 @@ const crosswordService: any = {
         };
     },
 
-    FGrid: {
+    FormattedGrid: {
         letters: [
             ["", "a", "", "", "b", "a", "c", "o", "n", ""],
             ["s", "l", "", "m", "o", "r", "a", "l", "", "a"],

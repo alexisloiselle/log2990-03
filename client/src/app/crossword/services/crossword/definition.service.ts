@@ -8,7 +8,7 @@ import { DefinitionsSorter } from "../../definitions-sorter";
 @Injectable()
 export class DefinitionService {
 
-    private selectWordSub: Subject<{word: Word}>;
+    private selectWordSub: Subject<{ word: Word }>;
     private selectedWord: Word;
 
     private horizontalWords: Word[];
@@ -22,7 +22,7 @@ export class DefinitionService {
         window.document.addEventListener("click", (ev) => this.unselectWord(ev));
     }
 
-    public get SelectWordSub(): Observable<{word: Word}> {
+    public get SelectWordSub(): Observable<{ word: Word }> {
         return this.selectWordSub.asObservable();
     }
 
@@ -51,22 +51,18 @@ export class DefinitionService {
     }
 
     public configureDefinitions(): void {
-        const definitionsSorter: DefinitionsSorter = new DefinitionsSorter(this.crosswordService.FGrid);
+        const definitionsSorter: DefinitionsSorter = new DefinitionsSorter(this.crosswordService.FormattedGrid);
         this.horizontalWords = definitionsSorter.HorizontalDefinitions;
         this.verticalWords = definitionsSorter.VerticalDefinitions;
     }
 
-    public handleClickDef(word: Word): boolean {
+    public handleClickDef(word: Word): void {
         this.selectedWord = word;
         this.selectWordSub.next({ word });
-
-        return true;
     }
 
-    // TS doesn't recognize path on type MouseEvent
-    // tslint:disable-next-line:no-any
-    private unselectWord(event: any): void {
-        const classes: ElementRef["nativeElement"] = event.path[0].getAttribute("class");
+    private unselectWord(event: MouseEvent): void {
+        const classes: ElementRef["nativeElement"] = event.toElement.getAttribute("class");
         if (classes === null || !classes.includes("canSelect")) {
             this.selectedWord = undefined;
         }

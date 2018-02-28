@@ -7,7 +7,7 @@ import { Word } from "../word";
 // tslint:disable:no-magic-numbers
 // tslint:disable-next-line:no-any
 const crosswordService: any = {
-    FGrid: {
+    FormattedGrid: {
         letters: [
             ["", "a", "", "", "b", "a", "c", "o", "n", ""],
             ["s", "l", "", "m", "o", "r", "a", "l", "", "a"],
@@ -183,10 +183,10 @@ describe("GridComponent", () => {
 
     it("should validate word", () => {
         defService.SelectedWord = new Word("bacon", "", true, 0, 4);
-        component.letterGrid[0][4].Letter = "B";
-        component.letterGrid[0][5].Letter = "A";
-        component.letterGrid[0][6].Letter = "C";
-        component.letterGrid[0][7].Letter = "O";
+        component.LetterGrid[0][4].Letter = "B";
+        component.LetterGrid[0][5].Letter = "A";
+        component.LetterGrid[0][6].Letter = "C";
+        component.LetterGrid[0][7].Letter = "O";
         inputService.handleKey(78, 0, 8); // n
 
         expect(defService.SelectedWord.Word).toEqual("bacon");
