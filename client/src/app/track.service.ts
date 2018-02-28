@@ -1,75 +1,71 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { RaceTrack } from "./race/raceTrack";
+import { InvalidArgumentError } from "./race/invalidArgumentError";
+import { API_URL } from "./config";
 
 @Injectable()
 export class TrackService {
 
     public constructor(private http: HttpClient) { }
 
-    private baseUrl: string = "http://localhost:3000/api/tracks";
+    private readonly BASE_URL: string = `${API_URL}/tracks`;
 
     public async getTracks(): Promise<RaceTrack[]> {
-        return this.http.get(this.baseUrl + "/all")
+        return this.http.get(`${this.BASE_URL}/all`)
             .toPromise()
-            .then((response) => {
-                // tslint:disable-next-line:no-any
-                const tracks: any[] = [];
-                tracks.push(response);
+            .then((response: { _id: string, track: string }[]) => {
+                const tracks: RaceTrack[] = [];
+                for (let i: number = 0; i < response.length; i++) {
+                    tracks.push(JSON.parse(response[i].track));
+                    tracks[i].id = response[i]._id;
+                }
 
                 return tracks;
             })
-            .catch(this.handleError);
+            .catch((error: Error) => this.handleError<RaceTrack[]>(error));
     }
 
     public async getTrack(id: string): Promise<RaceTrack> {
-        return this.http.get(this.baseUrl + "/" + id)
+        return this.http.get(`${this.BASE_URL}/${id}`)
             .toPromise()
-            .then((response) => {
-
-                return (response);
-            })
-            .catch(this.handleError);
+            .then((response: RaceTrack) => response)
+            .catch((error: Error) => this.handleError<RaceTrack>(error));
     }
 
     public async addTrack(track: RaceTrack): Promise<boolean> {
-        // tslint:disable-next-line:no-any
-        const body: any = { track: JSON.stringify(track) };
+        const body: { track: string } = { track: JSON.stringify(track) };
 
-        return this.http.post(this.baseUrl + "/add", body)
+        return this.http.post(`${this.BASE_URL}/add`, body)
             .toPromise()
-            .then((response) => response as boolean)
-            .catch(this.handleError);
+            .then((response: boolean) => response)
+            .catch((error: Error) => this.handleError<boolean>(error));
     }
 
-    public async updateTrack(id: string, track: RaceTrack): Promise<boolean> {
-        if (id === undefined) {
-            throw new Error("Impossible to update a track without an id.");
+    public async updateTrack(track: RaceTrack): Promise<boolean> {
+        if (track.id === undefined) {
+            throw new InvalidArgumentError("Impossible to update a track without an id.");
         }
-        // tslint:disable-next-line:no-any
-        const update: any = { $set: track };
+        const update: {$set: string} = { $set: JSON.stringify(track) };
 
-        return this.http.put(this.baseUrl + "/" + id, update)
+        return this.http.put(`${this.BASE_URL}/${track.id}`, update)
             .toPromise()
-            .then((response) => response as boolean)
-            .catch(this.handleError);
+            .then((response: boolean) => response)
+            .catch((error: Error) => this.handleError<boolean>(error));
     }
 
     public async deleteTrack(id: string): Promise<boolean> {
         if (id === undefined) {
-            throw new Error("Impossible to delete a track without a valid id");
+            throw new InvalidArgumentError("Impossible to delete a track without a id");
         }
 
-        return this.http.delete(this.baseUrl + "/" + id)
+        return this.http.delete(`${this.BASE_URL}/${id}`)
             .toPromise()
-            .then((response) => response as boolean)
-            .catch(this.handleError);
+            .then((response: boolean) => response)
+            .catch((error: Error) => this.handleError<boolean>(error));
     }
 
-    // tslint:disable-next-line:no-any
-    private async handleError(error: any): Promise<any> {
-        console.error("An error occurred", error);
-
-        return Promise.reject(error.message || error);
+    private async handleError<T>(error: Error): Promise<T> {
+        return Promise.reject(error.message);
     }
 }
