@@ -107,7 +107,7 @@ export class CanvasComponent implements OnInit {
                     this.mouseOnPoint(point);
                     break;
                 } else {
-                    this.mouseNotOnPoint();
+                    this.redrawCanvas;
                 }
             }
         }
@@ -135,10 +135,7 @@ export class CanvasComponent implements OnInit {
         this.drawingOnCanvas.drawPointOnCanvas(point, GREEN, STANDARD_SIZE_CIRCLE);
     }
 
-    public mouseNotOnPoint(): void {
-        this.redrawCanvas();
-    }
-
+    /*Mauvaise odeur, trop d'arguments*/
     public redrawCanvas(): void {
         this.drawingOnCanvas.redrawCanvas(
             this.myTrackEditorModel,
@@ -147,6 +144,7 @@ export class CanvasComponent implements OnInit {
             this.constraintService.lengthBooleanArray(this.myTrackEditorModel.PointArray));
     }
 
+    /*Mauvaise odeur, trop d'arguments*/
     public allConstraintPass(): boolean {
         return this.myTrackEditorModel.allConstraintPass(
             this.constraintService.angleBooleanArray(this.myTrackEditorModel.PointArray),
