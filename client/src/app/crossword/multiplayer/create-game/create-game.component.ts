@@ -35,7 +35,7 @@ export class CreateGameComponent implements OnInit {
     }
 
     public isFormValid(): boolean {
-        return (this.gameName.length !== 0 && this.difficulty !== "" && !this.isNameAlreadyUsed && this.userName.length !== 0);
+        return (this.gameName.length !== 0 && this.difficulty !== "" && this.userName.length !== 0);
     }
 
     public setDifficulty(difficulty: string): void {
@@ -43,9 +43,9 @@ export class CreateGameComponent implements OnInit {
     }
 
     public async createGame(): Promise<void> {
-        this.crosswordService.isNameAlreadyUsed(this.gameName)
+        await this.crosswordService.isNameAlreadyUsed(this.gameName)
         .then((isAlreadyUsed: boolean) => (this.isNameAlreadyUsed = isAlreadyUsed));
-        if (this.isNameAlreadyUsed ) {
+        if (!this.isNameAlreadyUsed ) {
             await this.crosswordService.createGame(this.gameName, this.userName, this.difficulty);
             // this.router.navigate(["single-player-game", this.gameName]);
         }

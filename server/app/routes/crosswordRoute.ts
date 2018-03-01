@@ -80,7 +80,6 @@ module Route {
                 const collection = db.db("log2990-03-db");
                 collection.collection("games").find({ "gameInfo.gameName": req.params.gameName }).count().then((size: number) => {
                     const isAlreadyUsed: boolean = (size !== 0);
-                    console.log(isAlreadyUsed);
                     res.send(JSON.stringify(isAlreadyUsed));
                 });
                 await db.close();
