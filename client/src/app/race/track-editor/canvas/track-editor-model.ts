@@ -37,7 +37,7 @@ export class TrackEditorModel {
     }
 
     public addPoint(point: PointCoordinates): void {
-        if (!this.loopIsClosed()) {
+        if (!this.isLoopClosed()) {
             this.pointArray.push(point);
             this.removePointsTooClose();
         }
@@ -51,7 +51,7 @@ export class TrackEditorModel {
 
     public removePointsTooClose(): void {
         if (this.pointArray.length > MINIMUM_ARRAY_LENGTH) {
-            for (let i: number = this.loopIsClosed() ? 1 : 0; i < this.pointArray.length - 1; i++) {
+            for (let i: number = this.isLoopClosed() ? 1 : 0; i < this.pointArray.length - 1; i++) {
                 for (let j: number = i + 1; j < this.pointArray.length; j++) {
                     if (this.pointArray[i].isTooClose(this.pointArray[j])) {
                         this.pointArray.splice(this.pointArray.indexOf(this.pointArray[j]), 1);
@@ -61,7 +61,7 @@ export class TrackEditorModel {
         }
     }
 
-    public loopIsClosed(): boolean {
+    public isLoopClosed(): boolean {
         return (this.pointArray.length > MINIMUM_ARRAY_LENGTH &&
         (this.pointArray[this.pointArray.length - 1]).equals(this.pointArray[0]));
     }
@@ -76,8 +76,7 @@ export class TrackEditorModel {
     public clickedOnExistingPoint(mouseCoordinates: PointCoordinates): boolean {
         const ACCEPTED_RADIUS: number = 20;
         for (const point of this.pointArray) {
-            if (mouseCoordinates.X >= point.X - ACCEPTED_RADIUS && mouseCoordinates.X <= point.X + ACCEPTED_RADIUS &&
-                mouseCoordinates.Y >= point.Y - ACCEPTED_RADIUS && mouseCoordinates.Y <= point.Y + ACCEPTED_RADIUS) {
+            if (point.getDistance(mouseCoordinates) <= ACCEPTED_RADIUS) {
                 return true;
             }
         }
@@ -87,28 +86,9 @@ export class TrackEditorModel {
 
     public clickedOnFirstPoint(mouseCoordinates: PointCoordinates): boolean {
         const ACCEPTED_RADIUS: number = 10;
-
-        return mouseCoordinates.X <= (this.pointArray[0].X + ACCEPTED_RADIUS) &&
-            mouseCoordinates.X >= (this.pointArray[0].X - ACCEPTED_RADIUS) &&
-            mouseCoordinates.Y <= (this.pointArray[0].Y + ACCEPTED_RADIUS) &&
-            mouseCoordinates.Y >= (this.pointArray[0].Y - ACCEPTED_RADIUS);
+        console.log(this.pointArray[0].getDistance(mouseCoordinates) <= ACCEPTED_RADIUS);
+        return this.pointArray[0].getDistance(mouseCoordinates) <= ACCEPTED_RADIUS;
     }
 
-    public allConstraintPass(angleConstraints: boolean[], intersectionConstraints: boolean[], lengthConstraints: boolean[]): boolean {
-        let constraintRespected: boolean = this.loopIsClosed();
-
-        if (constraintRespected) {
-            for (const angleConstraint of angleConstraints) {
-                constraintRespected = constraintRespected && angleConstraint;
-            }
-            for (const intersectionConstraint of intersectionConstraints) {
-                constraintRespected = constraintRespected && intersectionConstraint;
-            }
-            for (const lengthConstraint of lengthConstraints) {
-                constraintRespected = constraintRespected && lengthConstraint;
-            }
-        }
-
-        return constraintRespected;
-    }
+   
 }

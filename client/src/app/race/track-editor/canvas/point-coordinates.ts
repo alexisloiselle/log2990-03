@@ -9,15 +9,17 @@ export class PointCoordinates {
         this.y = y;
     }
 
+    public getDistance(otherPoint: PointCoordinates): number {
+        // tslint:disable-next-line:no-magic-numbers
+        return Math.sqrt(Math.pow(otherPoint.x - this.x, 2) + Math.pow(otherPoint.y - this.y, 2));
+    }
+
     public equals(otherPoint: PointCoordinates): boolean {
         return this.X === otherPoint.X && this.Y === otherPoint.Y;
     }
 
     public isTooClose(otherPoint: PointCoordinates): boolean {
-        return (this.X >= otherPoint.X - MINIMUM_DISTANCE_BETWEEN_POINTS &&
-                this.X <= otherPoint.X + MINIMUM_DISTANCE_BETWEEN_POINTS &&
-                this.Y >= otherPoint.Y - MINIMUM_DISTANCE_BETWEEN_POINTS &&
-                this.Y <= otherPoint.Y + MINIMUM_DISTANCE_BETWEEN_POINTS);
+        return (this.getDistance(otherPoint) <= MINIMUM_DISTANCE_BETWEEN_POINTS );
     }
 
     public get X(): number {

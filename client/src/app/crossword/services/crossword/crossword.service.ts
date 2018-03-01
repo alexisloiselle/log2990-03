@@ -1,21 +1,21 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { FormattedGrid } from "../../formatted-grid";
+import { IFormattedGrid } from "../../formatted-grid";
 import { Difficulty } from "../../../../../../common/difficulty";
 import { IMultiplayerGame } from "../../multiplayer/multiplayer-game";
+import { API_URL, CROSSWORD_PARAM } from "../../../config";
 
 @Injectable()
 export class CrosswordService {
 
-    private serverUrl: string = "http://localhost:3000/api/";
-    private fGrid: FormattedGrid;
+    private formattedGrid: IFormattedGrid;
 
     public constructor(private http: HttpClient) { }
 
     public async generateGrid(difficulty: Difficulty): Promise<void> {
-        this.fGrid = await this.http.get(`${this.serverUrl}crossword/${difficulty}`)
+        this.formattedGrid = await this.http.get(`${API_URL}/${CROSSWORD_PARAM}/${difficulty}`)
             .toPromise()
-            .then((data: FormattedGrid) => data);
+            .then((data: IFormattedGrid) => data);
     }
 
     public async createGame(userName: string, gameName: string, difficulty: string): Promise<void> {
@@ -31,7 +31,7 @@ export class CrosswordService {
         return this.http.get<boolean>(`${this.serverUrl}crossword/isNameAlreadyUsed/${gameName}`).toPromise();
     }
 
-    public get FGrid(): FormattedGrid {
-        return this.fGrid;
+    public get FormattedGrid(): IFormattedGrid {
+        return this.formattedGrid;
     }
 }

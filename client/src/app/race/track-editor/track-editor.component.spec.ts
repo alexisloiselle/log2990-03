@@ -76,7 +76,7 @@ describe("TrackEditorComponent", () => {
             myTrackModel3.addPoint(point4);
             myTrackModel3.addPoint(point5);
             myTrackModel3.addPoint(point1);
-            expect(myTrackModel3.loopIsClosed()).toBe(true);
+            expect(myTrackModel3.isLoopClosed()).toBe(true);
         });
 
         it("Should erase the last point", () => {

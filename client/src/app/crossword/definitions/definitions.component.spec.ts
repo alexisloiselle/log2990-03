@@ -3,7 +3,7 @@ import { DefinitionService } from "../services/crossword/definition.service";
 
 // tslint:disable-next-line:no-any
 const crosswordService: any = {
-    FGrid: {
+    FormattedGrid: {
         letters: [
             ["", "a", "", "", "b", "a", "c", "o", "n", ""],
             ["s", "l", "", "m", "o", "r", "a", "l", "", "a"],
