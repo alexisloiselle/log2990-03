@@ -6,7 +6,7 @@
     <br>
     Game name:
     <input type="text" (keyup)="updateGameName($event)"/>
-    <p *ngIf="nameAlreadyUsed" id="nameAlreadyUsed">Name already exist!</p>
+    <p *ngIf="isNameAlreadyUsed" id="nameAlreadyUsed">Name already exist!</p>
     <div id="selectDifficulty">
       Select a difficulty:
       <button type="button" class="btn btn-outline-success btn-lg  easyButton" (click)="setDifficulty('easy')">

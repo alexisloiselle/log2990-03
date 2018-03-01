@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { CrosswordService } from "../../services/crossword/crossword.service";
-//import { Router } from "@angular/router";
+// import { Router } from "@angular/router";
 
 @Component({
     selector: "app-create-game",
@@ -12,14 +12,14 @@ export class CreateGameComponent implements OnInit {
     public difficulty: string;
     public userName: string;
     public gameName: string;
-    public nameAlreadyUsed: boolean;
+    public isNameAlreadyUsed: boolean;
     public test: string;
 
-    public constructor( //private router: Router, 
+    public constructor( // private router: Router,
         private crosswordService: CrosswordService ) {
         this.gameName = "";
         this.difficulty = "";
-        this.nameAlreadyUsed = false;
+        this.isNameAlreadyUsed = false;
         this.test = "I love Mimi";
     }
 
@@ -32,13 +32,10 @@ export class CreateGameComponent implements OnInit {
 
     public async updateGameName(event: KeyboardEvent): Promise<void> {
         this.gameName = (event.target as HTMLInputElement).value;
-        // this.crosswordService.isNameAlreadyUsed(this.gameName)
-        // .then((isAlreadyUsed: boolean) => (this.nameAlreadyUsed = isAlreadyUsed));
-        this.nameAlreadyUsed = (this.gameName === this.test);
     }
 
     public isFormValid(): boolean {
-        return (this.gameName.length !== 0 && this.difficulty !== "" && !this.nameAlreadyUsed && this.userName.length !== 0);
+        return (this.gameName.length !== 0 && this.difficulty !== "" && !this.isNameAlreadyUsed && this.userName.length !== 0);
     }
 
     public setDifficulty(difficulty: string): void {
@@ -46,8 +43,12 @@ export class CreateGameComponent implements OnInit {
     }
 
     public async createGame(): Promise<void> {
-        await this.crosswordService.createGame(this.gameName, this.userName, this.difficulty);
-        // this.router.navigate(["single-player-game", this.gameName]);
+        this.crosswordService.isNameAlreadyUsed(this.gameName)
+        .then((isAlreadyUsed: boolean) => (this.isNameAlreadyUsed = isAlreadyUsed));
+        if (this.isNameAlreadyUsed ) {
+            await this.crosswordService.createGame(this.gameName, this.userName, this.difficulty);
+            // this.router.navigate(["single-player-game", this.gameName]);
+        }
     }
 
 }

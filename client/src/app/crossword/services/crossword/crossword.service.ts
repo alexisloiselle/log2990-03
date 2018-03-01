@@ -21,14 +21,14 @@ export class CrosswordService {
     public async createGame(userName: string, gameName: string, difficulty: string): Promise<void> {
         const newGame: IMultiplayerGame = { userName1: userName, userName2: "", gameName: gameName, difficulty: difficulty };
 
-        this.http.post(`${this.serverUrl}crossword/createNewGame`, newGame)
+        this.http.post(`${API_URL}/crossword/createNewGame`, newGame)
             .toPromise()
             .then((response) => {});
             // .catch(this.handleException);
     }
 
     public async isNameAlreadyUsed(gameName: string): Promise<boolean> {
-        return this.http.get<boolean>(`${this.serverUrl}crossword/isNameAlreadyUsed/${gameName}`).toPromise();
+        return this.http.get<boolean>(`${API_URL}/crossword/isNameAlreadyUsed/${gameName}`).toPromise();
     }
 
     public get FormattedGrid(): IFormattedGrid {
