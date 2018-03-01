@@ -36,6 +36,7 @@ export class Application {
         this.app.use(cors());
     }
 
+    // tslint:disable-next-line:max-func-body-length
     public routes(): void {
         const router: express.Router = express.Router();
         router.use(this.api.routes);
@@ -52,6 +53,9 @@ export class Application {
 
         router.get("/crossword/mock", crossword.getMockGrid.bind(crossword));
         router.get("/crossword/:difficulty", crossword.getGrid.bind(crossword));
+
+        router.post("/crossword/createNewGame", crossword.createNewGame.bind(crossword));
+        router.get("/crossword/isNameAlreadyUsed/:gameName", crossword.isWordAlreadyUsed.bind(crossword));
 
         router.post("/auth", auth.auth.bind(auth.auth));
         router.put("/passwordChange", auth.changePassword.bind(auth.changePassword));
