@@ -58,9 +58,10 @@ export class ConstraintService {
         const myVector: Vector[] = this.createArrayVector(myPointArray);
         const myBooleanArray: boolean[] = [];
 
-        myVector.forEach(() => {
+        // tslint:disable-next-line:prefer-for-of
+        for (let i: number = 0; i < myVector.length; i++) {
             myBooleanArray.push(true);
-        });
+        }
 
         for (let i: number = 0; i < myVector.length; i++) {
             for (let j: number = i + 2; j < myVector.length; j++) {
@@ -73,7 +74,7 @@ export class ConstraintService {
 
         return myBooleanArray;
     }
-
+    
     public lengthBooleanArray(myPointArray: PointCoordinates[]): boolean[] {
         const vectors: Vector[] = this.createArrayVector(myPointArray);
         const myBooleanArray: boolean[] = [];

@@ -19,10 +19,7 @@ export class PointCoordinates {
     }
 
     public isTooClose(otherPoint: PointCoordinates): boolean {
-        return (this.X >= otherPoint.X - MINIMUM_DISTANCE_BETWEEN_POINTS &&
-            this.X <= otherPoint.X + MINIMUM_DISTANCE_BETWEEN_POINTS &&
-            this.Y >= otherPoint.Y - MINIMUM_DISTANCE_BETWEEN_POINTS &&
-            this.Y <= otherPoint.Y + MINIMUM_DISTANCE_BETWEEN_POINTS);
+        return (this.getDistance(otherPoint) <= MINIMUM_DISTANCE_BETWEEN_POINTS );
     }
 
     public get X(): number {

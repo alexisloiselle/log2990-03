@@ -17,12 +17,13 @@ const GREEN: string = "#00FF00";
     styleUrls: ["./canvas.component.css"],
     providers: [ConstraintService]
 })
+
 export class CanvasComponent implements OnInit {
     @ViewChild("canvas")
     private canvasRef: ElementRef;
 
     private context: CanvasRenderingContext2D;
-    private mouseMovedEvent: MouseEvent;
+    private mouseCoordinates: PointCoordinates;
     private isMouseDown: boolean;
     private drawingOnCanvas: DrawingOnCanvas;
 
@@ -35,12 +36,12 @@ export class CanvasComponent implements OnInit {
         this.isMouseDown = false;
         this.myTrackEditorModel = new TrackEditorModel();
         this.drawingOnCanvas = new DrawingOnCanvas(this.context);
+        this.mouseCoordinates = new PointCoordinates(0,0);
     }
 
     public constructor(
         private constraintService: ConstraintService
-    ) {
-    }
+    ) {}
 
     public mouseUp(event: MouseEvent): void {
         this.isMouseDown = false;
@@ -54,8 +55,13 @@ export class CanvasComponent implements OnInit {
         this.removePointsTooClose();
     }
 
+    public mouseDown(event: MouseEvent): void {
+        this.isMouseDown = true;
+    }
+
     public mouseMoved(event: MouseEvent): void {
-        this.mouseMovedEvent = event;
+        this.mouseCoordinates.X = event.offsetX;
+        this.mouseCoordinates.Y = event.offsetY;
 
         if (this.isMouseDown) {
             this.dragAndDrop();
@@ -64,9 +70,7 @@ export class CanvasComponent implements OnInit {
         }
     }
 
-    public mouseDown(event: MouseEvent): void {
-        this.isMouseDown = true;
-    }
+   
 
     public drawPoint(mouseCoordinates: PointCoordinates): void {
         const MINIMUM_LENGTH: number = 3;
@@ -95,36 +99,26 @@ export class CanvasComponent implements OnInit {
     }
 
     public checkMouseFocus(): void {
-        const mouseCoordinates: PointCoordinates = new PointCoordinates(
-            this.mouseMovedEvent.offsetX,
-            this.mouseMovedEvent.offsetY
-        );
-
         if (this.myTrackEditorModel.getPointArrayLength() > 0) {
             for (const point of this.myTrackEditorModel.PointArray) {
                 const ACCEPTED_RADIUS: number = 10;
-                if (mouseCoordinates.getDistance(point) <= ACCEPTED_RADIUS) {
+                if (this.mouseCoordinates.getDistance(point) <= ACCEPTED_RADIUS) {
                     this.mouseOnPoint(point);
                     break;
                 } else {
-                    this.redrawCanvas;
+                    this.redrawCanvas();
                 }
             }
         }
     }
 
     public dragAndDrop(): void {
-        const mouseCoordinates: PointCoordinates = new PointCoordinates(
-            this.mouseMovedEvent.offsetX,
-            this.mouseMovedEvent.offsetY
-        );
-
         for (const point of this.myTrackEditorModel.PointArray) {
             const ACCEPTED_RADIUS: number = 15;
-            if (mouseCoordinates.getDistance(point) <= ACCEPTED_RADIUS) {
+            if (this.mouseCoordinates.getDistance(point) <= ACCEPTED_RADIUS) {
                 this.myTrackEditorModel.setPointCoordinates(
                     this.myTrackEditorModel.PointArray.indexOf(point),
-                    mouseCoordinates
+                    this.mouseCoordinates
                 );
             }
         }
