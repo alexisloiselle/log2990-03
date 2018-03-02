@@ -26,8 +26,8 @@ export class Lexicon {
             request(url, (error: any, response: any, body: any) => {
                 try {
                     body = JSON.parse(body);
-                    definitions = body[0].defs.slice(0, MAX_DEFS).map((def: string) => {
-                        return def.split("\t").pop();
+                    definitions = body[0].defs.slice(0, MAX_DEFS).map((definition: string) => {
+                        return definition.split("\t").pop();
                     });
                 } catch (e) {
                     reject(new Error());
