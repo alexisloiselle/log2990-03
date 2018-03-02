@@ -7,6 +7,7 @@ import { CarEventHandlerService } from "./car-event-handler.service";
 import { CubeTextureLoader } from "three";
 import {RenderTrackService} from "../render-track/render-track.service";
 import {RaceTrack} from "../race/raceTrack";
+import {PointCoordinates} from "../race/track-editor/canvas/point-coordinates";
 
 const FAR_CLIPPING_PLANE: number = 1000;
 const NEAR_CLIPPING_PLANE: number = 1;
@@ -25,6 +26,7 @@ export class RenderService {
     private stats: Stats;
     private lastDate: number;
     private track: RaceTrack;
+    private array: PointCoordinates[] = [];
 
     public get car(): Car {
         return this._car;
@@ -33,7 +35,6 @@ export class RenderService {
     public constructor(private carEventHandlerService: CarEventHandlerService,
                        private renderTarckService: RenderTrackService) {
         this._car = new Car();
-        this.track = new RaceTrack("laTarck", "fuckYou", 0, );
     }
 
     public async initialize(container: HTMLDivElement): Promise<void> {
@@ -97,8 +98,26 @@ export class RenderService {
         ]);
     }
     private createTrack(): void {
-        const track: THREE.Line = this.renderTarckService.buildTrack(this.track);
-        this.scene.add(track);
+        let point1: PointCoordinates = new PointCoordinates(83, 118);
+        let point2: PointCoordinates = new PointCoordinates(329, 55);
+        let point3: PointCoordinates = new PointCoordinates(409, 273);
+        let point4: PointCoordinates = new PointCoordinates(293, 426);
+        let point5: PointCoordinates = new PointCoordinates(158, 461);
+        let point6: PointCoordinates = new PointCoordinates(24, 378);
+        let point7: PointCoordinates = new PointCoordinates(265, 226);
+        let point8: PointCoordinates = new PointCoordinates(83, 118);
+        this.array.push(point1);
+        this.array.push(point2);
+        this.array.push(point3);
+        this.array.push(point4);
+        this.array.push(point5);
+        this.array.push(point6);
+        this.array.push(point7);
+        this.array.push(point8);
+        this.track = new RaceTrack("laTarck", "fuckYou", 0, this.array);
+        const tracks: THREE.Line = this.renderTarckService.buildTrack(this.track);
+        this.scene.add(tracks);
+        console.log("createTrack");
     }
 
     private getAspectRatio(): number {

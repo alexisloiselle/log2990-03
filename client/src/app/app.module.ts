@@ -30,7 +30,9 @@ import { PasswordFormComponent } from "./admin/auth/password-form/password-form.
 import {AuthService} from "./admin/auth/auth.service";
 import { TrackService } from "./track.service";
 import { CanvasComponent } from "./race/track-editor/canvas/canvas.component";
-
+import {RenderTrackService} from "./render-track/render-track.service";
+import {VectorService} from "./vector-service/vector.service";
+ 
 @NgModule({
     declarations: [
         AppComponent,
@@ -65,7 +67,9 @@ import { CanvasComponent } from "./race/track-editor/canvas/canvas.component";
         HttpClientModule,
         DefinitionService,
         InputService,
-        TrackService
+        TrackService, 
+        RenderTrackService,
+        VectorService
     ],
     bootstrap: [AppComponent]
 })
