@@ -20,7 +20,6 @@ export class CreateGameComponent implements OnInit {
         this.gameName = "";
         this.difficulty = "";
         this.isNameAlreadyUsed = false;
-        this.test = "I love Mimi";
     }
 
     public ngOnInit(): void {
