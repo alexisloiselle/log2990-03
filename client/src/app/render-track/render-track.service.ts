@@ -19,7 +19,8 @@ export class RenderTrackService {
         this.race = race;
         this.vectorPoints = this.vectorService.createVectors(this.race);
         this.curve = new THREE.CatmullRomCurve3(this.vectorPoints);
-        this.geometry = new THREE.BufferGeometry().setFromPoints(this.curve.getPoints(50));
+        let points = this.curve.getPoints(50);
+        this.geometry = new THREE.BufferGeometry().setFromPoints(points);
         this.material = new THREE.LineBasicMaterial({ color: 0xFF0000 });
 
         return (this.curveObject = new THREE.Line(this.geometry, this.material));

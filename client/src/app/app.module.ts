@@ -12,7 +12,6 @@ import { InputService } from "./crossword/services/crossword/input.service";
 import { DefinitionService } from "./crossword/services/crossword/definition.service";
 import { TrackEditorComponent } from "./race/track-editor/track-editor.component";
 
-import { GameService} from "./game.service";
 import { TrackListComponent } from "./race/track-list//track-list.component";
 import { AppRoutingModule } from "./app-routing.module";
 import { CrosswordMainComponent } from "./crossword/crossword-main/crossword-main.component";
@@ -60,7 +59,6 @@ import {VectorService} from "./vector-service/vector.service";
     providers: [
         RenderService,
         BasicService,
-        GameService,
         CrosswordService,
         CarEventHandlerService,
         AuthService,
