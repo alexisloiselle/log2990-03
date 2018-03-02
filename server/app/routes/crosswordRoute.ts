@@ -5,7 +5,7 @@ import { Grid } from "../Crossword/grid";
 import { Case } from "../Crossword/case";
 import { Word, Direction } from "../Crossword/word";
 import { ICrosswordGame, ICrosswordGameInfo, IWords } from "./crossword-game";
-import { MongoClient } from "mongodb";
+import { MongoClient, MongoError } from "mongodb";
 
 module Route {
     const MONGO_URL: string = "mongodb://admin:password@ds233218.mlab.com:33218/log2990-03-db";
@@ -66,7 +66,7 @@ module Route {
             require("mongodb").MongoClient.connect(MONGO_URL, async (err: any, db: MongoClient) => {
                 // tslint:disable-next-line:no-any
                 const collection: any = db.db("log2990-03-db");
-                collection.collection("games").insertOne(game, (insertErr: any, insertDb: any) => {
+                collection.collection("games").insertOne(game, (insertErr: MongoError) => {
                     const isOk: boolean = (insertErr === null);
                     res.send(JSON.stringify(isOk));
                 });
@@ -75,7 +75,7 @@ module Route {
         }
 
         public async isWordAlreadyUsed(req: Request, res: Response, next: NextFunction): Promise<void> {
-            require("mongodb").MongoClient.connect(MONGO_URL, async (err: any, db: MongoClient) => {
+            require("mongodb").MongoClient.connect(MONGO_URL, async (err: MongoError, db: MongoClient) => {
                 // tslint:disable-next-line:typedef
                 const collection = db.db("log2990-03-db");
                 collection.collection("games").find({ "gameInfo.gameName": req.params.gameName }).count().then((size: number) => {
