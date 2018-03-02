@@ -1,8 +1,8 @@
 const MINIMUM_DISTANCE_BETWEEN_POINTS: number = 20;
 
 export class PointCoordinates {
-    public x: number;
-    public y: number;
+    private x: number;
+    private y: number;
 
     public constructor(x: number, y: number) {
         this.x = x;

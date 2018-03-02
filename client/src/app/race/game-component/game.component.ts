@@ -14,7 +14,8 @@ export class GameComponent implements AfterViewInit {
     @ViewChild("container")
     private containerRef: ElementRef;
 
-    public constructor(private renderService: RenderService) { }
+    public constructor(private renderService: RenderService) {
+    }
 
     @HostListener("window:resize", ["$event"])
     public onResize(): void {

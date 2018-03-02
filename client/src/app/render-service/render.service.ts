@@ -5,6 +5,8 @@ import { Car } from "../race/car/car";
 import { CarEventHandlerService } from "./car-event-handler.service";
 // tslint:disable-next-line:no-duplicate-imports
 import { CubeTextureLoader } from "three";
+import {RenderTrackService} from "../render-track/render-track.service";
+import {RaceTrack} from "../race/raceTrack";
 
 const FAR_CLIPPING_PLANE: number = 1000;
 const NEAR_CLIPPING_PLANE: number = 1;
@@ -22,13 +24,16 @@ export class RenderService {
     private scene: THREE.Scene;
     private stats: Stats;
     private lastDate: number;
+    private track: RaceTrack;
 
     public get car(): Car {
         return this._car;
     }
 
-    public constructor(private carEventHandlerService: CarEventHandlerService) {
+    public constructor(private carEventHandlerService: CarEventHandlerService,
+                       private renderTarckService: RenderTrackService) {
         this._car = new Car();
+        this.track = new RaceTrack("laTarck", "fuckYou", 0, );
     }
 
     public async initialize(container: HTMLDivElement): Promise<void> {
@@ -76,6 +81,7 @@ export class RenderService {
         this.scene.add(new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY));
 
         this.createSkybox();
+        this.createTrack();
     }
 
     private createSkybox(): void {
@@ -89,6 +95,10 @@ export class RenderService {
             "ft.png",
             "bk.png"
         ]);
+    }
+    private createTrack(): void {
+        const track: THREE.Line = this.renderTarckService.buildTrack(this.track);
+        this.scene.add(track);
     }
 
     private getAspectRatio(): number {

@@ -65,7 +65,7 @@ export class TrackListComponent implements OnInit {
         const newPointArray: PointCoordinates[] = [];
 
         for (const point of track.points) {
-            newPointArray.push(new PointCoordinates(point.x, point.y));
+            newPointArray.push(new PointCoordinates(point.X, point.Y));
         }
         this.trackEditor.myTrackEditorModel.PointArray = newPointArray;
         this.trackEditor.redrawCanvas();
