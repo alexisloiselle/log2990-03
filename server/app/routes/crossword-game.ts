@@ -1,7 +1,7 @@
 export interface ICrosswordGame {
     gameInfo: ICrosswordGameInfo;
     letters: string[][];
-    words: IWords[];
+    words: IWord[];
 }
 
 export interface ICrosswordGameInfo {
@@ -11,9 +11,9 @@ export interface ICrosswordGameInfo {
     difficulty: string;
 }
 
-export interface IWords {
+export interface IWord {
     word: string;
-    def: string;
+    definition: string;
     isHorizontal: boolean;
     position: IPosition;
 }

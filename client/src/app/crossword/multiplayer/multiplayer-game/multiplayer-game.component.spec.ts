@@ -1,8 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { MultiplayerGameComponent } from './multiplayer-game.component';
+import { MultiplayerGameComponent } from "./multiplayer-game.component";
 
-describe('MultiplayerGameComponent', () => {
+describe("MultiplayerGameComponent", () => {
   let component: MultiplayerGameComponent;
   let fixture: ComponentFixture<MultiplayerGameComponent>;
 
@@ -19,7 +19,7 @@ describe('MultiplayerGameComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

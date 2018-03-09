@@ -6,9 +6,9 @@ export class Word {
     private column: number;
     private isPlaced: boolean;
 
-    public constructor(wordname: string, def: string, isHorizontal: boolean, line: number, column: number) {
+    public constructor(wordname: string, definition: string, isHorizontal: boolean, line: number, column: number) {
         this.word = wordname;
-        this.definition = def;
+        this.definition = definition;
         this.isHorizontal = isHorizontal;
         this.line = line;
         this.column = column;
