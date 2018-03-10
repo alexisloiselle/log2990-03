@@ -2,9 +2,10 @@ import { Injectable } from "@angular/core";
 import Stats = require("stats.js");
 import * as THREE from "three";
 import { Car } from "../race/car/car";
+import { BotCar } from "../race/car/bot-car";
 import { CarEventHandlerService } from "./car-event-handler.service";
 // tslint:disable-next-line:no-duplicate-imports
-import { CubeTextureLoader } from "three";
+import { CubeTextureLoader, Vector3, Object3D, ObjectLoader } from "three";
 
 const FAR_CLIPPING_PLANE: number = 1000;
 const NEAR_CLIPPING_PLANE: number = 1;
@@ -17,18 +18,23 @@ export class RenderService {
 
     private camera: THREE.PerspectiveCamera;
     private container: HTMLDivElement;
-    private _car: Car;
+    private mainCar: Car;
+    private botCars: Array<BotCar> = new Array<BotCar>();
     private renderer: THREE.WebGLRenderer;
     private scene: THREE.Scene;
     private stats: Stats;
     private lastDate: number;
 
     public get car(): Car {
-        return this._car;
+        return this.mainCar;
     }
 
     public constructor(private carEventHandlerService: CarEventHandlerService) {
-        this._car = new Car();
+        this.mainCar = new Car();
+        const numberBotCars: number = 3;
+        for (let i: number = 0; i < numberBotCars; i++) {
+            this.botCars.push(new BotCar());
+        }
     }
 
     public async initialize(container: HTMLDivElement): Promise<void> {
@@ -37,8 +43,19 @@ export class RenderService {
         }
 
         await this.createScene();
+        this.botCars[0].startAccelerating();
+        this.botCars[0].turn();
         this.initStats();
         this.startRenderingLoop();
+    }
+
+    private async loadCar(descriptionFileName: string): Promise<Object3D> {
+        return new Promise<Object3D>((resolve, reject) => {
+            const loader: ObjectLoader = new ObjectLoader();
+            loader.load(descriptionFileName, (object) => {
+                resolve(object);
+            });
+        });
     }
 
     private initStats(): void {
@@ -47,9 +64,22 @@ export class RenderService {
         this.container.appendChild(this.stats.dom);
     }
 
+    private async initBotCars(): Promise<void> {
+        // tslint:disable-next-line:no-magic-numbers
+        const positions: Array<number> = [-2, 2, 4];
+        const carModelsDirectories: Array<string> = ["../../assets/porsche/porsche.json",
+                                                     "../../assets/lamborghini/lamborghini.json",
+                                                     "../../assets/porsche/porsche.json"];
+        for (let i: number = 0; i < this.botCars.length; i++) {
+            this.botCars[i].init(await this.loadCar(carModelsDirectories[i]));
+            this.botCars[i].translateOnAxis(new Vector3(0, 0, positions[i]), 1);
+            this.scene.add(this.botCars[i]);
+        }
+    }
+
     private update(): void {
         const timeSinceLastFrame: number = Date.now() - this.lastDate;
-        this._car.update(timeSinceLastFrame);
+        this.mainCar.update(timeSinceLastFrame);
         this.lastDate = Date.now();
     }
 
@@ -64,15 +94,16 @@ export class RenderService {
             FAR_CLIPPING_PLANE
         );
 
-        await this._car.init();
+        await this.mainCar.init(await this.loadCar("../../assets/camero/camero-2010-low-poly.json"));
 
         // this for third person camera (test skybox)
         this.camera.position.z = 10;
         this.camera.position.y = 5;
-        this.camera.lookAt(this._car.position);
+        this.camera.lookAt(this.mainCar.position);
         this.car.attachCamera(this.camera);
+        this.scene.add(this.mainCar);
 
-        this.scene.add(this._car);
+        this.initBotCars();
         this.scene.add(new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY));
 
         this.createSkybox();
@@ -119,10 +150,10 @@ export class RenderService {
     }
 
     public handleKeyDown(event: KeyboardEvent): void {
-        this.carEventHandlerService.handleKeyDown(event, this._car, this.camera);
+        this.carEventHandlerService.handleKeyDown(event, this.mainCar, this.camera);
     }
 
     public handleKeyUp(event: KeyboardEvent): void {
-      this.carEventHandlerService.handleKeyUp(event, this._car, this.camera);
+      this.carEventHandlerService.handleKeyUp(event, this.mainCar, this.camera);
     }
 }
