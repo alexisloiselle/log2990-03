@@ -9,7 +9,7 @@ module Route {
     export class AuthRoute {
         public auth(req: Request, res: Response, next: NextFunction): void {
             require("mongodb").MongoClient.connect(MONGO_URL, async (err: MongoError, client: MongoClient) => {
-                const collection: Db = client.db("log2990-03-db");
+                const collection: Db = client.client("log2990-03-db");
                 collection.collection("admin").findOne(
                     { value: "password" },
                     (findErr: MongoError, doc: { password: string }) => {
@@ -21,7 +21,7 @@ module Route {
         }
         public changePassword(req: Request, res: Response, next: NextFunction): void {
             require("mongodb").MongoClient.connect(MONGO_URL, async (err: MongoError, client: MongoClient) => {
-                const collection: Db = client.db("log2990-03-db");
+                const collection: Db = client.client("log2990-03-db");
                 collection.collection("admin").updateOne(
                     { value: "password" },
                     { $set: { password: req.body.newPassword } },
