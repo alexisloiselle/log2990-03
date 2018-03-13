@@ -70,8 +70,6 @@ export class CanvasComponent implements OnInit {
         }
     }
 
-   
-
     public drawPoint(mouseCoordinates: PointCoordinates): void {
         const MINIMUM_LENGTH: number = 3;
         if (this.myTrackEditorModel.getPointArrayLength() >= MINIMUM_LENGTH &&
@@ -139,7 +137,7 @@ export class CanvasComponent implements OnInit {
     }
 
     /*Bad smell, too much arguments*/
-    public allConstraintPass() {
+    public allConstraintPass(): boolean {
         let constraintRespected: boolean = this.myTrackEditorModel.isLoopClosed();
 
         if (constraintRespected) {
