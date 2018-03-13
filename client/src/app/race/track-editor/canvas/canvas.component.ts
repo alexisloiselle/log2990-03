@@ -36,12 +36,12 @@ export class CanvasComponent implements OnInit {
         this.isMouseDown = false;
         this.myTrackEditorModel = new TrackEditorModel();
         this.drawingOnCanvas = new DrawingOnCanvas(this.context);
-        this.mouseCoordinates = new PointCoordinates(0,0);
+        this.mouseCoordinates = new PointCoordinates(0, 0);
     }
 
     public constructor(
         private constraintService: ConstraintService
-    ) {}
+    ) { }
 
     public mouseUp(event: MouseEvent): void {
         this.isMouseDown = false;
@@ -60,8 +60,8 @@ export class CanvasComponent implements OnInit {
     }
 
     public mouseMoved(event: MouseEvent): void {
-        this.mouseCoordinates.X = event.offsetX;
-        this.mouseCoordinates.Y = event.offsetY;
+        this.mouseCoordinates.x = event.offsetX;
+        this.mouseCoordinates.y = event.offsetY;
 
         if (this.isMouseDown) {
             this.dragAndDrop();
@@ -130,8 +130,8 @@ export class CanvasComponent implements OnInit {
     /*Bad smell, too much arguments*/
     public redrawCanvas(): void {
         let noIntersection: boolean[] = this.constraintService.intersectionBooleanArray(this.myTrackEditorModel.PointArray);
-        let angleOk : boolean[] = this.constraintService.angleBooleanArray(this.myTrackEditorModel.PointArray);
-        let lengthOk : boolean[] =  this.constraintService.lengthBooleanArray(this.myTrackEditorModel.PointArray);
+        let angleOk: boolean[] = this.constraintService.angleBooleanArray(this.myTrackEditorModel.PointArray);
+        let lengthOk: boolean[] = this.constraintService.lengthBooleanArray(this.myTrackEditorModel.PointArray);
 
         this.drawingOnCanvas.redrawCanvas(this.myTrackEditorModel, noIntersection, angleOk, lengthOk);
     }
@@ -141,7 +141,7 @@ export class CanvasComponent implements OnInit {
         let constraintRespected: boolean = this.myTrackEditorModel.isLoopClosed();
 
         if (constraintRespected) {
-            for (const angleConstraint of  this.constraintService.angleBooleanArray(this.myTrackEditorModel.PointArray)) {
+            for (const angleConstraint of this.constraintService.angleBooleanArray(this.myTrackEditorModel.PointArray)) {
                 constraintRespected = constraintRespected && angleConstraint;
             }
             for (const intersectionConstraint of this.constraintService.intersectionBooleanArray(this.myTrackEditorModel.PointArray)) {

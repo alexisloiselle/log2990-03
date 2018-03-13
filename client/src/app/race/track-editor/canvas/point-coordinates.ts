@@ -14,26 +14,10 @@ export class PointCoordinates {
     }
 
     public equals(otherPoint: PointCoordinates): boolean {
-        return this.X === otherPoint.X && this.Y === otherPoint.Y;
+        return this.x === otherPoint.x && this.y === otherPoint.y;
     }
 
     public isTooClose(otherPoint: PointCoordinates): boolean {
         return (this.getDistance(otherPoint) <= MINIMUM_DISTANCE_BETWEEN_POINTS );
-    }
-
-    public get X(): number {
-        return this.x;
-    }
-
-    public set X(x: number) {
-        this.x = x;
-    }
-
-    public get Y(): number {
-        return this.y;
-    }
-
-    public set Y(y: number) {
-        this.y = y;
     }
 }

@@ -31,8 +31,8 @@ export class TrackEditorModel {
 
     public setPointCoordinates(index: number, mouseCoordinates: PointCoordinates): void {
         if (index >= 0 && index < this.pointArray.length) {
-            this.pointArray[index].X = mouseCoordinates.X;
-            this.pointArray[index].Y = mouseCoordinates.Y;
+            this.pointArray[index].x = mouseCoordinates.x;
+            this.pointArray[index].y = mouseCoordinates.y;
         }
     }
 
@@ -68,7 +68,7 @@ export class TrackEditorModel {
 
     public closeLoop(): void {
         if (this.getPointArrayLength() > 1) {
-            const point: PointCoordinates = new PointCoordinates(this.pointArray[0].X, this.pointArray[0].Y);
+            const point: PointCoordinates = new PointCoordinates(this.pointArray[0].x, this.pointArray[0].y);
             this.pointArray.push(point);
         }
     }
