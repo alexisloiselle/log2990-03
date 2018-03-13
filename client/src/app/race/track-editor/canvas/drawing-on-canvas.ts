@@ -4,8 +4,8 @@ import { TrackEditorModel } from "./track-editor-model";
 const WIDTH_OF_CANVAS: number = 500;
 const HEIGHT_OF_CANVAS: number = 500;
 const STANDARD_SIZE_CIRCLE: number = 10;
+const LINE_WIDTH: number = 5;
 
-/* tslint:disable:no-magic-numbers */
 export class DrawingOnCanvas {
     private ctx: CanvasRenderingContext2D;
 
@@ -16,7 +16,7 @@ export class DrawingOnCanvas {
     public drawFirstPointOnCanvas(point: PointCoordinates, color: string, size: number): void {
         this.ctx.beginPath();
         this.ctx.arc(point.X, point.Y, STANDARD_SIZE_CIRCLE, 0, Math.PI * 2);
-        this.ctx.lineWidth = 5;
+        this.ctx.lineWidth = LINE_WIDTH;
         this.ctx.strokeStyle = "blue";
         this.ctx.stroke();
 

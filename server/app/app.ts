@@ -9,8 +9,8 @@ import { injectable, inject } from "inversify";
 import { Routes } from "./routes";
 import { LexiconRoute } from "./routes/lexiconRoute";
 import { CrosswordRoute } from "./routes/crosswordRoute";
-import {AuthRoute } from "./routes/authRoute";
-import {TrackRoute} from "./routes/trackRoute";
+import { AuthRoute } from "./routes/authRoute";
+import { TrackRoute } from "./routes/trackRoute";
 
 @injectable()
 export class Application {
@@ -36,39 +36,53 @@ export class Application {
         this.app.use(cors());
     }
 
-    // tslint:disable-next-line:max-func-body-length
     public routes(): void {
         const router: express.Router = express.Router();
         router.use(this.api.routes);
 
-        const lexicon: LexiconRoute = new LexiconRoute();
-        const crossword: CrosswordRoute = new CrosswordRoute();
-        const auth: AuthRoute = new AuthRoute();
+        this.routeLexicon(router);
+        this.routeCrossword(router);
+        this.routeAuthentication(router);
+        this.trackRoute(router);
+
+        this.app.use("/api", router);
+
+        this.errorHandeling();
+    }
+
+    private trackRoute(router: express.Router): void {
         const track: TrackRoute = new TrackRoute();
-
-        router.get("/lexicon", lexicon.getAllWords.bind(lexicon));
-        router.get("/lexicon/definition/:word", lexicon.getDefinitions.bind(lexicon));
-        router.get("/lexicon/common/:pattern", lexicon.getCommonWithPattern.bind(lexicon));
-        router.get("/lexicon/uncommon/:pattern", lexicon.getUncommonWithPattern.bind(lexicon));
-
-        router.get("/crossword/mock", crossword.getMockGrid.bind(crossword));
-        router.get("/crossword/:difficulty", crossword.getGrid.bind(crossword));
-
-        router.post("/crossword/createNewGame", crossword.createNewGame.bind(crossword));
-        router.get("/crossword/isNameAlreadyUsed/:gameName", crossword.isWordAlreadyUsed.bind(crossword));
-
-        router.post("/auth", auth.auth.bind(auth.auth));
-        router.put("/passwordChange", auth.changePassword.bind(auth.changePassword));
 
         router.post("/tracks/add", track.addTrack.bind(track.addTrack));
         router.get("/tracks/all", track.getTracks.bind(track.getTracks));
         router.get("/tracks/:id", track.getTrack.bind(track.getTrack));
         router.put("/tracks/:id", track.updateTrack.bind(track.updateTrack));
         router.delete("/tracks/:id", track.deleteTrack.bind(track.deleteTrack));
+    }
 
-        this.app.use("/api", router);
+    private routeAuthentication(router: express.Router): void {
+        const auth: AuthRoute = new AuthRoute();
 
-        this.errorHandeling();
+        router.post("/auth", auth.auth.bind(auth.auth));
+        router.put("/passwordChange", auth.changePassword.bind(auth.changePassword));
+    }
+
+    private routeCrossword(router: express.Router): void {
+        const crossword: CrosswordRoute = new CrosswordRoute();
+
+        router.get("/crossword/mock", crossword.getMockGrid.bind(crossword));
+        router.get("/crossword/:difficulty", crossword.getGrid.bind(crossword));
+        router.post("/crossword/createNewGame", crossword.createNewGame.bind(crossword));
+        router.get("/crossword/isNameAlreadyUsed/:gameName", crossword.isWordAlreadyUsed.bind(crossword));
+    }
+
+    private routeLexicon(router: express.Router): void {
+        const lexicon: LexiconRoute = new LexiconRoute();
+
+        router.get("/lexicon", lexicon.getAllWords.bind(lexicon));
+        router.get("/lexicon/definition/:word", lexicon.getDefinitions.bind(lexicon));
+        router.get("/lexicon/common/:pattern", lexicon.getCommonWithPattern.bind(lexicon));
+        router.get("/lexicon/uncommon/:pattern", lexicon.getUncommonWithPattern.bind(lexicon));
     }
 
     private errorHandeling(): void {

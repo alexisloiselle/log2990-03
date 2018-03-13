@@ -5,7 +5,6 @@ import { PointCoordinates } from "./point-coordinates";
 const MIN_ANGLE_IN_DEGREE: number = 45;
 const DEFAULT_TRACK_WIDTH: number = 60;
 
-/* tslint:disable:no-magic-numbers */
 @Injectable()
 export class ConstraintService {
 
@@ -34,7 +33,7 @@ export class ConstraintService {
         return (segment.calculateVectorLenght() >= width * 2);
     }
 
-    public loopIsClosed(myPointArray: PointCoordinates[]): boolean {
+    public isLoopClosed(myPointArray: PointCoordinates[]): boolean {
         return (myPointArray.length > 2 &&
             myPointArray[0].X === myPointArray[myPointArray.length - 1].X &&
             myPointArray[0].Y === myPointArray[myPointArray.length - 1].Y);
@@ -47,7 +46,7 @@ export class ConstraintService {
         for (let i: number = 0; i < vectors.length - 1; i++) {
             myBooleanArray.push(this.verifyAngle(vectors[i], vectors[i + 1]));
         }
-        if (this.loopIsClosed(myPointArray)) {
+        if (this.isLoopClosed(myPointArray)) {
             myBooleanArray.push(this.verifyAngle(vectors[vectors.length - 1], vectors[0]));
         }
 
@@ -56,16 +55,13 @@ export class ConstraintService {
 
     public intersectionBooleanArray(myPointArray: PointCoordinates[]): boolean[] {
         const myVector: Vector[] = this.createArrayVector(myPointArray);
-        const myBooleanArray: boolean[] = [];
-
-        // tslint:disable-next-line:prefer-for-of
-        for (let i: number = 0; i < myVector.length; i++) {
-            myBooleanArray.push(true);
-        }
+        const myBooleanArray: boolean[] = myPointArray.map(() => {
+            return true;
+        });
 
         for (let i: number = 0; i < myVector.length; i++) {
             for (let j: number = i + 2; j < myVector.length; j++) {
-                if (!(i === 0 && j === myVector.length - 1 && this.loopIsClosed(myPointArray)) &&
+                if (!(i === 0 && j === myVector.length - 1 && this.isLoopClosed(myPointArray)) &&
                     this.verifyIsIntersecting(myVector[i], myVector[j])) {
                     myBooleanArray[i] = myBooleanArray[j] = false;
                 }
@@ -74,7 +70,7 @@ export class ConstraintService {
 
         return myBooleanArray;
     }
-    
+
     public lengthBooleanArray(myPointArray: PointCoordinates[]): boolean[] {
         const vectors: Vector[] = this.createArrayVector(myPointArray);
         const myBooleanArray: boolean[] = [];

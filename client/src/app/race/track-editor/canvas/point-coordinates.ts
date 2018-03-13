@@ -10,7 +10,6 @@ export class PointCoordinates {
     }
 
     public getDistance(otherPoint: PointCoordinates): number {
-        // tslint:disable-next-line:no-magic-numbers
         return Math.sqrt(Math.pow(otherPoint.x - this.x, 2) + Math.pow(otherPoint.y - this.y, 2));
     }
 

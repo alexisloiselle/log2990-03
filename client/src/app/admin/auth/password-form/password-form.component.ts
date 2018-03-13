@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { AuthService } from "../auth.service";
 import { Router } from "@angular/router";
 
@@ -9,8 +9,6 @@ import { Router } from "@angular/router";
 })
 
 export class PasswordFormComponent implements OnInit {
-    // tslint:disable-next-line:no-any
-    @Output() public success: EventEmitter<any> = new EventEmitter();
     public requiresPermission: boolean = true;
     public validPassword: boolean = false;
     public error: boolean = false;

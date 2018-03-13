@@ -1,9 +1,10 @@
 import { DefinitionsComponent } from "./definitions.component";
 import { DefinitionService } from "../services/crossword/definition.service";
 
+// to test
 // tslint:disable-next-line:no-any
 const crosswordService: any = {
-    FormattedGrid: {
+    formattedGrid: {
         letters: [
             ["", "a", "", "", "b", "a", "c", "o", "n", ""],
             ["s", "l", "", "m", "o", "r", "a", "l", "", "a"],
@@ -49,7 +50,8 @@ const crosswordService: any = {
             },
             {
                 word: "spa",
-                definition: "a place of business with equipment and facilities for exercising and improving physical fitness",
+                definition: "a place of business with equipment and facilities for exercising and \
+                improving physical fitness",
                 isHorizontal: false,
                 position: { x: 1, y: 0 }
             },
@@ -85,7 +87,8 @@ const crosswordService: any = {
             },
             {
                 word: "era",
-                definition: "a major division of geological time; an era is usually divided into two or more periods",
+                definition: "a major division of geological time; an era is usually divided into two or more \
+                periods",
                 isHorizontal: false,
                 position: { x: 4, y: 3 }
             },
@@ -121,14 +124,15 @@ const crosswordService: any = {
             },
             {
                 word: "able",
-                definition: "(usually followed by `to') having the necessary means or skill or know-how or authority to do something",
+                definition: "(usually followed by `to') having the necessary means or skill or know-how or \
+                authority to do something",
                 isHorizontal: false,
                 position: { x: 6, y: 6 }
             },
             {
                 word: "ray",
-                // tslint:disable-next-line:max-line-length
-                definition: "cartilaginous fishes having horizontally flattened bodies and enlarged winglike pectoral fins with gills on the underside; most swim by moving the pectoral fins",
+                definition: "cartilaginous fishes having horizontally flattened bodies and enlarged winglike \
+                pectoral fins with gills on the underside; most swim by moving the pectoral fins",
                 isHorizontal: false,
                 position: { x: 6, y: 8 }
             },
