@@ -30,6 +30,7 @@ import { ChangePasswordComponent } from "./admin/change-password/change-password
 import { PasswordFormComponent } from "./admin/auth/password-form/password-form.component";
 import { AuthService } from "./admin/auth/auth.service";
 import { TrackService } from "./track.service";
+import { ZoomService } from "./render-service/zoom.service";
 import { CanvasComponent } from "./race/track-editor/canvas/canvas.component";
 import { JoinGameComponent } from "./crossword/multiplayer/join-game/join-game.component";
 import { CreateGameComponent } from "./crossword/multiplayer/create-game/create-game.component";
@@ -73,6 +74,7 @@ import { MultiplayerGameComponent } from "./crossword/multiplayer/multiplayer-ga
         DefinitionService,
         InputService,
         TrackService,
+        ZoomService
         SocketService
     ],
     bootstrap: [AppComponent]

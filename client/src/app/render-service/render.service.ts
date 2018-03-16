@@ -3,8 +3,6 @@ import Stats = require("stats.js");
 import * as THREE from "three";
 import { Car } from "../race/car/car";
 import { CarEventHandlerService } from "./car-event-handler.service";
-// tslint:disable-next-line:no-duplicate-imports
-import { CubeTextureLoader } from "three";
 
 const FAR_CLIPPING_PLANE: number = 1000;
 const NEAR_CLIPPING_PLANE: number = 1;
@@ -53,7 +51,6 @@ export class RenderService {
         this.lastDate = Date.now();
     }
 
-    /* tslint:disable:no-magic-numbers */
     private async createScene(): Promise<void> {
         this.scene = new THREE.Scene();
 
@@ -67,8 +64,10 @@ export class RenderService {
         await this._car.init();
 
         // this for third person camera (test skybox)
+        /* tslint:disable:no-magic-numbers */
         this.camera.position.z = 10;
         this.camera.position.y = 5;
+        /* tslint:enable:no-magic-numbers */
         this.camera.lookAt(this._car.position);
         this.car.attachCamera(this.camera);
 
@@ -79,16 +78,16 @@ export class RenderService {
     }
 
     private createSkybox(): void {
-        this.scene.background = new CubeTextureLoader()
-        .setPath("../../assets/skybox/")
-        .load([
-            "lf.png",
-            "rt.png",
-            "up.png",
-            "dn.png",
-            "ft.png",
-            "bk.png"
-        ]);
+        this.scene.background = new THREE.CubeTextureLoader()
+            .setPath("../../assets/skybox/")
+            .load([
+                "lf.png",
+                "rt.png",
+                "up.png",
+                "dn.png",
+                "ft.png",
+                "bk.png"
+            ]);
     }
 
     private getAspectRatio(): number {
@@ -123,6 +122,6 @@ export class RenderService {
     }
 
     public handleKeyUp(event: KeyboardEvent): void {
-      this.carEventHandlerService.handleKeyUp(event, this._car, this.camera);
+        this.carEventHandlerService.handleKeyUp(event, this._car, this.camera);
     }
 }

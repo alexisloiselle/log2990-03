@@ -1,23 +1,19 @@
 import { Car } from "../race/car/car";
 import { PerspectiveCamera } from "three";
+import { ZoomService } from "./zoom.service";
+import { Injectable } from "@angular/core";
 
 const ACCELERATE_KEYCODE: number = 87;  // w
 const LEFT_KEYCODE: number = 65;        // a
 const BRAKE_KEYCODE: number = 83;       // s
 const RIGHT_KEYCODE: number = 68;       // d
-const ZOOM_KEYCODE: number = 88;         // x
-const UNZOOM_KEYCODE: number = 90;       // z
-const INITIAL_ZOOM_FACTOR: number = 1.03;
-const ZOOM_FACTOR_INCREMENT: number = 0.01;
-const ZOOM_LIMIT: number = 2;
-const UNZOOM_LIMIT: number = 0.6;
-let zoomFactor: number = INITIAL_ZOOM_FACTOR;
-let unzoomFactor: number = INITIAL_ZOOM_FACTOR;
+const ZOOM_KEYCODE: number = 88;        // x
+const UNZOOM_KEYCODE: number = 90;      // z
 
+@Injectable()
 export class CarEventHandlerService {
-    public constructor() { }
+    public constructor(protected zoomService: ZoomService) {}
 
-    // tslint:disable-next-line:max-func-body-length
     public handleKeyDown(event: KeyboardEvent, _car: Car, camera: PerspectiveCamera): void {
         switch (event.keyCode) {
             case ACCELERATE_KEYCODE:
@@ -33,18 +29,10 @@ export class CarEventHandlerService {
                 _car.brake();
                 break;
             case ZOOM_KEYCODE:
-                if (camera.zoom < ZOOM_LIMIT) {
-                    camera.zoom *= zoomFactor;
-                    camera.updateProjectionMatrix();
-                    zoomFactor += ZOOM_FACTOR_INCREMENT;
-                }
+                this.zoomService.zoom(camera);
                 break;
             case UNZOOM_KEYCODE:
-                if (camera.zoom > UNZOOM_LIMIT) {
-                    camera.zoom /= unzoomFactor;
-                    camera.updateProjectionMatrix();
-                    unzoomFactor += ZOOM_FACTOR_INCREMENT;
-                }
+                this.zoomService.unzoom(camera);
                 break;
             default:
                 break;
@@ -62,12 +50,6 @@ export class CarEventHandlerService {
                 break;
             case BRAKE_KEYCODE:
                 _car.releaseBrakes();
-                break;
-            case ZOOM_KEYCODE:
-                zoomFactor = INITIAL_ZOOM_FACTOR;
-                break;
-            case UNZOOM_KEYCODE:
-                unzoomFactor = INITIAL_ZOOM_FACTOR;
                 break;
             default:
                 break;

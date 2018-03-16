@@ -12,7 +12,7 @@ module Route {
         public addTrack(req: express.Request, res: express.Response, next: express.NextFunction): void {
             require("mongodb").MongoClient.connect(MONGO_URL, async (err: MongoError, client: MongoClient) => {
                 req.body._id = undefined;
-                const collection: Db = client.db("log2990-03-db");
+                const collection: Db = client.client("log2990-03-db");
                 collection.collection("tracks").insertOne(req.body, (insertErr: MongoError) => {
                     const isOk: boolean = (insertErr === null);
                     res.send(JSON.stringify(isOk));
@@ -23,7 +23,7 @@ module Route {
 
         public getTracks(req: express.Request, res: express.Response, next: express.NextFunction): void {
             require("mongodb").MongoClient.connect(MONGO_URL, (err: MongoError, client: MongoClient) => {
-                const collection: Db = client.db("log2990-03-db");
+                const collection: Db = client.client("log2990-03-db");
                 collection.collection("tracks").find({}).toArray((findErr: MongoError, docs: {_id: string, track: string}[]) => {
                     if (findErr === null) {
                         res.send(JSON.stringify(docs));
@@ -37,7 +37,7 @@ module Route {
 
         public getTrack(req: express.Request, res: express.Response, next: express.NextFunction): void {
             require("mongodb").MongoClient.connect(MONGO_URL, (err: MongoError, client: MongoClient) => {
-                const collection: Db = client.db("log2990-03-db");
+                const collection: Db = client.client("log2990-03-db");
                 collection.collection("tracks").findOne(
                     { _id: new ObjectId(req.params.id) },
                     (findErr: MongoError, doc: {_id: string, track: string}) => {
@@ -53,7 +53,7 @@ module Route {
 
         public updateTrack(req: express.Request, res: express.Response, next: express.NextFunction): void {
             require("mongodb").MongoClient.connect(MONGO_URL, (err: MongoError, db: MongoClient) => {
-                const collection: Db = db.db("log2990-03-db");
+                const collection: Db = db.client("log2990-03-db");
                 collection.collection("tracks").updateOne(
                     { _id: new ObjectId(req.params.id) },
                     { $set: { "track": req.body.$set } }, (updateErr: MongoError) => {
@@ -66,7 +66,7 @@ module Route {
 
         public deleteTrack(req: express.Request, res: express.Response, next: express.NextFunction): void {
             require("mongodb").MongoClient.connect(MONGO_URL, (err: MongoError, db: MongoClient) => {
-                const collection: Db = db.db("log2990-03-db");
+                const collection: Db = db.client("log2990-03-db");
                 collection.collection("tracks").remove(
                     { _id: new ObjectId(req.params.id) },
                     (deleteErr: MongoError) => {
