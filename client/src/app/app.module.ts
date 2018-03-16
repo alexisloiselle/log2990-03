@@ -10,7 +10,6 @@ import { BasicService } from "./basic.service";
 import { CrosswordService } from "./crossword/services/crossword/crossword.service";
 import { InputService } from "./crossword/services/crossword/input.service";
 import { DefinitionService } from "./crossword/services/crossword/definition.service";
-import { SocketService } from "./crossword/services/socket.service";
 import { TrackEditorComponent } from "./race/track-editor/track-editor.component";
 
 import { GameService} from "./game.service";
@@ -75,7 +74,6 @@ import { MultiplayerGameComponent } from "./crossword/multiplayer/multiplayer-ga
         InputService,
         TrackService,
         ZoomService
-        SocketService
     ],
     bootstrap: [AppComponent]
 })

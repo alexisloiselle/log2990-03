@@ -7,11 +7,7 @@ import { Component, OnInit } from "@angular/core";
 })
 export class MultiplayerGameComponent implements OnInit {
 
-    public isOpponentFound: boolean;
-
-    public constructor() {
-        this.isOpponentFound = false;
-    }
+    public constructor() { }
 
     public ngOnInit(): void {
     }
