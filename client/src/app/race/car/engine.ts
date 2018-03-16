@@ -103,7 +103,6 @@ export class Engine {
         }
 
         const wheelAngularVelocity: number = speed / wheelRadius;
-        // tslint:disable-next-line: no-magic-numbers
         let rpm: number = (wheelAngularVelocity / (Math.PI * 2)) * MIN_TO_SEC * this.driveRatio * this.gearRatios[this._currentGear];
         rpm = rpm < this.minimumRPM ? this.minimumRPM : rpm;
 

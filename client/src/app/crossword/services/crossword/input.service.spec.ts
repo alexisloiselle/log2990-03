@@ -3,7 +3,7 @@ import { TestBed, inject } from "@angular/core/testing";
 import { InputService } from "./input.service";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 
-// disable magic-numbers to test
+// to test
 // tslint:disable:no-magic-numbers
 describe("InputService", () => {
   beforeEach(() => {

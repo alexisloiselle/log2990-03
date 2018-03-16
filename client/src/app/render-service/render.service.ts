@@ -83,7 +83,6 @@ export class RenderService {
         this.lastDate = Date.now();
     }
 
-    /* tslint:disable:no-magic-numbers */
     private async createScene(): Promise<void> {
         this.scene = new THREE.Scene();
 
@@ -97,6 +96,7 @@ export class RenderService {
         await this.mainCar.init(await this.loadCar("../../assets/camero/camero-2010-low-poly.json"));
 
         // this for third person camera (test skybox)
+        /* tslint:disable:no-magic-numbers */
         this.camera.position.z = 10;
         this.camera.position.y = 5;
         this.camera.lookAt(this.mainCar.position);
@@ -110,16 +110,16 @@ export class RenderService {
     }
 
     private createSkybox(): void {
-        this.scene.background = new CubeTextureLoader()
-        .setPath("../../assets/skybox/")
-        .load([
-            "lf.png",
-            "rt.png",
-            "up.png",
-            "dn.png",
-            "ft.png",
-            "bk.png"
-        ]);
+        this.scene.background = new THREE.CubeTextureLoader()
+            .setPath("../../assets/skybox/")
+            .load([
+                "lf.png",
+                "rt.png",
+                "up.png",
+                "dn.png",
+                "ft.png",
+                "bk.png"
+            ]);
     }
 
     private getAspectRatio(): number {
