@@ -1,11 +1,8 @@
 import { Car } from "./car";
 
 export class BotCar extends Car {
-    public startAccelerating(): void {
+    public start(): void {
         this.isAcceleratorPressed = true;
-    }
-
-    public turn(): void {
         this.steerLeft();
     }
 }

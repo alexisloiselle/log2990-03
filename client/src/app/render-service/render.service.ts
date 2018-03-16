@@ -5,7 +5,7 @@ import { Car } from "../race/car/car";
 import { BotCar } from "../race/car/bot-car";
 import { CarEventHandlerService } from "./car-event-handler.service";
 // tslint:disable-next-line:no-duplicate-imports
-import { CubeTextureLoader, Vector3, Object3D, ObjectLoader } from "three";
+import { Vector3, Object3D, ObjectLoader } from "three";
 
 const FAR_CLIPPING_PLANE: number = 1000;
 const NEAR_CLIPPING_PLANE: number = 1;
@@ -43,8 +43,7 @@ export class RenderService {
         }
 
         await this.createScene();
-        this.botCars[0].startAccelerating();
-        this.botCars[0].turn();
+        this.botCars[0].start();
         this.initStats();
         this.startRenderingLoop();
     }
