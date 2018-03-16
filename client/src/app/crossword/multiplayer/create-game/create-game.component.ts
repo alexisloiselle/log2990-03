@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { CrosswordService } from "../../services/crossword/crossword.service";
-// import { Router } from "@angular/router";
+// import * as io from "socket.io-client";
+import { Router } from "@angular/router";
 
 @Component({
     selector: "app-create-game",
@@ -15,14 +16,15 @@ export class CreateGameComponent implements OnInit {
     public isNameAlreadyUsed: boolean;
     public test: string;
 
-    public constructor( // private router: Router,
-        private crosswordService: CrosswordService ) {
+    public constructor(  private router: Router,
+                         private crosswordService: CrosswordService ) {
         this.gameName = "";
         this.difficulty = "";
         this.isNameAlreadyUsed = false;
     }
 
     public ngOnInit(): void {
+        // const socket: SocketIOClient.Socket = io("http://localhost:3000/");
     }
 
     public updateUsername(event: KeyboardEvent): void {
@@ -45,8 +47,8 @@ export class CreateGameComponent implements OnInit {
         await this.crosswordService.isNameAlreadyUsed(this.gameName)
         .then((isAlreadyUsed: boolean) => (this.isNameAlreadyUsed = isAlreadyUsed));
         if (!this.isNameAlreadyUsed ) {
-            await this.crosswordService.createGame(this.gameName, this.userName, this.difficulty);
-            // this.router.navigate(["single-player-game", this.gameName]);
+            // await this.crosswordService.createGame(this.gameName, this.userName, this.difficulty);
+            this.router.navigate(["single-player-game", this.gameName]);
         }
     }
 
