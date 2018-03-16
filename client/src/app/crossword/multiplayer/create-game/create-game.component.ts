@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { CrosswordService } from "../../services/crossword/crossword.service";
+// import * as io from "socket.io-client";
 // import { Router } from "@angular/router";
 
 @Component({
@@ -23,6 +24,7 @@ export class CreateGameComponent implements OnInit {
     }
 
     public ngOnInit(): void {
+        // const socket: SocketIOClient.Socket = io("http://localhost:3000/");
     }
 
     public updateUsername(event: KeyboardEvent): void {
