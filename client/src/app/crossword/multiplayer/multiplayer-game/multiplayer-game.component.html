@@ -1,3 +1,18 @@
-<p>
-  multiplayer-game works!
-</p>
+<script src="/socket.io/socket.io.js"></script> 
+<div *ngIf="!isOpponentFound" id="waitingForOpponent">Waiting for an opponent...</div>
+<div *ngIf="isOpponentFound">
+  <button type="button" class="btn btn-outline-primary" (click)="defService.isCheatModeOn = !defService.isCheatModeOn">
+    {{defService.isCheatModeOn ? 'Disable Cheat Mode' : 'Enable Cheat Mode'}}
+  </button>
+  <div *ngIf="isConfigured">
+    <div class="row">
+      <div id="crossword" class="col-sm-5">
+        <app-grid></app-grid>
+      </div>
+      <div id="definitions" class="col-sm-7">
+        <app-definitions></app-definitions>
+      </div>
+    </div>
+  </div>
+</div>
+<button class="test" (click)="opponentFound()">okok</button>
