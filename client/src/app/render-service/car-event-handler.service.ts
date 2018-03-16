@@ -7,8 +7,8 @@ const ACCELERATE_KEYCODE: number = 87;  // w
 const LEFT_KEYCODE: number = 65;        // a
 const BRAKE_KEYCODE: number = 83;       // s
 const RIGHT_KEYCODE: number = 68;       // d
-const ZOOM_KEYCODE: number = 88;        // x
-const UNZOOM_KEYCODE: number = 90;      // z
+const ZOOM_KEYCODE: number = 187;        // +
+const UNZOOM_KEYCODE: number = 189;      // -
 
 @Injectable()
 export class CarEventHandlerService {

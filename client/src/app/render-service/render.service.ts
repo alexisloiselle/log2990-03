@@ -44,6 +44,8 @@ export class RenderService {
 
         await this.createScene();
         this.botCars[0].start();
+        this.botCars[1].start2();
+        this.botCars[2].start();
         this.initStats();
         this.startRenderingLoop();
     }
@@ -79,6 +81,9 @@ export class RenderService {
     private update(): void {
         const timeSinceLastFrame: number = Date.now() - this.lastDate;
         this.mainCar.update(timeSinceLastFrame);
+        this.botCars[0].update(timeSinceLastFrame);
+        this.botCars[1].update(timeSinceLastFrame);
+        this.botCars[2].update(timeSinceLastFrame);
         this.lastDate = Date.now();
     }
 
