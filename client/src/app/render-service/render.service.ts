@@ -114,7 +114,7 @@ export class RenderService {
 
         let planes: THREE.Mesh[] = [];
          
-        planes = this.renderTarckService.buildTrack2(this.track);
+        planes = this.renderTarckService.buildTrack(this.track);
 
         for(let i = 0; i<planes.length; i++)
             this.scene.add(planes[i]);

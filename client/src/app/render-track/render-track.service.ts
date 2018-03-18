@@ -18,11 +18,11 @@ export class RenderTrackService {
     public curveObject: THREE.Line;
     public segment: Segment[];
 
-    public constructor(private vectorService: VectorService) {
+    public constructor() {
         this.segment = [];
     }
 
-    public buildTrack2(race: RaceTrack): THREE.Mesh[] {
+    public buildTrack(race: RaceTrack): THREE.Mesh[] {
         let plane: THREE.Mesh[] = [];
         this.generateSegments(race.points);
 
