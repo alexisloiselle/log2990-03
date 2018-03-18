@@ -15,7 +15,7 @@
           </tr>
         </thead>
         <tbody>
-          <ng-container *ngFor="let game of games">
+          <ng-container id="gameContainer" *ngFor="let game of games">
             <tr>
               <th>{{game.gameName}}</th>
               <th>{{game.difficulty}}</th>

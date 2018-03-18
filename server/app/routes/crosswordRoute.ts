@@ -6,7 +6,7 @@ import { Case } from "../Crossword/case";
 import { Word, Direction } from "../Crossword/word";
 import { ICrosswordGame, ICrosswordGameInfo, IWord } from "./crossword-game";
 import { IMultiplayerGame } from "../../../common/multiplayer-game";
-import { MongoClient, MongoError, Db } from "mongodb";
+import { MongoClient, MongoError, Db, Cursor } from "mongodb";
 import { MOCK_LETTERS, MOCK_WORDS_AND_DEFS } from "../../../common/mock-constants";
 
 module Route {
@@ -86,25 +86,16 @@ module Route {
         }
 
         public async getGames(red: Request, res: Response, next: NextFunction): Promise<void> {
-            require("mongodb").MongoClient.connect(MONGO_URL, async(err: MongoError, db: MongoClient) => {
+            const games: IMultiplayerGame[] = [];
+            await require("mongodb").MongoClient.connect(MONGO_URL, async(err: MongoError, db: MongoClient) => {
                 const collection: Db = db.db("log2990-03-db");
-                const games: IMultiplayerGame[] = [];
-                await collection.collection("games").find({})
-                    .forEach((game: any) => {
-                        games.push({ userName1: game.gameInfo.userName1, userName2: game.gameInfo.userName2,
-                                     gameName: game.gameInfo.gameName, difficulty: game.gameInfo.difficulty });
-                        console.log(games);
-                    },       (findErr: any) => {
-                        if (findErr !== null) {
-                            console.error(findErr);
-                        }
-                    });
-                // games.push({userName1: "a", userName2: "b", gameName: "c", difficulty: "d"});
-                // games.push({userName1: "a1", userName2: "b1", gameName: "c1", difficulty: "d1"});
-                // games.push({userName1: "a2", userName2: "b2", gameName: "c2", difficulty: "d2"});
-                // games.push({userName1: "a2", userName2: "b2", gameName: "c2", difficulty: "d2"});
-                res.send(games);
+                const gamesCursor: Cursor<any> = await collection.collection("games").find({});
+                for (let game = await gamesCursor.next(); game != null; game = await gamesCursor.next()) {
+                    games.push({ userName1: game.gameInfo.userName1, userName2: game.gameInfo.userName2,
+                                 gameName: game.gameInfo.gameName, difficulty: game.gameInfo.difficulty });
+                }
                 await db.close();
+                res.send(games);
             });
         }
 
