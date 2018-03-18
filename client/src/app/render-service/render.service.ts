@@ -81,7 +81,7 @@ export class RenderService {
         this.scene.add(this._car);
         this.scene.add(new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY));
 
-        //this.createSkybox();
+        this.createSkybox();
         this.createTrack();
     }
 
@@ -98,78 +98,29 @@ export class RenderService {
         ]);
     }
     private createTrack(): void {
-        /*[{\"x\":95,\"y\":60},
-        {\"x\":443,\"y\":88},
-        {\"x\":419,\"y\":365},
-        {\"x\":121,\"y\":393},
-        {\"x\":95,\"y\":60}],*/
         let point1: PointCoordinates = new PointCoordinates(95, 60);
         let point11: PointCoordinates = new PointCoordinates(443, 88);
         let point2: PointCoordinates = new PointCoordinates(419, 365);
         let point3: PointCoordinates = new PointCoordinates(121, 393);
         let point4: PointCoordinates = new PointCoordinates(95, 60);
-        // let point5: PointCoordinates = new PointCoordinates(158, 461);
-        // let point6: PointCoordinates = new PointCoordinates(24, 378);
-        // let point7: PointCoordinates = new PointCoordinates(265, 226);
-        // let point8: PointCoordinates = new PointCoordinates(0, 0);
         
         this.array.push(point1);
         this.array.push(point11);
         this.array.push(point2);
         this.array.push(point3);
         this.array.push(point4);
-        // this.array.push(point5);
-        // this.array.push(point6);
-        // this.array.push(point7);
-        // this.array.push(point8);
+
         this.track = new RaceTrack("laTarck", "fuckYou", 0, this.array);
-        //const tracks: THREE.Line = this.renderTarckService.buildTrack(this.track);
 
         let planes: THREE.Mesh[] = [];
-
-        // Create the final object to add to the scene
-        // let geometry = new THREE.PlaneGeometry( 15, 60, 32 );
-        // let material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
-        // plane.push(new THREE.Mesh( geometry, material ));
-        // plane[0].rotation.z = Math.PI / 2;
-        // plane[0].rotation.x = Math.PI / 2;
-        // plane[0].position.x = -30;
-        // plane[0].position.z = 0;
-
-        // this._car.position.x = 0;
-        // this._car.position.z = 0;
-        // let geometry2 = new THREE.PlaneGeometry( 15, 60, 8 );
-        // let material2 = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
-        // plane.push(new THREE.Mesh( geometry2, material2 ));
-        // plane[1].rotation.z = Math.PI / 2;
-        // plane[1].rotation.x = Math.PI / 2;
-        // plane[1].position.x = 20;
-        // plane[1].position.z = 15;
-        // console.log(plane);
-
-        let material = new THREE.LineBasicMaterial({
-            color: 0x0000ff,
-            linewidth : 2000
-        });
-        
-        let geometry = new THREE.Geometry();
-        geometry.vertices.push(
-            new THREE.Vector3( 0, 0, -5 ),
-            new THREE.Vector3( 0, 0, 5 )
-        );
-        
-        let line = new THREE.Line( geometry, material );
-        
-        this.scene.add( line );
+         
         planes = this.renderTarckService.buildTrack2(this.track);
 
         for(let i = 0; i<planes.length; i++)
             this.scene.add(planes[i]);
         
-        this._car.rotation.y= Math.PI;
-        // this.scene.add(plane[0]);
-        // this.scene.add(plane[1]);
-        //console.log("createTrack");
+        // On oriente la voiture vis-à-vis le premier tronçon
+        this.renderTarckService.orienterCar(this._car);
     }
 
     private getAspectRatio(): number {
