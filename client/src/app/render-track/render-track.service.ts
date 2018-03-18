@@ -75,8 +75,29 @@ export class RenderTrackService {
         }
     }
 
-    public orienterCar(_car: Car) {
-        _car.rotation.y = this.segment[0].angle + Math.PI/2;
+    public orienterCar(_car: Car): void {
+        _car.rotation.y = this.segment[0].angle - Math.PI/2;
+    }
+
+    public genererSurfaceHorsPiste(): THREE.Mesh {
+        let HPSurface: THREE.Mesh;
+        let geometry = new THREE.PlaneGeometry( 800 , 800);
+        let material: THREE.MeshBasicMaterial;
+
+        material = new THREE.MeshBasicMaterial( {color: 0xff00ff, side: THREE.DoubleSide} );
+
+        HPSurface = new THREE.Mesh( geometry, material);
+
+        HPSurface.position.y = -0.001;
+
+        HPSurface.rotation.z = Math.PI / 2;
+        HPSurface.rotation.x = Math.PI / 2;
+
+        HPSurface.position.x = 0;
+        HPSurface.position.z = 0;
+
+        return HPSurface;
+        
     }
 }
 
