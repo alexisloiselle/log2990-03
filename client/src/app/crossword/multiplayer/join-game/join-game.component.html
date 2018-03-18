@@ -16,7 +16,7 @@
         </thead>
         <tbody>
           <ng-container id="gameContainer" *ngFor="let game of games">
-            <tr (click)="selectedGame = game.gameName">
+            <tr (click)="selectedGame = game.gameName" [style.background-color]="getBackgroundColor(game.gameName)">
               <th>{{game.gameName}}</th>
               <th>{{game.difficulty}}</th>
               <th>{{game.userName1}}</th>
@@ -25,7 +25,6 @@
         </tbody>
       </table>
     </div>
-    {{selectedGame}}
-    <button id="joinGameButton" [disabled]="!isFormValid()">Join game</button>
+    <button id="joinGameButton" [disabled]="!isFormValid()" (click)="joinGame()">Join game</button>
   </div>
 </div>

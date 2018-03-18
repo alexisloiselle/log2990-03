@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { CrosswordService } from "../../services/crossword/crossword.service";
 import { IMultiplayerGame } from "../../../../../../common/multiplayer-game";
+import { Router } from "@angular/router";
 
 @Component({
     selector: "app-join-game",
@@ -14,7 +15,8 @@ export class JoinGameComponent implements OnInit {
     public isReady: Boolean;
     public selectedGame: String;
 
-    public constructor( private crosswordService: CrosswordService ) {
+    public constructor( private crosswordService: CrosswordService,
+                        private router: Router ) {
         this.username = "";
         this.games = [];
         this.isReady = false;
@@ -32,7 +34,18 @@ export class JoinGameComponent implements OnInit {
     }
 
     public isFormValid(): Boolean {
-        return this.username !== "";
+        return this.username !== "" && this.selectedGame !== "";
     }
 
+    public getBackgroundColor(gameName: String): String {
+        if (gameName === this.selectedGame){
+            return "lightgray";
+        } else {
+            return "white";
+        }
+    }
+
+    public joinGame(): void {
+        this.router.navigate(["multiplayer-game", this.selectedGame]);
+    }
 }
