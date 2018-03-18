@@ -98,19 +98,20 @@ export class RenderService {
         ]);
     }
     private createTrack(): void {
-        let point1: PointCoordinates = new PointCoordinates(95, 60);
-        let point11: PointCoordinates = new PointCoordinates(443, 88);
-        let point2: PointCoordinates = new PointCoordinates(419, 365);
-        let point3: PointCoordinates = new PointCoordinates(121, 393);
-        let point4: PointCoordinates = new PointCoordinates(95, 60);
+        /*{\"x\":329,\"y\":114},{\"x\":250,\"y\":347},{\"x\":136,\"y\":167},{\"x\":329,\"y\":114}]*/
+        let point1: PointCoordinates = new PointCoordinates(329, 114);
+        let point11: PointCoordinates = new PointCoordinates(250, 347);
+        let point2: PointCoordinates = new PointCoordinates(136, 167);
+        let point3: PointCoordinates = new PointCoordinates(329, 114);
+        //let point4: PointCoordinates = new PointCoordinates(95, 60);
         
         this.array.push(point1);
         this.array.push(point11);
         this.array.push(point2);
         this.array.push(point3);
-        this.array.push(point4);
+       // this.array.push(point4);
 
-        this.track = new RaceTrack("laTarck", "fuckYou", 0, this.array);
+        this.track = new RaceTrack("laTrack", "fuckYou", 0, this.array);
 
         let planes: THREE.Mesh[] = [];
          
@@ -120,7 +121,9 @@ export class RenderService {
             this.scene.add(planes[i]);
         
         // On oriente la voiture vis-à-vis le premier tronçon
+        this.scene.add(this.renderTarckService.genererSurfaceHorsPiste());
         this.renderTarckService.orienterCar(this._car);
+       
     }
 
     private getAspectRatio(): number {
