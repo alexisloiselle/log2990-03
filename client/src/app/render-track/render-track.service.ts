@@ -1,8 +1,6 @@
 import { Injectable } from "@angular/core";
 import * as THREE from "three";
 import {RaceTrack} from "../race/raceTrack";
-import {VectorService} from "../vector-service/vector.service";
-//import { Vector3 } from "three";
 import { PointCoordinates } from "../race/track-editor/canvas/point-coordinates";
 import { Car } from "../race/car/car";
 
