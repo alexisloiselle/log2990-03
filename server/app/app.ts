@@ -70,7 +70,7 @@ export class Application {
     private routeCrossword(router: express.Router): void {
         const crossword: CrosswordRoute = new CrosswordRoute();
 
-        router.get("/crossword/mock", crossword.getMockGrid.bind(crossword));
+        router.get("/crossword/getGrid/mock", crossword.getMockGrid.bind(crossword));
         router.get("/crossword/getGrid/:difficulty", crossword.getGrid.bind(crossword));
         router.post("/crossword/createNewGame", crossword.createNewGame.bind(crossword));
         router.get("/crossword/isNameAlreadyUsed/:gameName", crossword.isWordAlreadyUsed.bind(crossword));

@@ -38,7 +38,7 @@ export class JoinGameComponent implements OnInit {
     }
 
     public getBackgroundColor(gameName: String): String {
-        if (gameName === this.selectedGame){
+        if (gameName === this.selectedGame) {
             return "lightgray";
         } else {
             return "white";
