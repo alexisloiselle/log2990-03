@@ -1,4 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { CrosswordService } from "../../services/crossword/crossword.service";
+import { IMultiplayerGame } from "../../../../../../common/multiplayer-game";
 
 @Component({
     selector: "app-join-game",
@@ -7,9 +9,28 @@ import { Component, OnInit } from "@angular/core";
 })
 export class JoinGameComponent implements OnInit {
 
-    public constructor() { }
+    public username: String;
+    public games: IMultiplayerGame[];
+    public isReady: Boolean;
 
-    public ngOnInit(): void {
+    public constructor( private crosswordService: CrosswordService ) {
+        this.username = "";
+        this.games = [];
+        this.isReady = false;
+    }
+
+    public async ngOnInit(): Promise<void> {
+        await this.crosswordService.getGames();
+        this.games = this.crosswordService.Games;
+        this.isReady = true;
+    }
+
+    public updateUsername(event: KeyboardEvent): void {
+        this.username = (event.target as HTMLInputElement).value;
+    }
+
+    public isFormValid(): Boolean {
+        return this.username !== "";
     }
 
 }

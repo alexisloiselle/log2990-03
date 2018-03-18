@@ -1,0 +1,26 @@
+#joinGameButton:disabled {
+    color: lightgray;
+    cursor: not-allowed;
+    background: white;
+}
+
+#games {
+    height: 10%;
+}
+
+tbody {
+    height: 100%;
+    display: inline-block;
+    overflow:auto;
+}
+
+thead, tbody tr {
+    display:table;
+    width:100%;
+    table-layout:fixed;
+}
+
+table {
+    width:75%;
+    height: 100%; 
+}
