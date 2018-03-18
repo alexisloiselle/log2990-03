@@ -12,11 +12,13 @@ export class JoinGameComponent implements OnInit {
     public username: String;
     public games: IMultiplayerGame[];
     public isReady: Boolean;
+    public selectedGame: String;
 
     public constructor( private crosswordService: CrosswordService ) {
         this.username = "";
         this.games = [];
         this.isReady = false;
+        this.selectedGame = "";
     }
 
     public async ngOnInit(): Promise<void> {

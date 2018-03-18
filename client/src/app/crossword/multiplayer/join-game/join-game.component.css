@@ -28,3 +28,7 @@ table {
 tbody th {
     font-weight: normal;
 }
+
+tbody tr:hover {
+    background: lightgray;
+}
