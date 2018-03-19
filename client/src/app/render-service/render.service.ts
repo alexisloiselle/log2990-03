@@ -43,9 +43,6 @@ export class RenderService {
         }
 
         await this.createScene();
-        this.botCars[0].start();
-        this.botCars[1].start2();
-        this.botCars[2].start();
         this.initStats();
         this.startRenderingLoop();
     }
