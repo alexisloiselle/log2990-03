@@ -123,6 +123,12 @@ export class RenderService {
         // On oriente la voiture vis-à-vis le premier tronçon
         this.scene.add(this.renderTarckService.genererSurfaceHorsPiste());
         this.renderTarckService.orienterCar(this._car);
+
+        let circles: THREE.Mesh[] = [];
+        circles = this.renderTarckService.genererCircle();
+
+        for(let i = 0; i<circles.length; i++)
+            this.scene.add(circles[i]);
        
     }
 
