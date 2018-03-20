@@ -1,15 +1,17 @@
 import { Injectable } from "@angular/core";
 import Stats = require("stats.js");
 import * as THREE from "three";
-import { Car } from "../race/car/car";
-import { CarEventHandlerService } from "./car-event-handler.service";
 // tslint:disable-next-line:no-duplicate-imports
 import { CubeTextureLoader } from "three";
+import { Car } from "../race/car/car";
+import { CarEventHandlerService } from "./car-event-handler.service";
 import {RenderTrackService} from "../render-track/render-track.service";
 import {RaceTrack} from "../race/raceTrack";
 import {PointCoordinates} from "../race/track-editor/canvas/point-coordinates";
 
 const FAR_CLIPPING_PLANE: number = 1000;
+const POSITION_TEN: number = 10;
+const POSITION_FIVE: number = 5;
 const NEAR_CLIPPING_PLANE: number = 1;
 const FIELD_OF_VIEW: number = 70;
 const WHITE: number = 0xFFFFFF;
@@ -59,28 +61,23 @@ export class RenderService {
         this.lastDate = Date.now();
     }
 
-    /* tslint:disable:no-magic-numbers */
     private async createScene(): Promise<void> {
-        this.scene = new THREE.Scene();
-
         this.camera = new THREE.PerspectiveCamera(
             FIELD_OF_VIEW,
             this.getAspectRatio(),
             NEAR_CLIPPING_PLANE,
             FAR_CLIPPING_PLANE
         );
+        this.scene = new THREE.Scene();
 
         await this._car.init();
 
-        // this for third person camera (test skybox)
-        this.camera.position.z = 10;
-        this.camera.position.y = 5;
+        this.camera.position.z = POSITION_TEN;
+        this.camera.position.y = POSITION_FIVE;
         this.camera.lookAt(this._car.position);
         this.car.attachCamera(this.camera);
-
         this.scene.add(this._car);
         this.scene.add(new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY));
-
         this.createSkybox();
         this.createTrack();
     }
@@ -99,31 +96,32 @@ export class RenderService {
     }
     private createTrack(): void {
         /*{\"x\":329,\"y\":114},{\"x\":250,\"y\":347},{\"x\":136,\"y\":167},{\"x\":329,\"y\":114}]*/
-        let point1: PointCoordinates = new PointCoordinates(329, 114);
-        let point11: PointCoordinates = new PointCoordinates(250, 347);
-        let point2: PointCoordinates = new PointCoordinates(136, 167);
-        let point3: PointCoordinates = new PointCoordinates(329, 114);
-        //let point4: PointCoordinates = new PointCoordinates(95, 60);
-        
+        const point1: PointCoordinates = new PointCoordinates(329, 114);
+        const point2: PointCoordinates = new PointCoordinates(250, 347);
+        const point3: PointCoordinates = new PointCoordinates(136, 167);
+        const point4: PointCoordinates = new PointCoordinates(329, 114);
         this.array.push(point1);
-        this.array.push(point11);
         this.array.push(point2);
         this.array.push(point3);
-       // this.array.push(point4);
+        this.array.push(point4);
 
         this.track = new RaceTrack("laTrack", "fuckYou", 0, this.array);
-
         let planes: THREE.Mesh[] = [];
-         
         planes = this.renderTarckService.buildTrack(this.track);
 
-        for(let i = 0; i<planes.length; i++)
-            this.scene.add(planes[i]);
-        
-        // On oriente la voiture vis-à-vis le premier tronçon
-        this.scene.add(this.renderTarckService.genererSurfaceHorsPiste());
+        for (const i of planes) {
+            this.scene.add(i);
+        }
+
+        this.scene.add(this.renderTarckService.genererateOffTrackSurface());
         this.renderTarckService.orienterCar(this._car);
-       
+
+        let circles: THREE.Mesh[] = [];
+        circles = this.renderTarckService.genererateCircle();
+
+        for (const i of circles) {
+            this.scene.add(i);
+        }
     }
 
     private getAspectRatio(): number {
@@ -161,4 +159,3 @@ export class RenderService {
       this.carEventHandlerService.handleKeyUp(event, this._car, this.camera);
     }
 }
-
