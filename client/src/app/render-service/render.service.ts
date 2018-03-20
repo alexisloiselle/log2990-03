@@ -4,6 +4,7 @@ import * as THREE from "three";
 import { Car } from "../race/car/car";
 import { CarEventHandlerService } from "./car-event-handler.service";
 import { CameraService } from "./camera.service";
+import { SkyboxService } from "./skybox.service";
 
 const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
@@ -24,7 +25,8 @@ export class RenderService {
 
     public constructor(
         private carEventHandlerService: CarEventHandlerService,
-        private cameraService: CameraService
+        private cameraService: CameraService,
+        private skyboxService: SkyboxService
     ) {
         this._car = new Car();
     }
@@ -49,6 +51,7 @@ export class RenderService {
         const timeSinceLastFrame: number = Date.now() - this.lastDate;
         this._car.update(timeSinceLastFrame);
         this.cameraService.update(this._car.Position);
+        this.skyboxService.update(this._car.Position);
         this.lastDate = Date.now();
     }
 
@@ -61,20 +64,7 @@ export class RenderService {
         this.scene.add(this._car);
         this.scene.add(new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY));
 
-        this.createSkybox();
-    }
-
-    private createSkybox(): void {
-        this.scene.background = new THREE.CubeTextureLoader()
-            .setPath("../../assets/skybox/")
-            .load([
-                "lf.png",
-                "rt.png",
-                "up.png",
-                "dn.png",
-                "ft.png",
-                "bk.png"
-            ]);
+        this.skyboxService.createSkybox(this.scene);
     }
 
     // private getAspectRatio(): number {
@@ -105,10 +95,10 @@ export class RenderService {
     }
 
     public handleKeyDown(event: KeyboardEvent): void {
-        this.carEventHandlerService.handleKeyDown(event, this._car, this.camera);
+        this.carEventHandlerService.handleKeyDown(event, this._car);
     }
 
     public handleKeyUp(event: KeyboardEvent): void {
-        this.carEventHandlerService.handleKeyUp(event, this._car, this.camera);
+        this.carEventHandlerService.handleKeyUp(event, this._car);
     }
 }
