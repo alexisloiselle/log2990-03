@@ -14,7 +14,6 @@ import { SocketService } from "./crossword/services/socket.service";
 
 import { TrackEditorComponent } from "./race/track-editor/track-editor.component";
 
-import { GameService} from "./game.service";
 import { TrackListComponent } from "./race/track-list//track-list.component";
 import { AppRoutingModule } from "./app-routing.module";
 import { CrosswordMainComponent } from "./crossword/crossword-main/crossword-main.component";
@@ -31,11 +30,14 @@ import { ChangePasswordComponent } from "./admin/change-password/change-password
 import { PasswordFormComponent } from "./admin/auth/password-form/password-form.component";
 import { AuthService } from "./admin/auth/auth.service";
 import { TrackService } from "./track.service";
-import { ZoomService } from "./render-service/zoom.service";
+import { CameraService } from "./render-service/camera.service";
+import { SkyboxService } from "./render-service/skybox.service";
 import { CanvasComponent } from "./race/track-editor/canvas/canvas.component";
 import { JoinGameComponent } from "./crossword/multiplayer/join-game/join-game.component";
 import { CreateGameComponent } from "./crossword/multiplayer/create-game/create-game.component";
 import { MultiplayerGameComponent } from "./crossword/multiplayer/multiplayer-game/multiplayer-game.component";
+import { RenderTrackService } from "./render-track/render-track.service";
+import { VectorService } from "./vector-service/vector.service";
 
 @NgModule({
     declarations: [
@@ -67,7 +69,6 @@ import { MultiplayerGameComponent } from "./crossword/multiplayer/multiplayer-ga
     providers: [
         RenderService,
         BasicService,
-        GameService,
         CrosswordService,
         CarEventHandlerService,
         AuthService,
@@ -75,8 +76,12 @@ import { MultiplayerGameComponent } from "./crossword/multiplayer/multiplayer-ga
         DefinitionService,
         InputService,
         TrackService,
-        ZoomService,
-        SocketService
+        SocketService,
+        CameraService,
+        SkyboxService,
+        TrackService,
+        RenderTrackService,
+        VectorService
     ],
     bootstrap: [AppComponent]
 })

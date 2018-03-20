@@ -31,8 +31,8 @@ export class TrackEditorModel {
 
     public setPointCoordinates(index: number, mouseCoordinates: PointCoordinates): void {
         if (index >= 0 && index < this.pointArray.length) {
-            this.pointArray[index].x = mouseCoordinates.x;
-            this.pointArray[index].y = mouseCoordinates.y;
+            this.pointArray[index].X = mouseCoordinates.X;
+            this.pointArray[index].Y = mouseCoordinates.Y;
         }
     }
 
@@ -63,12 +63,12 @@ export class TrackEditorModel {
 
     public isLoopClosed(): boolean {
         return (this.pointArray.length > MINIMUM_ARRAY_LENGTH &&
-        (this.pointArray[this.pointArray.length - 1]).equals(this.pointArray[0]));
+            (this.pointArray[this.pointArray.length - 1]).equals(this.pointArray[0]));
     }
 
     public closeLoop(): void {
         if (this.getPointArrayLength() > 1) {
-            const point: PointCoordinates = new PointCoordinates(this.pointArray[0].x, this.pointArray[0].y);
+            const point: PointCoordinates = new PointCoordinates(this.pointArray[0].X, this.pointArray[0].Y);
             this.pointArray.push(point);
         }
     }
@@ -86,9 +86,7 @@ export class TrackEditorModel {
 
     public clickedOnFirstPoint(mouseCoordinates: PointCoordinates): boolean {
         const ACCEPTED_RADIUS: number = 10;
-        console.log(this.pointArray[0].getDistance(mouseCoordinates) <= ACCEPTED_RADIUS);
+
         return this.pointArray[0].getDistance(mouseCoordinates) <= ACCEPTED_RADIUS;
     }
-
-   
 }

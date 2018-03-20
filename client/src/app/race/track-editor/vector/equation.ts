@@ -10,11 +10,11 @@ export class Equation {
     }
 
     public calculateSlope(pointEnd: PointCoordinates, pointStart: PointCoordinates): number {
-        return (pointEnd.y - pointStart.y) / (pointEnd.x - pointStart.x);
+        return (pointEnd.Y - pointStart.Y) / (pointEnd.X - pointStart.X);
     }
 
     public calculateConstant(pointFromTheVector: PointCoordinates): number {
-        return pointFromTheVector.y - this.slope * pointFromTheVector.x;
+        return pointFromTheVector.Y - this.slope * pointFromTheVector.X;
     }
 
     public get Slope(): number {
