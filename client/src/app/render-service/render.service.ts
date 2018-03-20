@@ -5,6 +5,9 @@ import { Car } from "../race/car/car";
 import { CarEventHandlerService } from "./car-event-handler.service";
 import { CameraService } from "./camera.service";
 import { SkyboxService } from "./skybox.service";
+import { RenderTrackService } from "../render-track/render-track.service";
+import { RaceTrack } from "../race/raceTrack";
+import { PointCoordinates } from "../race/track-editor/canvas/point-coordinates";
 
 const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
@@ -18,6 +21,8 @@ export class RenderService {
     private scene: THREE.Scene;
     private stats: Stats;
     private lastDate: number;
+    private track: RaceTrack;
+    private array: PointCoordinates[] = [];
 
     public get car(): Car {
         return this._car;
@@ -26,8 +31,8 @@ export class RenderService {
     public constructor(
         private carEventHandlerService: CarEventHandlerService,
         private cameraService: CameraService,
-        private skyboxService: SkyboxService
-    ) {
+        private skyboxService: SkyboxService,
+        private renderTarckService: RenderTrackService) {
         this._car = new Car();
     }
 
@@ -52,6 +57,7 @@ export class RenderService {
         this._car.update(timeSinceLastFrame);
         this.cameraService.update(this._car.Position);
         this.skyboxService.update(this._car.Position);
+        console.log(this._car.Position);
         this.lastDate = Date.now();
     }
 
@@ -65,6 +71,39 @@ export class RenderService {
         this.scene.add(new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY));
 
         this.skyboxService.createSkybox(this.scene);
+        this.createTrack();
+    }
+
+    private createTrack(): void {
+        const point1: PointCoordinates = new PointCoordinates(329, 114);
+        const point11: PointCoordinates = new PointCoordinates(250, 347);
+        const point2: PointCoordinates = new PointCoordinates(136, 167);
+        const point3: PointCoordinates = new PointCoordinates(329, 114);
+
+        this.array.push(point1);
+        this.array.push(point11);
+        this.array.push(point2);
+        this.array.push(point3);
+
+        this.track = new RaceTrack("laTrack", "fuckYou", 0, this.array);
+
+        let planes: THREE.Mesh[] = [];
+
+        planes = this.renderTarckService.buildTrack(this.track);
+
+        for (const plane of planes) {
+            this.scene.add(plane);
+        }
+
+        // On oriente la voiture vis-à-vis le premier tronçon
+        this.scene.add(this.renderTarckService.genererSurfaceHorsPiste());
+
+        let circles: THREE.Mesh[] = [];
+        circles = this.renderTarckService.genererCircle();
+
+        for (const circle of circles) {
+            this.scene.add(circle);
+        }
     }
 
     // private getAspectRatio(): number {

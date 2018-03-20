@@ -45,15 +45,15 @@ export class Vector {
     }
 
     public pointIsInCommunDomain(intersectionPoint: PointCoordinates, secondVector: Vector): boolean {
-        return !(intersectionPoint.x <= this.domain.XMin || intersectionPoint.x <= secondVector.domain.XMin ||
-            intersectionPoint.x >= this.domain.XMax || intersectionPoint.x >= secondVector.domain.XMax ||
-            intersectionPoint.y <= this.domain.YMin || intersectionPoint.y <= secondVector.domain.YMin ||
-            intersectionPoint.y >= this.domain.YMax || intersectionPoint.y >= secondVector.domain.YMax);
+        return !(intersectionPoint.X <= this.domain.XMin || intersectionPoint.X <= secondVector.domain.XMin ||
+            intersectionPoint.X >= this.domain.XMax || intersectionPoint.X >= secondVector.domain.XMax ||
+            intersectionPoint.Y <= this.domain.YMin || intersectionPoint.Y <= secondVector.domain.YMin ||
+            intersectionPoint.Y >= this.domain.YMax || intersectionPoint.Y >= secondVector.domain.YMax);
     }
 
     public calculateVectorLenght(): number {
-        return (Math.sqrt(Math.pow(this.endPoint.x - this.startPoint.x, POWER_OF_TWO) +
-            Math.pow(this.endPoint.y - this.startPoint.y, POWER_OF_TWO)));
+        return (Math.sqrt(Math.pow(this.endPoint.X - this.startPoint.X, POWER_OF_TWO) +
+            Math.pow(this.endPoint.Y - this.startPoint.Y, POWER_OF_TWO)));
     }
 
     public calculateAngle(vector: Vector): number {

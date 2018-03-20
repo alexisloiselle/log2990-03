@@ -23,6 +23,8 @@ export class CameraService {
             NEAR_CLIPPING_PLANE,
             FAR_CLIPPING_PLANE
         );
+        this.orthographicCamera.quaternion.setFromAxisAngle(new Vector3(-1, 0, 0), Math.PI / 2);
+
     }
 
     public createCamera(position: Vector3, scene: Scene): void {
@@ -37,7 +39,6 @@ export class CameraService {
 
     public update(carPosition: Vector3): void {
         this.orthographicCamera.position.set(carPosition.x, this.orthographicCamera.position.y, carPosition.z);
-        this.orthographicCamera.updateProjectionMatrix();
     }
 
     public zoom(isZooming: boolean): void {

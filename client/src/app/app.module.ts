@@ -12,7 +12,6 @@ import { InputService } from "./crossword/services/crossword/input.service";
 import { DefinitionService } from "./crossword/services/crossword/definition.service";
 import { TrackEditorComponent } from "./race/track-editor/track-editor.component";
 
-import { GameService} from "./game.service";
 import { TrackListComponent } from "./race/track-list//track-list.component";
 import { AppRoutingModule } from "./app-routing.module";
 import { CrosswordMainComponent } from "./crossword/crossword-main/crossword-main.component";
@@ -35,6 +34,8 @@ import { CanvasComponent } from "./race/track-editor/canvas/canvas.component";
 import { JoinGameComponent } from "./crossword/multiplayer/join-game/join-game.component";
 import { CreateGameComponent } from "./crossword/multiplayer/create-game/create-game.component";
 import { MultiplayerGameComponent } from "./crossword/multiplayer/multiplayer-game/multiplayer-game.component";
+import { RenderTrackService } from "./render-track/render-track.service";
+import { VectorService } from "./vector-service/vector.service";
 
 @NgModule({
     declarations: [
@@ -66,7 +67,6 @@ import { MultiplayerGameComponent } from "./crossword/multiplayer/multiplayer-ga
     providers: [
         RenderService,
         BasicService,
-        GameService,
         CrosswordService,
         CarEventHandlerService,
         AuthService,
@@ -75,7 +75,10 @@ import { MultiplayerGameComponent } from "./crossword/multiplayer/multiplayer-ga
         InputService,
         TrackService,
         CameraService,
-        SkyboxService
+        SkyboxService,
+        TrackService,
+        RenderTrackService,
+        VectorService
     ],
     bootstrap: [AppComponent]
 })
