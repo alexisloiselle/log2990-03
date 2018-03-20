@@ -3,17 +3,14 @@ import Stats = require("stats.js");
 import * as THREE from "three";
 import { Car } from "../race/car/car";
 import { CarEventHandlerService } from "./car-event-handler.service";
+import { CameraService } from "./camera.service";
 
-const FAR_CLIPPING_PLANE: number = 1000;
-const NEAR_CLIPPING_PLANE: number = 1;
-const FIELD_OF_VIEW: number = 70;
 const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
 
 @Injectable()
 export class RenderService {
 
-    private camera: THREE.PerspectiveCamera;
     private container: HTMLDivElement;
     private _car: Car;
     private renderer: THREE.WebGLRenderer;
@@ -25,7 +22,10 @@ export class RenderService {
         return this._car;
     }
 
-    public constructor(private carEventHandlerService: CarEventHandlerService) {
+    public constructor(
+        private carEventHandlerService: CarEventHandlerService,
+        private cameraService: CameraService
+    ) {
         this._car = new Car();
     }
 
@@ -48,28 +48,15 @@ export class RenderService {
     private update(): void {
         const timeSinceLastFrame: number = Date.now() - this.lastDate;
         this._car.update(timeSinceLastFrame);
+        this.cameraService.update(this._car.Position);
         this.lastDate = Date.now();
     }
 
     private async createScene(): Promise<void> {
         this.scene = new THREE.Scene();
 
-        this.camera = new THREE.PerspectiveCamera(
-            FIELD_OF_VIEW,
-            this.getAspectRatio(),
-            NEAR_CLIPPING_PLANE,
-            FAR_CLIPPING_PLANE
-        );
-
         await this._car.init();
-
-        // this for third person camera (test skybox)
-        /* tslint:disable:no-magic-numbers */
-        this.camera.position.z = 10;
-        this.camera.position.y = 5;
-        /* tslint:enable:no-magic-numbers */
-        this.camera.lookAt(this._car.position);
-        this.car.attachCamera(this.camera);
+        this.cameraService.createCamera(this._car.Position, this.scene);
 
         this.scene.add(this._car);
         this.scene.add(new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY));
@@ -90,9 +77,9 @@ export class RenderService {
             ]);
     }
 
-    private getAspectRatio(): number {
-        return this.container.clientWidth / this.container.clientHeight;
-    }
+    // private getAspectRatio(): number {
+    //     return this.container.clientWidth / this.container.clientHeight;
+    // }
 
     private startRenderingLoop(): void {
         this.renderer = new THREE.WebGLRenderer();
@@ -107,13 +94,13 @@ export class RenderService {
     private render(): void {
         requestAnimationFrame(() => this.render());
         this.update();
-        this.renderer.render(this.scene, this.camera);
+        this.cameraService.render(this.scene, this.renderer);
         this.stats.update();
     }
 
     public onResize(): void {
-        this.camera.aspect = this.getAspectRatio();
-        this.camera.updateProjectionMatrix();
+        // this.camera.aspect = this.getAspectRatio();
+        // this.camera.updateProjectionMatrix();
         this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
     }
 
