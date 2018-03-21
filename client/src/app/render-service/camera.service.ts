@@ -1,4 +1,4 @@
-import { OrthographicCamera, Vector3, Scene, WebGLRenderer, PerspectiveCamera, Camera } from "three";
+import { OrthographicCamera, Vector3, Scene, WebGLRenderer, PerspectiveCamera } from "three";
 import { Injectable } from "@angular/core";
 import { Car } from "../race/car/car";
 
