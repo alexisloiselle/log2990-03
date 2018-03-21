@@ -1,12 +1,9 @@
-const MINIMUM_DISTANCE_BETWEEN_POINTS: number = 20;
+import { Vector2 } from "three";
 
-export class PointCoordinates {
-    public x: number;
-    public y: number;
+export class PointCoordinates extends Vector2 {
 
     public constructor(x: number, y: number) {
-        this.x = x;
-        this.y = y;
+        super(x, y);
     }
 
     public getDistance(otherPoint: PointCoordinates): number {
@@ -15,9 +12,5 @@ export class PointCoordinates {
 
     public equals(otherPoint: PointCoordinates): boolean {
         return this.x === otherPoint.x && this.y === otherPoint.y;
-    }
-
-    public isTooClose(otherPoint: PointCoordinates): boolean {
-        return (this.getDistance(otherPoint) <= MINIMUM_DISTANCE_BETWEEN_POINTS );
     }
 }
