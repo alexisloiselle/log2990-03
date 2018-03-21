@@ -64,7 +64,7 @@ export class RenderService {
         this.scene = new THREE.Scene();
 
         await this._car.init();
-        this.cameraService.createCamera(this._car.Position, this.scene);
+        this.cameraService.createCamera(this._car.Position, this.getAspectRatio(), this.scene);
 
         this.scene.add(this._car);
         this.scene.add(new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY));
@@ -106,9 +106,9 @@ export class RenderService {
         }
     }
 
-    // private getAspectRatio(): number {
-    //     return this.container.clientWidth / this.container.clientHeight;
-    // }
+    private getAspectRatio(): number {
+        return this.container.clientWidth / this.container.clientHeight;
+    }
 
     private startRenderingLoop(): void {
         this.renderer = new THREE.WebGLRenderer();
@@ -123,13 +123,12 @@ export class RenderService {
     private render(): void {
         requestAnimationFrame(() => this.render());
         this.update();
-        this.cameraService.render(this.scene, this.renderer);
+        this.cameraService.render(this.scene, this.renderer, this._car);
         this.stats.update();
     }
 
     public onResize(): void {
-        // this.camera.aspect = this.getAspectRatio();
-        // this.camera.updateProjectionMatrix();
+        this.cameraService.onResize(this.getAspectRatio());
         this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
     }
 

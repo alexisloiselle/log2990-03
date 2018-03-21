@@ -8,6 +8,7 @@ const BRAKE_KEYCODE: number = 83;       // s
 const RIGHT_KEYCODE: number = 68;       // d
 const ZOOM_KEYCODE: number = 88;        // x
 const UNZOOM_KEYCODE: number = 90;      // z
+const SWITCH_VIEW_KEY: number = 86;     // v
 
 @Injectable()
 export class CarEventHandlerService {
@@ -32,6 +33,9 @@ export class CarEventHandlerService {
                 break;
             case UNZOOM_KEYCODE:
                 this.cameraService.zoom(false);
+                break;
+            case SWITCH_VIEW_KEY:
+                this.cameraService.switchView();
                 break;
             default:
                 break;

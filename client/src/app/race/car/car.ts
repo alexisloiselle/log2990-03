@@ -59,9 +59,12 @@ export class Car extends Object3D {
         return this.mesh.position;
     }
 
-    // To test skybox
     public attachCamera(camera: PerspectiveCamera): void {
         this.mesh.add(camera);
+    }
+
+    public removeCamera(camera: PerspectiveCamera): void {
+        this.mesh.remove(camera);
     }
 
     public constructor(

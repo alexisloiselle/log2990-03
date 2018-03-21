@@ -18,7 +18,7 @@ const TAILLE_CUBE: number = 1000;
 export class SkyboxService {
 
     private skyMaterial: MeshFaceMaterial;
-    private skybox: Mesh;
+    public skybox: Mesh;
 
     public constructor() { }
 
@@ -41,6 +41,6 @@ export class SkyboxService {
     }
 
     public update(position: Vector3): void {
-        this.skybox.position.set(position.x, position.z, position.z);
+        this.skybox.position.set(position.x, position.y, position.z);
     }
 }
