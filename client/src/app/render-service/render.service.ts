@@ -32,7 +32,7 @@ export class RenderService {
         private carEventHandlerService: CarEventHandlerService,
         private cameraService: CameraService,
         private skyboxService: SkyboxService,
-        private renderTarckService: RenderTrackService) {
+        private renderTrackService: RenderTrackService) {
         this._car = new Car();
     }
 
@@ -89,17 +89,17 @@ export class RenderService {
 
         let planes: THREE.Mesh[] = [];
 
-        planes = this.renderTarckService.buildTrack(this.track);
+        planes = this.renderTrackService.buildTrack(this.track);
 
         for (const plane of planes) {
             this.scene.add(plane);
         }
 
         // On oriente la voiture vis-à-vis le premier tronçon
-        this.scene.add(this.renderTarckService.genererSurfaceHorsPiste());
+        this.scene.add(this.renderTrackService.genererSurfaceHorsPiste());
 
         let circles: THREE.Mesh[] = [];
-        circles = this.renderTarckService.genererCircle();
+        circles = this.renderTrackService.genererCircle();
 
         for (const circle of circles) {
             this.scene.add(circle);
