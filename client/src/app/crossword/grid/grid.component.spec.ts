@@ -8,7 +8,7 @@ import { MOCK_LETTERS, MOCK_WORDS_AND_DEFS } from "../../../../../common/mock-co
 // tslint:disable:no-magic-numbers
 // tslint:disable-next-line:no-any
 const crosswordService: any = {
-    formattedGrid: {
+    FormattedGrid: {
         letters: MOCK_LETTERS,
         words: MOCK_WORDS_AND_DEFS
     }

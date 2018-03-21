@@ -1,3 +1,30 @@
-<p>
-  join-game works!
-</p>
+<div>
+  <p id="title">Join a game</p>
+  <div id="name">
+    Enter a username:
+    <br>
+    <input id="usernameInput" (keyup)="updateUsername($event)">
+    <br>
+    <div id="gamesDiv" *ngIf="isReady">
+      <table>
+        <thead>
+          <tr>
+            <th>Game Name</th>
+            <th>Difficulty</th>
+            <th>Player's name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container id="gameContainer" *ngFor="let game of games">
+            <tr (click)="selectedGame = game.gameName" [style.background-color]="getBackgroundColor(game.gameName)">
+              <th>{{game.gameName}}</th>
+              <th>{{game.difficulty}}</th>
+              <th>{{game.userName1}}</th>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+    <button id="joinGameButton" [disabled]="!isFormValid()" (click)="joinGame()">Join game</button>
+  </div>
+</div>

@@ -12,7 +12,7 @@ export class RaceTrack {
     public timesPlayed: number = 0;
     public times: TrackTime[] = [];
     public bestTime: TrackTime;
-    public points: Vector2[] = [];
+    public points: PointCoordinates[] = [];
     public trackShape: Shape;
     public width: number = 20;
     public center: Vector2;
@@ -22,7 +22,7 @@ export class RaceTrack {
         this.description = description;
         this.type = type;
         for (const point of points) {
-            this.points.push(new Vector2(point.x, point.y));
+            this.points.push(point);
         }
         this.createTrackShape(this.points);
         this.createHoleShape(this.points);

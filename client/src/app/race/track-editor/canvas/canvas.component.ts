@@ -129,9 +129,9 @@ export class CanvasComponent implements OnInit {
 
     /*Bad smell, too much arguments*/
     public redrawCanvas(): void {
-        let noIntersection: boolean[] = this.constraintService.intersectionBooleanArray(this.myTrackEditorModel.PointArray);
-        let angleOk: boolean[] = this.constraintService.angleBooleanArray(this.myTrackEditorModel.PointArray);
-        let lengthOk: boolean[] = this.constraintService.lengthBooleanArray(this.myTrackEditorModel.PointArray);
+        const noIntersection: boolean[] = this.constraintService.intersectionBooleanArray(this.myTrackEditorModel.PointArray);
+        const angleOk: boolean[] = this.constraintService.angleBooleanArray(this.myTrackEditorModel.PointArray);
+        const lengthOk: boolean[] = this.constraintService.lengthBooleanArray(this.myTrackEditorModel.PointArray);
 
         this.drawingOnCanvas.redrawCanvas(this.myTrackEditorModel, noIntersection, angleOk, lengthOk);
     }

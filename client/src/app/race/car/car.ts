@@ -56,11 +56,15 @@ export class Car extends Object3D {
     }
 
     public get Position(): Vector3 {
-        return this.mesh.position;
+        return this.mesh.position.clone();
     }
 
     public attachCamera(camera: PerspectiveCamera): void {
         this.mesh.add(camera);
+    }
+
+    public removeCamera(camera: PerspectiveCamera): void {
+        this.mesh.remove(camera);
     }
 
     public constructor(

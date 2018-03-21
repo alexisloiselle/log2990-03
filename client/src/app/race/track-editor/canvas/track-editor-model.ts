@@ -64,7 +64,7 @@ export class TrackEditorModel {
 
     public isLoopClosed(): boolean {
         return (this.pointArray.length > MINIMUM_ARRAY_LENGTH &&
-        (this.pointArray[this.pointArray.length - 1]).equals(this.pointArray[0]));
+            (this.pointArray[this.pointArray.length - 1]).equals(this.pointArray[0]));
     }
 
     public closeLoop(): void {

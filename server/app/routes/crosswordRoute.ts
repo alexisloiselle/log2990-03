@@ -5,7 +5,8 @@ import { Grid } from "../Crossword/grid";
 import { Case } from "../Crossword/case";
 import { Word, Direction } from "../Crossword/word";
 import { ICrosswordGame, ICrosswordGameInfo, IWord } from "./crossword-game";
-import { MongoClient, MongoError, Db } from "mongodb";
+import { IMultiplayerGame } from "../../../common/multiplayer-game";
+import { MongoClient, MongoError, Db, Cursor } from "mongodb";
 import { MOCK_LETTERS, MOCK_WORDS_AND_DEFS } from "../../../common/mock-constants";
 
 module Route {
@@ -81,6 +82,20 @@ module Route {
                     res.send(JSON.stringify(isAlreadyUsed));
                 });
                 await db.close();
+            });
+        }
+
+        public async getGames(red: Request, res: Response, next: NextFunction): Promise<void> {
+            const games: IMultiplayerGame[] = [];
+            await require("mongodb").MongoClient.connect(MONGO_URL, async(err: MongoError, db: MongoClient) => {
+                const collection: Db = db.db("log2990-03-db");
+                const gamesCursor: Cursor<any> = await collection.collection("games").find({});
+                for (let game = await gamesCursor.next(); game != null; game = await gamesCursor.next()) {
+                    games.push({ userName1: game.gameInfo.userName1, userName2: game.gameInfo.userName2,
+                                 gameName: game.gameInfo.gameName, difficulty: game.gameInfo.difficulty });
+                }
+                await db.close();
+                res.send(games);
             });
         }
 

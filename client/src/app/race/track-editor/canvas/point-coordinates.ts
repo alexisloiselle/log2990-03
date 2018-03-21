@@ -13,4 +13,8 @@ export class PointCoordinates extends Vector2 {
     public equals(otherPoint: PointCoordinates): boolean {
         return this.x === otherPoint.x && this.y === otherPoint.y;
     }
+
+    public getAngle(otherPoint: PointCoordinates): number {
+        return Math.atan((otherPoint.y - this.y) / (otherPoint.x - this.x));
+    }
 }

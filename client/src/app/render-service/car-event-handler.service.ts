@@ -1,7 +1,6 @@
 import { Car } from "../race/car/car";
-import { PerspectiveCamera } from "three";
-import { ZoomService } from "./zoom.service";
 import { Injectable } from "@angular/core";
+import { CameraService } from "./camera.service";
 
 const ACCELERATE_KEYCODE: number = 87;  // w
 const LEFT_KEYCODE: number = 65;        // a
@@ -9,12 +8,13 @@ const BRAKE_KEYCODE: number = 83;       // s
 const RIGHT_KEYCODE: number = 68;       // d
 const ZOOM_KEYCODE: number = 187;        // +
 const UNZOOM_KEYCODE: number = 189;      // -
+const SWITCH_VIEW_KEY: number = 67;    // c
 
 @Injectable()
 export class CarEventHandlerService {
-    public constructor(protected zoomService: ZoomService) {}
+    public constructor(protected cameraService: CameraService) {}
 
-    public handleKeyDown(event: KeyboardEvent, _car: Car, camera: PerspectiveCamera): void {
+    public handleKeyDown(event: KeyboardEvent, _car: Car): void {
         switch (event.keyCode) {
             case ACCELERATE_KEYCODE:
                 _car.isAcceleratorPressed = true;
@@ -29,17 +29,20 @@ export class CarEventHandlerService {
                 _car.brake();
                 break;
             case ZOOM_KEYCODE:
-                this.zoomService.zoom(camera);
+                this.cameraService.zoom(true);
                 break;
             case UNZOOM_KEYCODE:
-                this.zoomService.unzoom(camera);
+                this.cameraService.zoom(false);
+                break;
+            case SWITCH_VIEW_KEY:
+                this.cameraService.switchView(_car);
                 break;
             default:
                 break;
         }
     }
 
-    public handleKeyUp(event: KeyboardEvent, _car: Car, camera: PerspectiveCamera): void {
+    public handleKeyUp(event: KeyboardEvent, _car: Car): void {
         switch (event.keyCode) {
             case ACCELERATE_KEYCODE:
                 _car.isAcceleratorPressed = false;
