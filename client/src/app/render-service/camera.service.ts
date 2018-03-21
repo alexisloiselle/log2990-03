@@ -23,7 +23,7 @@ export class CameraService {
 
     public constructor() { }
 
-    public createCamera(position: Vector3, aspectRatio: number, scene: Scene): void {
+    public createCameras(position: Vector3, aspectRatio: number, scene: Scene): void {
         this.orthographicCamera = new OrthographicCamera(
             -window.innerWidth / EDGE,
             window.innerWidth / EDGE,
@@ -43,21 +43,18 @@ export class CameraService {
         this.thirdPersonCamera.position.setY(INITIAL_HEIGHT_THIRDPERSION);
         this.thirdPersonCamera.position.setZ(INITIAL_Z_THIRDPERSON);
         this.thirdPersonCamera.lookAt(position);
+        scene.add(this.thirdPersonCamera);
 
         this.orthographicCamera.position.set(0, INITIAL_HEIGHT_ORTHO, 0);
         this.orthographicCamera.lookAt(position);
-        scene.add(this.thirdPersonCamera);
+        scene.add(this.orthographicCamera);
     }
 
-    public render(scene: Scene, renderer: WebGLRenderer, car: Car): void {
+    public render(scene: Scene, renderer: WebGLRenderer): void {
         const camera: PerspectiveCamera | OrthographicCamera =
             this.isOrthographicEnabled ?
                 this.orthographicCamera :
                 this.thirdPersonCamera;
-
-        this.isOrthographicEnabled ?
-            car.removeCamera(this.thirdPersonCamera) :
-            car.attachCamera(this.thirdPersonCamera);
 
         renderer.render(scene, camera);
     }
@@ -85,7 +82,16 @@ export class CameraService {
         }
     }
 
-    public switchView(): void {
+    public switchView(car: Car): void {
         this.isOrthographicEnabled = !this.isOrthographicEnabled;
+        if (this.isOrthographicEnabled) {
+            car.removeCamera(this.thirdPersonCamera);
+        } else {
+            car.attachCamera(this.thirdPersonCamera);
+        }
+    }
+
+    public get IsOrthographicEnabled(): boolean {
+        return this.isOrthographicEnabled;
     }
 }

@@ -35,7 +35,7 @@ export class CarEventHandlerService {
                 this.cameraService.zoom(false);
                 break;
             case SWITCH_VIEW_KEY:
-                this.cameraService.switchView();
+                this.cameraService.switchView(_car);
                 break;
             default:
                 break;

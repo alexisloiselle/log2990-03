@@ -32,14 +32,14 @@ describe("TrackService", () => {
     it("updateTrack() should return true", inject([TrackService], async (service: TrackService) => {
         const points: PointCoordinates[] = [];
         const track: RaceTrack = new RaceTrack("lol", "test", RaceType.Amateur, points);
-        const updated: boolean = await service.updateTrack("0", track);
+        const updated: boolean = await service.updateTrack(track);
         expect(updated).toEqual(true);
     }));
 
     it("updateTrack() should return true", inject([TrackService], async (service: TrackService) => {
         const points: PointCoordinates[] = [];
         const track: RaceTrack = new RaceTrack("lol", "test", RaceType.Amateur, points);
-        const updated: boolean = await service.updateTrack("0", track);
+        const updated: boolean = await service.updateTrack(track);
         expect(updated).toEqual(true);
     }));
 

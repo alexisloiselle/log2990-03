@@ -64,7 +64,7 @@ export class RenderService {
         this.scene = new THREE.Scene();
 
         await this._car.init();
-        this.cameraService.createCamera(this._car.Position, this.getAspectRatio(), this.scene);
+        this.cameraService.createCameras(this._car.Position, this.getAspectRatio(), this.scene);
 
         this.scene.add(this._car);
         this.scene.add(new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY));
@@ -123,7 +123,7 @@ export class RenderService {
     private render(): void {
         requestAnimationFrame(() => this.render());
         this.update();
-        this.cameraService.render(this.scene, this.renderer, this._car);
+        this.cameraService.render(this.scene, this.renderer);
         this.stats.update();
     }
 
