@@ -14,6 +14,7 @@ export class RaceTrack {
     public bestTime: TrackTime;
     public points: PointCoordinates[] = [];
     public trackShape: Shape;
+    public holeShape: Shape;
     public width: number = 20;
     public center: Vector2;
 
@@ -25,8 +26,8 @@ export class RaceTrack {
             this.points.push(point);
         }
         this.createTrackShape(this.points);
-        this.createHoleShape(this.points);
         this.findCenter();
+        this.createHoleShape(this.points);
     }
 
     public createTrackShape(points: Vector2[]): void {
@@ -39,16 +40,23 @@ export class RaceTrack {
     }
 
     public createHoleShape(points: Vector2[]): void {
-        this.trackShape = new Shape();
-        this.trackShape.moveTo(points[0].x, points[0].y);
-        for (let i: number = 1; i < points.length; i++) {
-            this.trackShape.lineTo(points[i].x, points[i].y);
+        this.holeShape = new Shape();
+        const firstHolePoint: Vector2 = this.findHolePoint(points[points.length - 1], points[0], points[1]);
+        this.holeShape.moveTo(firstHolePoint.x, firstHolePoint.y);
+        for (let i: number = 1; i < points.length - 1; i++) {
+            const holePoint: Vector2 = this.findHolePoint(points[i - 1], points[i], points[i + 1]);
+            this.holeShape.lineTo(holePoint.x, holePoint.y);
         }
-        this.trackShape.lineTo(points[0].x, points[0].y);
+        this.holeShape.lineTo(firstHolePoint.x, firstHolePoint.y);
     }
 
     public calculateAngleBetweenVector(vector1: Vector2, vector2: Vector2): number {
-        return Math.atan2(vector1.y, vector1.x) - Math.atan2(vector2.y, vector2.x);
+        let angle: number = Math.atan2(vector1.y, vector1.x) - Math.atan2(vector2.y, vector2.x);
+        /*if (angle < 0) {
+            angle += Math.PI * 2;
+        }*/
+
+        return angle;
     }
 
     public findHolePoint(point1: Vector2, intersection: Vector2, point2: Vector2): Vector2 {

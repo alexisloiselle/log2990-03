@@ -21,7 +21,7 @@ export class RenderTrackService {
 
     public buildTrack(race: RaceTrack): THREE.Mesh[] {
         let plane: THREE.Mesh[] = [];
-        this.generateSegments(race.points);
+        this.generateSegments(race.trackShape.getPoints());
 
         for (let i = 0; i < this.segment.length; i++) {
 
@@ -56,8 +56,8 @@ export class RenderTrackService {
         return plane;
     }
 
-    public generateSegments(pointArray: PointCoordinates[]): void {
-        for (let i = 0; i < pointArray.length - 1; i++) {
+    public generateSegments(pointArray: THREE.Vector2[]): void {
+        for (let i: number = 0; i < pointArray.length - 1; i++) {
             const firstPoint: PointCoordinates = new PointCoordinates(0, 0);
             firstPoint.x = (pointArray[i].x - pointArray[0].x) * CONVERTING_FACTOR;
             firstPoint.y = (pointArray[i].y - pointArray[0].y) * CONVERTING_FACTOR;
