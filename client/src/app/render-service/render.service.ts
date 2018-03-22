@@ -69,7 +69,7 @@ export class RenderService {
     }
 
     private createTrack(): void {
-        this.track =  this.renderTrackService.generateDefaultTrack();;
+        this.track =  this.renderTrackService.generateDefaultTrack();
         let planes: THREE.Mesh[] = [];
         planes = this.renderTrackService.buildTrack(this.track);
         for (const plane of planes) {
