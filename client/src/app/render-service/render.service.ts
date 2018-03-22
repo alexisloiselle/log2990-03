@@ -44,6 +44,15 @@ export class RenderService {
         }
     }
 
+    public static async loadCar(descriptionFileName: string): Promise<Object3D> {
+        return new Promise<Object3D>((resolve, reject) => {
+            const loader: ObjectLoader = new ObjectLoader();
+            loader.load(descriptionFileName, (object) => {
+                resolve(object);
+            });
+        });
+    }
+
     public async initialize(container: HTMLDivElement): Promise<void> {
         if (container) {
             this.container = container;
@@ -52,15 +61,6 @@ export class RenderService {
         await this.createScene();
         this.initStats();
         this.startRenderingLoop();
-    }
-
-    private async loadCar(descriptionFileName: string): Promise<Object3D> {
-        return new Promise<Object3D>((resolve, reject) => {
-            const loader: ObjectLoader = new ObjectLoader();
-            loader.load(descriptionFileName, (object) => {
-                resolve(object);
-            });
-        });
     }
 
     private initStats(): void {
@@ -76,7 +76,7 @@ export class RenderService {
                                                      "../../assets/lamborghini/lamborghini.json",
                                                      "../../assets/porsche/porsche.json"];
         for (let i: number = 0; i < this.botCars.length; i++) {
-            this.botCars[i].init(await this.loadCar(carModelsDirectories[i]));
+            this.botCars[i].init(await RenderService.loadCar(carModelsDirectories[i]));
             this.botCars[i].translateOnAxis(new Vector3(0, 0, positions[i]), 1);
             this.scene.add(this.botCars[i]);
         }
@@ -96,7 +96,7 @@ export class RenderService {
     private async createScene(): Promise<void> {
         this.scene = new THREE.Scene();
 
-        await this.mainCar.init(await this.loadCar("../../assets/camero/camero-2010-low-poly.json"));
+        await this.mainCar.init(await RenderService.loadCar("../../assets/camero/camero-2010-low-poly.json"));
         this.cameraService.createCameras(this.mainCar.Position, this.getAspectRatio(), this.scene);
 
         this.scene.add(this.mainCar);
