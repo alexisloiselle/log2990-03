@@ -55,8 +55,6 @@ export class CarEventHandlerService {
                 _car.releaseBrakes();
                 break;
             case UNZOOM_KEYCODE:
-                this.cameraService.resetZoomFactor();
-                break;
             case ZOOM_KEYCODE:
                 this.cameraService.resetZoomFactor();
                 break;
