@@ -12,12 +12,9 @@ const APPROX_ZERO_MINUS: number = -0.001;
 const BLACK: number = 0x000000;
 const WHITE: number = 0xFFFFFF;
 
-const POINT1_X: number = 329;
-const POINT1_Y: number = 114;
-const POINT2_X: number = 250;
-const POINT2_Y: number = 347;
-const POINT3_X: number = 136;
-const POINT3_Y: number = 167;
+const POINT1_X: number = 329; const POINT1_Y: number = 114;
+const POINT2_X: number = 250; const POINT2_Y: number = 347;
+const POINT3_X: number = 136; const POINT3_Y: number = 167;
 
 
 @Injectable()
@@ -29,7 +26,7 @@ export class RenderTrackService {
     public material: THREE.LineBasicMaterial;
     public curveObject: THREE.Line;
     public segment: Segment[];
-    public array: PointCoordinates[];
+    public array: PointCoordinates[] = [];
 
     public constructor() {
         this.segment = [];
@@ -60,13 +57,13 @@ export class RenderTrackService {
     }
     public generateDefaultTrack(): RaceTrack {
         const point1: PointCoordinates = new PointCoordinates(POINT1_X, POINT1_Y);
-        const point11: PointCoordinates = new PointCoordinates(POINT2_X, POINT2_Y);
-        const point2: PointCoordinates = new PointCoordinates(POINT3_X, POINT3_Y);
-        const point3: PointCoordinates = new PointCoordinates(POINT1_X, POINT1_Y);
+        const point2: PointCoordinates = new PointCoordinates(POINT2_X, POINT2_Y);
+        const point3: PointCoordinates = new PointCoordinates(POINT3_X, POINT3_Y);
+        const point4: PointCoordinates = new PointCoordinates(POINT1_X, POINT1_Y);
         this.array.push(point1);
-        this.array.push(point11);
         this.array.push(point2);
         this.array.push(point3);
+        this.array.push(point4);
         return (new RaceTrack("Track", "Default Track", 0, this.array));
     }
 
