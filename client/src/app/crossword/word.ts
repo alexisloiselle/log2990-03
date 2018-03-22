@@ -1,14 +1,14 @@
 export class Word {
     private word: string;
-    private def: string;
+    private definition: string;
     private isHorizontal: boolean;
     private line: number;
     private column: number;
     private isPlaced: boolean;
 
-    public constructor(wordname: string, def: string, isHorizontal: boolean, line: number, column: number) {
+    public constructor(wordname: string, definition: string, isHorizontal: boolean, line: number, column: number) {
         this.word = wordname;
-        this.def = def;
+        this.definition = definition;
         this.isHorizontal = isHorizontal;
         this.line = line;
         this.column = column;
@@ -23,8 +23,8 @@ export class Word {
         return this.column;
     }
 
-    public get Def(): string {
-        return this.def;
+    public get Definition(): string {
+        return this.definition;
     }
 
     public get Word(): string {

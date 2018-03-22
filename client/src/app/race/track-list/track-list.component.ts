@@ -7,34 +7,24 @@ import { CanvasComponent } from "../track-editor/canvas/canvas.component";
 @Component({
     selector: "app-track-list",
     templateUrl: "./track-list.component.html",
-    styleUrls: ["./track-list.component.css"],
-    providers: [TrackService]
+    styleUrls: ["./track-list.component.css"]
 })
 
 export class TrackListComponent implements OnInit {
-    @ViewChild("trackEditor")
-    private trackEditor: CanvasComponent;
-    @ViewChild("trackDescriptionInput")
-    private trackDescriptionInput: ElementRef;
-    @ViewChild("trackNameInput")
-    private trackNameInput: ElementRef;
-    @ViewChild("trackTypeInput")
-    private trackTypeInput: ElementRef;
-    // tslint:disable-next-line:no-any
-    public unparsedTracks: any[];
+    @ViewChild("trackEditor") private trackEditor: CanvasComponent;
+    @ViewChild("trackDescriptionInput") private trackDescriptionInput: ElementRef;
+    @ViewChild("trackNameInput") private trackNameInput: ElementRef;
+    @ViewChild("trackTypeInput") private trackTypeInput: ElementRef;
+
     public parsedTracks: RaceTrack[];
     private selectedTrack: RaceTrack;
-    public nom: string;
-    public error: string;
 
     public constructor(private trackService: TrackService) {
-
+        this.parsedTracks = [];
     }
 
     public async ngOnInit(): Promise<void> {
-        this.parsedTracks = [];
         await this.getTracks();
-        this.error = undefined;
     }
 
     public set SelectedTrack(track: RaceTrack) {
@@ -46,18 +36,7 @@ export class TrackListComponent implements OnInit {
     }
 
     public async getTracks(): Promise<void> {
-        const tempTracks: RaceTrack[] = await this.trackService.getTracks();
-        this.unparsedTracks = [];
-
-        for (const id in tempTracks) {
-            if (tempTracks != null) {
-                this.unparsedTracks.push(tempTracks[id]);
-            }
-        }
-        for (let i: number = 0; i < this.unparsedTracks[0].length; i++) {
-            this.parsedTracks.push(JSON.parse(this.unparsedTracks[0][i].track));
-            this.parsedTracks[i].id = this.unparsedTracks[0][i]._id;
-        }
+        this.parsedTracks = await this.trackService.getTracks();
     }
 
     public onSelectTrack(track: RaceTrack): void {
@@ -65,7 +44,7 @@ export class TrackListComponent implements OnInit {
         const newPointArray: PointCoordinates[] = [];
 
         for (const point of track.points) {
-            newPointArray.push(new PointCoordinates(point.X, point.Y));
+            newPointArray.push(new PointCoordinates(point.x, point.y));
         }
         this.trackEditor.myTrackEditorModel.PointArray = newPointArray;
         this.trackEditor.redrawCanvas();
@@ -77,24 +56,20 @@ export class TrackListComponent implements OnInit {
 
     public async updateMyTrack(selectedTrack: RaceTrack): Promise<void> {
         const updatedTrack: RaceTrack = selectedTrack;
+        this.updateTrackParams(updatedTrack);
+        await this.trackService.updateTrack(updatedTrack);
+        await this.ngOnInit();
+    }
+
+    private updateTrackParams(updatedTrack: RaceTrack): void {
         updatedTrack.points = this.trackEditor.myTrackEditorModel.PointArray;
         updatedTrack.name = this.trackNameInput.nativeElement.value;
         updatedTrack.description = this.trackDescriptionInput.nativeElement.value;
         updatedTrack.type = this.trackTypeInput.nativeElement.value;
-        await this.trackService.updateTrack(selectedTrack.id, updatedTrack);
-        await this.ngOnInit();
     }
 
     public async deleteTrack(track: RaceTrack): Promise<void> {
-        await this.trackService.deleteTrack(track.id).then(async (isOk) => this.onSuccess(isOk));
-    }
-
-    public async onSuccess(isOk: boolean): Promise<void> {
-        if (isOk) {
-            alert("Track deleted !");
-        } else {
-            this.error = "Une erreur s'est produite lors de la supression de track";
-        }
+        await this.trackService.deleteTrack(track.id);
         await this.ngOnInit();
     }
 }

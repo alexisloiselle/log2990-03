@@ -7,10 +7,10 @@ export class Domain {
     private yMax: number;
 
     public constructor(firstPoint: PointCoordinates, secondPoint: PointCoordinates) {
-        this.xMin = Math.min(firstPoint.X, secondPoint.X);
-        this.yMin = Math.min(firstPoint.Y, secondPoint.Y);
-        this.xMax = Math.max(firstPoint.X, secondPoint.X);
-        this.yMax = Math.max(firstPoint.Y, secondPoint.Y);
+        this.xMin = Math.min(firstPoint.x, secondPoint.x);
+        this.yMin = Math.min(firstPoint.y, secondPoint.y);
+        this.xMax = Math.max(firstPoint.x, secondPoint.x);
+        this.yMax = Math.max(firstPoint.y, secondPoint.y);
     }
 
     public get XMin(): number {

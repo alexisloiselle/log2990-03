@@ -1,9 +1,16 @@
-export interface FormattedGrid {
+export interface IFormattedGrid {
     letters: string[][];
-    words: {
-        word: string,
-        def: string,
-        isHorizontal: boolean,
-        position: {x: number, y: number}
-    }[];
+    words: IWord[];
+}
+
+export interface IWord {
+    word: string;
+    definition: string;
+    isHorizontal: boolean;
+    position: IPoint;
+}
+
+export interface IPoint {
+    x: number;
+    y: number;
 }

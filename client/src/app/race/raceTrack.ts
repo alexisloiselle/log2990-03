@@ -19,10 +19,6 @@ export class RaceTrack {
         this.type = type;
         this.points = points;
     }
-
-    // tslint:disable-next-line:use-life-cycle-interface
-    public ngOnInit(): void {
-    }
 }
 
 export class TrackTime {

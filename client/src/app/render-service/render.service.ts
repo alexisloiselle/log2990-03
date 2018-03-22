@@ -1,26 +1,20 @@
 import { Injectable } from "@angular/core";
 import Stats = require("stats.js");
 import * as THREE from "three";
-// tslint:disable-next-line:no-duplicate-imports
-import { CubeTextureLoader } from "three";
 import { Car } from "../race/car/car";
 import { CarEventHandlerService } from "./car-event-handler.service";
-import {RenderTrackService} from "../render-track/render-track.service";
-import {RaceTrack} from "../race/raceTrack";
-import {PointCoordinates} from "../race/track-editor/canvas/point-coordinates";
+import { CameraService } from "./camera.service";
+import { SkyboxService } from "./skybox.service";
+import { RenderTrackService } from "../render-track/render-track.service";
+import { RaceTrack } from "../race/raceTrack";
+import { PointCoordinates } from "../race/track-editor/canvas/point-coordinates";
 
-const FAR_CLIPPING_PLANE: number = 1000;
-const POSITION_TEN: number = 10;
-const POSITION_FIVE: number = 5;
-const NEAR_CLIPPING_PLANE: number = 1;
-const FIELD_OF_VIEW: number = 70;
 const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
 
 @Injectable()
 export class RenderService {
 
-    private camera: THREE.PerspectiveCamera;
     private container: HTMLDivElement;
     private _car: Car;
     private renderer: THREE.WebGLRenderer;
@@ -34,8 +28,11 @@ export class RenderService {
         return this._car;
     }
 
-    public constructor(private carEventHandlerService: CarEventHandlerService,
-                       private renderTarckService: RenderTrackService) {
+    public constructor(
+        private carEventHandlerService: CarEventHandlerService,
+        private cameraService: CameraService,
+        private skyboxService: SkyboxService,
+        private renderTrackService: RenderTrackService) {
         this._car = new Car();
     }
 
@@ -58,69 +55,52 @@ export class RenderService {
     private update(): void {
         const timeSinceLastFrame: number = Date.now() - this.lastDate;
         this._car.update(timeSinceLastFrame);
+        this.cameraService.update(this._car.Position);
+        this.skyboxService.update(this._car.Position);
         this.lastDate = Date.now();
     }
 
     private async createScene(): Promise<void> {
-        this.camera = new THREE.PerspectiveCamera(
-            FIELD_OF_VIEW,
-            this.getAspectRatio(),
-            NEAR_CLIPPING_PLANE,
-            FAR_CLIPPING_PLANE
-        );
         this.scene = new THREE.Scene();
 
         await this._car.init();
+        this.cameraService.createCameras(this._car.Position, this.getAspectRatio(), this.scene);
 
-        this.camera.position.z = POSITION_TEN;
-        this.camera.position.y = POSITION_FIVE;
-        this.camera.lookAt(this._car.position);
-        this.car.attachCamera(this.camera);
         this.scene.add(this._car);
         this.scene.add(new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY));
-        this.createSkybox();
+
+        this.skyboxService.createSkybox(this.scene);
         this.createTrack();
     }
 
-    private createSkybox(): void {
-        this.scene.background = new CubeTextureLoader()
-        .setPath("../../assets/skybox/")
-        .load([
-            "lf.png",
-            "rt.png",
-            "up.png",
-            "dn.png",
-            "ft.png",
-            "bk.png"
-        ]);
-    }
     private createTrack(): void {
-        /*{\"x\":329,\"y\":114},{\"x\":250,\"y\":347},{\"x\":136,\"y\":167},{\"x\":329,\"y\":114}]*/
+        // hard code
         const point1: PointCoordinates = new PointCoordinates(329, 114);
-        const point2: PointCoordinates = new PointCoordinates(250, 347);
-        const point3: PointCoordinates = new PointCoordinates(136, 167);
-        const point4: PointCoordinates = new PointCoordinates(329, 114);
+        const point11: PointCoordinates = new PointCoordinates(250, 347);
+        const point2: PointCoordinates = new PointCoordinates(136, 167);
+        const point3: PointCoordinates = new PointCoordinates(329, 114);
+
         this.array.push(point1);
         this.array.push(point2);
         this.array.push(point3);
-        this.array.push(point4);
 
         this.track = new RaceTrack("laTrack", "fuckYou", 0, this.array);
         let planes: THREE.Mesh[] = [];
-        planes = this.renderTarckService.buildTrack(this.track);
 
-        for (const i of planes) {
-            this.scene.add(i);
+        planes = this.renderTrackService.buildTrack(this.track);
+
+        for (const plane of planes) {
+            this.scene.add(plane);
         }
 
-        this.scene.add(this.renderTarckService.genererateOffTrackSurface());
-        this.renderTarckService.orienterCar(this._car);
+        // On oriente la voiture vis-à-vis le premier tronçon
+        this.scene.add(this.renderTrackService.genererSurfaceHorsPiste());
 
         let circles: THREE.Mesh[] = [];
-        circles = this.renderTarckService.genererateCircle();
+        circles = this.renderTrackService.genererCircle();
 
-        for (const i of circles) {
-            this.scene.add(i);
+        for (const circle of circles) {
+            this.scene.add(circle);
         }
     }
 
@@ -141,21 +121,20 @@ export class RenderService {
     private render(): void {
         requestAnimationFrame(() => this.render());
         this.update();
-        this.renderer.render(this.scene, this.camera);
+        this.cameraService.render(this.scene, this.renderer);
         this.stats.update();
     }
 
     public onResize(): void {
-        this.camera.aspect = this.getAspectRatio();
-        this.camera.updateProjectionMatrix();
+        this.cameraService.onResize(this.getAspectRatio());
         this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
     }
 
     public handleKeyDown(event: KeyboardEvent): void {
-        this.carEventHandlerService.handleKeyDown(event, this._car, this.camera);
+        this.carEventHandlerService.handleKeyDown(event, this._car);
     }
 
     public handleKeyUp(event: KeyboardEvent): void {
-      this.carEventHandlerService.handleKeyUp(event, this._car, this.camera);
+        this.carEventHandlerService.handleKeyUp(event, this._car);
     }
 }

@@ -10,9 +10,12 @@ import { CrosswordMainComponent } from "./crossword/crossword-main/crossword-mai
 import { SinglePlayerMenuComponent } from "./crossword/single-player-menu/single-player-menu.component";
 import { MultiplayerMenuComponent } from "./crossword/multiplayer-menu/multiplayer-menu.component";
 import { SinglePlayerGameComponent } from "./crossword/single-player-game/single-player-game.component";
-import {AdminComponent} from "./admin/admin/admin.component";
-import {ChangePasswordComponent} from "./admin/change-password/change-password.component";
-import {PasswordFormComponent} from "./admin/auth/password-form/password-form.component";
+import { AdminComponent } from "./admin/admin/admin.component";
+import { ChangePasswordComponent } from "./admin/change-password/change-password.component";
+import { PasswordFormComponent } from "./admin/auth/password-form/password-form.component";
+import { JoinGameComponent } from "./crossword/multiplayer/join-game/join-game.component";
+import { CreateGameComponent } from "./crossword/multiplayer/create-game/create-game.component";
+import { MultiplayerGameComponent } from "./crossword/multiplayer/multiplayer-game/multiplayer-game.component";
 
 const routes: Routes = [
     { path: "", redirectTo: "/homepage", pathMatch: "full" },
@@ -27,7 +30,10 @@ const routes: Routes = [
     { path: "crossword", component: CrosswordMainComponent },
     { path: "single-player", component: SinglePlayerMenuComponent },
     { path: "single-player-game/:difficulty", component: SinglePlayerGameComponent },
-    { path: "multiplayer", component: MultiplayerMenuComponent }
+    { path: "multiplayer", component: MultiplayerMenuComponent },
+    { path: "join-game", component: JoinGameComponent },
+    { path: "create-game", component: CreateGameComponent},
+    { path: "multiplayer-game/:game-name", component: MultiplayerGameComponent}
 ];
 
 @NgModule({

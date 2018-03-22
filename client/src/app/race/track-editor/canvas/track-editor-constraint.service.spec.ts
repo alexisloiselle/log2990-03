@@ -1,6 +1,6 @@
 import { PointCoordinates } from "./point-coordinates";
 import { Vector } from "../vector/vector";
-import {TrackEditorConstraintService} from "./track-editor-constraint.service";
+import {ConstraintService} from "./track-editor-constraint.service";
 
 /* tslint:disable:no-magic-numbers */
 describe("Track-Editor-Constraint", () => {
@@ -46,19 +46,19 @@ describe("Track-Editor-Constraint", () => {
     });
 
     it("Intersection X shouln't exist", () => {
-        expect(VECTOR_PARALLEL.calculateVectorIntersection(VECTOR_INVERSE_PARALLEL).X).toBe(-1);
+        expect(VECTOR_PARALLEL.calculateVectorIntersection(VECTOR_INVERSE_PARALLEL).x).toBe(-1);
     });
 
     it("Intersection Y shouln't exist", () => {
-        expect(VECTOR_PARALLEL.calculateVectorIntersection(VECTOR_INVERSE_PARALLEL).Y).toBe(-1);
+        expect(VECTOR_PARALLEL.calculateVectorIntersection(VECTOR_INVERSE_PARALLEL).y).toBe(-1);
     });
 
     it("Intersection Y should be 0", () => {
-        expect(FIRSTVECTOR45DEGREE.calculateVectorIntersection(SECONDEVECTOR45DEGREE).X).toBe(0);
+        expect(FIRSTVECTOR45DEGREE.calculateVectorIntersection(SECONDEVECTOR45DEGREE).x).toBe(0);
     });
 
     it("Intersection Y should be 0", () => {
-        expect(FIRSTVECTOR45DEGREE.calculateVectorIntersection(SECONDEVECTOR45DEGREE).Y).toBe(0);
+        expect(FIRSTVECTOR45DEGREE.calculateVectorIntersection(SECONDEVECTOR45DEGREE).y).toBe(0);
     });
 
     it("Point should be in the domain", () => {
@@ -72,31 +72,31 @@ describe("Track-Editor-Constraint", () => {
     });
 
     it("Shouldn't be intersecting  ", () => {
-      const trackEditorConstraintService: TrackEditorConstraintService = new TrackEditorConstraintService;
+      const trackEditorConstraintService: ConstraintService = new ConstraintService;
       expect(trackEditorConstraintService.verifyIsIntersecting(SECONDEVECTOR45DEGREE, FIRSTVECTOR45DEGREE)).toBeFalsy();
     });
 
     it("Angle verification shouldn't pass", () => {
-      const trackEditorConstraintService: TrackEditorConstraintService = new TrackEditorConstraintService;
+      const trackEditorConstraintService: ConstraintService = new ConstraintService;
       expect(trackEditorConstraintService.verifyAngle(VECTOR_TEST, VECTOR_TEST_LESS_45)).toBeFalsy();
     });
 
     it("Vectors Should be intersecting ", () => {
-        const trackEditorConstraintService: TrackEditorConstraintService = new TrackEditorConstraintService;
+        const trackEditorConstraintService: ConstraintService = new ConstraintService;
         expect(trackEditorConstraintService.verifyIsIntersecting(FIRST_VECTOR_INTERSECTION, SECOND_VECTOR_INTERSECTION)).toBeTruthy();
     });
 
     it("Angle verification should pass", () => {
-        const trackEditorConstraintService: TrackEditorConstraintService = new TrackEditorConstraintService;
+        const trackEditorConstraintService: ConstraintService = new ConstraintService;
         expect(trackEditorConstraintService.verifyAngle(FIRSTVECTOR45DEGREE, SECONDEVECTOR45DEGREE)).toBeTruthy();
     });
 
     it("Intersection Y should be 2.5", () => {
-        expect(FIRST_VECTOR_INTERSECTION.calculateVectorIntersection(SECOND_VECTOR_INTERSECTION).X).toBe(2.5);
+        expect(FIRST_VECTOR_INTERSECTION.calculateVectorIntersection(SECOND_VECTOR_INTERSECTION).x).toBe(2.5);
     });
 
     it("Intersection Y should be 2.5", () => {
-        expect(FIRST_VECTOR_INTERSECTION.calculateVectorIntersection(SECOND_VECTOR_INTERSECTION).Y).toBe(2.5);
+        expect(FIRST_VECTOR_INTERSECTION.calculateVectorIntersection(SECOND_VECTOR_INTERSECTION).y).toBe(2.5);
     });
 
 });

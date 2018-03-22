@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChildren, ElementRef } from "@angular/core";
+import { Component, OnInit, ViewChildren, ElementRef, QueryList } from "@angular/core";
 import { CrosswordService } from "../services/crossword/crossword.service";
 import { InputService } from "../services/crossword/input.service";
 import { DefinitionService } from "../services/crossword/definition.service";
@@ -16,11 +16,8 @@ const DOWN_KEYCODE: number = 40;
     styleUrls: ["./grid.component.css"]
 })
 export class GridComponent implements OnInit {
-    // Doesn't work with QueryList<"case"> or QueryList<ElementRef>
-    // tslint:disable-next-line:no-any
-    @ViewChildren("case") public cases: any;
-
-    public letterGrid: Case[][];
+    @ViewChildren("case") public cases: QueryList<ElementRef>;
+    private letterGrid: Case[][];
 
     public constructor(
         private crosswordService: CrosswordService,
@@ -32,10 +29,13 @@ export class GridComponent implements OnInit {
         this.listenBackspaceInput();
         this.listenArrowInput();
         this.listenEnterInput();
+        this.letterGrid = this.initLetterGrid(this.crosswordService.FormattedGrid.letters.length);
     }
 
-    public ngOnInit(): void {
-        this.letterGrid = this.initLetterGrid(this.crosswordService.FGrid.letters.length);
+    public ngOnInit(): void { }
+
+    public get LetterGrid(): Case[][] {
+        return this.letterGrid;
     }
 
     private initLetterGrid(length: number): Case[][] {
@@ -44,34 +44,6 @@ export class GridComponent implements OnInit {
                 return new Case();
             });
         });
-    }
-
-    // used in html
-    public isCaseOfSelectedWord(i: number, j: number): boolean {
-        if (this.defService.SelectedWord === undefined) {
-            return false;
-        }
-
-        return Word.isPartOfWord(this.defService.SelectedWord, i, j);
-    }
-
-    // used in html
-    public selectWordFromCase(i: number, j: number): void {
-        for (const word of this.defService.HorizontalWords) {
-            if (Word.isPartOfWord(word, i, j)) {
-                this.defService.handleClickDef(word);
-
-                return;
-            }
-        }
-
-        for (const word of this.defService.VerticalWords) {
-            if (Word.isPartOfWord(word, i, j)) {
-                this.defService.handleClickDef(word);
-
-                return;
-            }
-        }
     }
 
     private listenSelectedWord(): void {
@@ -108,11 +80,37 @@ export class GridComponent implements OnInit {
         });
     }
 
+    // html can't access static function of Word
+    public isPartOfWord(word: Word, i: number, j: number): boolean {
+        return Word.isPartOfWord(word, i, j);
+    }
+
+    public selectWordFromCase(i: number, j: number): void {
+        if (this.findWordWithCase(this.defService.HorizontalWords, i, j)) { return; }
+        if (this.findWordWithCase(this.defService.VerticalWords, i, j)) { return; }
+    }
+
+    private findWordWithCase(words: Word[], i: number, j: number): boolean {
+        for (const word of words) {
+            if (Word.isPartOfWord(word, i, j)) {
+                this.defService.handleClickDef(word);
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private addLetter(letter: string, i: number, j: number): void {
         if (!this.letterGrid[i][j].IsPlaced) {
             this.letterGrid[i][j].Letter = letter;
         }
 
+        this.verifyEndOfWord(i, j);
+    }
+
+    private verifyEndOfWord(i: number, j: number): void {
         if (Word.isEndOfWord(this.defService.SelectedWord, i, j) && this.isValidWord()) {
             this.placeWord();
         }
@@ -146,6 +144,7 @@ export class GridComponent implements OnInit {
             i = this.defService.SelectedWord.IsHorizontal ? i : i + 1;
             j = this.defService.SelectedWord.IsHorizontal ? j + 1 : j;
         });
+
         this.defService.SelectedWord.IsPlaced = true;
     }
 
@@ -155,21 +154,17 @@ export class GridComponent implements OnInit {
 
     private focusOnNextCase(i: number, j: number): void {
         if (!Word.isEndOfWord(this.defService.SelectedWord, i, j)) {
-            if (this.defService.SelectedWord.IsHorizontal) {
-                this.focusOnCase(i, j + 1);
-            } else {
+            this.defService.SelectedWord.IsHorizontal ?
+                this.focusOnCase(i, j + 1) :
                 this.focusOnCase(i + 1, j);
-            }
         }
     }
 
     private focusOnPreviousCase(i: number, j: number): void {
         if (!Word.isBeginningOfWord(this.defService.SelectedWord, i, j)) {
-            if (this.defService.SelectedWord.IsHorizontal) {
-                this.focusOnCase(i, j - 1);
-            } else {
+            this.defService.SelectedWord.IsHorizontal ?
+                this.focusOnCase(i, j - 1) :
                 this.focusOnCase(i - 1, j);
-            }
         }
     }
 

@@ -10,7 +10,7 @@ export class VectorService {
   public createVectors(race: RaceTrack): THREE.Vector3[] {
     const vectorPoints: THREE.Vector3 [] = [];
     for ( const i of race.points) {
-      const vector: THREE.Vector3 = new THREE.Vector3(i.X, i.Y, 0);
+      const vector: THREE.Vector3 = new THREE.Vector3(i.x, i.y, 0);
       vectorPoints.push(vector);
     }
 

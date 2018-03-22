@@ -1,0 +1,24 @@
+<div id="createAGame">
+  <h1 id="pageTitle">Create a game</h1>
+  <div id="createAGameForm">
+    Username:
+    <input type="text" (keyup)="updateUsername($event)" />
+    <br>
+    Game name:
+    <input type="text" (keyup)="updateGameName($event)"/>
+    <p *ngIf="isNameAlreadyUsed" id="nameAlreadyUsed">Name already exist!</p>
+    <div id="selectDifficulty">
+      Select a difficulty:
+      <button type="button" class="btn btn-outline-success btn-lg  easyButton" (click)="setDifficulty('easy')">
+        Easy
+      </button>
+      <button type="button" class="btn btn-outline-warning btn-lg  mediumButton" (click)="setDifficulty('medium')">
+        Normal
+      </button>
+      <button type="button" class="btn btn-outline-danger btn-lg  hard  Button" (click)="setDifficulty('hard')">
+        Hard
+      </button>
+    </div>
+    <button type="button" class="btn" [disabled]="!isFormValid()" (click)="createGame()">Create Game</button>
+  </div>
+</div>

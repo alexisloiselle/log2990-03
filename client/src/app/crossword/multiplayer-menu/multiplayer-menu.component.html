@@ -1,3 +1,16 @@
-<p>
-  multiplayer-menu works!
-</p>
+<div id="menu">
+  Multiplayer
+  <div class="container">
+    <div class="row">
+      <div class="btn-group  buttonsMenu" data-toggle="buttons">
+        <button type="button" class="btn btn-outline btn-lg createAGame" (click)="goToCreateGame()">
+          Create a game
+        </button>
+        <button type="button" class="btn btn-outline btn-lg joinAGame" (click)="goToJoinGame()">
+          Join a game
+        </button>
+      </div>
+    </div>
+  </div>
+  <p id="test"></p>
+</div>

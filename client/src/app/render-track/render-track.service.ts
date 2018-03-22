@@ -1,8 +1,7 @@
 import { Injectable } from "@angular/core";
 import * as THREE from "three";
-import {RaceTrack} from "../race/raceTrack";
+import { RaceTrack } from "../race/raceTrack";
 import { PointCoordinates } from "../race/track-editor/canvas/point-coordinates";
-import { Car } from "../race/car/car";
 
 const CONVERTING_FACTOR: number = 1;
 const DIVIDING_FACTOR: number = 2;
@@ -32,18 +31,32 @@ export class RenderTrackService {
         const plane: THREE.Mesh[] = [];
         this.generateSegments(race.points);
 
-        for (const i of this.segment) {
+        for (let i: number = 0; i < this.segment.length; i++) {
 
-            const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry( NUMBER_TWENTY, i.length());
+            /*Création du segment de longueur adéquate et rotation
+            pour le mettre parallèle au plan*/
+            const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(10, this.segment[i].length());
             let material: THREE.MeshBasicMaterial;
-            material = new THREE.MeshBasicMaterial( {color: 0x000000, side: THREE.DoubleSide} );
-            plane.push(new THREE.Mesh( geometry, material ));
 
-            plane[plane.length - 1].rotation.z = -(i.angle);
-            plane[plane.length - 1].rotation.x = Math.PI / DIVIDING_FACTOR;
+            /*On colore en rouge la première tronçon, en vert le deuxième
+            et en rouge le troisième juste pour s'orienter.
+            Tous les autres tronçons sont en jaune.*/
+            if (i === 0) {
+                material = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide });
+            } else if (i === 1) {
+                material = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide });
+            } else if (i === 2) {
+                material = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide });
+            } else {
+                material = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide });
+            }
 
-            plane[plane.length - 1].position.x =  (i.firstPoint.Y + i.lastPoint.Y) / DIVIDING_FACTOR;
-            plane[plane.length - 1].position.z = (i.firstPoint.X + i.lastPoint.X) / DIVIDING_FACTOR;
+            plane.push(new THREE.Mesh(geometry, material));
+            plane[plane.length - 1].rotation.z = -this.segment[i].angle;
+            plane[plane.length - 1].rotation.x = Math.PI / 2;
+
+            plane[plane.length - 1].position.x = (this.segment[i].firstPoint.y + this.segment[i].lastPoint.y) / 2;
+            plane[plane.length - 1].position.z = (this.segment[i].firstPoint.x + this.segment[i].lastPoint.x) / 2;
         }
 
         return plane;
@@ -52,48 +65,54 @@ export class RenderTrackService {
     public generateSegments(pointArray: PointCoordinates[]): void {
         for (let i: number = 0; i < pointArray.length - 1; i++) {
             const firstPoint: PointCoordinates = new PointCoordinates(0, 0);
-            firstPoint.X =  (pointArray[i].X - pointArray[0].X) * CONVERTING_FACTOR;
-            firstPoint.Y =  (pointArray[i].Y - pointArray[0].Y) * CONVERTING_FACTOR;
+            firstPoint.x = (pointArray[i].x - pointArray[0].x) * CONVERTING_FACTOR;
+            firstPoint.y = (pointArray[i].y - pointArray[0].y) * CONVERTING_FACTOR;
 
             const lastPoint: PointCoordinates = new PointCoordinates(0, 0);
-            lastPoint.X =  (pointArray[i + 1].X - pointArray[0].X) * CONVERTING_FACTOR;
-            lastPoint.Y =  (pointArray[i + 1].Y - pointArray[0].Y) * CONVERTING_FACTOR;
+            lastPoint.x = (pointArray[i + 1].x - pointArray[0].x) * CONVERTING_FACTOR;
+            lastPoint.y = (pointArray[i + 1].y - pointArray[0].y) * CONVERTING_FACTOR;
 
             this.segment.push(new Segment(firstPoint, lastPoint));
         }
     }
 
-    public orienterCar(_car: Car): void {
-        _car.rotation.y = this.segment[0].angle - Math.PI / DIVIDING_FACTOR;
-    }
-
-    public genererateOffTrackSurface(): THREE.Mesh {
-        const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry( NUMBER_HIEGHT_HUNDRED , NUMBER_HIEGHT_HUNDRED);
+    public genererSurfaceHorsPiste(): THREE.Mesh {
+        let hPSurface: THREE.Mesh;
+        const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(800, 800);
         let material: THREE.MeshBasicMaterial;
         material = new THREE.MeshBasicMaterial( {color: WHITE, side: THREE.DoubleSide} );
         const hpSurface: THREE.Mesh = new THREE.Mesh( geometry, material);
 
-        hpSurface.position.y = NUMBER_TINY_MINUS;
-        hpSurface.rotation.z = Math.PI / DIVIDING_FACTOR;
-        hpSurface.rotation.x = Math.PI / DIVIDING_FACTOR;
-        hpSurface.position.x = 0;
-        hpSurface.position.z = 0;
+        material = new THREE.MeshBasicMaterial({ color: 0xFFFFFF, side: THREE.DoubleSide });
 
-        return hpSurface;
+        hPSurface = new THREE.Mesh(geometry, material);
+
+        hPSurface.position.y = -0.001;
+
+        hPSurface.rotation.z = Math.PI / 2;
+        hPSurface.rotation.x = Math.PI / 2;
+
+        hPSurface.position.x = 0;
+        hPSurface.position.z = 0;
+
+        return hPSurface;
+
     }
 
-    public genererateCircle(): THREE.Mesh[] {
+    public genererCircle(): THREE.Mesh[] {
         const circle: THREE.Mesh[] = [];
 
         for (let i: number = 0; i < this.segment.length; i++) {
-            const geometry: THREE.CircleGeometry = new THREE.CircleGeometry( NUMBER_TEN, NUMBER_HUNDRED);
+            const geometry: THREE.CircleGeometry = new THREE.CircleGeometry(5, 100);
             let material: THREE.MeshBasicMaterial;
-            material = new THREE.MeshBasicMaterial( {color: BLACK, side: THREE.DoubleSide} );
-            circle.push(new THREE.Mesh( geometry, material));
-            circle[i].rotation.z = Math.PI / DIVIDING_FACTOR;
-            circle[i].rotation.x = Math.PI / DIVIDING_FACTOR;
-            circle[i].position.z = this.segment[i].firstPoint.X;
-            circle[i].position.x = this.segment[i].firstPoint.Y;
+            material = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide });
+
+            circle.push(new THREE.Mesh(geometry, material));
+            circle[i].rotation.z = Math.PI / 2;
+            circle[i].rotation.x = Math.PI / 2;
+            circle[i].position.z = this.segment[i].firstPoint.x;
+            circle[i].position.x = this.segment[i].firstPoint.y;
+
         }
 
         return circle;
@@ -114,4 +133,5 @@ export class Segment {
     public length(): number {
         return this.firstPoint.getDistance(this.lastPoint);
     }
+
 }

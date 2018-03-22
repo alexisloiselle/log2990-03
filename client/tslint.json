@@ -156,7 +156,6 @@
         "use-pipe-transform-interface": true,
         "component-class-suffix": true,
         "directive-class-suffix": true,
-
         "no-sparse-arrays": true,
         "no-irregular-whitespace": true,
         "cyclomatic-complexity": [
@@ -179,7 +178,13 @@
         ],
         "arrow-parens": true,
         "no-any": true,
-        "no-magic-numbers": true,
+        "no-magic-numbers": [
+            true,
+            -1,
+            0,
+            1,
+            2
+        ],
         "only-arrow-functions": true,
         "adjacent-overload-signatures": true,
         "max-file-line-count": [
