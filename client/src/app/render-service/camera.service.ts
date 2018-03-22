@@ -10,6 +10,7 @@ const FAR_CLIPPING_PLANE: number = 1000;
 const FIELD_OF_VIEW: number = 100;
 
 const ZOOM_FACTOR_INCREMENT: number = 0.01;
+const INITIAL_ZOOM_FACTOR: number = 1.03;
 const ZOOM_LIMIT: number = 2;
 const UNZOOM_LIMIT: number = 0.6;
 const EDGE: number = 45;
@@ -20,8 +21,11 @@ export class CameraService {
     public orthographicCamera: OrthographicCamera;
     public thirdPersonCamera: PerspectiveCamera;
     private isOrthographicEnabled: boolean = true;
+    private zoomFactor: number;
 
-    public constructor() { }
+    public constructor() {
+        this.zoomFactor = INITIAL_ZOOM_FACTOR;
+    }
 
     public createCameras(position: Vector3, aspectRatio: number, scene: Scene): void {
         this.orthographicCamera = new OrthographicCamera(
@@ -74,12 +78,16 @@ export class CameraService {
                 this.orthographicCamera :
                 this.thirdPersonCamera;
 
-        const direction: number = isZooming ? 1 : -1;
-        const newZoom: number = camera.zoom + ZOOM_FACTOR_INCREMENT * direction;
+        this.zoomFactor += ZOOM_FACTOR_INCREMENT;
+        const newZoom: number = isZooming ? camera.zoom * this.zoomFactor : camera.zoom / this.zoomFactor;
         if (newZoom < ZOOM_LIMIT && newZoom > UNZOOM_LIMIT) {
             camera.zoom = newZoom;
             camera.updateProjectionMatrix();
         }
+    }
+
+    public resetZoomFactor(): void {
+        this.zoomFactor = INITIAL_ZOOM_FACTOR;
     }
 
     public switchView(car: Car): void {
