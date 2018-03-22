@@ -15,13 +15,13 @@ export class DrawingOnCanvas {
 
     public drawFirstPointOnCanvas(point: PointCoordinates, color: string, size: number): void {
         this.ctx.beginPath();
-        this.ctx.arc(point.X, point.Y, STANDARD_SIZE_CIRCLE, 0, Math.PI * 2);
+        this.ctx.arc(point.x, point.y, STANDARD_SIZE_CIRCLE, 0, Math.PI * 2);
         this.ctx.lineWidth = LINE_WIDTH;
         this.ctx.strokeStyle = "blue";
         this.ctx.stroke();
 
         this.ctx.beginPath();
-        this.ctx.arc(point.X, point.Y, size, 0, Math.PI * 2);
+        this.ctx.arc(point.x, point.y, size, 0, Math.PI * 2);
         this.ctx.fillStyle = color;
         this.ctx.fill();
         this.ctx.lineWidth = 2;
@@ -29,7 +29,7 @@ export class DrawingOnCanvas {
 
     public drawPointOnCanvas(point: PointCoordinates, color: string, size: number): void {
         this.ctx.beginPath();
-        this.ctx.arc(point.X, point.Y, size, 0, Math.PI * 2);
+        this.ctx.arc(point.x, point.y, size, 0, Math.PI * 2);
         this.ctx.fillStyle = color;
         this.ctx.fill();
     }
@@ -44,9 +44,9 @@ export class DrawingOnCanvas {
         for (const i of trackEditorModel.PointArray) {
             if (trackEditorModel.PointArray.indexOf(i) !== 0) {
                 this.ctx.beginPath();
-                this.ctx.moveTo(trackEditorModel.getSinglePoint(trackEditorModel.PointArray.indexOf(i) - 1).X,
-                                trackEditorModel.getSinglePoint(trackEditorModel.PointArray.indexOf(i) - 1).Y);
-                this.ctx.lineTo(i.X, i.Y);
+                this.ctx.moveTo(trackEditorModel.getSinglePoint(trackEditorModel.PointArray.indexOf(i) - 1).x,
+                                trackEditorModel.getSinglePoint(trackEditorModel.PointArray.indexOf(i) - 1).y);
+                this.ctx.lineTo(i.x, i.y);
                 this.ctx.strokeStyle = noIntersection[trackEditorModel.PointArray.indexOf(i) - 1]
                     && lengthOk[trackEditorModel.PointArray.indexOf(i) - 1] ?
                     "black" : "red";

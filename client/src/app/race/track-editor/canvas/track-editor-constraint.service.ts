@@ -35,8 +35,8 @@ export class ConstraintService {
 
     public isLoopClosed(myPointArray: PointCoordinates[]): boolean {
         return (myPointArray.length > 2 &&
-            myPointArray[0].X === myPointArray[myPointArray.length - 1].X &&
-            myPointArray[0].Y === myPointArray[myPointArray.length - 1].Y);
+            myPointArray[0].x === myPointArray[myPointArray.length - 1].x &&
+            myPointArray[0].y === myPointArray[myPointArray.length - 1].y);
     }
 
     public angleBooleanArray(myPointArray: PointCoordinates[]): boolean[] {
