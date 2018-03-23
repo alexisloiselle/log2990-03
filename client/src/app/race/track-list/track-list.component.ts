@@ -3,6 +3,7 @@ import { RaceTrack } from "../raceTrack";
 import { TrackService } from "../../track.service";
 import { PointCoordinates } from "../track-editor/canvas/point-coordinates";
 import { CanvasComponent } from "../track-editor/canvas/canvas.component";
+import {RenderTrackService} from "../../render-track/render-track.service";
 
 @Component({
     selector: "app-track-list",
@@ -19,7 +20,7 @@ export class TrackListComponent implements OnInit {
     public parsedTracks: RaceTrack[];
     private selectedTrack: RaceTrack;
 
-    public constructor(private trackService: TrackService) {
+    public constructor(private trackService: TrackService, private renderTrackService: RenderTrackService) {
         this.parsedTracks = [];
     }
 
@@ -71,5 +72,10 @@ export class TrackListComponent implements OnInit {
     public async deleteTrack(track: RaceTrack): Promise<void> {
         await this.trackService.deleteTrack(track.id);
         await this.ngOnInit();
+    }
+    
+    public playTrack(selectedTrack: RaceTrack): void {
+        this.renderTrackService.track = selectedTrack;
+        console.log("La Track est loader");
     }
 }

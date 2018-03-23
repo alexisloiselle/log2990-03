@@ -6,7 +6,6 @@ import { CarEventHandlerService } from "./car-event-handler.service";
 import { CameraService } from "./camera.service";
 import { SkyboxService } from "./skybox.service";
 import { RenderTrackService } from "../render-track/render-track.service";
-import { RaceTrack } from "../race/raceTrack";
 
 const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
@@ -20,7 +19,6 @@ export class RenderService {
     private scene: THREE.Scene;
     private stats: Stats;
     private lastDate: number;
-    private track: RaceTrack;
 
     public get car(): Car {
         return this._car;
@@ -69,9 +67,8 @@ export class RenderService {
     }
 
     private createTrack(): void {
-        this.track =  this.renderTrackService.generateDefaultTrack();
         let planes: THREE.Mesh[] = [];
-        planes = this.renderTrackService.buildTrack(this.track);
+        planes = this.renderTrackService.buildTrack();
         for (const plane of planes) {
             this.scene.add(plane);
         }
