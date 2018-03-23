@@ -1,5 +1,6 @@
 import { PointCoordinates } from "./point-coordinates";
 
+const MINIMUM_DISTANCE_BETWEEN_POINTS: number = 20;
 const MINIMUM_ARRAY_LENGTH: number = 2;
 
 export class TrackEditorModel {
@@ -53,7 +54,7 @@ export class TrackEditorModel {
         if (this.pointArray.length > MINIMUM_ARRAY_LENGTH) {
             for (let i: number = this.isLoopClosed() ? 1 : 0; i < this.pointArray.length - 1; i++) {
                 for (let j: number = i + 1; j < this.pointArray.length; j++) {
-                    if (this.pointArray[i].isTooClose(this.pointArray[j])) {
+                    if (this.isTooClose(this.pointArray[i], this.pointArray[j])) {
                         this.pointArray.splice(this.pointArray.indexOf(this.pointArray[j]), 1);
                     }
                 }
@@ -88,5 +89,9 @@ export class TrackEditorModel {
         const ACCEPTED_RADIUS: number = 10;
 
         return this.pointArray[0].getDistance(mouseCoordinates) <= ACCEPTED_RADIUS;
+    }
+
+    public isTooClose(firstPoint: PointCoordinates, secondPoint: PointCoordinates): boolean {
+        return (firstPoint.getDistance(secondPoint) <= MINIMUM_DISTANCE_BETWEEN_POINTS );
     }
 }

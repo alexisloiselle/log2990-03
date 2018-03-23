@@ -1,4 +1,5 @@
 import { Car, DEFAULT_WHEELBASE, DEFAULT_MASS, DEFAULT_DRAG_COEFFICIENT } from "./car";
+import { RenderService } from "../../render-service/render.service";
 import { Engine } from "./engine";
 import { Wheel } from "./wheel";
 import { Vector3 } from "three";
@@ -17,7 +18,7 @@ describe("Car", () => {
 
     beforeEach(async (done: () => void) => {
         car = new Car(new MockEngine());
-        await car.init();
+        await car.init(await RenderService.loadCar("../../assets/porsche/porsche.json"));
 
         car.isAcceleratorPressed = true;
         car.update(MS_BETWEEN_FRAMES);

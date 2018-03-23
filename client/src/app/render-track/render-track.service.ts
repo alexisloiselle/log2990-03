@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import * as THREE from "three";
 import { RaceTrack } from "../race/raceTrack";
 import { PointCoordinates } from "../race/track-editor/canvas/point-coordinates";
+import { Vector2 } from "three";
 
 const CONVERTING_FACTOR: number = 1;
 const NUMBER_FIVE: number = 5;
@@ -15,7 +16,6 @@ const WHITE: number = 0xFFFFFF;
 const POINT1_X: number = 329; const POINT1_Y: number = 114;
 const POINT2_X: number = 250; const POINT2_Y: number = 347;
 const POINT3_X: number = 136; const POINT3_Y: number = 167;
-
 
 @Injectable()
 export class RenderTrackService {
@@ -37,7 +37,7 @@ export class RenderTrackService {
             this.generateDefaultTrack();
 
         const plane: THREE.Mesh[] = [];
-        this.generateSegments(this.track.points);
+        this.generateSegments(race.trackShape.getPoints());
         for (let i: number = 0; i < this.segment.length; i++) {
             const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(NUMBER_TEN, this.segment[i].length());
             let material: THREE.MeshBasicMaterial;
@@ -67,10 +67,11 @@ export class RenderTrackService {
         this.array.push(point2);
         this.array.push(point3);
         this.array.push(point4);
-        this.track = new RaceTrack("Track", "Default Track", 0, this.array);
+
+        return (new RaceTrack("Track", "Default Track", 0, this.array));
     }
 
-    public generateSegments(pointArray: PointCoordinates[]): void {
+    public generateSegments(pointArray: Vector2[]): void {
         for (let i: number = 0; i < pointArray.length - 1; i++) {
             const firstPoint: PointCoordinates = new PointCoordinates(0, 0);
             firstPoint.x = (pointArray[i].x - pointArray[0].x) * CONVERTING_FACTOR;
@@ -96,7 +97,6 @@ export class RenderTrackService {
         hPSurface.position.x = 0;
         hPSurface.position.z = 0;
         return hPSurface;
-
     }
 
     public genererCircle(): THREE.Mesh[] {
