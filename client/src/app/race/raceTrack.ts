@@ -61,11 +61,12 @@ export class RaceTrack {
         vector1.normalize();
         vector1.multiplyScalar(this.width);
         vector2 = vector1.clone();
-        vector1.rotateAround(intersection, angle / 2);
-        vector2.rotateAround(intersection, -angle / 2);
+        vector1.rotateAround(new Vector2(0, 0), angle / 2);
+        vector1.add(intersection);
+        vector2.rotateAround(new Vector2(0, 0), -angle / 2);
+        vector2.add(intersection);
 
-        return vector1.distanceTo(this.center) < vector2.distanceTo(this.center) ? vector1.add(intersection) :
-                                                                                   vector2.add(intersection);
+        return vector1.distanceTo(this.center) < vector2.distanceTo(this.center) ? vector1 : vector2;
     }
 
     public findCenter(): void {
