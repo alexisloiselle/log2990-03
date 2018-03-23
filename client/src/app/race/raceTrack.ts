@@ -30,6 +30,10 @@ export class RaceTrack {
         this.createHoleShape(this.points);
     }
 
+    public static calculateAngleBetweenVector(vector1: Vector2, vector2: Vector2): number {
+        return Math.acos(((vector1.x * vector2.x) + (vector1.y * vector2.y)) / (vector1.length() * vector2.length()));
+    }
+
     public createTrackShape(points: Vector2[]): void {
         this.trackShape = new Shape();
         this.trackShape.moveTo(points[0].x, points[0].y);
@@ -41,7 +45,7 @@ export class RaceTrack {
 
     public createHoleShape(points: Vector2[]): void {
         this.holeShape = new Shape();
-        const firstHolePoint: Vector2 = this.findHolePoint(points[points.length - 1], points[0], points[1]);
+        const firstHolePoint: Vector2 = this.findHolePoint(points[points.length - 2], points[0], points[1]);
         this.holeShape.moveTo(firstHolePoint.x, firstHolePoint.y);
         for (let i: number = 1; i < points.length - 1; i++) {
             const holePoint: Vector2 = this.findHolePoint(points[i - 1], points[i], points[i + 1]);
@@ -50,19 +54,10 @@ export class RaceTrack {
         this.holeShape.lineTo(firstHolePoint.x, firstHolePoint.y);
     }
 
-    public calculateAngleBetweenVector(vector1: Vector2, vector2: Vector2): number {
-        let angle: number = Math.atan2(vector1.y, vector1.x) - Math.atan2(vector2.y, vector2.x);
-        /*if (angle < 0) {
-            angle += Math.PI * 2;
-        }*/
-
-        return angle;
-    }
-
     public findHolePoint(point1: Vector2, intersection: Vector2, point2: Vector2): Vector2 {
         const vector1: Vector2 = new Vector2((point1.x - intersection.x), (point1.y - intersection.y));
         let vector2: Vector2 = new Vector2((point2.x - intersection.x), (point2.y - intersection.y));
-        const angle: number = this.calculateAngleBetweenVector(vector1, vector2);
+        const angle: number = RaceTrack.calculateAngleBetweenVector(vector1, vector2);
         vector1.normalize();
         vector1.multiplyScalar(this.width);
         vector2 = vector1.clone();

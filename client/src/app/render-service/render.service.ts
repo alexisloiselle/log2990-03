@@ -83,6 +83,9 @@ export class RenderService {
     private update(): void {
         const timeSinceLastFrame: number = Date.now() - this.lastDate;
         this._car.update(timeSinceLastFrame);
+        // this.botCars[0].update(timeSinceLastFrame);
+        // this.botCars[1].update(timeSinceLastFrame);
+        // this.botCars[2].update(timeSinceLastFrame);
         this.cameraService.update(this._car.Position);
         this.skyboxService.update(this._car.Position);
         this.lastDate = Date.now();

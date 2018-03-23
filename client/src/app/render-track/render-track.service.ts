@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import * as THREE from "three";
 import { RaceTrack } from "../race/raceTrack";
 import { PointCoordinates } from "../race/track-editor/canvas/point-coordinates";
+import { Vector2 } from "three";
 
 const CONVERTING_FACTOR: number = 1;
 const NUMBER_FIVE: number = 5;
@@ -33,7 +34,7 @@ export class RenderTrackService {
 
     public buildTrack(race: RaceTrack): THREE.Mesh[] {
         const plane: THREE.Mesh[] = [];
-        this.generateSegments(race.points);
+        this.generateSegments(race.trackShape.getPoints());
         for (let i: number = 0; i < this.segment.length; i++) {
             const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(NUMBER_TEN, this.segment[i].length());
             let material: THREE.MeshBasicMaterial;
@@ -68,7 +69,7 @@ export class RenderTrackService {
         return (new RaceTrack("Track", "Default Track", 0, this.array));
     }
 
-    public generateSegments(pointArray: PointCoordinates[]): void {
+    public generateSegments(pointArray: Vector2[]): void {
         for (let i: number = 0; i < pointArray.length - 1; i++) {
             const firstPoint: PointCoordinates = new PointCoordinates(0, 0);
             firstPoint.x = (pointArray[i].x - pointArray[0].x) * CONVERTING_FACTOR;
