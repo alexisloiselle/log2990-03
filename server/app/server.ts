@@ -3,18 +3,22 @@ import * as http from "http";
 import Types from "./types";
 import { injectable, inject } from "inversify";
 import { IServerAddress } from "./iserver.address";
-import {} from "socket.io";
+import { } from "socket.io";
 
 @injectable()
 export class Server {
 
-    private readonly appPort: string|number|boolean = this.normalizePort(process.env.PORT || "3000");
+    private readonly appPort: string | number | boolean = this.normalizePort(process.env.PORT || "3000");
     private readonly baseDix: number = 10;
     private server: http.Server;
     private io: any;
+    private crosswordGames: [string, number][];
 
-    constructor(@inject(Types.Application) private application: Application) { }
+    constructor(@inject(Types.Application) private application: Application) {
+        this.crosswordGames = [];
+    }
 
+    // tslint:disable-next-line:max-func-body-length
     public init(): void {
         this.application.app.set("port", this.appPort);
 
@@ -30,6 +34,30 @@ export class Server {
             console.log("a user connected");
             socket.on("disconnect", () => {
                 console.log("user disconnected");
+            });
+
+            socket.on("joinGame", (gameName: string) => {
+                console.log("woot woot it's the sound of the police");
+                console.log(this.crosswordGames);
+                // for (let i: number = 0; i < this.crosswordGames.length; i++) {
+                for (const game of this.crosswordGames) {
+                    if (gameName === game[0]) {
+                        if (game[1] < 2) {
+                            socket.join(gameName);
+                            console.log("A user joined " + gameName);
+                            game[1]++;
+                            socket.to(gameName).emit("gameBegin", true);
+                        }
+                    }
+                }
+            });
+
+            socket.on("newGame", (gameName: string) => {
+                const tempGame: [string, number] = [gameName, 1];
+                this.crosswordGames.push(tempGame);
+                console.log(this.crosswordGames);
+                console.log("Game " + gameName + " has been created");
+                socket.join(gameName);
             });
         });
     }
@@ -65,7 +93,7 @@ export class Server {
     /**
      * Se produit lorsque le serveur se met à écouter sur le port.
      */
-    private  onListening(): void {
+    private onListening(): void {
         const addr: IServerAddress = this.server.address();
         const bind: string = (typeof addr === "string") ? `pipe ${addr}` : `port ${addr.port}`;
         // tslint:disable-next-line:no-console
