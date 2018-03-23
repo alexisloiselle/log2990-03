@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { CrosswordService } from "../../services/crossword/crossword.service";
 import { IMultiplayerGame } from "../../../../../../common/multiplayer-game";
 import { Router } from "@angular/router";
+import { SocketService } from "../../services/socket.service";
 
 @Component({
     selector: "app-join-game",
@@ -10,13 +11,14 @@ import { Router } from "@angular/router";
 })
 export class JoinGameComponent implements OnInit {
 
-    public username: String;
+    public username: string;
     public games: IMultiplayerGame[];
     public isReady: Boolean;
-    public selectedGame: String;
+    public selectedGame: string;
 
     public constructor( private crosswordService: CrosswordService,
-                        private router: Router ) {
+                        private router: Router,
+                        private socketService: SocketService ) {
         this.username = "";
         this.games = [];
         this.isReady = false;
@@ -24,6 +26,7 @@ export class JoinGameComponent implements OnInit {
     }
 
     public async ngOnInit(): Promise<void> {
+        this.socketService.connect();
         await this.crosswordService.getGames();
         this.games = this.crosswordService.Games;
         this.isReady = true;
@@ -37,7 +40,7 @@ export class JoinGameComponent implements OnInit {
         return this.username !== "" && this.selectedGame !== "";
     }
 
-    public getBackgroundColor(gameName: String): String {
+    public getBackgroundColor(gameName: string): string {
         if (gameName === this.selectedGame) {
             return "lightgray";
         } else {
@@ -46,6 +49,7 @@ export class JoinGameComponent implements OnInit {
     }
 
     public joinGame(): void {
-        this.router.navigate(["multiplayer-game", this.selectedGame]);
+        this.socketService.joinGame(this.selectedGame);
+        this.router.navigate(["multiplayer-game", this.selectedGame, true]);
     }
 }

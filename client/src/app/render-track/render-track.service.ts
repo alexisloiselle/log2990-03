@@ -33,7 +33,7 @@ export class RenderTrackService {
 
     public buildTrack(race: RaceTrack): THREE.Mesh[] {
         const plane: THREE.Mesh[] = [];
-        this.generateSegments(race.points);
+        this.generateSegments(race.trackShape.getPoints());
         for (let i: number = 0; i < this.segment.length; i++) {
             const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(NUMBER_TEN, this.segment[i].length());
             let material: THREE.MeshBasicMaterial;
@@ -70,7 +70,7 @@ export class RenderTrackService {
         return (new RaceTrack("Track", "Default Track", 0, this.array));
     }
 
-    public generateSegments(pointArray: PointCoordinates[]): void {
+    public generateSegments(pointArray: THREE.Vector2[]): void {
         for (let i: number = 0; i < pointArray.length - 1; i++) {
             const firstPoint: PointCoordinates = new PointCoordinates(0, 0);
             firstPoint.x = (pointArray[i].x - pointArray[0].x) * CONVERTING_FACTOR;
@@ -97,7 +97,6 @@ export class RenderTrackService {
         hPSurface.position.z = 0;
 
         return hPSurface;
-
     }
 
     public genererCircle(): THREE.Mesh[] {
