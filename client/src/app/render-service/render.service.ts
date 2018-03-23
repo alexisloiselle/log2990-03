@@ -7,7 +7,6 @@ import { CarEventHandlerService } from "./car-event-handler.service";
 import { CameraService } from "./camera.service";
 import { SkyboxService } from "./skybox.service";
 import { RenderTrackService } from "../render-track/render-track.service";
-import { RaceTrack } from "../race/raceTrack";
 // tslint:disable-next-line:no-duplicate-imports
 import { Vector3, Object3D, ObjectLoader } from "three";
 

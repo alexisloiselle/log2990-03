@@ -37,7 +37,7 @@ export class RenderTrackService {
             this.generateDefaultTrack();
 
         const plane: THREE.Mesh[] = [];
-        this.generateSegments(race.trackShape.getPoints());
+        this.generateSegments(this.track.trackShape.getPoints());
         for (let i: number = 0; i < this.segment.length; i++) {
             const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(NUMBER_TEN, this.segment[i].length());
             let material: THREE.MeshBasicMaterial;
@@ -68,7 +68,7 @@ export class RenderTrackService {
         this.array.push(point3);
         this.array.push(point4);
 
-        return (new RaceTrack("Track", "Default Track", 0, this.array));
+        this.track = new RaceTrack("Track", "Default Track", 0, this.array);
     }
 
     public generateSegments(pointArray: Vector2[]): void {
