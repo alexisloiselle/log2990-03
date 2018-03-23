@@ -1,4 +1,4 @@
-import { Vector3, Matrix4, Object3D, ObjectLoader, Euler, Quaternion, PerspectiveCamera } from "three";
+import { Vector3, Matrix4, Object3D, Euler, Quaternion, PerspectiveCamera } from "three";
 import { Engine } from "./engine";
 import { MS_TO_SECONDS, GRAVITY, PI_OVER_2, RAD_TO_DEG } from "../constants";
 import { Wheel } from "./wheel";
@@ -102,18 +102,8 @@ export class Car extends Object3D {
         this._speed = new Vector3(0, 0, 0);
     }
 
-    // move loading code outside of car class eventually
-    private async load(): Promise<Object3D> {
-        return new Promise<Object3D>((resolve, reject) => {
-            const loader: ObjectLoader = new ObjectLoader();
-            loader.load("../../assets/camero/camero-2010-low-poly.json", (object) => {
-                resolve(object);
-            });
-        });
-    }
-
-    public async init(): Promise<void> {
-        this.mesh = await this.load();
+    public init(object: Object3D): void {
+        this.mesh = object;
         this.mesh.setRotationFromEuler(INITIAL_MODEL_ROTATION);
         this.add(this.mesh);
     }
