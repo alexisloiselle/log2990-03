@@ -37,9 +37,13 @@ export class RenderService {
         private collisionService: CollisionService,
         private renderTrackService: RenderTrackService) {
         this._car = new Car();
+        this.cars.push(this._car);
+
         const numberBotCars: number = 3;
         for (let i: number = 0; i < numberBotCars; i++) {
-            this.botCars.push(new BotCar());
+            const botCar: BotCar = new BotCar();
+            this.botCars.push(botCar);
+            this.cars.push(botCar);
         }
     }
 
@@ -84,9 +88,9 @@ export class RenderService {
     private update(): void {
         const timeSinceLastFrame: number = Date.now() - this.lastDate;
         this._car.update(timeSinceLastFrame);
-        // this.botCars[0].update(timeSinceLastFrame);
-        // this.botCars[1].update(timeSinceLastFrame);
-        // this.botCars[2].update(timeSinceLastFrame);
+        this.botCars[0].update(timeSinceLastFrame);
+        this.botCars[1].update(timeSinceLastFrame);
+        this.botCars[2].update(timeSinceLastFrame);
         this.cameraService.update(this._car.Position);
         this.skyboxService.update(this._car.Position);
         this.collisionService.checkForCollision(this.cars);
