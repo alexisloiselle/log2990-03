@@ -89,7 +89,6 @@ export class RenderService {
         this.renderer = new THREE.WebGLRenderer();
         this.renderer.setPixelRatio(devicePixelRatio);
         this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
-
         this.lastDate = Date.now();
         this.container.appendChild(this.renderer.domElement);
         this.render();
