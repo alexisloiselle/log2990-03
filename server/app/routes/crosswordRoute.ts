@@ -47,9 +47,21 @@ module Route {
             res.send({ letters, words: wordsAndDefs });
         }
 
+        // tslint:disable-next-line:max-func-body-length
         public async createNewGame(req: Request, res: Response, next: NextFunction): Promise<void> {
-            const DIMENSION: number = 10;
-            const grid: Grid = await GridGenerator.generateGrid(DIMENSION, DIMENSION, req.params.difficulty);
+            // const DIMENSION: number = 10;
+            // const grid: Grid = await GridGenerator.generateGrid(DIMENSION, DIMENSION, req.params.difficulty);
+
+            const mockCases: Case[][] = [];
+            for (let i: number = 0; i < MOCK_LETTERS.length; i++){
+                mockCases[i] = [];
+                for (let j: number = 0; j < MOCK_LETTERS[0].length; j++){
+                    const tempCase: Case = new Case;
+                    tempCase.RightLetter = MOCK_LETTERS[i][j];
+                    mockCases[i][j] = tempCase;
+                }
+            }
+            const grid: Grid = new Grid(mockCases, MOCK_WORDS_AND_DEFS);
 
             const gameInfo: ICrosswordGameInfo = req.body;
             const letters: string[][] = this.createLetters(grid);

@@ -3,6 +3,7 @@ import { Difficulty } from "../../../../../../common/difficulty";
 import { ActivatedRoute } from "@angular/router";
 import { CrosswordService } from "../../services/crossword/crossword.service";
 import { DefinitionService } from "../../services/crossword/definition.service";
+import { SocketService } from "../../services/socket.service";
 
 @Component({
     selector: "app-multiplayer-game",
@@ -18,13 +19,27 @@ export class MultiplayerGameComponent implements OnInit {
     public constructor(
         private crosswordService: CrosswordService,
         private defService: DefinitionService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private socketService: SocketService
     ) {
         this.isOpponentFound = false;
         this.isConfigured = false;
     }
 
-    public ngOnInit(): void {
+    public async ngOnInit(): Promise<void> {
+        this.route.params.subscribe(async (params) => {
+            // this.difficulty = params.difficulty
+            if (params.isjoingame === "true") {
+                await this.opponentFound();
+            } else {
+                this.socketService.gameBegin().subscribe(async (isOpponentFound) => {
+                    if (isOpponentFound) {
+                        await this.opponentFound();
+                    }
+                });
+            }
+        });
+
     }
 
     public async opponentFound(): Promise<void> {
