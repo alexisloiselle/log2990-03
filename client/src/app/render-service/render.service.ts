@@ -8,8 +8,7 @@ import { CameraService } from "./camera.service";
 import { SkyboxService } from "./skybox.service";
 import { RenderTrackService } from "../render-track/render-track.service";
 import { RaceTrack } from "../race/raceTrack";
-// tslint:disable-next-line:no-duplicate-imports
-import { Vector3, Object3D, ObjectLoader } from "three";
+import { CollisionService } from "../race/collisions/collision.service";
 
 const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
@@ -19,6 +18,7 @@ export class RenderService {
 
     private container: HTMLDivElement;
     private _car: Car;
+    private cars: Car[] = [];
     private botCars: Array<BotCar> = new Array<BotCar>();
     private renderer: THREE.WebGLRenderer;
     private scene: THREE.Scene;
@@ -34,17 +34,22 @@ export class RenderService {
         private carEventHandlerService: CarEventHandlerService,
         private cameraService: CameraService,
         private skyboxService: SkyboxService,
+        private collisionService: CollisionService,
         private renderTrackService: RenderTrackService) {
         this._car = new Car();
+        this.cars.push(this._car);
+
         const numberBotCars: number = 3;
         for (let i: number = 0; i < numberBotCars; i++) {
-            this.botCars.push(new BotCar());
+            const botCar: BotCar = new BotCar();
+            this.botCars.push(botCar);
+            this.cars.push(botCar);
         }
     }
 
-    public static async loadCar(descriptionFileName: string): Promise<Object3D> {
-        return new Promise<Object3D>((resolve, reject) => {
-            const loader: ObjectLoader = new ObjectLoader();
+    public static async loadCar(descriptionFileName: string): Promise<THREE.Object3D> {
+        return new Promise<THREE.Object3D>((resolve, reject) => {
+            const loader: THREE.ObjectLoader = new THREE.ObjectLoader();
             loader.load(descriptionFileName, (object) => {
                 resolve(object);
             });
@@ -75,7 +80,7 @@ export class RenderService {
                                                      "../../assets/porsche/porsche.json"];
         for (let i: number = 0; i < this.botCars.length; i++) {
             this.botCars[i].init(await RenderService.loadCar(carModelsDirectories[i]));
-            this.botCars[i].translateOnAxis(new Vector3(0, 0, positions[i]), 1);
+            this.botCars[i].translateOnAxis(new THREE.Vector3(0, 0, positions[i]), 1);
             this.scene.add(this.botCars[i]);
         }
     }
@@ -83,21 +88,23 @@ export class RenderService {
     private update(): void {
         const timeSinceLastFrame: number = Date.now() - this.lastDate;
         this._car.update(timeSinceLastFrame);
-        // this.botCars[0].update(timeSinceLastFrame);
-        // this.botCars[1].update(timeSinceLastFrame);
-        // this.botCars[2].update(timeSinceLastFrame);
+        this.botCars[0].update(timeSinceLastFrame);
+        this.botCars[1].update(timeSinceLastFrame);
+        this.botCars[2].update(timeSinceLastFrame);
         this.cameraService.update(this._car.Position);
         this.skyboxService.update(this._car.Position);
+        this.collisionService.checkForCollision(this.cars);
         this.lastDate = Date.now();
     }
 
     private async createScene(): Promise<void> {
         this.scene = new THREE.Scene();
-        await this._car.init(await RenderService.loadCar("../../assets/camero/camero-2010-low-poly.json"));
+        this._car.init(await RenderService.loadCar("../../assets/camero/camero-2010-low-poly.json"));
         this.cameraService.createCameras(this._car.Position, this.getAspectRatio(), this.scene);
         this.scene.add(this._car);
+
         this.scene.add(new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY));
-        this.initBotCars();
+        await this.initBotCars();
         this.skyboxService.createSkybox(this.scene);
         this.createTrack();
     }

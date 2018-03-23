@@ -70,6 +70,13 @@ export class CameraService {
     public onResize(aspectRatio: number): void {
         this.thirdPersonCamera.aspect = aspectRatio;
         this.thirdPersonCamera.updateProjectionMatrix();
+
+        this.orthographicCamera.left = -window.innerWidth / EDGE;
+        this.orthographicCamera.right = window.innerWidth / EDGE;
+        this.orthographicCamera.top = window.innerHeight / EDGE;
+        this.orthographicCamera.bottom = -window.innerHeight / EDGE;
+        this.orthographicCamera.updateProjectionMatrix();
+
     }
 
     public zoom(isZooming: boolean): void {
