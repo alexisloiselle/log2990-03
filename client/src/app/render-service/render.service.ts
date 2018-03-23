@@ -8,6 +8,8 @@ import { SkyboxService } from "./skybox.service";
 import { RenderTrackService } from "../render-track/render-track.service";
 import { RaceTrack } from "../race/raceTrack";
 import { PointCoordinates } from "../race/track-editor/canvas/point-coordinates";
+import { CollisionService } from "../race/collisions/collision.service";
+import { Vector3 } from "three";
 
 const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
@@ -17,6 +19,7 @@ export class RenderService {
 
     private container: HTMLDivElement;
     private _car: Car;
+    private _car2: Car;
     private renderer: THREE.WebGLRenderer;
     private scene: THREE.Scene;
     private stats: Stats;
@@ -32,8 +35,10 @@ export class RenderService {
         private carEventHandlerService: CarEventHandlerService,
         private cameraService: CameraService,
         private skyboxService: SkyboxService,
+        private collisionService: CollisionService,
         private renderTrackService: RenderTrackService) {
         this._car = new Car();
+        this._car2 = new Car();
     }
 
     public async initialize(container: HTMLDivElement): Promise<void> {
@@ -55,8 +60,10 @@ export class RenderService {
     private update(): void {
         const timeSinceLastFrame: number = Date.now() - this.lastDate;
         this._car.update(timeSinceLastFrame);
+        this._car2.update(timeSinceLastFrame);
         this.cameraService.update(this._car.Position);
         this.skyboxService.update(this._car.Position);
+        this.collisionService.checkForCollision(this._car, this._car2);
         this.lastDate = Date.now();
     }
 
@@ -64,9 +71,16 @@ export class RenderService {
         this.scene = new THREE.Scene();
 
         await this._car.init();
+        await this._car2.init();
+        // tslint:disable-next-line:no-magic-numbers
+        this._car2.position.set(0, 0, -10);
+        this._car2.speed = new Vector3(0, 0, 0);
+
         this.cameraService.createCameras(this._car.Position, this.getAspectRatio(), this.scene);
 
         this.scene.add(this._car);
+        this.scene.add(this._car2);
+
         this.scene.add(new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY));
 
         this.skyboxService.createSkybox(this.scene);
