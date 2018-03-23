@@ -18,6 +18,7 @@ export class RenderService {
     private container: HTMLDivElement;
     private _car: Car;
     private _car2: Car;
+    private cars: Car[] = [];
     private renderer: THREE.WebGLRenderer;
     private scene: THREE.Scene;
     private stats: Stats;
@@ -36,6 +37,7 @@ export class RenderService {
         private renderTrackService: RenderTrackService) {
         this._car = new Car();
         this._car2 = new Car();
+        this.cars.push(this._car, this._car2);
     }
 
     public async initialize(container: HTMLDivElement): Promise<void> {
@@ -60,7 +62,7 @@ export class RenderService {
         this._car2.update(timeSinceLastFrame);
         this.cameraService.update(this._car.Position);
         this.skyboxService.update(this._car.Position);
-        this.collisionService.checkForCollision(this._car, this._car2);
+        this.collisionService.checkForCollision(this.cars);
         this.lastDate = Date.now();
     }
 

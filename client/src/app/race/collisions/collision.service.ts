@@ -7,9 +7,13 @@ export class CollisionService {
 
     public constructor() { }
 
-    public checkForCollision(car1: Car, car2: Car): void {
-        if (car1.BoundingBox.intersectsBox(car2.BoundingBox)) {
-            this.handleCollision(car1, car2);
+    public checkForCollision(cars: Car[]): void {
+        for (let i: number = 0; i < cars.length; i++) {
+            for (let j: number = i + 1; j < cars.length; j++) {
+                if (cars[i].BoundingBox.intersectsBox(cars[j].BoundingBox)) {
+                    this.handleCollision(cars[i], cars[j]);
+                }
+            }
         }
     }
 
