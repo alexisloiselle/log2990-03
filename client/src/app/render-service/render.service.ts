@@ -75,9 +75,11 @@ export class RenderService {
     private async initBotCars(): Promise<void> {
         // tslint:disable-next-line:no-magic-numbers
         const positions: Array<number> = [-2, 2, 4];
-        const carModelsDirectories: Array<string> = ["../../assets/porsche/porsche.json",
-                                                     "../../assets/lamborghini/lamborghini.json",
-                                                     "../../assets/porsche/porsche.json"];
+        const carModelsDirectories: Array<string> = [
+            "../../assets/porsche/porsche.json",
+            "../../assets/lamborghini/lamborghini.json",
+            "../../assets/porsche/porsche.json"
+        ];
         for (let i: number = 0; i < this.botCars.length; i++) {
             this.botCars[i].init(await RenderService.loadCar(carModelsDirectories[i]));
             this.botCars[i].translateOnAxis(new THREE.Vector3(0, 0, positions[i]), 1);
@@ -110,7 +112,7 @@ export class RenderService {
     }
 
     private createTrack(): void {
-        this.track =  this.renderTrackService.generateDefaultTrack();
+        this.track = this.renderTrackService.generateDefaultTrack();
         let planes: THREE.Mesh[] = [];
         planes = this.renderTrackService.buildTrack(this.track);
         for (const plane of planes) {
