@@ -4,6 +4,17 @@ import { RaceTrack } from "../race/raceTrack";
 import { PointCoordinates } from "../race/track-editor/canvas/point-coordinates";
 
 const CONVERTING_FACTOR: number = 1;
+const NUMBER_FIVE: number = 5;
+const NUMBER_TEN: number = 10;
+const NUMBER_HUN: number = 100;
+const NUMBER_EIGHT_HUN: number = 800;
+const APPROX_ZERO_MINUS: number = -0.001;
+const BLACK: number = 0x000000;
+const WHITE: number = 0xFFFFFF;
+
+const POINT1_X: number = 329; const POINT1_Y: number = 114;
+const POINT2_X: number = 250; const POINT2_Y: number = 347;
+const POINT3_X: number = 136; const POINT3_Y: number = 167;
 
 @Injectable()
 export class RenderTrackService {
@@ -14,98 +25,92 @@ export class RenderTrackService {
     public material: THREE.LineBasicMaterial;
     public curveObject: THREE.Line;
     public segment: Segment[];
+    public array: PointCoordinates[] = [];
 
     public constructor() {
         this.segment = [];
     }
 
     public buildTrack(race: RaceTrack): THREE.Mesh[] {
-        let plane: THREE.Mesh[] = [];
+        const plane: THREE.Mesh[] = [];
         this.generateSegments(race.points);
-
-        for (let i = 0; i < this.segment.length; i++) {
-
-            /*Création du segment de longueur adéquate et rotation
-            pour le mettre parallèle au plan*/
-            let geometry = new THREE.PlaneGeometry(10, this.segment[i].length());
+        for (let i: number = 0; i < this.segment.length; i++) {
+            const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(NUMBER_TEN, this.segment[i].length());
             let material: THREE.MeshBasicMaterial;
 
-            /*On colore en rouge la première tronçon, en vert le deuxième
-            et en rouge le troisième juste pour s'orienter.
-            Tous les autres tronçons sont en jaune.*/
-            if (i == 0)
-                material = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide });
-            else if (i == 1)
-                material = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide });
-            else if (i == 2)
-                material = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide });
-            else
-                material = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide });
-
+            // whyyyy
+            if (i === 0) {
+                material = new THREE.MeshBasicMaterial({ color: WHITE, side: THREE.DoubleSide });
+            } else if (i === 1) {
+                material = new THREE.MeshBasicMaterial({ color: WHITE, side: THREE.DoubleSide });
+            } else if (i === 2) {
+                material = new THREE.MeshBasicMaterial({ color: WHITE, side: THREE.DoubleSide });
+            } else {
+                material = new THREE.MeshBasicMaterial({ color: WHITE, side: THREE.DoubleSide });
+            }
             plane.push(new THREE.Mesh(geometry, material));
             plane[plane.length - 1].rotation.z = -this.segment[i].angle;
             plane[plane.length - 1].rotation.x = Math.PI / 2;
-
-            plane[plane.length - 1].position.x = (this.segment[i].firstPoint.Y + this.segment[i].lastPoint.Y) / 2;;
-            plane[plane.length - 1].position.z = (this.segment[i].firstPoint.X + this.segment[i].lastPoint.X) / 2;
-
-
-            console.log(plane[plane.length - 1].position);
+            plane[plane.length - 1].position.x = (this.segment[i].firstPoint.y + this.segment[i].lastPoint.y) / 2;
+            plane[plane.length - 1].position.z = (this.segment[i].firstPoint.x + this.segment[i].lastPoint.x) / 2;
         }
 
         return plane;
     }
+    public generateDefaultTrack(): RaceTrack {
+        const point1: PointCoordinates = new PointCoordinates(POINT1_X, POINT1_Y);
+        const point2: PointCoordinates = new PointCoordinates(POINT2_X, POINT2_Y);
+        const point3: PointCoordinates = new PointCoordinates(POINT3_X, POINT3_Y);
+        const point4: PointCoordinates = new PointCoordinates(POINT1_X, POINT1_Y);
+        this.array.push(point1);
+        this.array.push(point2);
+        this.array.push(point3);
+        this.array.push(point4);
+
+        return (new RaceTrack("Track", "Default Track", 0, this.array));
+    }
 
     public generateSegments(pointArray: PointCoordinates[]): void {
-        for (let i = 0; i < pointArray.length - 1; i++) {
+        for (let i: number = 0; i < pointArray.length - 1; i++) {
             const firstPoint: PointCoordinates = new PointCoordinates(0, 0);
-            firstPoint.X = (pointArray[i].X - pointArray[0].X) * CONVERTING_FACTOR;
-            firstPoint.Y = (pointArray[i].Y - pointArray[0].Y) * CONVERTING_FACTOR;
+            firstPoint.x = (pointArray[i].x - pointArray[0].x) * CONVERTING_FACTOR;
+            firstPoint.y = (pointArray[i].y - pointArray[0].y) * CONVERTING_FACTOR;
 
             const lastPoint: PointCoordinates = new PointCoordinates(0, 0);
-            lastPoint.X = (pointArray[i + 1].X - pointArray[0].X) * CONVERTING_FACTOR;
-            lastPoint.Y = (pointArray[i + 1].Y - pointArray[0].Y) * CONVERTING_FACTOR;
+            lastPoint.x = (pointArray[i + 1].x - pointArray[0].x) * CONVERTING_FACTOR;
+            lastPoint.y = (pointArray[i + 1].y - pointArray[0].y) * CONVERTING_FACTOR;
 
             this.segment.push(new Segment(firstPoint, lastPoint));
         }
     }
 
     public genererSurfaceHorsPiste(): THREE.Mesh {
-        let HPSurface: THREE.Mesh;
-        let geometry = new THREE.PlaneGeometry(800, 800);
+        let hPSurface: THREE.Mesh;
+        const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(NUMBER_EIGHT_HUN, NUMBER_EIGHT_HUN);
         let material: THREE.MeshBasicMaterial;
+        material = new THREE.MeshBasicMaterial({ color: BLACK, side: THREE.DoubleSide });
+        hPSurface = new THREE.Mesh(geometry, material);
+        hPSurface.position.y = APPROX_ZERO_MINUS;
+        hPSurface.rotation.z = Math.PI / 2;
+        hPSurface.rotation.x = Math.PI / 2;
+        hPSurface.position.x = 0;
+        hPSurface.position.z = 0;
 
-        material = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
-
-        HPSurface = new THREE.Mesh(geometry, material);
-
-        HPSurface.position.y = -0.001;
-
-        HPSurface.rotation.z = Math.PI / 2;
-        HPSurface.rotation.x = Math.PI / 2;
-
-        HPSurface.position.x = 0;
-        HPSurface.position.z = 0;
-
-        return HPSurface;
+        return hPSurface;
 
     }
 
     public genererCircle(): THREE.Mesh[] {
-        let circle: THREE.Mesh[] = [];
-
-        for (let i = 0; i < this.segment.length; i++) {
-            let geometry = new THREE.CircleGeometry(5, 100);
+        const circle: THREE.Mesh[] = [];
+        for (let i: number = 0; i < this.segment.length; i++) {
+            const geometry: THREE.CircleGeometry = new THREE.CircleGeometry(NUMBER_FIVE, NUMBER_HUN);
             let material: THREE.MeshBasicMaterial;
-            material = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide });
-
-
+            material = new THREE.MeshBasicMaterial({ color: WHITE, side: THREE.DoubleSide });
             circle.push(new THREE.Mesh(geometry, material));
             circle[i].rotation.z = Math.PI / 2;
             circle[i].rotation.x = Math.PI / 2;
-            circle[i].position.z = this.segment[i].firstPoint.X;
-            circle[i].position.x = this.segment[i].firstPoint.Y;
-
+            circle[i].position.z = this.segment[i].firstPoint.x;
+            circle[i].position.x = this.segment[i].firstPoint.y;
         }
 
         return circle;

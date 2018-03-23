@@ -60,8 +60,8 @@ export class CanvasComponent implements OnInit {
     }
 
     public mouseMoved(event: MouseEvent): void {
-        this.mouseCoordinates.X = event.offsetX;
-        this.mouseCoordinates.Y = event.offsetY;
+        this.mouseCoordinates.x = event.offsetX;
+        this.mouseCoordinates.y = event.offsetY;
 
         if (this.isMouseDown) {
             this.dragAndDrop();

@@ -8,7 +8,7 @@ export const DEFAULT_MASS: number = 1515;
 export const DEFAULT_DRAG_COEFFICIENT: number = 0.35;
 
 const MAXIMUM_STEERING_ANGLE: number = 0.25;
-// const INITIAL_MODEL_ROTATION: Euler = new Euler(0, PI_OVER_2, 0);
+const INITIAL_MODEL_ROTATION: Euler = new Euler(0, PI_OVER_2, 0);
 const INITIAL_WEIGHT_DISTRIBUTION: number = 0.5;
 const MINIMUM_SPEED: number = 0.05;
 const NUMBER_REAR_WHEELS: number = 2;
@@ -132,7 +132,7 @@ export class Car extends Object3D {
 
     public async init(): Promise<void> {
         this._mesh = await this.load();
-        // this.mesh.setRotationFromEuler(INITIAL_MODEL_ROTATION);
+        this.mesh.setRotationFromEuler(INITIAL_MODEL_ROTATION);
         this.add(this._mesh);
     }
 
