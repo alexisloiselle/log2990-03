@@ -6,6 +6,7 @@ import { RenderService } from "./render.service";
 import { CarEventHandlerService } from "./car-event-handler.service";
 import { SkyboxService } from "./skybox.service";
 import { RenderTrackService } from "../render-track/render-track.service";
+import { CollisionService } from "../race/collisions/collision.service";
 
 const INITIAL_HEIGHT_ORTHO: number = 90;
 const INITIAL_Z_THIRDPERSON: number = 10;
@@ -16,6 +17,7 @@ const UNZOOM_LIMIT: number = 0.6;
 describe("CameraService", () => {
     let cameraService: CameraService;
     let renderService: RenderService;
+    let collisionService: CollisionService;
     let carHandler: CarEventHandlerService;
     let skyboxService: SkyboxService;
     let renderTrackService: RenderTrackService;
@@ -26,9 +28,10 @@ describe("CameraService", () => {
         });
         cameraService = new CameraService();
         skyboxService = new SkyboxService();
+        collisionService = new CollisionService();
         renderTrackService = new RenderTrackService();
         carHandler = new CarEventHandlerService(cameraService);
-        renderService = new RenderService(carHandler, cameraService, skyboxService, renderTrackService);
+        renderService = new RenderService(carHandler, cameraService, skyboxService, collisionService, renderTrackService);
         await renderService.initialize(document.createElement("div"));
         done();
     });

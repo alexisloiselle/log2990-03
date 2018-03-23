@@ -99,12 +99,12 @@ export class RenderService {
 
     private async createScene(): Promise<void> {
         this.scene = new THREE.Scene();
-        await this._car.init(await RenderService.loadCar("../../assets/camero/camero-2010-low-poly.json"));
+        this._car.init(await RenderService.loadCar("../../assets/camero/camero-2010-low-poly.json"));
         this.cameraService.createCameras(this._car.Position, this.getAspectRatio(), this.scene);
         this.scene.add(this._car);
 
         this.scene.add(new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY));
-        this.initBotCars();
+        await this.initBotCars();
         this.skyboxService.createSkybox(this.scene);
         this.createTrack();
     }
