@@ -10,7 +10,6 @@ import { RenderTrackService } from "../render-track/render-track.service";
 import { RaceTrack } from "../race/raceTrack";
 import { CollisionService } from "../race/collisions/collision.service";
 import { Vector3} from "three";
-import { race } from "q";
 
 const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
