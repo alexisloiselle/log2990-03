@@ -3,6 +3,7 @@ import * as THREE from "three";
 import { RaceTrack } from "../race/raceTrack";
 import { PointCoordinates } from "../race/track-editor/canvas/point-coordinates";
 import { Vector2 } from "three";
+import { Car } from "../race/car/car";
 
 const CONVERTING_FACTOR: number = 1;
 const NUMBER_FIVE: number = 5;
@@ -34,27 +35,80 @@ export class RenderTrackService {
 
     public buildTrack(race: RaceTrack): THREE.Mesh[] {
         const plane: THREE.Mesh[] = [];
+        const trackShape: THREE.Shape = new THREE.Shape();
+
         this.generateSegments(race.trackShape.getPoints());
+
         for (let i: number = 0; i < this.segment.length; i++) {
             const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(NUMBER_TEN, this.segment[i].length());
             let material: THREE.MeshBasicMaterial;
-            if (i === 0) {
-                material = new THREE.MeshBasicMaterial({ color: WHITE, side: THREE.DoubleSide });
-            } else if (i === 1) {
-                material = new THREE.MeshBasicMaterial({ color: WHITE, side: THREE.DoubleSide });
-            } else if (i === 2) {
-                material = new THREE.MeshBasicMaterial({ color: WHITE, side: THREE.DoubleSide });
-            } else {
-                material = new THREE.MeshBasicMaterial({ color: WHITE, side: THREE.DoubleSide });
-            }
+
+            material = new THREE.MeshBasicMaterial({ color: WHITE, side: THREE.DoubleSide });
+
             plane.push(new THREE.Mesh(geometry, material));
+
+            trackShape.moveTo(this.segment[i].firstPoint.x, this.segment[i].firstPoint.y);
+
             plane[plane.length - 1].rotation.z = -this.segment[i].angle;
             plane[plane.length - 1].rotation.x = Math.PI / 2;
+
             plane[plane.length - 1].position.x = (this.segment[i].firstPoint.y + this.segment[i].lastPoint.y) / 2;
             plane[plane.length - 1].position.z = (this.segment[i].firstPoint.x + this.segment[i].lastPoint.x) / 2;
         }
+
         return plane;
     }
+
+    public buildTrack2(race: RaceTrack): THREE.Mesh {
+        let plane: THREE.Mesh;
+        const trackShape: THREE.Shape = new THREE.Shape();
+        this.generateSegments(race.trackShape.getPoints());
+        let material: THREE.MeshBasicMaterial;
+        material = new THREE.MeshBasicMaterial({ color: WHITE, side: THREE.DoubleSide });
+
+        trackShape.moveTo(this.segment[0].firstPoint.x, this.segment[0].firstPoint.y);
+        for (const segment of this.segment) {
+            trackShape.lineTo(segment.lastPoint.x, segment.lastPoint.y);
+        }
+        const geometry: THREE.ShapeGeometry = new THREE.ShapeGeometry(trackShape);
+
+        plane = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial( { color: WHITE, side: THREE.DoubleSide } ));
+        // let extrudeSettings = { amount: 8, bevelEnabled: true, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 };
+        plane.position.set(0, 0, 0);
+
+        plane.rotation.x = Math.PI/2;
+
+        return plane;
+    }
+
+    public buildTrackHole(race: RaceTrack): THREE.Mesh {
+        const plane: THREE.Mesh = this.buildTrack2(race);
+        plane.material.color.set(BLACK);
+        plane.position.setX(this.segment[0].firstPoint.x);
+        plane.position.setY(this.segment[0].firstPoint.x);
+        plane.position.setZ(0.15);
+        plane.scale.set(0.1, 0.1, 1);
+
+        /*
+        let plane: THREE.Mesh;
+        const trackShape: THREE.Shape = new THREE.Shape();
+        this.generateSegments(race.holeShape.getPoints());
+        const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: BLACK, side: THREE.DoubleSide });
+
+        trackShape.moveTo(this.segment[0].firstPoint.x, this.segment[0].firstPoint.y);
+        for (const segment of this.segment) {
+            trackShape.lineTo(segment.lastPoint.x, segment.lastPoint.y);
+        }
+        const geometry: THREE.ShapeGeometry = new THREE.ShapeGeometry(trackShape);
+
+        plane = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial( { color: BLACK, side: THREE.DoubleSide } ));
+        // let extrudeSettings = { amount: 8, bevelEnabled: true, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 };
+        plane.position.set(0, 0, 0);
+        plane.rotation.x = Math.PI/2;*/
+
+        return plane;
+    }
+
     public generateDefaultTrack(): RaceTrack {
         const point1: PointCoordinates = new PointCoordinates(POINT1_X, POINT1_Y);
         const point2: PointCoordinates = new PointCoordinates(POINT2_X, POINT2_Y);
@@ -93,6 +147,7 @@ export class RenderTrackService {
         hPSurface.rotation.x = Math.PI / 2;
         hPSurface.position.x = 0;
         hPSurface.position.z = 0;
+
         return hPSurface;
     }
 
@@ -108,7 +163,11 @@ export class RenderTrackService {
             circle[i].position.z = this.segment[i].firstPoint.x;
             circle[i].position.x = this.segment[i].firstPoint.y;
         }
+
         return circle;
+    }
+    public orientCar(car: Car): void {
+        car.rotation.y = this.segment[0].angle - Math.PI/2;
     }
 }
 

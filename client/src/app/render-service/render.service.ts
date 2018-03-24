@@ -76,8 +76,10 @@ export class RenderService {
         for (let i: number = 0; i < this.botCars.length; i++) {
             this.botCars[i].init(await RenderService.loadCar(carModelsDirectories[i]));
             this.botCars[i].translateOnAxis(new Vector3(0, 0, positions[i]), 1);
+            this.renderTrackService.orientCar(this.botCars[i]);
             this.scene.add(this.botCars[i]);
         }
+
     }
 
     private update(): void {
@@ -103,9 +105,19 @@ export class RenderService {
     }
 
     private createTrack(): void {
-        this.track =  this.renderTrackService.generateDefaultTrack();
+        /* Partie faite avec HoleShape et TrackShape */
+        // this.track =  this.renderTrackService.generateDefaultTrack();
+        // const plane: THREE.Mesh = this.renderTrackService.buildTrack2(this.track);
+
+        // this.scene.add(plane);
+        // const trackHole: THREE.Mesh = this.renderTrackService.buildTrackHole(this.track);
+
+        // this.scene.add(trackHole);
+
         let planes: THREE.Mesh[] = [];
+        this.track =  this.renderTrackService.generateDefaultTrack();
         planes = this.renderTrackService.buildTrack(this.track);
+
         for (const plane of planes) {
             this.scene.add(plane);
         }
@@ -116,6 +128,7 @@ export class RenderService {
         for (const circle of circles) {
             this.scene.add(circle);
         }
+        this.renderTrackService.orientCar(this._car);
     }
 
     private getAspectRatio(): number {
