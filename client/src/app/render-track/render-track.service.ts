@@ -136,6 +136,10 @@ export class RenderTrackService {
         }
     }
 
+    public getFirstSegment(): Segment {
+        return this.segment[0];
+    }
+
     public genererSurfaceHorsPiste(): THREE.Mesh {
         let hPSurface: THREE.Mesh;
         const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(NUMBER_EIGHT_HUN, NUMBER_EIGHT_HUN);
@@ -165,9 +169,6 @@ export class RenderTrackService {
         }
 
         return circle;
-    }
-    public orientCar(car: Car): void {
-        car.rotation.y = this.segment[0].angle - Math.PI/2;
     }
 }
 

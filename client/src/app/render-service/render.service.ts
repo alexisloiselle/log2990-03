@@ -9,6 +9,8 @@ import { SkyboxService } from "./skybox.service";
 import { RenderTrackService } from "../render-track/render-track.service";
 import { RaceTrack } from "../race/raceTrack";
 import { CollisionService } from "../race/collisions/collision.service";
+import { Vector3} from "three";
+import { race } from "q";
 
 const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
@@ -83,10 +85,8 @@ export class RenderService {
         for (let i: number = 0; i < this.botCars.length; i++) {
             this.botCars[i].init(await RenderService.loadCar(carModelsDirectories[i]));
             this.botCars[i].translateOnAxis(new Vector3(0, 0, positions[i]), 1);
-            this.renderTrackService.orientCar(this.botCars[i]);
             this.scene.add(this.botCars[i]);
         }
-
     }
 
     private update(): void {
@@ -102,6 +102,7 @@ export class RenderService {
     }
 
     private async createScene(): Promise<void> {
+        // this.renderTrackService.generateDefaultTrack();
         this.scene = new THREE.Scene();
         this._car.init(await RenderService.loadCar("../../assets/camero/camero-2010-low-poly.json"));
         this.cameraService.createCameras(this._car.Position, this.getAspectRatio(), this.scene);
@@ -117,10 +118,8 @@ export class RenderService {
         /* Partie faite avec HoleShape et TrackShape */
         // this.track =  this.renderTrackService.generateDefaultTrack();
         // const plane: THREE.Mesh = this.renderTrackService.buildTrack2(this.track);
-
         // this.scene.add(plane);
         // const trackHole: THREE.Mesh = this.renderTrackService.buildTrackHole(this.track);
-
         // this.scene.add(trackHole);
 
         let planes: THREE.Mesh[] = [];
@@ -137,7 +136,10 @@ export class RenderService {
         for (const circle of circles) {
             this.scene.add(circle);
         }
-        this.renderTrackService.orientCar(this._car);
+        this._car.orientCar(this.renderTrackService.getFirstSegment());
+        this.botCars[0].orientCar(this.renderTrackService.getFirstSegment());
+        this.botCars[1].orientCar(this.renderTrackService.getFirstSegment());
+        this.botCars[2].orientCar(this.renderTrackService.getFirstSegment());
     }
 
     private getAspectRatio(): number {
