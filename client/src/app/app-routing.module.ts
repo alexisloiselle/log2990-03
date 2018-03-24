@@ -34,7 +34,8 @@ const routes: Routes = [
     { path: "multiplayer", component: MultiplayerMenuComponent },
     { path: "join-game", component: JoinGameComponent },
     { path: "create-game", component: CreateGameComponent},
-    { path: "multiplayer-game/:game-name/:isjoingame", component: MultiplayerGameComponent}
+    { path: "multiplayer-game/:game-name/:isjoingame", component: MultiplayerGameComponent},
+    { path: "track-list-game", component: TrackListGameComponent}
 ];
 
 @NgModule({

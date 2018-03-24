@@ -7,7 +7,6 @@ import { CarEventHandlerService } from "./car-event-handler.service";
 import { CameraService } from "./camera.service";
 import { SkyboxService } from "./skybox.service";
 import { RenderTrackService } from "../render-track/render-track.service";
-import { RaceTrack } from "../race/raceTrack";
 import { CollisionService } from "../race/collisions/collision.service";
 
 const WHITE: number = 0xFFFFFF;
@@ -111,7 +110,7 @@ export class RenderService {
     }
 
     private createTrack(): void {
-        this.track = this.renderTrackService.generateDefaultTrack();
+        this.renderTrackService.generateDefaultTrack();
         let planes: THREE.Mesh[] = [];
         planes = this.renderTrackService.buildTrack();
         for (const plane of planes) {
