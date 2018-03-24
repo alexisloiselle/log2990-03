@@ -10,14 +10,18 @@ export class CollisionService {
     public checkForCollision(cars: Car[]): void {
         for (let i: number = 0; i < cars.length; i++) {
             for (let j: number = i + 1; j < cars.length; j++) {
-                if (cars[i].BoundingBox.intersectsBox(cars[j].BoundingBox)) {
+                if (this.isInCollision(cars[i], cars[j])) {
                     this.handleCollision(cars[i], cars[j]);
                 }
             }
         }
     }
 
-    public handleCollision(car1: Car, car2: Car): void {
+    public isInCollision(car1: Car, car2: Car): boolean {
+        return car1.BoundingBox.intersectsBox(car2.BoundingBox);
+    }
+
+    private handleCollision(car1: Car, car2: Car): void {
         const initialVelocity1: Vector3 = car1.speed;
         const initialVelocity2: Vector3 = car2.speed;
 

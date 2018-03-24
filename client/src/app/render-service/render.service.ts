@@ -10,6 +10,7 @@ import { SkyboxService } from "./skybox.service";
 import { RenderTrackService } from "../render-track/render-track.service";
 import { RaceTrack } from "../race/raceTrack";
 import { CollisionService } from "../race/collisions/collision.service";
+import { Vector3} from "three";
 
 const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
@@ -77,12 +78,14 @@ export class RenderService {
     private async initBotCars(): Promise<void> {
         // tslint:disable-next-line:no-magic-numbers
         const positions: Array<number> = [-2, 2, 4];
-        const carModelsDirectories: Array<string> = ["../../assets/porsche/porsche.json",
-                                                     "../../assets/lamborghini/lamborghini.json",
-                                                     "../../assets/porsche/porsche.json"];
+        const carModelsDirectories: Array<string> = [
+            "../../assets/porsche/porsche.json",
+            "../../assets/lamborghini/lamborghini.json",
+            "../../assets/porsche/porsche.json"
+        ];
         for (let i: number = 0; i < this.botCars.length; i++) {
             this.botCars[i].init(await RenderService.loadCar(carModelsDirectories[i]));
-            this.botCars[i].translateOnAxis(new THREE.Vector3(0, 0, positions[i]), 1);
+            this.botCars[i].translateOnAxis(new Vector3(0, 0, positions[i]), 1);
             this.scene.add(this.botCars[i]);
         }
 
@@ -102,6 +105,7 @@ export class RenderService {
     }
 
     private async createScene(): Promise<void> {
+        // this.renderTrackService.generateDefaultTrack();
         this.scene = new THREE.Scene();
         this._car.init(await RenderService.loadCar("../../assets/camero/camero-2010-low-poly.json"));
         this.cameraService.createCameras(this._car.Position, this.getAspectRatio(), this.scene);
@@ -115,9 +119,17 @@ export class RenderService {
     }
 
     private createTrack(): void {
-        this.track =  this.renderTrackService.generateDefaultTrack();
+        /* Partie faite avec HoleShape et TrackShape */
+        // this.track =  this.renderTrackService.generateDefaultTrack();
+        // const plane: THREE.Mesh = this.renderTrackService.buildTrack2(this.track);
+        // this.scene.add(plane);
+        // const trackHole: THREE.Mesh = this.renderTrackService.buildTrackHole(this.track);
+        // this.scene.add(trackHole);
+
         let planes: THREE.Mesh[] = [];
+        this.track =  this.renderTrackService.generateDefaultTrack();
         planes = this.renderTrackService.buildTrack(this.track);
+
         for (const plane of planes) {
             this.scene.add(plane);
         }
@@ -128,6 +140,10 @@ export class RenderService {
         for (const circle of circles) {
             this.scene.add(circle);
         }
+        this._car.orientCar(this.renderTrackService.getFirstSegment());
+        this.botCars[0].orientCar(this.renderTrackService.getFirstSegment());
+        this.botCars[1].orientCar(this.renderTrackService.getFirstSegment());
+        this.botCars[2].orientCar(this.renderTrackService.getFirstSegment());
     }
 
     private getAspectRatio(): number {
