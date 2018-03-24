@@ -10,7 +10,6 @@ import { SkyboxService } from "./skybox.service";
 import { RenderTrackService } from "../render-track/render-track.service";
 import { RaceTrack } from "../race/raceTrack";
 import { CollisionService } from "../race/collisions/collision.service";
-import { Vector3} from "three";
 
 const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
@@ -85,7 +84,7 @@ export class RenderService {
         ];
         for (let i: number = 0; i < this.botCars.length; i++) {
             this.botCars[i].init(await RenderService.loadCar(carModelsDirectories[i]));
-            this.botCars[i].translateOnAxis(new Vector3(0, 0, positions[i]), 1);
+            this.botCars[i].translateOnAxis(new THREE.Vector3(0, 0, positions[i]), 1);
             this.scene.add(this.botCars[i]);
         }
 
@@ -105,7 +104,6 @@ export class RenderService {
     }
 
     private async createScene(): Promise<void> {
-        // this.renderTrackService.generateDefaultTrack();
         this.scene = new THREE.Scene();
         this._car.init(await RenderService.loadCar("../../assets/camero/camero-2010-low-poly.json"));
         this.cameraService.createCameras(this._car.Position, this.getAspectRatio(), this.scene);
@@ -119,13 +117,6 @@ export class RenderService {
     }
 
     private createTrack(): void {
-        /* Partie faite avec HoleShape et TrackShape */
-        // this.track =  this.renderTrackService.generateDefaultTrack();
-        // const plane: THREE.Mesh = this.renderTrackService.buildTrack2(this.track);
-        // this.scene.add(plane);
-        // const trackHole: THREE.Mesh = this.renderTrackService.buildTrackHole(this.track);
-        // this.scene.add(trackHole);
-
         let planes: THREE.Mesh[] = [];
         this.track =  this.renderTrackService.generateDefaultTrack();
         planes = this.renderTrackService.buildTrack(this.track);
@@ -165,7 +156,6 @@ export class RenderService {
         this.update();
         this.cameraService.render(this.scene, this.renderer);
         this.stats.update();
-        // this.botsController.controlCar(this.botCars[0]);
     }
 
     public onResize(): void {

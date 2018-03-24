@@ -55,56 +55,6 @@ export class RenderTrackService {
         return plane;
     }
 
-    // public buildTrack2(race: RaceTrack): THREE.Mesh {
-    //     let plane: THREE.Mesh;
-    //     const trackShape: THREE.Shape = new THREE.Shape();
-    //     this.generateSegments(race.trackShape.getPoints());
-    //     let material: THREE.MeshBasicMaterial;
-    //     material = new THREE.MeshBasicMaterial({ color: WHITE, side: THREE.DoubleSide });
-
-    //     trackShape.moveTo(this.segment[0].firstPoint.x, this.segment[0].firstPoint.y);
-    //     for (const segment of this.segment) {
-    //         trackShape.lineTo(segment.lastPoint.x, segment.lastPoint.y);
-    //     }
-    //     const geometry: THREE.ShapeGeometry = new THREE.ShapeGeometry(trackShape);
-
-    //     plane = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial( { color: WHITE, side: THREE.DoubleSide } ));
-    //     // let extrudeSettings = { amount: 8, bevelEnabled: true, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 };
-    //     plane.position.set(0, 0, 0);
-
-    //     plane.rotation.x = Math.PI/2;
-
-    //     return plane;
-    // }
-
-    // public buildTrackHole(race: RaceTrack): THREE.Mesh {
-    //     const plane: THREE.Mesh = this.buildTrack2(race);
-    //     plane.material.color.set(BLACK);
-    //     plane.position.setX(this.segment[0].firstPoint.x);
-    //     plane.position.setY(this.segment[0].firstPoint.x);
-    //     plane.position.setZ(0.15);
-    //     plane.scale.set(0.1, 0.1, 1);
-
-    //     /*
-    //     let plane: THREE.Mesh;
-    //     const trackShape: THREE.Shape = new THREE.Shape();
-    //     this.generateSegments(race.holeShape.getPoints());
-    //     const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: BLACK, side: THREE.DoubleSide });
-
-    //     trackShape.moveTo(this.segment[0].firstPoint.x, this.segment[0].firstPoint.y);
-    //     for (const segment of this.segment) {
-    //         trackShape.lineTo(segment.lastPoint.x, segment.lastPoint.y);
-    //     }
-    //     const geometry: THREE.ShapeGeometry = new THREE.ShapeGeometry(trackShape);
-
-    //     plane = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial( { color: BLACK, side: THREE.DoubleSide } ));
-    //     // let extrudeSettings = { amount: 8, bevelEnabled: true, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 };
-    //     plane.position.set(0, 0, 0);
-    //     plane.rotation.x = Math.PI/2;*/
-
-    //     return plane;
-    // }
-
     public generateDefaultTrack(): RaceTrack {
         const point1: PointCoordinates = new PointCoordinates(POINT1_X, POINT1_Y);
         const point2: PointCoordinates = new PointCoordinates(POINT2_X, POINT2_Y);
