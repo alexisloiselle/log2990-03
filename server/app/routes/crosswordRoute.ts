@@ -66,7 +66,6 @@ module Route {
             // const grid: Grid = await GridGenerator.generateGrid(DIMENSION, DIMENSION, req.params.difficulty);
 
             const mockCases: Case[][] = this.mockCases();
-            // console.log(MOCK_WORDS_AND_DEFS);
             const grid: Grid = new Grid(mockCases, MOCK_WORDS_AND_DEFS);
 
             const gameInfo: ICrosswordGameInfo = req.body;
@@ -100,8 +99,8 @@ module Route {
             const games: IMultiplayerGame[] = [];
             await require("mongodb").MongoClient.connect(MONGO_URL, async(err: MongoError, db: MongoClient) => {
                 const collection: Db = db.db("log2990-03-db");
-                const gamesCursor: Cursor<any> = await collection.collection("games").find({});
-                for (let game = await gamesCursor.next(); game != null; game = await gamesCursor.next()) {
+                const gamesCursor: Cursor<ICrosswordGame> = await collection.collection("games").find({});
+                for (let game: ICrosswordGame = await gamesCursor.next(); game != null; game = await gamesCursor.next()) {
                     games.push({ userName1: game.gameInfo.userName1, userName2: game.gameInfo.userName2,
                                  gameName: game.gameInfo.gameName, difficulty: game.gameInfo.difficulty });
                 }
@@ -113,7 +112,8 @@ module Route {
         public async getMultiplayerGrid(req: Request, res: Response, next: NextFunction): Promise<void> {
             await require("mongodb").MongoClient.connect(MONGO_URL, async(err: MongoError, db: MongoClient) => {
                 const collection: Db = db.db("log2990-03-db");
-                const currentGame = await collection.collection("games").findOne({"gameInfo.gameName": req.params.gameName});
+                const currentGame: ICrosswordGame = await collection.collection("games")
+                .findOne({"gameInfo.gameName": req.params.gameName});
                 const letters: string[][] = currentGame.letters;
                 const wordsAndDefs: {
                     word: string,
