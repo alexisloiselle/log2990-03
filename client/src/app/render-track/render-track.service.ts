@@ -122,7 +122,7 @@ export class RenderTrackService {
         return (new RaceTrack("Track", "Default Track", 0, this.array));
     }
 
-    public generateSegments(pointArray: Vector2[]): void {
+    public generateSegments(pointArray: THREE.Vector2[]): void {
         for (let i: number = 0; i < pointArray.length - 1; i++) {
             const firstPoint: PointCoordinates = new PointCoordinates(0, 0);
             firstPoint.x = (pointArray[i].x - pointArray[0].x) * CONVERTING_FACTOR;
