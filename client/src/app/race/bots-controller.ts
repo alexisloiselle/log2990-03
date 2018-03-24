@@ -6,26 +6,26 @@ export class BotsController {
     private botCars: Array<BotCar> = [];
     private trackSegments: Array<LineCurve> = [];
     private trackWidth: number;
-    private currentSegmentIndex: number;
+    private currentSegmentIndex: Array<number> = [];
 
     public constructor(bots: Array<BotCar>, trackSegments: Array<LineCurve>, trackWidth: number) {
         this.botCars = bots;
         this.trackSegments = trackSegments;
         this.trackWidth = trackWidth;
+        this.botCars.forEach(() => {
+            this.currentSegmentIndex.push(0);
+        });
     }
 
     public controlCars(): void {
-        this.botCars.forEach((car: BotCar) => {
-            this.controlCar(car);
-        });
-    }
-
-    public controlCar(car: BotCar): void {
-        this.trackSegments.forEach((segment: LineCurve) => {
-            if (!this.reachedJonction(car.getPosition(), segment.v2)) {
-                car.ajustDirection(segment);
+        for (let i: number = 0; i < this.botCars.length; i++) {
+            const segment: LineCurve = this.trackSegments[this.currentSegmentIndex[i]];
+            if (!this.reachedJonction(this.botCars[i].getPosition(), segment.v2)) {
+                this.botCars[i].ajustDirection(segment);
+            } else {
+                this.currentSegmentIndex[i] = (this.currentSegmentIndex[i] + 1) % this.trackSegments.length;
             }
-        });
+        }
     }
 
     public reachedJonction(carPosition: Vector2, jonctionPosition: Vector2): boolean {

@@ -94,6 +94,7 @@ export class RenderService {
         this.botCars[0].update(timeSinceLastFrame);
         this.botCars[1].update(timeSinceLastFrame);
         this.botCars[2].update(timeSinceLastFrame);
+        this.botsController.controlCars();
         this.cameraService.update(this._car.Position);
         this.skyboxService.update(this._car.Position);
         this.collisionService.checkForCollision(this.cars);
