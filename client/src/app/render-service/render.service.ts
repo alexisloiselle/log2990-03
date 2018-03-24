@@ -3,6 +3,7 @@ import Stats = require("stats.js");
 import * as THREE from "three";
 import { Car } from "../race/car/car";
 import { BotCar } from "../race/car/bot-car";
+import { BotsController } from "../race/bots-controller";
 import { CarEventHandlerService } from "./car-event-handler.service";
 import { CameraService } from "./camera.service";
 import { SkyboxService } from "./skybox.service";
@@ -25,6 +26,7 @@ export class RenderService {
     private stats: Stats;
     private lastDate: number;
     private track: RaceTrack;
+    private botsController: BotsController;
 
     public get car(): Car {
         return this._car;
@@ -83,6 +85,7 @@ export class RenderService {
             this.botCars[i].translateOnAxis(new THREE.Vector3(0, 0, positions[i]), 1);
             this.scene.add(this.botCars[i]);
         }
+
     }
 
     private update(): void {
@@ -107,6 +110,7 @@ export class RenderService {
         await this.initBotCars();
         this.skyboxService.createSkybox(this.scene);
         this.createTrack();
+        this.botsController = new BotsController(this.botCars, this.track.segments, this.track.width);
     }
 
     private createTrack(): void {
@@ -144,6 +148,7 @@ export class RenderService {
         this.update();
         this.cameraService.render(this.scene, this.renderer);
         this.stats.update();
+        // this.botsController.controlCar(this.botCars[0]);
     }
 
     public onResize(): void {
