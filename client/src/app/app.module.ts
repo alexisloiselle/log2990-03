@@ -32,6 +32,7 @@ import { AuthService } from "./admin/auth/auth.service";
 import { TrackService } from "./track.service";
 import { CameraService } from "./render-service/camera.service";
 import { SkyboxService } from "./render-service/skybox.service";
+import { CollisionService } from "./race/collisions/collision.service";
 import { CanvasComponent } from "./race/track-editor/canvas/canvas.component";
 import { JoinGameComponent } from "./crossword/multiplayer/join-game/join-game.component";
 import { CreateGameComponent } from "./crossword/multiplayer/create-game/create-game.component";
@@ -81,6 +82,7 @@ import { TrackListGameComponent } from './race/game-component/track-list-game/tr
         SocketService,
         CameraService,
         SkyboxService,
+        CollisionService,
         TrackService,
         RenderTrackService,
         VectorService
