@@ -1,20 +1,20 @@
-import { PointCoordinates } from "./point-coordinates";
+import * as THREE from "three";
 
 const MINIMUM_DISTANCE_BETWEEN_POINTS: number = 20;
 const MINIMUM_ARRAY_LENGTH: number = 2;
 
 export class TrackEditorModel {
-    private pointArray: PointCoordinates[];
+    private pointArray: THREE.Vector2[];
 
     public constructor() {
         this.pointArray = [];
     }
 
-    public get PointArray(): PointCoordinates[] {
+    public get PointArray(): THREE.Vector2[] {
         return this.pointArray;
     }
 
-    public set PointArray(otherPointArray: PointCoordinates[]) {
+    public set PointArray(otherPointArray: THREE.Vector2[]) {
         this.pointArray = otherPointArray;
     }
 
@@ -22,22 +22,22 @@ export class TrackEditorModel {
         return this.pointArray.length;
     }
 
-    public getSinglePoint(index: number): PointCoordinates {
+    public getSinglePoint(index: number): THREE.Vector2 {
         if (index >= 0 && index < this.pointArray.length) {
             return this.pointArray[index];
         }
 
-        return new PointCoordinates(-1, -1);
+        return new THREE.Vector2(-1, -1);
     }
 
-    public setPointCoordinates(index: number, mouseCoordinates: PointCoordinates): void {
+    public setPointCoordinates(index: number, mouseCoordinates: THREE.Vector2): void {
         if (index >= 0 && index < this.pointArray.length) {
             this.pointArray[index].x = mouseCoordinates.x;
             this.pointArray[index].y = mouseCoordinates.y;
         }
     }
 
-    public addPoint(point: PointCoordinates): void {
+    public addPoint(point: THREE.Vector2): void {
         if (!this.isLoopClosed()) {
             this.pointArray.push(point);
             this.removePointsTooClose();
@@ -69,15 +69,15 @@ export class TrackEditorModel {
 
     public closeLoop(): void {
         if (this.getPointArrayLength() > 1) {
-            const point: PointCoordinates = new PointCoordinates(this.pointArray[0].x, this.pointArray[0].y);
+            const point: THREE.Vector2 = new THREE.Vector2(this.pointArray[0].x, this.pointArray[0].y);
             this.pointArray.push(point);
         }
     }
 
-    public clickedOnExistingPoint(mouseCoordinates: PointCoordinates): boolean {
+    public clickedOnExistingPoint(mouseCoordinates: THREE.Vector2): boolean {
         const ACCEPTED_RADIUS: number = 20;
         for (const point of this.pointArray) {
-            if (point.getDistance(mouseCoordinates) <= ACCEPTED_RADIUS) {
+            if (point.distanceTo(mouseCoordinates) <= ACCEPTED_RADIUS) {
                 return true;
             }
         }
@@ -85,13 +85,13 @@ export class TrackEditorModel {
         return false;
     }
 
-    public clickedOnFirstPoint(mouseCoordinates: PointCoordinates): boolean {
+    public clickedOnFirstPoint(mouseCoordinates: THREE.Vector2): boolean {
         const ACCEPTED_RADIUS: number = 10;
 
-        return this.pointArray[0].getDistance(mouseCoordinates) <= ACCEPTED_RADIUS;
+        return this.pointArray[0].distanceTo(mouseCoordinates) <= ACCEPTED_RADIUS;
     }
 
-    public isTooClose(firstPoint: PointCoordinates, secondPoint: PointCoordinates): boolean {
-        return (firstPoint.getDistance(secondPoint) <= MINIMUM_DISTANCE_BETWEEN_POINTS );
+    public isTooClose(firstPoint: THREE.Vector2, secondPoint: THREE.Vector2): boolean {
+        return (firstPoint.distanceTo(secondPoint) <= MINIMUM_DISTANCE_BETWEEN_POINTS );
     }
 }

@@ -1,4 +1,4 @@
-import { PointCoordinates } from "./point-coordinates";
+import * as THREE from "three";
 import { TrackEditorModel } from "./track-editor-model";
 
 const WIDTH_OF_CANVAS: number = 500;
@@ -13,7 +13,7 @@ export class DrawingOnCanvas {
         this.ctx = ctx;
     }
 
-    public drawFirstPointOnCanvas(point: PointCoordinates, color: string, size: number): void {
+    public drawFirstPointOnCanvas(point: THREE.Vector2, color: string, size: number): void {
         this.ctx.beginPath();
         this.ctx.arc(point.x, point.y, STANDARD_SIZE_CIRCLE, 0, Math.PI * 2);
         this.ctx.lineWidth = LINE_WIDTH;
@@ -27,7 +27,7 @@ export class DrawingOnCanvas {
         this.ctx.lineWidth = 2;
     }
 
-    public drawPointOnCanvas(point: PointCoordinates, color: string, size: number): void {
+    public drawPointOnCanvas(point: THREE.Vector2, color: string, size: number): void {
         this.ctx.beginPath();
         this.ctx.arc(point.x, point.y, size, 0, Math.PI * 2);
         this.ctx.fillStyle = color;

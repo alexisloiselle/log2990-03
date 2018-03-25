@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Vector } from "../vector/vector";
-import { PointCoordinates } from "./point-coordinates";
+import * as THREE from "three";
 
 const MIN_ANGLE_IN_DEGREE: number = 45;
 const DEFAULT_TRACK_WIDTH: number = 60;
@@ -8,7 +8,7 @@ const DEFAULT_TRACK_WIDTH: number = 60;
 @Injectable()
 export class ConstraintService {
 
-    public createArrayVector(arrayPointCoordinates: PointCoordinates[]): Vector[] {
+    public createArrayVector(arrayPointCoordinates: THREE.Vector2[]): Vector[] {
         const arrayVector: Vector[] = [];
 
         for (let i: number = 0; i < arrayPointCoordinates.length - 1; i++) {
@@ -33,13 +33,13 @@ export class ConstraintService {
         return (segment.calculateVectorLenght() >= width * 2);
     }
 
-    public isLoopClosed(myPointArray: PointCoordinates[]): boolean {
+    public isLoopClosed(myPointArray: THREE.Vector2[]): boolean {
         return (myPointArray.length > 2 &&
             myPointArray[0].x === myPointArray[myPointArray.length - 1].x &&
             myPointArray[0].y === myPointArray[myPointArray.length - 1].y);
     }
 
-    public angleBooleanArray(myPointArray: PointCoordinates[]): boolean[] {
+    public angleBooleanArray(myPointArray: THREE.Vector2[]): boolean[] {
         const vectors: Vector[] = this.createArrayVector(myPointArray);
         const myBooleanArray: boolean[] = [];
 
@@ -53,7 +53,7 @@ export class ConstraintService {
         return myBooleanArray;
     }
 
-    public intersectionBooleanArray(myPointArray: PointCoordinates[]): boolean[] {
+    public intersectionBooleanArray(myPointArray: THREE.Vector2[]): boolean[] {
         const myVector: Vector[] = this.createArrayVector(myPointArray);
         const myBooleanArray: boolean[] = myPointArray.map(() => {
             return true;
@@ -71,7 +71,7 @@ export class ConstraintService {
         return myBooleanArray;
     }
 
-    public lengthBooleanArray(myPointArray: PointCoordinates[]): boolean[] {
+    public lengthBooleanArray(myPointArray: THREE.Vector2[]): boolean[] {
         const vectors: Vector[] = this.createArrayVector(myPointArray);
         const myBooleanArray: boolean[] = [];
 

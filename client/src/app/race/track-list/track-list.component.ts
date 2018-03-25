@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { RaceTrack } from "../raceTrack";
 import { TrackService } from "../../track.service";
-import { PointCoordinates } from "../track-editor/canvas/point-coordinates";
 import { CanvasComponent } from "../track-editor/canvas/canvas.component";
+import * as THREE from "three";
 import {RenderService} from "../../render-service/render.service";
 import { Router } from "@angular/router";
 
@@ -44,10 +44,10 @@ export class TrackListComponent implements OnInit {
 
     public onSelectTrack(track: RaceTrack): void {
         this.selectedTrack = track;
-        const newPointArray: PointCoordinates[] = [];
+        const newPointArray: THREE.Vector2[] = [];
 
         for (const point of track.points) {
-            newPointArray.push(new PointCoordinates(point.x, point.y));
+            newPointArray.push(new THREE.Vector2(point.x, point.y));
         }
         this.trackEditor.myTrackEditorModel.PointArray = newPointArray;
         this.trackEditor.redrawCanvas();

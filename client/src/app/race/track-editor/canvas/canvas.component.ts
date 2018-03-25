@@ -1,8 +1,8 @@
 import { Component, OnInit, ElementRef, ViewChild } from "@angular/core";
 import { DrawingOnCanvas } from "./drawing-on-canvas";
 import { TrackEditorModel } from "./track-editor-model";
-import { PointCoordinates } from "./point-coordinates";
 import { ConstraintService } from "./track-editor-constraint.service";
+import * as THREE from "three";
 
 const HEIGHT_OF_CANVAS: number = 500;
 const WIDTH_OF_CANVAS: number = 500;
@@ -23,7 +23,7 @@ export class CanvasComponent implements OnInit {
     private canvasRef: ElementRef;
 
     private context: CanvasRenderingContext2D;
-    private mouseCoordinates: PointCoordinates;
+    private mouseCoordinates: THREE.Vector2;
     private isMouseDown: boolean;
     private drawingOnCanvas: DrawingOnCanvas;
 
@@ -36,7 +36,7 @@ export class CanvasComponent implements OnInit {
         this.isMouseDown = false;
         this.myTrackEditorModel = new TrackEditorModel();
         this.drawingOnCanvas = new DrawingOnCanvas(this.context);
-        this.mouseCoordinates = new PointCoordinates(0, 0);
+        this.mouseCoordinates = new THREE.Vector2(0, 0);
     }
 
     public constructor(
@@ -45,7 +45,7 @@ export class CanvasComponent implements OnInit {
 
     public mouseUp(event: MouseEvent): void {
         this.isMouseDown = false;
-        const mouseCoordinates: PointCoordinates = new PointCoordinates(event.offsetX, event.offsetY);
+        const mouseCoordinates: THREE.Vector2 = new THREE.Vector2(event.offsetX, event.offsetY);
         if (event.button === LEFT_CLICK && !this.myTrackEditorModel.isLoopClosed()) {
             this.drawPoint(mouseCoordinates);
         } else if (event.button === RIGHT_CLICK) {
@@ -70,7 +70,7 @@ export class CanvasComponent implements OnInit {
         }
     }
 
-    public drawPoint(mouseCoordinates: PointCoordinates): void {
+    public drawPoint(mouseCoordinates: THREE.Vector2): void {
         const MINIMUM_LENGTH: number = 3;
         if (this.myTrackEditorModel.getPointArrayLength() >= MINIMUM_LENGTH &&
             this.myTrackEditorModel.clickedOnFirstPoint(mouseCoordinates)) {
@@ -100,7 +100,7 @@ export class CanvasComponent implements OnInit {
         if (this.myTrackEditorModel.getPointArrayLength() > 0) {
             for (const point of this.myTrackEditorModel.PointArray) {
                 const ACCEPTED_RADIUS: number = 10;
-                if (this.mouseCoordinates.getDistance(point) <= ACCEPTED_RADIUS) {
+                if (this.mouseCoordinates.distanceTo(point) <= ACCEPTED_RADIUS) {
                     this.mouseOnPoint(point);
                     break;
                 } else {
@@ -113,7 +113,7 @@ export class CanvasComponent implements OnInit {
     public dragAndDrop(): void {
         for (const point of this.myTrackEditorModel.PointArray) {
             const ACCEPTED_RADIUS: number = 15;
-            if (this.mouseCoordinates.getDistance(point) <= ACCEPTED_RADIUS) {
+            if (this.mouseCoordinates.distanceTo(point) <= ACCEPTED_RADIUS) {
                 this.myTrackEditorModel.setPointCoordinates(
                     this.myTrackEditorModel.PointArray.indexOf(point),
                     this.mouseCoordinates
@@ -123,7 +123,7 @@ export class CanvasComponent implements OnInit {
         this.redrawCanvas();
     }
 
-    public mouseOnPoint(point: PointCoordinates): void {
+    public mouseOnPoint(point: THREE.Vector2): void {
         this.drawingOnCanvas.drawPointOnCanvas(point, GREEN, STANDARD_SIZE_CIRCLE);
     }
 
