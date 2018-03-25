@@ -8,14 +8,36 @@ export class BotCar extends Car {
     }
 
     public getPosition(): Vector2 {
-        return new Vector2(this.position.z, this.position.x);
+        return new Vector2(this.mesh.position.x, this.mesh.position.y);
+    }
+
+    public isDirectionOnSegment(trackSegment: LineCurve): boolean {
+        const segmentDirection: Vector2 = new Vector2((trackSegment.v2.x - trackSegment.v1.x),
+                                                      (trackSegment.v2.y - trackSegment.v1.y));
+        const lowerLimit: number = 0.5;
+        const upperLimit: number = 5.9;
+
+        return  (Math.abs(Math.atan2(this.direction.x, this.direction.z) -
+                          Math.atan2(segmentDirection.y, segmentDirection.x)) <  lowerLimit) ||
+                (Math.abs(Math.atan2(this.direction.x, this.direction.z) -
+                          Math.atan2(segmentDirection.y, segmentDirection.x)) >  upperLimit);
+    }
+
+    public changeSegment(newTrackSegment: LineCurve): void {
+        const segmentDirection: Vector2 = new Vector2((newTrackSegment.v2.x - newTrackSegment.v1.x),
+                                                      (newTrackSegment.v2.y - newTrackSegment.v1.y));
+
+        if (Math.abs(Math.atan2(this.direction.x, this.direction.z) - Math.atan2(segmentDirection.y, segmentDirection.x)) >
+            Math.abs(Math.atan2(segmentDirection.y, segmentDirection.x) - Math.atan2(this.direction.x, this.direction.z))) {
+            this.changeSegmentRight();
+        } else {
+            this.changeSegmentLeft();
+        }
     }
 
     public ajustDirection(trackSegment: LineCurve): void {
-        this.isAcceleratorPressed = false;
         const segmentDirection: Vector2 = new Vector2((trackSegment.v2.x - trackSegment.v1.x),
                                                       (trackSegment.v2.y - trackSegment.v1.y));
-
         if (Math.atan2(this.direction.x, this.direction.z) > Math.atan2(segmentDirection.y, segmentDirection.x)) {
             this.turnRight();
         } else {
@@ -30,6 +52,16 @@ export class BotCar extends Car {
 
     public turnRight(): void {
         this.isAcceleratorPressed = true;
+        this.steerRight();
+    }
+
+    public changeSegmentLeft(): void {
+        this.isAcceleratorPressed = false;
+        this.steerLeft();
+    }
+
+    public changeSegmentRight(): void {
+        this.isAcceleratorPressed = false;
         this.steerRight();
     }
 }
