@@ -166,13 +166,11 @@ export class RenderService {
     }
     public clearGameView(): void {
         this.track = null;
-        this.cars.forEach = null;
         this._car = null;
-        this.scene = null;
-        this.container = null;
-        this.botCars.forEach = null;
         this.stats = null;
-        this.lastDate = null;
-        this.renderer = null;
+        for( let car of this.botCars)
+                car = null;
+        for (let car of this.cars)
+                car = null;
     }
 }
