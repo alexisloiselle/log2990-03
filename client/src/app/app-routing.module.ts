@@ -16,6 +16,7 @@ import { PasswordFormComponent } from "./admin/auth/password-form/password-form.
 import { JoinGameComponent } from "./crossword/multiplayer/join-game/join-game.component";
 import { CreateGameComponent } from "./crossword/multiplayer/create-game/create-game.component";
 import { MultiplayerGameComponent } from "./crossword/multiplayer/multiplayer-game/multiplayer-game.component";
+import {TrackListGameComponent} from "./race/game-component/track-list-game/track-list-game.component"
 
 const routes: Routes = [
     { path: "", redirectTo: "/homepage", pathMatch: "full" },
@@ -33,7 +34,8 @@ const routes: Routes = [
     { path: "multiplayer", component: MultiplayerMenuComponent },
     { path: "join-game", component: JoinGameComponent },
     { path: "create-game", component: CreateGameComponent},
-    { path: "multiplayer-game/:gamename/:isjoingame", component: MultiplayerGameComponent}
+    { path: "multiplayer-game/:game-name/:isjoingame", component: MultiplayerGameComponent},
+    { path: "track-list-game", component: TrackListGameComponent}
 ];
 
 @NgModule({

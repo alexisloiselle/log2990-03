@@ -1,16 +1,16 @@
 import { Injectable } from "@angular/core";
 import * as THREE from "three";
-import {RaceTrack} from "../race/raceTrack";
+import { PointCoordinates } from "../race/track-editor/canvas/point-coordinates";
 
 @Injectable()
 export class VectorService {
 
   public constructor() { }
 
-  public createVectors(race: RaceTrack): THREE.Vector3[] {
-    const vectorPoints: THREE.Vector3 [] = [];
-    for ( const i of race.points) {
-      const vector: THREE.Vector3 = new THREE.Vector3(i.x, i.y, 0);
+  public createVectors(points: PointCoordinates[]): THREE.Vector2[] {
+    const vectorPoints: THREE.Vector2 [] = [];
+    for ( const i of points) {
+      const vector: THREE.Vector2 = new THREE.Vector2(i.x, i.y);
       vectorPoints.push(vector);
     }
 

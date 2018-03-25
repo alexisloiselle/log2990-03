@@ -7,8 +7,8 @@ import { CarEventHandlerService } from "./car-event-handler.service";
 import { CameraService } from "./camera.service";
 import { SkyboxService } from "./skybox.service";
 import { RenderTrackService } from "../render-track/render-track.service";
-import { RaceTrack } from "../race/raceTrack";
 import { CollisionService } from "../race/collisions/collision.service";
+import { RaceTrack } from "../race/raceTrack";
 
 const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
@@ -45,6 +45,7 @@ export class RenderService {
             this.botCars.push(botCar);
             this.cars.push(botCar);
         }
+        this.track = null;
     }
 
     public static async loadCar(descriptionFileName: string): Promise<THREE.Object3D> {
@@ -57,10 +58,10 @@ export class RenderService {
     }
 
     public async initialize(container: HTMLDivElement): Promise<void> {
+        //this.clearGameView();
         if (container) {
             this.container = container;
         }
-
         await this.createScene();
         this.initStats();
         this.startRenderingLoop();
@@ -111,10 +112,11 @@ export class RenderService {
         this.createTrack();
     }
 
-    private createTrack(): void {
-        this.track = this.renderTrackService.generateDefaultTrack();
+    private async createTrack(): Promise<void> {
+        if (this.track == null)
+            await (this.track = this.renderTrackService.generateDefaultTrack());
         let planes: THREE.Mesh[] = [];
-        planes = this.renderTrackService.buildTrack(this.track);
+        await (planes = this.renderTrackService.buildTrack(this.track));
         for (const plane of planes) {
             this.scene.add(plane);
         }
@@ -126,6 +128,9 @@ export class RenderService {
             this.scene.add(circle);
         }
     }
+    public loadTrack(track: RaceTrack) {
+        this.track = track;
+    }
 
     private getAspectRatio(): number {
         return this.container.clientWidth / this.container.clientHeight;
@@ -135,7 +140,6 @@ export class RenderService {
         this.renderer = new THREE.WebGLRenderer();
         this.renderer.setPixelRatio(devicePixelRatio);
         this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
-
         this.lastDate = Date.now();
         this.container.appendChild(this.renderer.domElement);
         this.render();
@@ -159,5 +163,16 @@ export class RenderService {
 
     public handleKeyUp(event: KeyboardEvent): void {
         this.carEventHandlerService.handleKeyUp(event, this._car);
+    }
+    public clearGameView(): void {
+        this.track = null;
+        this.cars.forEach = null;
+        this._car = null;
+        this.scene = null;
+        this.container = null;
+        this.botCars.forEach = null;
+        this.stats = null;
+        this.lastDate = null;
+        this.renderer = null;
     }
 }
