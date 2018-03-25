@@ -15,7 +15,7 @@ import { PasswordFormComponent } from "./admin/auth/password-form/password-form.
 import { JoinGameComponent } from "./crossword/multiplayer/join-game/join-game.component";
 import { CreateGameComponent } from "./crossword/multiplayer/create-game/create-game.component";
 import { MultiplayerGameComponent } from "./crossword/multiplayer/multiplayer-game/multiplayer-game.component";
-import {TrackListGameComponent} from "./race/game-component/track-list-game/track-list-game.component"
+import {TrackListGameComponent} from "./race/game-component/track-list-game/track-list-game.component";
 
 const routes: Routes = [
     { path: "", redirectTo: "/homepage", pathMatch: "full" },
