@@ -10,7 +10,6 @@ import { CrosswordMainComponent } from "./crossword/crossword-main/crossword-mai
 import { SinglePlayerMenuComponent } from "./crossword/single-player-menu/single-player-menu.component";
 import { MultiplayerMenuComponent } from "./crossword/multiplayer-menu/multiplayer-menu.component";
 import { SinglePlayerGameComponent } from "./crossword/single-player-game/single-player-game.component";
-import { AdminComponent } from "./admin/admin/admin.component";
 import { ChangePasswordComponent } from "./admin/change-password/change-password.component";
 import { PasswordFormComponent } from "./admin/auth/password-form/password-form.component";
 import { JoinGameComponent } from "./crossword/multiplayer/join-game/join-game.component";
@@ -21,7 +20,7 @@ import {TrackListGameComponent} from "./race/game-component/track-list-game/trac
 const routes: Routes = [
     { path: "", redirectTo: "/homepage", pathMatch: "full" },
     { path : "passwordChange", component: ChangePasswordComponent},
-    { path: "admin", component: AdminComponent},
+    { path: "admin", redirectTo: "./admin/admin/admin.component.html"},
     { path: "passwordForm", component: PasswordFormComponent},
     { path: "homepage", component: HomepageComponent },
     { path: "car-game", component: GameComponent },
