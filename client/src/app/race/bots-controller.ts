@@ -1,5 +1,5 @@
 import { BotCar } from "./car/bot-car";
-import { LineCurve, Vector2 } from "three";
+import { LineCurve, Vector2, Vector3 } from "three";
 
 export class BotsController {
 
@@ -12,6 +12,7 @@ export class BotsController {
         this.botCars = bots;
         this.trackSegments = trackSegments;
         this.normaliseSegment();
+        console.log(this.trackSegments);
         this.trackWidth = trackWidth;
         this.botCars.forEach(() => {
             this.currentSegmentIndex.push(0);
@@ -23,7 +24,7 @@ export class BotsController {
 
         for (let i: number = 0; i < this.botCars.length; i++) {
             const segment: LineCurve = this.trackSegments[this.currentSegmentIndex[i]];
-            if (this.reachedJonction(this.botCars[i].getPosition(), segment.v2) || changeSegment[i]) {
+            if (this.reachedJonction(this.botCars[i].mesh.position, segment.v2) || changeSegment[i]) {
                 changeSegment[i] = true;
                 this.botCars[i].changeSegment(this.trackSegments[this.currentSegmentIndex[i] + 1]);
 
@@ -49,7 +50,9 @@ export class BotsController {
         this.trackSegments[this.trackSegments.length - 1].v2.y = this.trackSegments[this.trackSegments.length - 1].v2.y - y;
     }
 
-    public reachedJonction(carPosition: Vector2, jonctionPosition: Vector2): boolean {
-        return carPosition.distanceTo(jonctionPosition) < this.trackWidth;
+    public reachedJonction(carPosition: Vector3, jonctionPosition: Vector2): boolean {
+        const carPosConverted: Vector2 = new Vector2(carPosition.z, carPosition.x);
+
+        return carPosConverted.distanceTo(jonctionPosition) < this.trackWidth;
     }
 }
