@@ -8,6 +8,7 @@ import { CameraService } from "./camera.service";
 import { SkyboxService } from "./skybox.service";
 import { RenderTrackService } from "../render-track/render-track.service";
 import { CollisionService } from "../race/collisions/collision.service";
+import { RaceTrack } from "../race/raceTrack";
 
 const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
@@ -23,6 +24,7 @@ export class RenderService {
     private scene: THREE.Scene;
     private stats: Stats;
     private lastDate: number;
+    private track: RaceTrack;
 
     public get car(): Car {
         return this._car;
@@ -43,6 +45,7 @@ export class RenderService {
             this.botCars.push(botCar);
             this.cars.push(botCar);
         }
+        this.track = null;
     }
 
     public static async loadCar(descriptionFileName: string): Promise<THREE.Object3D> {
@@ -55,10 +58,10 @@ export class RenderService {
     }
 
     public async initialize(container: HTMLDivElement): Promise<void> {
+        //this.clearGameView();
         if (container) {
             this.container = container;
         }
-
         await this.createScene();
         this.initStats();
         this.startRenderingLoop();
@@ -110,9 +113,10 @@ export class RenderService {
     }
 
     private createTrack(): void {
-        this.renderTrackService.generateDefaultTrack();
+        if (this.track == null)
+            this.track = this.renderTrackService.generateDefaultTrack();
         let planes: THREE.Mesh[] = [];
-        planes = this.renderTrackService.buildTrack();
+        planes = this.renderTrackService.buildTrack(this.track);
         for (const plane of planes) {
             this.scene.add(plane);
         }
@@ -123,6 +127,9 @@ export class RenderService {
         for (const circle of circles) {
             this.scene.add(circle);
         }
+    }
+    public loadTrack(track: RaceTrack) {
+        this.track = track;
     }
 
     private getAspectRatio(): number {
@@ -156,5 +163,16 @@ export class RenderService {
 
     public handleKeyUp(event: KeyboardEvent): void {
         this.carEventHandlerService.handleKeyUp(event, this._car);
+    }
+    public clearGameView(): void {
+        this.track = null;
+        this.cars.forEach = null;
+        this._car = null;
+        this.scene = null;
+        this.container = null;
+        this.botCars.forEach = null;
+        this.stats = null;
+        this.lastDate = null;
+        this.renderer = null;
     }
 }

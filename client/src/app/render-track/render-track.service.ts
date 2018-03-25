@@ -18,7 +18,6 @@ const POINT3_X: number = 136; const POINT3_Y: number = 167;
 
 @Injectable()
 export class RenderTrackService {
-    public race: RaceTrack;
     public curve: THREE.CatmullRomCurve3;
     public vectorPoints: THREE.Vector3[] = [];
     public geometry: THREE.BufferGeometry;
@@ -26,25 +25,17 @@ export class RenderTrackService {
     public curveObject: THREE.Line;
     public segment: Segment[];
     public array: PointCoordinates[] = [];
-    public track: RaceTrack = null;
 
     public constructor() {
         this.segment = [];
     }
-    public setTrack(raceTrack: RaceTrack) {
-        this.track = raceTrack;
-    }
-    public buildTrack(): THREE.Mesh[] {
-        if (this.track == null)
-            this.generateDefaultTrack();
-
+   
+    public buildTrack(track: RaceTrack): THREE.Mesh[] {
         const plane: THREE.Mesh[] = [];
-        this.generateSegments(this.track.trackShape.getPoints());
+        this.generateSegments(track.trackShape.getPoints());
         for (let i: number = 0; i < this.segment.length; i++) {
             const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(NUMBER_TEN, this.segment[i].length());
             let material: THREE.MeshBasicMaterial;
-
-            // whyyyy
             if (i === 0) {
                 material = new THREE.MeshBasicMaterial({ color: WHITE, side: THREE.DoubleSide });
             } else if (i === 1) {
@@ -60,7 +51,6 @@ export class RenderTrackService {
             plane[plane.length - 1].position.x = (this.segment[i].firstPoint.y + this.segment[i].lastPoint.y) / 2;
             plane[plane.length - 1].position.z = (this.segment[i].firstPoint.x + this.segment[i].lastPoint.x) / 2;
         }
-
         return plane;
     }
     public generateDefaultTrack() {
@@ -73,7 +63,7 @@ export class RenderTrackService {
         this.array.push(point3);
         this.array.push(point4);
 
-        this.track = new RaceTrack("Track", "Default Track", 0, this.array);
+        return new RaceTrack("Track", "Default Track", 0, this.array);
     }
 
     public generateSegments(pointArray: THREE.Vector2[]): void {

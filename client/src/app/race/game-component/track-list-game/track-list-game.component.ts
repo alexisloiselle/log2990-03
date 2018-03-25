@@ -1,7 +1,7 @@
 import { Component, OnInit} from "@angular/core";
 import {RaceTrack} from "../../raceTrack";
 import {TrackService} from "../../../track.service";
-import {RenderTrackService} from "../../../render-track/render-track.service";
+import {RenderService} from "../../../render-service/render.service";
 import { Router } from "@angular/router";
 
 @Component({
@@ -16,7 +16,7 @@ export class TrackListGameComponent implements OnInit {
   private selectedTrack: RaceTrack;
 
   public constructor(private trackService: TrackService, 
-                      private renderTrackService: RenderTrackService, 
+                      private renderService: RenderService, 
                       private router: Router) {
       this.parsedTracks = [];
   }
@@ -46,9 +46,10 @@ export class TrackListGameComponent implements OnInit {
       await this.ngOnInit();
   }
   
-  public playTrack(selectedTrack: RaceTrack): void {
-      this.renderTrackService.track = selectedTrack;
-      console.log("La Track est loader");
+  public async playTrack(selectedTrack: RaceTrack): Promise<void> {
+    const race: RaceTrack = new RaceTrack(selectedTrack.name, selectedTrack.description, 
+        selectedTrack.type, selectedTrack.points);
+      await this.renderService.loadTrack(race);
       this.router.navigateByUrl("/car-game");
   }
 }

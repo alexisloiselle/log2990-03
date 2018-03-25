@@ -41,6 +41,7 @@ export class RaceTrack {
             this.trackShape.lineTo(points[i].x, points[i].y);
         }
         this.trackShape.lineTo(points[0].x, points[0].y);
+        console.log("Shape Created");
     }
 
     public createHoleShape(points: Vector2[]): void {

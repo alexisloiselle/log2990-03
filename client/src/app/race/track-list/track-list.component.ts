@@ -4,6 +4,7 @@ import { TrackService } from "../../track.service";
 import { PointCoordinates } from "../track-editor/canvas/point-coordinates";
 import { CanvasComponent } from "../track-editor/canvas/canvas.component";
 import {RenderService} from "../../render-service/render.service";
+import { Router } from "@angular/router";
 
 @Component({
     selector: "app-track-list",
@@ -20,7 +21,8 @@ export class TrackListComponent implements OnInit {
     public parsedTracks: RaceTrack[];
     private selectedTrack: RaceTrack;
 
-    public constructor(private trackService: TrackService, private renderService: RenderService) {
+    public constructor(private trackService: TrackService, private renderService: RenderService, 
+                         private router: Router) {
         this.parsedTracks = [];
     }
 
@@ -73,7 +75,13 @@ export class TrackListComponent implements OnInit {
         await this.trackService.deleteTrack(track.id);
         await this.ngOnInit();
     }
-    public playTrack(selectedTrack: RaceTrack){
-
+    public async playTrack(selectedTrack: RaceTrack): Promise<void> {
+        const race: RaceTrack = new RaceTrack(selectedTrack.name, selectedTrack.description, 
+                                            selectedTrack.type, selectedTrack.points);
+        await this.renderService.loadTrack(race);
+        this.router.navigateByUrl("/car-game");
+    }
+    public playDefaultTrack() {
+        this.router.navigateByUrl("/car-game");
     }
 }

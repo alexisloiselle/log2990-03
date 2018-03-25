@@ -23,6 +23,7 @@
     <div class="col-md">
       <app-canvas #trackEditor></app-canvas>
     </div>
+    <button class="btn btn-lg btn-info" (click)="playDefaultTrack()">Play Default Track</button>
     <div *ngIf="selectedTrack" class="col-md">
       <p> Name:
         <input type="text" [disabled]="!constraintPass()" [value]="selectedTrack.name" class="form-control" #trackNameInput>
