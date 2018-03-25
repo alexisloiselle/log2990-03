@@ -31,6 +31,9 @@ export class RenderTrackService {
     public constructor() {
         this.segment = [];
     }
+    public setTrack(raceTrack: RaceTrack) {
+        this.track = raceTrack;
+    }
     public buildTrack(): THREE.Mesh[] {
         if (this.track == null)
             this.generateDefaultTrack();
