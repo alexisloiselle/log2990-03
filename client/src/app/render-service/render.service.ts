@@ -167,9 +167,9 @@ export class RenderService {
     }
     public clearGameView(): void {
         this.track = null;
-        this._car = null;
-        this.stats = null;
-        for ( let car of this.botCars) { car = null; }
-        for (let car of this.cars) { car = null; }
+        for ( let children of this.scene.children) { this.scene.remove(children);}
+        console.log(this.scene.children);
+        this.cars.forEach((car) => {this.cars.pop()});
+        console.log(this.cars);
     }
 }
