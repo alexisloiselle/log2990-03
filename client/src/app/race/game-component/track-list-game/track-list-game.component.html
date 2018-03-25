@@ -8,7 +8,10 @@
   </ul>
 </div>
 <div *ngIf="selectedTrack">
-  {{selectedTrack.name}} {{selectedTrack.description}}
+  <div>
+  <p>Nom : {{selectedTrack.name}} </p> 
+  <p>Description : {{selectedTrack.description}} </p> 
+</div>
 </div>
 <div *ngIf="!parsedTracks || parsedTracks.lenght === 0" class="panel panel-danger">
   <h4>Pas de pistes disponibles pour l'instant. Seul un administrateur peut en créer.</h4>

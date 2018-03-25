@@ -5,9 +5,9 @@ import {RenderService} from "../../../render-service/render.service";
 import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-track-list-game',
-  templateUrl: './track-list-game.component.html',
-  styleUrls: ['./track-list-game.component.css']
+  selector: "app-track-list-game",
+  templateUrl: "./track-list-game.component.html",
+  styleUrls: ["./track-list-game.component.css"]
 })
 
 export class TrackListGameComponent implements OnInit {
@@ -15,9 +15,9 @@ export class TrackListGameComponent implements OnInit {
   public parsedTracks: RaceTrack[];
   private selectedTrack: RaceTrack;
 
-  public constructor(private trackService: TrackService, 
-                      private renderService: RenderService, 
-                      private router: Router) {
+  public constructor(private trackService: TrackService,
+                     private renderService: RenderService,
+                     private router: Router) {
       this.parsedTracks = [];
   }
 
@@ -45,11 +45,11 @@ export class TrackListGameComponent implements OnInit {
       await this.trackService.deleteTrack(track.id);
       await this.ngOnInit();
   }
-  
+
   public async playTrack(selectedTrack: RaceTrack): Promise<void> {
-    const race: RaceTrack = new RaceTrack(selectedTrack.name, selectedTrack.description, 
+    const race: RaceTrack = new RaceTrack(selectedTrack.name, selectedTrack.description,
                                           selectedTrack.type, selectedTrack.points);
-      await this.renderService.loadTrack(race);
-      this.router.navigateByUrl("/car-game");
+    await this.renderService.loadTrack(race);
+    this.router.navigateByUrl("/car-game");
   }
 }

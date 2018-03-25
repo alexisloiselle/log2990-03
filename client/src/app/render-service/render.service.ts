@@ -58,7 +58,7 @@ export class RenderService {
     }
 
     public async initialize(container: HTMLDivElement): Promise<void> {
-        //this.clearGameView();
+        // this.clearGameView();
         if (container) {
             this.container = container;
         }
@@ -113,8 +113,9 @@ export class RenderService {
     }
 
     private async createTrack(): Promise<void> {
-        if (this.track == null)
+        if (this.track == null) {
             await (this.track = this.renderTrackService.generateDefaultTrack());
+        }
         let planes: THREE.Mesh[] = [];
         await (planes = this.renderTrackService.buildTrack(this.track));
         for (const plane of planes) {
@@ -128,7 +129,7 @@ export class RenderService {
             this.scene.add(circle);
         }
     }
-    public loadTrack(track: RaceTrack) {
+    public loadTrack(track: RaceTrack): void {
         this.track = track;
     }
 
@@ -168,9 +169,7 @@ export class RenderService {
         this.track = null;
         this._car = null;
         this.stats = null;
-        for( let car of this.botCars)
-                car = null;
-        for (let car of this.cars)
-                car = null;
+        for ( let car of this.botCars) { car = null; }
+        for (let car of this.cars) { car = null; }
     }
 }
