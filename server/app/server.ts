@@ -39,7 +39,6 @@ export class Server {
             socket.on("joinGame", (gameName: string) => {
                 console.log("woot woot it's the sound of the police");
                 console.log(this.crosswordGames);
-                // for (let i: number = 0; i < this.crosswordGames.length; i++) {
                 for (const game of this.crosswordGames) {
                     if (gameName === game[0]) {
                         if (game[1] < 2) {
@@ -55,7 +54,6 @@ export class Server {
             socket.on("newGame", (gameName: string) => {
                 const tempGame: [string, number] = [gameName, 1];
                 this.crosswordGames.push(tempGame);
-                console.log(this.crosswordGames);
                 console.log("Game " + gameName + " has been created");
                 socket.join(gameName);
             });

@@ -47,32 +47,31 @@ module Route {
             res.send({ letters, words: wordsAndDefs });
         }
 
-        // tslint:disable-next-line:max-func-body-length
-        public async createNewGame(req: Request, res: Response, next: NextFunction): Promise<void> {
-            // const DIMENSION: number = 10;
-            // const grid: Grid = await GridGenerator.generateGrid(DIMENSION, DIMENSION, req.params.difficulty);
-
+        private mockCases(): Case[][] {
             const mockCases: Case[][] = [];
-            for (let i: number = 0; i < MOCK_LETTERS.length; i++){
+            for (let i: number = 0; i < MOCK_LETTERS.length; i++) {
                 mockCases[i] = [];
-                for (let j: number = 0; j < MOCK_LETTERS[0].length; j++){
+                for (let j: number = 0; j < MOCK_LETTERS[0].length; j++) {
                     const tempCase: Case = new Case;
                     tempCase.RightLetter = MOCK_LETTERS[i][j];
                     mockCases[i][j] = tempCase;
                 }
             }
+
+            return mockCases;
+        }
+
+        public async createNewGame(req: Request, res: Response, next: NextFunction): Promise<void> {
+            // const DIMENSION: number = 10;
+            // const grid: Grid = await GridGenerator.generateGrid(DIMENSION, DIMENSION, req.params.difficulty);
+
+            const mockCases: Case[][] = this.mockCases();
+            // console.log(MOCK_WORDS_AND_DEFS);
             const grid: Grid = new Grid(mockCases, MOCK_WORDS_AND_DEFS);
 
             const gameInfo: ICrosswordGameInfo = req.body;
             const letters: string[][] = this.createLetters(grid);
-            const wordsAndDefinitions: IWord[] = grid.Words.map((wordInfo: Word) => {
-                return {
-                    word: wordInfo.Word,
-                    definition: wordInfo.Definition,
-                    isHorizontal: wordInfo.Orientation === Direction.Horizontal,
-                    position: { x: wordInfo.Line, y: wordInfo.Column }
-                };
-            });
+            const wordsAndDefinitions: IWord[] = MOCK_WORDS_AND_DEFS;
 
             const game: ICrosswordGame = { gameInfo: gameInfo, letters: letters, words: wordsAndDefinitions };
 
@@ -108,6 +107,23 @@ module Route {
                 }
                 await db.close();
                 res.send(games);
+            });
+        }
+
+        public async getMultiplayerGrid(req: Request, res: Response, next: NextFunction): Promise<void> {
+            await require("mongodb").MongoClient.connect(MONGO_URL, async(err: MongoError, db: MongoClient) => {
+                const collection: Db = db.db("log2990-03-db");
+                const currentGame = await collection.collection("games").findOne({"gameInfo.gameName": req.params.gameName});
+                const letters: string[][] = currentGame.letters;
+                const wordsAndDefs: {
+                    word: string,
+                    definition: string,
+                    isHorizontal: boolean,
+                    position: { x: number, y: number }
+                }[] = currentGame.words;
+
+                await db.close();
+                res.send({ letters, words: wordsAndDefs });
             });
         }
 
