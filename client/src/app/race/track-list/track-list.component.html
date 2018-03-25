@@ -17,14 +17,13 @@
 <div *ngIf="error">
   <p class="text-danger">{{error}}</p>
 </div>
-
+<div id = "playDefaultTrackButton">
+  <button class="btn btn-lg btn-info" (click)="playDefaultTrack()">Play Default Track</button>
+  </div>
 <div id="container">
   <div class="row">
     <div class="col-md">
       <app-canvas #trackEditor></app-canvas>
-    </div>
-    <div id = "playDefaultTrackButton">
-    <button class="btn btn-lg btn-info" (click)="playDefaultTrack()">Play Default Track</button>
     </div>
     <div *ngIf="selectedTrack" class="col-md">
       <p> Name:
