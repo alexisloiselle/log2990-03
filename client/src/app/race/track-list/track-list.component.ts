@@ -21,8 +21,8 @@ export class TrackListComponent implements OnInit {
     public parsedTracks: RaceTrack[];
     private selectedTrack: RaceTrack;
 
-    public constructor(private trackService: TrackService, private renderService: RenderService, 
-                         private router: Router) {
+    public constructor(private trackService: TrackService, private renderService: RenderService,
+                       private router: Router) {
         this.parsedTracks = [];
     }
 
@@ -76,12 +76,12 @@ export class TrackListComponent implements OnInit {
         await this.ngOnInit();
     }
     public async playTrack(selectedTrack: RaceTrack): Promise<void> {
-        const race: RaceTrack = new RaceTrack(selectedTrack.name, selectedTrack.description, 
+        const race: RaceTrack = new RaceTrack(selectedTrack.name, selectedTrack.description,
                                               selectedTrack.type, selectedTrack.points);
         await this.renderService.loadTrack(race);
         this.router.navigateByUrl("/car-game");
     }
-    public playDefaultTrack() {
+    public playDefaultTrack(): void {
         this.router.navigateByUrl("/car-game");
     }
 }

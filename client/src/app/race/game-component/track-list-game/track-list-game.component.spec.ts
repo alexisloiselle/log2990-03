@@ -1,8 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { TrackListGameComponent } from './track-list-game.component';
+import { TrackListGameComponent } from "./track-list-game.component";
 
-describe('TrackListGameComponent', () => {
+describe("TrackListGameComponent", () => {
   let component: TrackListGameComponent;
   let fixture: ComponentFixture<TrackListGameComponent>;
 
@@ -19,7 +19,7 @@ describe('TrackListGameComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
