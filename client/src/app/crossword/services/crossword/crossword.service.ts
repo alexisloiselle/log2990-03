@@ -38,6 +38,12 @@ export class CrosswordService {
             .then((games: IMultiplayerGame[]) => games);
     }
 
+    public async getMultiplayerGrid(gameName: string): Promise<void> {
+        this.formattedGrid = await this.http.get(`${API_URL}/${CROSSWORD_PARAM}/getMultiplayerGrid/${gameName}`)
+            .toPromise()
+            .then((data: IFormattedGrid) => data);
+    }
+
     public get FormattedGrid(): IFormattedGrid {
         return this.formattedGrid;
     }

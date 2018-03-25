@@ -1,5 +1,4 @@
-import { PointCoordinates } from "./track-editor/canvas/point-coordinates";
-import { LineCurve, Vector2 } from "three";
+import * as THREE from "three";
 
 export class RaceTrack {
 
@@ -12,11 +11,12 @@ export class RaceTrack {
     public timesPlayed: number = 0;
     public times: TrackTime[] = [];
     public bestTime: TrackTime;
-    public points: PointCoordinates[] = [];
-    public segments: LineCurve[] = [];
+    public points: THREE.Vector2[] = [];
+    public segments: THREE.LineCurve[] = [];
     public width: number = 20;
+    public center: THREE.Vector2;
 
-    public constructor(name: string, description: string, type: RaceType, points: PointCoordinates[]) {
+    public constructor(name: string, description: string, type: RaceType, points: THREE.Vector2[]) {
         this.name = name;
         this.description = description;
         this.type = type;
@@ -28,7 +28,7 @@ export class RaceTrack {
 
     public findSegments(): void {
         for (let i: number = 0; i < this.points.length - 1; i++) {
-            this.segments.push(new LineCurve(this.points[i] as Vector2, this.points[i + 1] as Vector2));
+            this.segments.push(new THREE.LineCurve(this.points[i], this.points[i + 1]));
         }
     }
 }

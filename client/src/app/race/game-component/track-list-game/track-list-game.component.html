@@ -1,0 +1,30 @@
+<h2>Pistes</h2>
+<div class="list-group">
+  <ul class="tracks">
+    <li *ngFor="let track of parsedTracks" [class.selected]="track === selectedTrack" (click)="onSelectTrack(track)">
+      {{track.name}}
+      <button class="btn btn-sm btn-warning" type="button" (click)="deleteTrack(track)" role="button"> x </button>
+    </li>
+  </ul>
+</div>
+<div *ngIf="selectedTrack">
+  <div>
+  <p>Nom : {{selectedTrack.name}} </p> 
+  <p>Description : {{selectedTrack.description}} </p> 
+</div>
+</div>
+<div *ngIf="!parsedTracks || parsedTracks.lenght === 0" class="panel panel-danger">
+  <h4>Pas de pistes disponibles pour l'instant. Seul un administrateur peut en créer.</h4>
+</div>
+
+<div *ngIf="error">
+  <p class="text-danger">{{error}}</p>
+</div>
+
+<div id="container">
+  <div class="row">
+    <div *ngIf="selectedTrack">
+      <button class="btn btn-lg btn-info" *ngIf="selectedTrack" (click)="playTrack(selectedTrack)">PlayTrack</button>
+    </div>
+  </div>
+</div>

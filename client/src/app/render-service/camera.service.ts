@@ -12,7 +12,7 @@ const FIELD_OF_VIEW: number = 100;
 const ZOOM_FACTOR_INCREMENT: number = 0.01;
 const INITIAL_ZOOM_FACTOR: number = 1.03;
 const ZOOM_LIMIT: number = 2;
-const UNZOOM_LIMIT: number = 0.1;
+const UNZOOM_LIMIT: number = 0.6;
 const EDGE: number = 45;
 
 @Injectable()

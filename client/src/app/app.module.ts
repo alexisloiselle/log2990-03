@@ -38,7 +38,7 @@ import { JoinGameComponent } from "./crossword/multiplayer/join-game/join-game.c
 import { CreateGameComponent } from "./crossword/multiplayer/create-game/create-game.component";
 import { MultiplayerGameComponent } from "./crossword/multiplayer/multiplayer-game/multiplayer-game.component";
 import { RenderTrackService } from "./render-track/render-track.service";
-import { VectorService } from "./vector-service/vector.service";
+import { TrackListGameComponent } from "./race/game-component/track-list-game/track-list-game.component";
 
 @NgModule({
     declarations: [
@@ -60,7 +60,8 @@ import { VectorService } from "./vector-service/vector.service";
         CanvasComponent,
         JoinGameComponent,
         CreateGameComponent,
-        MultiplayerGameComponent
+        MultiplayerGameComponent,
+        TrackListGameComponent
     ],
     imports: [
         BrowserModule,
@@ -82,8 +83,7 @@ import { VectorService } from "./vector-service/vector.service";
         SkyboxService,
         CollisionService,
         TrackService,
-        RenderTrackService,
-        VectorService
+        RenderTrackService
     ],
     bootstrap: [AppComponent]
 })

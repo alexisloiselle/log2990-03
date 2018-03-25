@@ -45,6 +45,14 @@ selected {
   margin-right: .8em;
   border-radius: 4px 0 0 4px;
 }
+.playDefaultTrackButton {
+  font-size: small;
+  position: relative;
+  align-self: auto;
+  padding-bottom: 5%;
+  padding-top: 5%;
+  padding-left: 5%;
+}
 
 
 /*

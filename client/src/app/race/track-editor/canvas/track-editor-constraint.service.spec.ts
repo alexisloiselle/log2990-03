@@ -1,25 +1,25 @@
-import { PointCoordinates } from "./point-coordinates";
+import * as THREE from "three";
 import { Vector } from "../vector/vector";
-import {ConstraintService} from "./track-editor-constraint.service";
+import { ConstraintService } from "./track-editor-constraint.service";
 
 /* tslint:disable:no-magic-numbers */
 describe("Track-Editor-Constraint", () => {
 
     const FORTY_FIVE_DEGREE: number = 45;
-    const POINT_START: PointCoordinates = new PointCoordinates(2, 6);
-    const POINT_END: PointCoordinates = new PointCoordinates(1, 3);
-    const POINT_LESS_45: PointCoordinates = new PointCoordinates(1, 2);
-    const FIRSTVECTOR45DEGREE: Vector = new Vector(new PointCoordinates(5, 2), new PointCoordinates(0, 0));
-    const SECONDEVECTOR45DEGREE: Vector = new Vector(new PointCoordinates(0, 0), new PointCoordinates(3, 7));
-    const VECTOR_TEST_IS_IN_DOMAIN: Vector = new Vector(new PointCoordinates(0, 4), new PointCoordinates(3, 0));
+    const POINT_START: THREE.Vector2 = new THREE.Vector2(2, 6);
+    const POINT_END: THREE.Vector2 = new THREE.Vector2(1, 3);
+    const POINT_LESS_45: THREE.Vector2 = new THREE.Vector2(1, 2);
+    const FIRSTVECTOR45DEGREE: Vector = new Vector(new THREE.Vector2(5, 2), new THREE.Vector2(0, 0));
+    const SECONDEVECTOR45DEGREE: Vector = new Vector(new THREE.Vector2(0, 0), new THREE.Vector2(3, 7));
+    const VECTOR_TEST_IS_IN_DOMAIN: Vector = new Vector(new THREE.Vector2(0, 4), new THREE.Vector2(3, 0));
     const VECTOR_TEST: Vector = new Vector(POINT_START, POINT_LESS_45);
     const VECTOR_TEST_LESS_45: Vector = new Vector(POINT_LESS_45, POINT_END);
     const VECTOR_PARALLEL: Vector = new Vector(POINT_START, POINT_END);
     const VECTOR_INVERSE_PARALLEL: Vector = new Vector(POINT_END, POINT_START);
-    const VECTOR_X_ABSCISSE: Vector = new Vector (new PointCoordinates (0, 0), new PointCoordinates (0, 1));
-    const VECTOR_Y_ABSCISSE: Vector = new Vector (new PointCoordinates (0, 1), new PointCoordinates (1, 1));
-    const FIRST_VECTOR_INTERSECTION: Vector = new Vector( new PointCoordinates(0, 0), new PointCoordinates(5, 5));
-    const SECOND_VECTOR_INTERSECTION: Vector = new Vector(new PointCoordinates(0, 5), new PointCoordinates(5, 0));
+    const VECTOR_X_ABSCISSE: Vector = new Vector (new THREE.Vector2 (0, 0), new THREE.Vector2 (0, 1));
+    const VECTOR_Y_ABSCISSE: Vector = new Vector (new THREE.Vector2 (0, 1), new THREE.Vector2 (1, 1));
+    const FIRST_VECTOR_INTERSECTION: Vector = new Vector( new THREE.Vector2(0, 0), new THREE.Vector2(5, 5));
+    const SECOND_VECTOR_INTERSECTION: Vector = new Vector(new THREE.Vector2(0, 5), new THREE.Vector2(5, 0));
 
     it("Angle should be less than 45 degree", () => {
         expect(VECTOR_TEST.calculateAngle(VECTOR_TEST_LESS_45).toFixed(3)).toBeLessThan(FORTY_FIVE_DEGREE);

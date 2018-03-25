@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import * as THREE from "three";
 import { RaceTrack } from "../race/raceTrack";
-import { PointCoordinates } from "../race/track-editor/canvas/point-coordinates";
 
 const CONVERTING_FACTOR: number = 1;
 const NUMBER_FIVE: number = 5;
@@ -18,23 +17,22 @@ const POINT3_X: number = 136; const POINT3_Y: number = 167;
 
 @Injectable()
 export class RenderTrackService {
-    public race: RaceTrack;
     public curve: THREE.CatmullRomCurve3;
     public vectorPoints: THREE.Vector3[] = [];
     public geometry: THREE.BufferGeometry;
     public material: THREE.LineBasicMaterial;
     public curveObject: THREE.Line;
     public segment: Segment[];
-    public array: PointCoordinates[] = [];
+    public array: THREE.Vector2[] = [];
 
     public constructor() {
         this.segment = [];
     }
 
-    public buildTrack(race: RaceTrack): THREE.Mesh[] {
+    public buildTrack(track: RaceTrack): THREE.Mesh[] {
         const plane: THREE.Mesh[] = [];
         const trackShape: THREE.Shape = new THREE.Shape();
-        this.generateSegments(race.points);
+        this.generateSegments(track.points);
         for (const segment of this.segment) {
             const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(NUMBER_TEN, segment.length());
             let material: THREE.MeshBasicMaterial;
@@ -56,25 +54,25 @@ export class RenderTrackService {
     }
 
     public generateDefaultTrack(): RaceTrack {
-        const point1: PointCoordinates = new PointCoordinates(POINT1_X, POINT1_Y);
-        const point2: PointCoordinates = new PointCoordinates(POINT2_X, POINT2_Y);
-        const point3: PointCoordinates = new PointCoordinates(POINT3_X, POINT3_Y);
-        const point4: PointCoordinates = new PointCoordinates(POINT1_X, POINT1_Y);
+        const point1: THREE.Vector2 = new THREE.Vector2(POINT1_X, POINT1_Y);
+        const point2: THREE.Vector2 = new THREE.Vector2(POINT2_X, POINT2_Y);
+        const point3: THREE.Vector2 = new THREE.Vector2(POINT3_X, POINT3_Y);
+        const point4: THREE.Vector2 = new THREE.Vector2(POINT1_X, POINT1_Y);
         this.array.push(point1);
         this.array.push(point2);
         this.array.push(point3);
         this.array.push(point4);
 
-        return (new RaceTrack("Track", "Default Track", 0, this.array));
+        return new RaceTrack("Track", "Default Track", 0, this.array);
     }
 
     public generateSegments(pointArray: THREE.Vector2[]): void {
         for (let i: number = 0; i < pointArray.length - 1; i++) {
-            const firstPoint: PointCoordinates = new PointCoordinates(0, 0);
+            const firstPoint: THREE.Vector2 = new THREE.Vector2(0, 0);
             firstPoint.x = (pointArray[i].x - pointArray[0].x) * CONVERTING_FACTOR;
             firstPoint.y = (pointArray[i].y - pointArray[0].y) * CONVERTING_FACTOR;
 
-            const lastPoint: PointCoordinates = new PointCoordinates(0, 0);
+            const lastPoint: THREE.Vector2 = new THREE.Vector2(0, 0);
             lastPoint.x = (pointArray[i + 1].x - pointArray[0].x) * CONVERTING_FACTOR;
             lastPoint.y = (pointArray[i + 1].y - pointArray[0].y) * CONVERTING_FACTOR;
 
@@ -119,18 +117,18 @@ export class RenderTrackService {
 }
 
 export class Segment {
-    public firstPoint: PointCoordinates;
-    public lastPoint: PointCoordinates;
+    public firstPoint: THREE.Vector2;
+    public lastPoint: THREE.Vector2;
     public angle: number;
 
-    public constructor(firstPoint: PointCoordinates, lastPoint: PointCoordinates) {
+    public constructor(firstPoint: THREE.Vector2, lastPoint: THREE.Vector2) {
         this.firstPoint = firstPoint;
         this.lastPoint = lastPoint;
-        this.angle = this.firstPoint.getAngle(this.lastPoint);
+        this.angle = Math.atan((this.lastPoint.y - this.firstPoint.y) / (this.lastPoint.x - this.firstPoint.x));
     }
 
     public length(): number {
-        return this.firstPoint.getDistance(this.lastPoint);
+        return this.firstPoint.distanceTo(this.lastPoint);
     }
 
 }
