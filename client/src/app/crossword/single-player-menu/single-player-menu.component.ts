@@ -18,7 +18,6 @@ export class SinglePlayerMenuComponent implements OnInit {
 
     public goToGame(difficulty: string): void {
         this.difficulty = difficulty as Difficulty;
-        document.getElementById("test").innerHTML = this.difficulty;
         this.router.navigate(["single-player-game", this.difficulty]);
     }
 }

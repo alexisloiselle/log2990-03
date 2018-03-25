@@ -1,4 +1,4 @@
-import { PointCoordinates } from "../canvas/point-coordinates";
+import * as THREE from "three";
 import { Domain } from "./domain";
 import { Equation } from "./equation";
 
@@ -8,17 +8,17 @@ const LAW_OF_COSINUS_CONSTANT: number = 2;
 export class Vector {
     private domain: Domain;
     private equation: Equation;
-    private startPoint: PointCoordinates;
-    private endPoint: PointCoordinates;
+    private startPoint: THREE.Vector2;
+    private endPoint: THREE.Vector2;
 
-    public constructor(coordinatesNewPoint: PointCoordinates, coordinatesLastPointInArray: PointCoordinates) {
+    public constructor(coordinatesNewPoint: THREE.Vector2, coordinatesLastPointInArray: THREE.Vector2) {
         this.domain = new Domain(coordinatesNewPoint, coordinatesLastPointInArray);
         this.equation = new Equation(coordinatesNewPoint, coordinatesLastPointInArray);
         this.startPoint = coordinatesLastPointInArray;
         this.endPoint = coordinatesNewPoint;
     }
 
-    public calculateVectorIntersection(vector: Vector): PointCoordinates {
+    public calculateVectorIntersection(vector: Vector): THREE.Vector2 {
         let xIntersection: number;
         let yIntersection: number;
 
@@ -34,17 +34,17 @@ export class Vector {
                 yIntersection = xIntersection * this.equation.Slope + this.equation.Constant;
             }
 
-            return (new PointCoordinates(xIntersection, yIntersection));
+            return (new THREE.Vector2(xIntersection, yIntersection));
         }
 
-        return (new PointCoordinates(-1, -1));
+        return (new THREE.Vector2(-1, -1));
     }
 
     public isParallel(vector: Vector): boolean {
         return this.Slope === vector.Slope;
     }
 
-    public pointIsInCommunDomain(intersectionPoint: PointCoordinates, secondVector: Vector): boolean {
+    public pointIsInCommunDomain(intersectionPoint: THREE.Vector2, secondVector: Vector): boolean {
         return !(intersectionPoint.x <= this.domain.XMin || intersectionPoint.x <= secondVector.domain.XMin ||
             intersectionPoint.x >= this.domain.XMax || intersectionPoint.x >= secondVector.domain.XMax ||
             intersectionPoint.y <= this.domain.YMin || intersectionPoint.y <= secondVector.domain.YMin ||
@@ -95,11 +95,11 @@ export class Vector {
         return this.equation.Constant;
     }
 
-    public get StartPoint(): PointCoordinates {
+    public get StartPoint(): THREE.Vector2 {
         return this.startPoint;
     }
 
-    public get EndPoint(): PointCoordinates {
+    public get EndPoint(): THREE.Vector2 {
         return this.endPoint;
     }
 }

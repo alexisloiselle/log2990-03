@@ -1,9 +1,8 @@
 import { TestBed, inject } from "@angular/core/testing";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
-
+import * as THREE from "three";
 import { TrackService } from "./track.service";
 import { RaceTrack, RaceType } from "./race/raceTrack";
-import { PointCoordinates } from "./race/track-editor/canvas/point-coordinates";
 
 describe("TrackService", () => {
     beforeEach(() => {
@@ -23,21 +22,21 @@ describe("TrackService", () => {
     }));
 
     it("addTrack() should return true", inject([TrackService], async (service: TrackService) => {
-        const points: PointCoordinates[] = [];
+        const points: THREE.Vector2[] = [];
         const track: RaceTrack = new RaceTrack("lol", "test", RaceType.Amateur, points);
         const added: boolean = await service.addTrack(track);
         expect(added).toEqual(true);
     }));
 
     it("updateTrack() should return true", inject([TrackService], async (service: TrackService) => {
-        const points: PointCoordinates[] = [];
+        const points: THREE.Vector2[] = [];
         const track: RaceTrack = new RaceTrack("lol", "test", RaceType.Amateur, points);
         const updated: boolean = await service.updateTrack(track);
         expect(updated).toEqual(true);
     }));
 
     it("updateTrack() should return true", inject([TrackService], async (service: TrackService) => {
-        const points: PointCoordinates[] = [];
+        const points: THREE.Vector2[] = [];
         const track: RaceTrack = new RaceTrack("lol", "test", RaceType.Amateur, points);
         const updated: boolean = await service.updateTrack(track);
         expect(updated).toEqual(true);
