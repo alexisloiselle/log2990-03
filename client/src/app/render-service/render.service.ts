@@ -176,7 +176,6 @@ export class RenderService {
         for ( let children of this.scene.children) { this.scene.remove(children);}
         this.cars.forEach((car) => {this.cars.pop()});
         this.scene = new THREE.Scene;
-        console.log(this.scene);
         this.route.navigateByUrl("/track-list");
     }
 }
