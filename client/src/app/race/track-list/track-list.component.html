@@ -17,7 +17,9 @@
 <div *ngIf="error">
   <p class="text-danger">{{error}}</p>
 </div>
-
+<div id = "playDefaultTrackButton">
+  <button class="btn btn-lg btn-info" (click)="playDefaultTrack()">Play Default Track</button>
+  </div>
 <div id="container">
   <div class="row">
     <div class="col-md">
@@ -39,6 +41,7 @@
         </p>
       </div>
       <button class="btn btn-lg btn-info" *ngIf="selectedTrack" [disabled]="!constraintPass()" (click)="updateMyTrack(selectedTrack)">Update</button>
+      <button class="btn btn-lg btn-info" *ngIf="selectedTrack"  (click)="playTrack(selectedTrack)">Play Track</button>
     </div>
   </div>
 </div>

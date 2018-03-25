@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { RaceTrack } from "../raceTrack";
 import { TrackService } from "../../track.service";
-import { PointCoordinates } from "../track-editor/canvas/point-coordinates";
 import { CanvasComponent } from "../track-editor/canvas/canvas.component";
+import * as THREE from "three";
+import {RenderService} from "../../render-service/render.service";
+import { Router } from "@angular/router";
 
 @Component({
     selector: "app-track-list",
@@ -19,7 +21,8 @@ export class TrackListComponent implements OnInit {
     public parsedTracks: RaceTrack[];
     private selectedTrack: RaceTrack;
 
-    public constructor(private trackService: TrackService) {
+    public constructor(private trackService: TrackService, private renderService: RenderService,
+                       private router: Router) {
         this.parsedTracks = [];
     }
 
@@ -41,10 +44,10 @@ export class TrackListComponent implements OnInit {
 
     public onSelectTrack(track: RaceTrack): void {
         this.selectedTrack = track;
-        const newPointArray: PointCoordinates[] = [];
+        const newPointArray: THREE.Vector2[] = [];
 
         for (const point of track.points) {
-            newPointArray.push(new PointCoordinates(point.x, point.y));
+            newPointArray.push(new THREE.Vector2(point.x, point.y));
         }
         this.trackEditor.myTrackEditorModel.PointArray = newPointArray;
         this.trackEditor.redrawCanvas();
@@ -71,5 +74,14 @@ export class TrackListComponent implements OnInit {
     public async deleteTrack(track: RaceTrack): Promise<void> {
         await this.trackService.deleteTrack(track.id);
         await this.ngOnInit();
+    }
+    public async playTrack(selectedTrack: RaceTrack): Promise<void> {
+        const race: RaceTrack = new RaceTrack(selectedTrack.name, selectedTrack.description,
+                                              selectedTrack.type, selectedTrack.points);
+        await this.renderService.loadTrack(race);
+        this.router.navigateByUrl("/car-game");
+    }
+    public playDefaultTrack(): void {
+        this.router.navigateByUrl("/car-game");
     }
 }
