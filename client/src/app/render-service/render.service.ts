@@ -112,11 +112,11 @@ export class RenderService {
         this.createTrack();
     }
 
-    private createTrack(): void {
+    private async createTrack(): Promise<void> {
         if (this.track == null)
-            this.track = this.renderTrackService.generateDefaultTrack();
+            await (this.track = this.renderTrackService.generateDefaultTrack());
         let planes: THREE.Mesh[] = [];
-        planes = this.renderTrackService.buildTrack(this.track);
+        await (planes = this.renderTrackService.buildTrack(this.track));
         for (const plane of planes) {
             this.scene.add(plane);
         }
