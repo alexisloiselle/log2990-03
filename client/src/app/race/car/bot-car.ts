@@ -3,42 +3,17 @@ import { LineCurve, Vector2 } from "three";
 
 export class BotCar extends Car {
 
-    public constructor() {
-        super();
-    }
-
     public getPosition(): Vector2 {
-        return new Vector2(this.mesh.position.x, this.mesh.position.y);
-    }
-
-    public isDirectionOnSegment(trackSegment: LineCurve): boolean {
-        const segmentDirection: Vector2 = new Vector2((trackSegment.v2.x - trackSegment.v1.x),
-                                                      (trackSegment.v2.y - trackSegment.v1.y));
-        const lowerLimit: number = 0.5;
-        const upperLimit: number = 5.9;
-
-        return  (Math.abs(Math.atan2(this.direction.x, this.direction.z) -
-                          Math.atan2(segmentDirection.y, segmentDirection.x)) <  lowerLimit) ||
-                (Math.abs(Math.atan2(this.direction.x, this.direction.z) -
-                          Math.atan2(segmentDirection.y, segmentDirection.x)) >  upperLimit);
-    }
-
-    public changeSegment(newTrackSegment: LineCurve): void {
-        const segmentDirection: Vector2 = new Vector2((newTrackSegment.v2.x - newTrackSegment.v1.x),
-                                                      (newTrackSegment.v2.y - newTrackSegment.v1.y));
-
-        if (Math.abs(Math.atan2(this.direction.x, this.direction.z) - Math.atan2(segmentDirection.y, segmentDirection.x)) >
-            Math.abs(Math.atan2(segmentDirection.y, segmentDirection.x) - Math.atan2(this.direction.x, this.direction.z))) {
-            this.changeSegmentRight();
-        } else {
-            this.changeSegmentLeft();
-        }
+        return new Vector2(this.mesh.position.z, this.mesh.position.x);
     }
 
     public ajustDirection(trackSegment: LineCurve): void {
         const segmentDirection: Vector2 = new Vector2((trackSegment.v2.x - trackSegment.v1.x),
                                                       (trackSegment.v2.y - trackSegment.v1.y));
-        if (Math.atan2(this.direction.x, this.direction.z) > Math.atan2(segmentDirection.y, segmentDirection.x)) {
+        const angle: number = this.getPositiveAngle(this.direction.x, this.direction.z) -
+                              this.getPositiveAngle(segmentDirection.y, segmentDirection.x);
+
+        if ((angle > 0 && this.isSmallestAngle(angle)) || (angle < 0 && !this.isSmallestAngle(angle))) {
             this.turnRight();
         } else {
             this.turnLeft();
@@ -55,13 +30,16 @@ export class BotCar extends Car {
         this.steerRight();
     }
 
-    public changeSegmentLeft(): void {
-        this.isAcceleratorPressed = false;
-        this.steerLeft();
+    public getPositiveAngle(y: number, x: number): number {
+        let angle: number = Math.atan2(y, x);
+        if (angle < 0) {
+            angle += Math.PI * 2;
+        }
+
+        return angle;
     }
 
-    public changeSegmentRight(): void {
-        this.isAcceleratorPressed = false;
-        this.steerRight();
+    public isSmallestAngle(angle: number): boolean {
+        return Math.abs(angle) < Math.PI;
     }
 }

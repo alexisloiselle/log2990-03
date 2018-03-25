@@ -28,8 +28,13 @@ export class RaceTrack {
 
     public findSegments(): void {
         for (let i: number = 0; i < this.points.length - 1; i++) {
-            this.segments.push(new THREE.LineCurve(this.points[i], this.points[i + 1]));
+            this.segments.push(new THREE.LineCurve(this.normalise(this.points[i], this.points[0]),
+                                                   this.normalise(this.points[i + 1], this.points[0])));
         }
+    }
+
+    public normalise(vector: THREE.Vector2, origin: THREE.Vector2): THREE.Vector2 {
+        return new THREE.Vector2((vector.x - origin.x), (vector.y - origin.y));
     }
 }
 
