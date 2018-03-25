@@ -9,9 +9,12 @@ import { SkyboxService } from "./skybox.service";
 import { RenderTrackService } from "../render-track/render-track.service";
 import { CollisionService } from "../race/collisions/collision.service";
 import { RaceTrack } from "../race/raceTrack";
+import {Router} from "@angular/router"
 
 const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
+const QUIT_KEYCODE: number = 81;        //q
+
 
 @Injectable()
 export class RenderService {
@@ -35,7 +38,8 @@ export class RenderService {
         private cameraService: CameraService,
         private skyboxService: SkyboxService,
         private collisionService: CollisionService,
-        private renderTrackService: RenderTrackService) {
+        private renderTrackService: RenderTrackService,
+        private route: Router) {
         this._car = new Car();
         this.cars.push(this._car);
 
@@ -160,6 +164,8 @@ export class RenderService {
 
     public handleKeyDown(event: KeyboardEvent): void {
         this.carEventHandlerService.handleKeyDown(event, this._car);
+        if (event.keyCode == QUIT_KEYCODE)
+            {this.clearGameView();}
     }
 
     public handleKeyUp(event: KeyboardEvent): void {
@@ -168,8 +174,9 @@ export class RenderService {
     public clearGameView(): void {
         this.track = null;
         for ( let children of this.scene.children) { this.scene.remove(children);}
-        console.log(this.scene.children);
         this.cars.forEach((car) => {this.cars.pop()});
-        console.log(this.cars);
+        this.scene = new THREE.Scene;
+        console.log(this.scene);
+        this.route.navigateByUrl("/track-list");
     }
 }
