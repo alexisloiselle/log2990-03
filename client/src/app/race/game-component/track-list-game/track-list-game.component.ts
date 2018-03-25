@@ -48,7 +48,7 @@ export class TrackListGameComponent implements OnInit {
   
   public async playTrack(selectedTrack: RaceTrack): Promise<void> {
     const race: RaceTrack = new RaceTrack(selectedTrack.name, selectedTrack.description, 
-        selectedTrack.type, selectedTrack.points);
+                                          selectedTrack.type, selectedTrack.points);
       await this.renderService.loadTrack(race);
       this.router.navigateByUrl("/car-game");
   }
