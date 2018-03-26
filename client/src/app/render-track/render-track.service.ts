@@ -5,22 +5,24 @@ import { BotCar } from "../race/car/bot-car";
 import { Car } from "../race/car/car";
 
 const CONVERTING_FACTOR: number = 1;
+const NUMBER_FIVE: number = 5;
+const NUMBER_TEN: number = 10;
 const NUMBER_HUN: number = 100;
 const NUMBER_EIGHT_HUN: number = 800;
 const APPROX_ZERO_MINUS: number = -0.001;
 const BLACK: number = 0x000000;
 const WHITE: number = 0xFFFFFF;
 const STARTINGLINEWIDTH: number = 3;
-const STARTINGLINELENGTH: number = 11;
-const STARTINGLINEDISTANCE: number = 20;
+
+const STARTINGLINEDISTANCE: number = 30;
 
 const FIRST: number = 1;
 const SECOND: number = 2;
 const THIRD: number = 3;
 const FOURTH: number = 4;
 
-const POSITIONCARAHEAD: number = 16;
-const POSITIONCARBEHIND: number = 10;
+const POSITIONCARAHEAD: number = 25;
+const POSITIONCARBEHIND: number = 20;
 
 const POSITIONOFFSET: number = 2;
 
@@ -112,10 +114,10 @@ export class RenderTrackService {
         return hPSurface;
     }
 
-    public patchTrack(): THREE.Mesh[] {
+    public patchTrack(trackWidth: number): THREE.Mesh[] {
         const circle: THREE.Mesh[] = [];
         for (let i: number = 0; i < this.segment.length; i++) {
-            const geometry: THREE.CircleGeometry = new THREE.CircleGeometry(track.width / 2, NUMBER_HUN);
+            const geometry: THREE.CircleGeometry = new THREE.CircleGeometry(trackWidth/2, NUMBER_HUN);
             let material: THREE.MeshBasicMaterial;
             material = new THREE.MeshBasicMaterial({ color: WHITE, side: THREE.DoubleSide });
             circle.push(new THREE.Mesh(geometry, material));
@@ -128,18 +130,23 @@ export class RenderTrackService {
         return circle;
     }
 
-    public createStartingLine(): THREE.Mesh {
+    public createStartingLine(trackWidth: number): THREE.Mesh {
         let startingLine: THREE.Mesh;
 
-        const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(STARTINGLINELENGTH, STARTINGLINEWIDTH);
+        const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(trackWidth, STARTINGLINEWIDTH);
         const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: BLACK, side: THREE.DoubleSide });
         startingLine = new THREE.Mesh(geometry, material);
 
         startingLine.rotation.z = -this.segment[0].angle;
         startingLine.rotation.x = Math.PI / 2;
 
-        startingLine.position.x = Math.cos(this.segment[0].lastPoint.x / this.segment[0].lastPoint.y) * STARTINGLINEDISTANCE;
-        startingLine.position.z = Math.sin(this.segment[0].lastPoint.x / this.segment[0].lastPoint.y) * STARTINGLINEDISTANCE;
+        startingLine.position.x = this.segment[0].lastPoint.y /
+                                            Math.sqrt(Math.pow(this.segment[0].lastPoint.x, 2) +
+                                                      Math.pow(this.segment[0].lastPoint.y, 2)) * STARTINGLINEDISTANCE;
+        startingLine.position.z = this.segment[0].lastPoint.x /
+                                            Math.sqrt(Math.pow(this.segment[0].lastPoint.x, 2) +
+                                                      Math.pow(this.segment[0].lastPoint.y, 2)) * STARTINGLINEDISTANCE;
+        startingLine.position.y = 0.4;
 
         return startingLine;
     }
@@ -153,24 +160,29 @@ export class RenderTrackService {
     }
 
     public placeCars(car: Car, position: number): void {
-        const firstSegment: Segment = this.segment[0];
-        const ratio: number = firstSegment.lastPoint.x / firstSegment.lastPoint.y;
+        const ratioX: number = this.segment[0].lastPoint.y /
+                  Math.sqrt(Math.pow(this.segment[0].lastPoint.x, 2) +
+                            Math.pow(this.segment[0].lastPoint.y, 2));
+        const ratioY: number = this.segment[0].lastPoint.x /
+                  Math.sqrt(Math.pow(this.segment[0].lastPoint.x, 2) +
+                            Math.pow(this.segment[0].lastPoint.y, 2));
+        const angle: number = Math.acos(ratioX) + Math.PI;
         switch (position) {
             case FIRST :
-                car.mesh.position.x = Math.cos(ratio) * POSITIONCARAHEAD + Math.cos(Math.cos(ratio) + Math.PI) * POSITIONOFFSET;
-                car.mesh.position.z = Math.sin(ratio) * POSITIONCARAHEAD + Math.sin(Math.cos(ratio) + Math.PI) * POSITIONOFFSET;
+                car.mesh.position.x = ratioX * POSITIONCARAHEAD + Math.sin(angle) * POSITIONOFFSET;
+                car.mesh.position.z = ratioY * POSITIONCARAHEAD + Math.cos(angle) * POSITIONOFFSET;
                 break;
             case SECOND :
-                car.mesh.position.x = Math.cos(ratio) * POSITIONCARAHEAD  - Math.cos(Math.cos(ratio) + Math.PI) * POSITIONOFFSET;
-                car.mesh.position.z = Math.sin(ratio) * POSITIONCARAHEAD - Math.sin(Math.cos(ratio) + Math.PI) * POSITIONOFFSET;
+                car.mesh.position.x = ratioX * POSITIONCARAHEAD - Math.sin(angle) * POSITIONOFFSET;
+                car.mesh.position.z = ratioY * POSITIONCARAHEAD - Math.cos(angle) * POSITIONOFFSET;
                 break;
             case THIRD :
-                car.mesh.position.x = Math.cos(ratio) * POSITIONCARBEHIND  + Math.cos(Math.cos(ratio) + Math.PI) * POSITIONOFFSET;
-                car.mesh.position.z = Math.sin(ratio) * POSITIONCARBEHIND + Math.sin(Math.cos(ratio) + Math.PI) * POSITIONOFFSET;
+                car.mesh.position.x = ratioX * POSITIONCARBEHIND + Math.sin(angle) * POSITIONOFFSET;
+                car.mesh.position.z = ratioY * POSITIONCARBEHIND + Math.cos(angle) * POSITIONOFFSET;
                 break;
             case FOURTH :
-                car.mesh.position.x = Math.cos(ratio) * POSITIONCARBEHIND - Math.cos(Math.cos(ratio) + Math.PI) * POSITIONOFFSET;
-                car.mesh.position.z = Math.sin(ratio) * POSITIONCARBEHIND - Math.sin(Math.cos(ratio) + Math.PI) * POSITIONOFFSET;
+                car.mesh.position.x = ratioX * POSITIONCARBEHIND -  Math.sin(angle) * POSITIONOFFSET;
+                car.mesh.position.z = ratioY * POSITIONCARBEHIND -  Math.cos(angle) * POSITIONOFFSET;
                 break;
             default:
             break;
@@ -222,5 +234,4 @@ export class Segment {
     public length(): number {
         return this.firstPoint.distanceTo(this.lastPoint);
     }
-
 }

@@ -132,7 +132,7 @@ export class RenderService {
         this.scene.add(this.renderTrackService.genererSurfaceHorsPiste());
 
         let circles: THREE.Mesh[] = [];
-        circles = this.renderTrackService.patchTrack();
+        circles = this.renderTrackService.patchTrack(this.track.width);
 
         for (const circle of circles) {
             this.scene.add(circle);
@@ -144,7 +144,7 @@ export class RenderService {
             botCar.orientCar(this.renderTrackService.getFirstSegment());
         }
 
-        this.scene.add(this.renderTrackService.createStartingLine());
+        this.scene.add(this.renderTrackService.createStartingLine(this.track.width));
 
         this.renderTrackService.positionCars(this._car, this.botCars);
     }
