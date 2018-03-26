@@ -10,6 +10,7 @@ import { Router } from "@angular/router";
 
 export class RaceMainComponent implements OnInit {
     public validPassword: boolean = false;
+    public error: boolean;
 
     public constructor(private authService: AuthService, private router: Router) { }
 
@@ -25,8 +26,11 @@ export class RaceMainComponent implements OnInit {
 
     private grantAccess(isValid: boolean): void {
         if (isValid) {
+            this.error = false;
             this.validPassword = true;
             this.router.navigateByUrl("/admin");
+        } else {
+            this.error = true;
         }
     }
 }

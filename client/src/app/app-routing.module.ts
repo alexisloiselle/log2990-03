@@ -16,11 +16,12 @@ import { JoinGameComponent } from "./crossword/multiplayer/join-game/join-game.c
 import { CreateGameComponent } from "./crossword/multiplayer/create-game/create-game.component";
 import { MultiplayerGameComponent } from "./crossword/multiplayer/multiplayer-game/multiplayer-game.component";
 import {TrackListGameComponent} from "./race/game-component/track-list-game/track-list-game.component";
+import {AdminComponent} from "./admin/admin/admin.component";
 
 const routes: Routes = [
     { path: "", redirectTo: "/homepage", pathMatch: "full" },
     { path : "passwordChange", component: ChangePasswordComponent},
-    { path: "admin", redirectTo: "./admin/admin/admin.component.html"},
+    { path: "admin", component: AdminComponent},
     { path: "passwordForm", component: PasswordFormComponent},
     { path: "homepage", component: HomepageComponent },
     { path: "car-game", component: GameComponent },
