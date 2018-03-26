@@ -22,12 +22,16 @@ export class BotsController {
             if (this.reachedJonction(this.botCars[i].getPosition(),
                                      this.trackSegments[this.currentSegmentIndex[i]].v2)) {
                 this.currentSegmentIndex[i] = (this.currentSegmentIndex[i] + 1) % (this.trackSegments.length);
+                this.botCars[i].ajustDirection(this.trackSegments[this.currentSegmentIndex[i]], false);
+            } else {
+                this.botCars[i].ajustDirection(this.trackSegments[this.currentSegmentIndex[i]], true);
             }
-            this.botCars[i].ajustDirection(this.trackSegments[this.currentSegmentIndex[i]]);
         }
     }
 
     public reachedJonction(carPosition: Vector2, jonctionPosition: Vector2): boolean {
-        return carPosition.distanceTo(jonctionPosition) < this.trackWidth;
+        const factor: number = 0.8;
+
+        return carPosition.distanceTo(jonctionPosition) < (this.trackWidth * factor);
     }
 }

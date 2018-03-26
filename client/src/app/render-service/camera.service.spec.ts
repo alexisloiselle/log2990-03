@@ -10,7 +10,7 @@ const INITIAL_HEIGHT_ORTHO: number = 90;
 const INITIAL_Z_THIRDPERSON: number = 10;
 const INITIAL_HEIGHT_THIRDPERSON: number = 4;
 const ZOOM_LIMIT: number = 2;
-const UNZOOM_LIMIT: number = 0.1;
+const UNZOOM_LIMIT: number = 0.4;
 
 describe("CameraService", () => {
     let cameraService: CameraService;

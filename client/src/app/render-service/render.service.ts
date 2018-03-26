@@ -185,6 +185,7 @@ export class RenderService {
     public handleKeyUp(event: KeyboardEvent): void {
         this.carEventHandlerService.handleKeyUp(event, this._car);
     }
+
     public clearGameView(): void {
         this.track = null;
         for ( const children of this.scene.children) { this.scene.remove(children); }

@@ -5,8 +5,6 @@ import { BotCar } from "../race/car/bot-car";
 import { Car } from "../race/car/car";
 
 const CONVERTING_FACTOR: number = 1;
-const NUMBER_FIVE: number = 5;
-const NUMBER_TEN: number = 10;
 const NUMBER_HUN: number = 100;
 const NUMBER_EIGHT_HUN: number = 800;
 const APPROX_ZERO_MINUS: number = -0.001;
@@ -49,7 +47,7 @@ export class RenderTrackService {
         const trackShape: THREE.Shape = new THREE.Shape();
         this.generateSegments(track.points);
         for (const segment of this.segment) {
-            const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(NUMBER_TEN, segment.length());
+            const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(track.width, segment.length());
             let material: THREE.MeshBasicMaterial;
 
             material = new THREE.MeshBasicMaterial({ color: WHITE, side: THREE.DoubleSide });
@@ -117,7 +115,7 @@ export class RenderTrackService {
     public patchTrack(): THREE.Mesh[] {
         const circle: THREE.Mesh[] = [];
         for (let i: number = 0; i < this.segment.length; i++) {
-            const geometry: THREE.CircleGeometry = new THREE.CircleGeometry(NUMBER_FIVE, NUMBER_HUN);
+            const geometry: THREE.CircleGeometry = new THREE.CircleGeometry(track.width / 2, NUMBER_HUN);
             let material: THREE.MeshBasicMaterial;
             material = new THREE.MeshBasicMaterial({ color: WHITE, side: THREE.DoubleSide });
             circle.push(new THREE.Mesh(geometry, material));
