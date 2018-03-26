@@ -1,4 +1,4 @@
-import { PointCoordinates } from "../canvas/point-coordinates";
+import * as THREE from "three";
 
 export class Domain {
     private xMin: number;
@@ -6,7 +6,7 @@ export class Domain {
     private xMax: number;
     private yMax: number;
 
-    public constructor(firstPoint: PointCoordinates, secondPoint: PointCoordinates) {
+    public constructor(firstPoint: THREE.Vector2, secondPoint: THREE.Vector2) {
         this.xMin = Math.min(firstPoint.x, secondPoint.x);
         this.yMin = Math.min(firstPoint.y, secondPoint.y);
         this.xMax = Math.max(firstPoint.x, secondPoint.x);

@@ -1,12 +1,12 @@
-import { PointCoordinates } from "./canvas/point-coordinates";
+import * as THREE from "three";
 import { Vector } from "./vector/vector";
 import { TrackEditorModel } from "./canvas/track-editor-model";
 
 /* tslint:disable:no-magic-numbers */
 describe("TrackEditorComponent", () => {
     describe("vectorClass", () => {
-        const pointStart: PointCoordinates = new PointCoordinates(2, 6);
-        const pointEnd: PointCoordinates = new PointCoordinates(1, 3);
+        const pointStart: THREE.Vector2 = new THREE.Vector2(2, 6);
+        const pointEnd: THREE.Vector2 = new THREE.Vector2(1, 3);
         const vectorTest: Vector = new Vector(pointStart, pointEnd);
 
         it("Should Create slope", () => {
@@ -42,11 +42,11 @@ describe("TrackEditorComponent", () => {
 
     describe("trackEditor", () => {
         const myTrackModel1: TrackEditorModel = new TrackEditorModel();
-        const point1: PointCoordinates = new PointCoordinates(0, 0);
-        const point2: PointCoordinates = new PointCoordinates(25, 25);
-        const point3: PointCoordinates = new PointCoordinates(100, 55);
-        const point4: PointCoordinates = new PointCoordinates(45, 70);
-        const point5: PointCoordinates = new PointCoordinates(120, 120);
+        const point1: THREE.Vector2 = new THREE.Vector2(0, 0);
+        const point2: THREE.Vector2 = new THREE.Vector2(25, 25);
+        const point3: THREE.Vector2 = new THREE.Vector2(100, 55);
+        const point4: THREE.Vector2 = new THREE.Vector2(45, 70);
+        const point5: THREE.Vector2 = new THREE.Vector2(120, 120);
 
         it("Should add a point.", () => {
             myTrackModel1.addPoint(point1);

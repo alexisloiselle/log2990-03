@@ -15,6 +15,7 @@ export class MultiplayerGameComponent implements OnInit {
     public isOpponentFound: boolean;
     public difficulty: Difficulty;
     public isConfigured: boolean;
+    private gameName: string;
 
     public constructor(
         private crosswordService: CrosswordService,
@@ -28,7 +29,7 @@ export class MultiplayerGameComponent implements OnInit {
 
     public async ngOnInit(): Promise<void> {
         this.route.params.subscribe(async (params) => {
-            // this.difficulty = params.difficulty
+            this.gameName = params.gamename;
             if (params.isjoingame === "true") {
                 await this.opponentFound();
             } else {
@@ -44,12 +45,8 @@ export class MultiplayerGameComponent implements OnInit {
 
     public async opponentFound(): Promise<void> {
         this.isOpponentFound = true;
-        this.route.params.subscribe((params) => {
-            // this.difficulty = params.difficulty;
-            this.difficulty = Difficulty.Mock;
-        });
         this.defService.IsCheatModeOn = false;
-        await this.crosswordService.generateGrid(this.difficulty);
+        await this.crosswordService.getMultiplayerGrid(this.gameName);
         this.defService.configureDefinitions();
         this.isConfigured = true;
     }

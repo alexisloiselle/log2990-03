@@ -11,6 +11,7 @@ export class Server {
     private readonly appPort: string | number | boolean = this.normalizePort(process.env.PORT || "3000");
     private readonly baseDix: number = 10;
     private server: http.Server;
+    // tslint:disable-next-line:no-any
     private io: any;
     private crosswordGames: [string, number][];
 
@@ -31,20 +32,11 @@ export class Server {
 
         this.io.on("connection", (socket: SocketIO.Socket) => {
 
-            console.log("a user connected");
-            socket.on("disconnect", () => {
-                console.log("user disconnected");
-            });
-
             socket.on("joinGame", (gameName: string) => {
-                console.log("woot woot it's the sound of the police");
-                console.log(this.crosswordGames);
-                // for (let i: number = 0; i < this.crosswordGames.length; i++) {
                 for (const game of this.crosswordGames) {
                     if (gameName === game[0]) {
                         if (game[1] < 2) {
                             socket.join(gameName);
-                            console.log("A user joined " + gameName);
                             game[1]++;
                             socket.to(gameName).emit("gameBegin", true);
                         }
@@ -55,8 +47,6 @@ export class Server {
             socket.on("newGame", (gameName: string) => {
                 const tempGame: [string, number] = [gameName, 1];
                 this.crosswordGames.push(tempGame);
-                console.log(this.crosswordGames);
-                console.log("Game " + gameName + " has been created");
                 socket.join(gameName);
             });
         });

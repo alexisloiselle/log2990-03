@@ -1,19 +1,19 @@
-import { PointCoordinates} from "../canvas/point-coordinates";
+import * as THREE from "three";
 
 export class Equation {
     private slope: number;
     private constant: number;
 
-    public constructor(pointEnd: PointCoordinates, pointStart: PointCoordinates) {
+    public constructor(pointEnd: THREE.Vector2, pointStart: THREE.Vector2) {
         this.slope = this.calculateSlope(pointEnd, pointStart);
         this.constant = this.calculateConstant(pointEnd);
     }
 
-    public calculateSlope(pointEnd: PointCoordinates, pointStart: PointCoordinates): number {
+    public calculateSlope(pointEnd: THREE.Vector2, pointStart: THREE.Vector2): number {
         return (pointEnd.y - pointStart.y) / (pointEnd.x - pointStart.x);
     }
 
-    public calculateConstant(pointFromTheVector: PointCoordinates): number {
+    public calculateConstant(pointFromTheVector: THREE.Vector2): number {
         return pointFromTheVector.y - this.slope * pointFromTheVector.x;
     }
 

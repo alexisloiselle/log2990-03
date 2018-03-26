@@ -2,6 +2,7 @@ import { Vector3, Matrix4, Object3D, Euler, Quaternion, PerspectiveCamera, Box3 
 import { Engine } from "./engine";
 import { MS_TO_SECONDS, GRAVITY, PI_OVER_2, RAD_TO_DEG } from "../constants";
 import { Wheel } from "./wheel";
+import { Segment } from "../../render-track/render-track.service";
 
 export const DEFAULT_WHEELBASE: number = 2.78;
 export const DEFAULT_MASS: number = 1515;
@@ -229,6 +230,10 @@ export class Car extends Object3D {
 
         return lateralVector.normalize()
             .multiplyScalar(this._speed.dot(lateralVector) * lateralCoefficient * this.mass * GRAVITY);
+    }
+
+    public orientCar(segment: Segment): void {
+        this.mesh.rotation.y = segment.angle;
     }
 
     private getDragForce(): Vector3 {

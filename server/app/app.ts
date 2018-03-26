@@ -75,6 +75,8 @@ export class Application {
         router.post("/crossword/createNewGame", crossword.createNewGame.bind(crossword));
         router.get("/crossword/isNameAlreadyUsed/:gameName", crossword.isWordAlreadyUsed.bind(crossword));
         router.get("/crossword/getGames", crossword.getGames.bind(crossword));
+        router.get("/crossword/getMultiplayerGrid/:gameName", crossword.getMultiplayerGrid.bind(crossword));
+        router.post("/crossword/updateMultiplayerGame", crossword.updateMultiplayerGame.bind(crossword));
     }
 
     private routeLexicon(router: express.Router): void {
