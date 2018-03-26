@@ -10,12 +10,10 @@ const NUMBER_EIGHT_HUN: number = 800;
 const APPROX_ZERO_MINUS: number = -0.001;
 const BLACK: number = 0x000000;
 const WHITE: number = 0xFFFFFF;
-const STARTINGLINEWIDTH: number = 3;
+const STARTING_LINE_WIDTH: number = 3;
 
-const STARTINGLINEDISTANCE: number = 30;
+const STARTING_LINE_DISTANCE: number = 30;
 
-const FIRST: number = 1;
-const SECOND: number = 2;
 const THIRD: number = 3;
 const FOURTH: number = 4;
 
@@ -23,10 +21,6 @@ const POSITIONCARAHEAD: number = 25;
 const POSITIONCARBEHIND: number = 20;
 
 const POSITIONOFFSET: number = 2;
-
-const POINT1_X: number = 329; const POINT1_Y: number = 114;
-const POINT2_X: number = 250; const POINT2_Y: number = 347;
-const POINT3_X: number = 136; const POINT3_Y: number = 167;
 
 @Injectable()
 export class RenderTrackService {
@@ -36,7 +30,6 @@ export class RenderTrackService {
     public material: THREE.LineBasicMaterial;
     public curveObject: THREE.Line;
     public segments: THREE.LineCurve[] = [];
-    public array: THREE.Vector2[] = [];
 
     public buildTrack(track: RaceTrack): THREE.Mesh[] {
         const plane: THREE.Mesh[] = [];
@@ -64,16 +57,16 @@ export class RenderTrackService {
     }
 
     public generateDefaultTrack(): RaceTrack {
-        const point1: THREE.Vector2 = new THREE.Vector2(POINT1_X, POINT1_Y);
-        const point2: THREE.Vector2 = new THREE.Vector2(POINT2_X, POINT2_Y);
-        const point3: THREE.Vector2 = new THREE.Vector2(POINT3_X, POINT3_Y);
-        const point4: THREE.Vector2 = new THREE.Vector2(POINT1_X, POINT1_Y);
-        this.array.push(point1);
-        this.array.push(point2);
-        this.array.push(point3);
-        this.array.push(point4);
+        const defaultTrackPoints: THREE.Vector2[] = [];
+        // tslint:disable-next-line:no-magic-numbers
+        defaultTrackPoints.push(new THREE.Vector2(329, 114));
+        // tslint:disable-next-line:no-magic-numbers
+        defaultTrackPoints.push(new THREE.Vector2(250, 347));
+        // tslint:disable-next-line:no-magic-numbers
+        defaultTrackPoints.push(new THREE.Vector2(136, 167));
+        defaultTrackPoints.push(defaultTrackPoints[0]);
 
-        return new RaceTrack("Track", "Default Track", 0, this.array);
+        return new RaceTrack("Track", "Default Track", 0, defaultTrackPoints);
     }
 
     public generateSegments(pointArray: THREE.Vector2[]): void {
@@ -128,7 +121,7 @@ export class RenderTrackService {
     public createStartingLine(trackWidth: number): THREE.Mesh {
         let startingLine: THREE.Mesh;
 
-        const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(trackWidth, STARTINGLINEWIDTH);
+        const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(trackWidth, STARTING_LINE_WIDTH);
         const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: BLACK, side: THREE.DoubleSide });
         startingLine = new THREE.Mesh(geometry, material);
 
@@ -136,12 +129,12 @@ export class RenderTrackService {
                                              (this.segments[0].v2.x - this.segments[0].v1.x));
         startingLine.rotation.x = Math.PI / 2;
 
-        startingLine.position.x = this.segments[0].v2.y /
-                                            Math.sqrt(Math.pow(this.segments[0].v2.x, 2) +
-                                                      Math.pow(this.segments[0].v2.y, 2)) * STARTINGLINEDISTANCE;
-        startingLine.position.z = this.segments[0].v2.x /
-                                            Math.sqrt(Math.pow(this.segments[0].v2.x, 2) +
-                                                      Math.pow(this.segments[0].v2.y, 2)) * STARTINGLINEDISTANCE;
+        startingLine.position.x = this.segments[0].v2.y
+                                  / Math.sqrt(Math.pow(this.segments[0].v2.x, 2) + Math.pow(this.segments[0].v2.y, 2))
+                                  * STARTING_LINE_DISTANCE;
+        startingLine.position.z = this.segments[0].v2.x
+                                  / Math.sqrt(Math.pow(this.segments[0].v2.x, 2) + Math.pow(this.segments[0].v2.y, 2))
+                                  * STARTING_LINE_DISTANCE;
         // tslint:disable-next-line:no-magic-numbers
         startingLine.position.y = 0.2;
 
@@ -165,11 +158,11 @@ export class RenderTrackService {
                             Math.pow(this.segments[0].v2.y, 2));
         const angle: number = Math.acos(ratioX) + Math.PI;
         switch (position) {
-            case FIRST :
+            case 1 :
                 car.mesh.position.x = ratioX * POSITIONCARAHEAD + Math.sin(angle) * POSITIONOFFSET;
                 car.mesh.position.z = ratioY * POSITIONCARAHEAD + Math.cos(angle) * POSITIONOFFSET;
                 break;
-            case SECOND :
+            case 2 :
                 car.mesh.position.x = ratioX * POSITIONCARAHEAD - Math.sin(angle) * POSITIONOFFSET;
                 car.mesh.position.z = ratioY * POSITIONCARAHEAD - Math.cos(angle) * POSITIONOFFSET;
                 break;

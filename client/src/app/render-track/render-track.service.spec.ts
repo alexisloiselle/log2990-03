@@ -1,7 +1,7 @@
 import { TestBed, inject } from "@angular/core/testing";
 import { RenderTrackService } from "./render-track.service";
 
-const NUMBEROFCARS: number = 4;
+const NUMBER_OF_CARS: number = 4;
 
 describe("RenderTrackService", () => {
     beforeEach(() => {
@@ -16,26 +16,17 @@ describe("RenderTrackService", () => {
 
     it("should create a random array with numbers from 1 to 4", () => {
         const renderTrackService: RenderTrackService = new RenderTrackService();
-        let positionNumbersOk: boolean = true;
-        const positionNumbers1: Array<number> = renderTrackService.generateRandomCarPositions(NUMBEROFCARS);
-        const positionNumbers2: Array<number> = renderTrackService.generateRandomCarPositions(NUMBEROFCARS);
-        const positionNumbers3: Array<number> = renderTrackService.generateRandomCarPositions(NUMBEROFCARS);
+        const positionNumbers: Array<number> = renderTrackService.generateRandomCarPositions(NUMBER_OF_CARS);
 
         // We first check if the size of the arrays is correct
-        if (positionNumbers1.length !== NUMBEROFCARS ||
-            positionNumbers2.length !== NUMBEROFCARS ||
-            positionNumbers3.length !== NUMBEROFCARS) {
-            positionNumbersOk = false;
-        }
+        let positionNumbersOk: boolean = positionNumbers.length === NUMBER_OF_CARS;
+
         // Then we check if the numbers are in the correct range
-        for (const n of positionNumbers1) {
-            if (n > NUMBEROFCARS || n < 1) { positionNumbersOk = false; break; }
-        }
-        for (const n of positionNumbers2) {
-            if (n > NUMBEROFCARS || n < 1) { positionNumbersOk = false; break; }
-        }
-        for (const n of positionNumbers3) {
-            if (n > NUMBEROFCARS || n < 1) { positionNumbersOk = false; break; }
+        for (const n of positionNumbers) {
+            if (n > NUMBER_OF_CARS || n < 1) {
+                positionNumbersOk = false;
+                break;
+            }
         }
 
         expect(positionNumbersOk).toBe(true);
