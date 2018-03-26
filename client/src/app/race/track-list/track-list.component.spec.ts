@@ -1,18 +1,41 @@
 import { TrackListComponent } from "./track-list.component";
-import {RenderService} from "../../render-service/render.service";
-import {Router} from "@angular/router";
-
-// to test
-// tslint:disable-next-line:no-any
-const trackService: any = {};
+import { RenderService } from "../../render-service/render.service";
+import { TrackService } from "../../track.service";
+import { CanvasComponent } from "../track-editor/canvas/canvas.component";
+import { TestBed, ComponentFixture } from "@angular/core/testing";
+import { async } from "q";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { RouterTestingModule } from "@angular/router/testing";
+import { CarEventHandlerService } from "../../render-service/car-event-handler.service";
+import { CameraService } from "../../render-service/camera.service";
+import { SkyboxService } from "../../render-service/skybox.service";
+import { CollisionService } from "../collisions/collision.service";
+import { RenderTrackService } from "../../render-track/render-track.service";
 
 describe("TrackListComponent", () => {
     let component: TrackListComponent;
-    let renderService: RenderService;
-    let router: Router;
+    let fixture: ComponentFixture<TrackListComponent>;
+
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [HttpClientTestingModule, RouterTestingModule],
+            declarations: [TrackListComponent, CanvasComponent],
+            providers: [
+                TrackService,
+                RenderService,
+                CarEventHandlerService,
+                CameraService,
+                SkyboxService,
+                CollisionService,
+                RenderTrackService
+            ]
+        }).compileComponents();
+    }));
 
     beforeEach(() => {
-        component = new TrackListComponent(trackService, renderService, router);
+        fixture = TestBed.createComponent(TrackListComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
     });
 
     it("should create", () => {
