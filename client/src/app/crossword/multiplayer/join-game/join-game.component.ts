@@ -52,6 +52,11 @@ export class JoinGameComponent implements OnInit {
         }
     }
 
+    public async refresh(): Promise<void> {
+        await this.crosswordService.getGames();
+        this.games = this.crosswordService.Games;
+    }
+
     public async joinGame(): Promise<void> {
         this.socketService.joinGame(this.selectedGame);
         await this.crosswordService.updateMultiplayerGame(this.username, this.selectedGame);

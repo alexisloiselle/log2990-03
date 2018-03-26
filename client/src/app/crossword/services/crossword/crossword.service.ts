@@ -48,10 +48,6 @@ export class CrosswordService {
 
     public async updateMultiplayerGame(userName: string, gameName: string): Promise<void> {
         // TODO cest pas de meme quon initialise une interface, cest justement pour ca que ca existe
-        // newGameInfo.userName1 = "";
-        // newGameInfo.userName2 = userName;
-        // newGameInfo.gameName = gameName;
-        // newGameInfo.difficulty = "";
         const newGameInfo: IMultiplayerGame = { userName1: "", userName2: userName, gameName: gameName, difficulty: "" };
 
         this.http.post(`${API_URL}/${CROSSWORD_PARAM}/updateMultiplayerGame`, newGameInfo).toPromise();

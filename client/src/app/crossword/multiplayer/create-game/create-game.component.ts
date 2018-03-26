@@ -45,14 +45,6 @@ export class CreateGameComponent implements OnInit {
             this.username.length !== 0;
     }
 
-    // TODO set comme suivant
-    // public set value(v : string) {
-    //     this.<attribut> = v;
-    // }
-    public setDifficulty(difficulty: string): void {
-        this.difficulty = difficulty;
-    }
-
     public async createGame(): Promise<void> {
         this.isNameAlreadyUsed = await this.crosswordService.isNameAlreadyUsed(this.gameName);
         if (!this.isNameAlreadyUsed) {
@@ -61,7 +53,4 @@ export class CreateGameComponent implements OnInit {
             this.router.navigate(["multiplayer-game", this.gameName, false]);
         }
     }
-
-    // TODO pt faire un background color comme dans join game pour les difficultes, ou autres,
-    // juste pour savoir cest quelle difficulte la partie.
 }
