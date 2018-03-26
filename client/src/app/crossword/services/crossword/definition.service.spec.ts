@@ -5,17 +5,17 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { CrosswordService } from "./crossword.service";
 
 describe("DefinitionService", () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [
-          DefinitionService,
-          CrosswordService,
-        ]
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            imports: [HttpClientTestingModule],
+            providers: [
+                DefinitionService,
+                CrosswordService,
+            ]
+        });
     });
-  });
 
-  it("should be created", inject([DefinitionService], (service: DefinitionService) => {
-    expect(service).toBeTruthy();
-  }));
+    it("should be created", inject([DefinitionService], (service: DefinitionService) => {
+        expect(service).toBeTruthy();
+    }));
 });

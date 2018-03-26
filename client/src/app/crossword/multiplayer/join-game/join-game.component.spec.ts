@@ -7,25 +7,25 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { SocketService } from "../../services/socket.service";
 
 describe("JoinGameComponent", () => {
-  let component: JoinGameComponent;
-  let fixture: ComponentFixture<JoinGameComponent>;
+    let component: JoinGameComponent;
+    let fixture: ComponentFixture<JoinGameComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientModule, RouterTestingModule],
-      declarations: [ JoinGameComponent ],
-      providers: [CrosswordService, SocketService]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [HttpClientModule, RouterTestingModule],
+            declarations: [JoinGameComponent],
+            providers: [CrosswordService, SocketService]
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(JoinGameComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(JoinGameComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it("should create", () => {
-    expect(component).toBeTruthy();
-  });
+    it("should create", () => {
+        expect(component).toBeTruthy();
+    });
 });
