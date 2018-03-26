@@ -35,32 +35,29 @@ export class RenderTrackService {
     public geometry: THREE.BufferGeometry;
     public material: THREE.LineBasicMaterial;
     public curveObject: THREE.Line;
-    public segment: Segment[];
+    public segments: THREE.LineCurve[] = [];
     public array: THREE.Vector2[] = [];
-
-    public constructor() {
-        this.segment = [];
-    }
 
     public buildTrack(track: RaceTrack): THREE.Mesh[] {
         const plane: THREE.Mesh[] = [];
         const trackShape: THREE.Shape = new THREE.Shape();
         this.generateSegments(track.points);
-        for (const segment of this.segment) {
-            const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(track.width, segment.length());
+        for (const segment of this.segments) {
+            const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(track.width, segment.getLength());
             let material: THREE.MeshBasicMaterial;
 
             material = new THREE.MeshBasicMaterial({ color: WHITE, side: THREE.DoubleSide });
 
             plane.push(new THREE.Mesh(geometry, material));
 
-            trackShape.moveTo(segment.firstPoint.x, segment.firstPoint.y);
+            trackShape.moveTo(segment.v1.x, segment.v1.y);
 
-            plane[plane.length - 1].rotation.z = -segment.angle;
+            plane[plane.length - 1].rotation.z = -Math.atan((segment.v2.y - segment.v1.y) /
+                                                            (segment.v2.x - segment.v1.x));
             plane[plane.length - 1].rotation.x = Math.PI / 2;
 
-            plane[plane.length - 1].position.x = (segment.firstPoint.y + segment.lastPoint.y) / 2;
-            plane[plane.length - 1].position.z = (segment.firstPoint.x + segment.lastPoint.x) / 2;
+            plane[plane.length - 1].position.x = (segment.v1.y + segment.v2.y) / 2;
+            plane[plane.length - 1].position.z = (segment.v1.x + segment.v2.x) / 2;
         }
 
         return plane;
@@ -81,20 +78,20 @@ export class RenderTrackService {
 
     public generateSegments(pointArray: THREE.Vector2[]): void {
         for (let i: number = 0; i < pointArray.length - 1; i++) {
-            const firstPoint: THREE.Vector2 = new THREE.Vector2(0, 0);
-            firstPoint.x = (pointArray[i].x - pointArray[0].x) * CONVERTING_FACTOR;
-            firstPoint.y = (pointArray[i].y - pointArray[0].y) * CONVERTING_FACTOR;
+            const v1: THREE.Vector2 = new THREE.Vector2(0, 0);
+            v1.x = (pointArray[i].x - pointArray[0].x) * CONVERTING_FACTOR;
+            v1.y = (pointArray[i].y - pointArray[0].y) * CONVERTING_FACTOR;
 
-            const lastPoint: THREE.Vector2 = new THREE.Vector2(0, 0);
-            lastPoint.x = (pointArray[i + 1].x - pointArray[0].x) * CONVERTING_FACTOR;
-            lastPoint.y = (pointArray[i + 1].y - pointArray[0].y) * CONVERTING_FACTOR;
+            const v2: THREE.Vector2 = new THREE.Vector2(0, 0);
+            v2.x = (pointArray[i + 1].x - pointArray[0].x) * CONVERTING_FACTOR;
+            v2.y = (pointArray[i + 1].y - pointArray[0].y) * CONVERTING_FACTOR;
 
-            this.segment.push(new Segment(firstPoint, lastPoint));
+            this.segments.push(new THREE.LineCurve(v1, v2));
         }
     }
 
-    public getFirstSegment(): Segment {
-        return this.segment[0];
+    public getFirstSegment(): THREE.LineCurve {
+        return this.segments[0];
     }
 
     public generateOffTrackSurface(): THREE.Mesh {
@@ -114,15 +111,15 @@ export class RenderTrackService {
 
     public patchTrack(trackWidth: number): THREE.Mesh[] {
         const circle: THREE.Mesh[] = [];
-        for (let i: number = 0; i < this.segment.length; i++) {
+        for (let i: number = 0; i < this.segments.length; i++) {
             const geometry: THREE.CircleGeometry = new THREE.CircleGeometry(trackWidth / 2, NUMBER_HUN);
             let material: THREE.MeshBasicMaterial;
             material = new THREE.MeshBasicMaterial({ color: WHITE, side: THREE.DoubleSide });
             circle.push(new THREE.Mesh(geometry, material));
             circle[i].rotation.z = Math.PI / 2;
             circle[i].rotation.x = Math.PI / 2;
-            circle[i].position.z = this.segment[i].firstPoint.x;
-            circle[i].position.x = this.segment[i].firstPoint.y;
+            circle[i].position.z = this.segments[i].v1.x;
+            circle[i].position.x = this.segments[i].v1.y;
         }
 
         return circle;
@@ -135,15 +132,17 @@ export class RenderTrackService {
         const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: BLACK, side: THREE.DoubleSide });
         startingLine = new THREE.Mesh(geometry, material);
 
-        startingLine.rotation.z = -this.segment[0].angle;
+        startingLine.rotation.z = -Math.atan((this.segments[0].v2.y - this.segments[0].v1.y) /
+                                             (this.segments[0].v2.x - this.segments[0].v1.x));
         startingLine.rotation.x = Math.PI / 2;
 
-        startingLine.position.x = this.segment[0].lastPoint.y /
-                                            Math.sqrt(Math.pow(this.segment[0].lastPoint.x, 2) +
-                                                      Math.pow(this.segment[0].lastPoint.y, 2)) * STARTINGLINEDISTANCE;
-        startingLine.position.z = this.segment[0].lastPoint.x /
-                                            Math.sqrt(Math.pow(this.segment[0].lastPoint.x, 2) +
-                                                      Math.pow(this.segment[0].lastPoint.y, 2)) * STARTINGLINEDISTANCE;
+        startingLine.position.x = this.segments[0].v2.y /
+                                            Math.sqrt(Math.pow(this.segments[0].v2.x, 2) +
+                                                      Math.pow(this.segments[0].v2.y, 2)) * STARTINGLINEDISTANCE;
+        startingLine.position.z = this.segments[0].v2.x /
+                                            Math.sqrt(Math.pow(this.segments[0].v2.x, 2) +
+                                                      Math.pow(this.segments[0].v2.y, 2)) * STARTINGLINEDISTANCE;
+        // tslint:disable-next-line:no-magic-numbers
         startingLine.position.y = 0.2;
 
         return startingLine;
@@ -158,12 +157,12 @@ export class RenderTrackService {
     }
 
     public placeCars(car: Car, position: number): void {
-        const ratioX: number = this.segment[0].lastPoint.y /
-                  Math.sqrt(Math.pow(this.segment[0].lastPoint.x, 2) +
-                            Math.pow(this.segment[0].lastPoint.y, 2));
-        const ratioY: number = this.segment[0].lastPoint.x /
-                  Math.sqrt(Math.pow(this.segment[0].lastPoint.x, 2) +
-                            Math.pow(this.segment[0].lastPoint.y, 2));
+        const ratioX: number = this.segments[0].v2.y /
+                  Math.sqrt(Math.pow(this.segments[0].v2.x, 2) +
+                            Math.pow(this.segments[0].v2.y, 2));
+        const ratioY: number = this.segments[0].v2.x /
+                  Math.sqrt(Math.pow(this.segments[0].v2.x, 2) +
+                            Math.pow(this.segments[0].v2.y, 2));
         const angle: number = Math.acos(ratioX) + Math.PI;
         switch (position) {
             case FIRST :
@@ -219,20 +218,4 @@ export class RenderTrackService {
         return positionNumbers;
     }
 
-}
-
-export class Segment {
-    public firstPoint: THREE.Vector2;
-    public lastPoint: THREE.Vector2;
-    public angle: number;
-
-    public constructor(firstPoint: THREE.Vector2, lastPoint: THREE.Vector2) {
-        this.firstPoint = firstPoint;
-        this.lastPoint = lastPoint;
-        this.angle = Math.atan((this.lastPoint.y - this.firstPoint.y) / (this.lastPoint.x - this.firstPoint.x));
-    }
-
-    public length(): number {
-        return this.firstPoint.distanceTo(this.lastPoint);
-    }
 }
