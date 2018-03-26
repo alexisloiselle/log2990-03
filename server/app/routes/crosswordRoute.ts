@@ -74,45 +74,45 @@ module Route {
 
             const game: ICrosswordGame = { gameInfo: gameInfo, letters: letters, words: wordsAndDefinitions };
 
-            require("mongodb").MongoClient.connect(MONGO_URL, async (err: MongoError, db: MongoClient) => {
-                const collection: Db = db.db("log2990-03-db");
-                collection.collection("games").insertOne(game, (insertErr: MongoError) => {
+            require("mongodb").MongoClient.connect(MONGO_URL, async (err: MongoError, client: MongoClient) => {
+                const db: Db = client.db("log2990-03-db");
+                db.collection("games").insertOne(game, (insertErr: MongoError) => {
                     const isOk: boolean = (insertErr === null);
                     res.send(JSON.stringify(isOk));
                 });
-                await db.close();
+                await client.close();
             });
         }
 
         public async isWordAlreadyUsed(req: Request, res: Response, next: NextFunction): Promise<void> {
-            require("mongodb").MongoClient.connect(MONGO_URL, async (err: MongoError, db: MongoClient) => {
-                const collection: Db = db.db("log2990-03-db");
-                collection.collection("games").find({ "gameInfo.gameName": req.params.gameName }).count().then((size: number) => {
+            require("mongodb").MongoClient.connect(MONGO_URL, async (err: MongoError, client: MongoClient) => {
+                const db: Db = client.db("log2990-03-db");
+                db.collection("games").find({ "gameInfo.gameName": req.params.gameName }).count().then((size: number) => {
                     const isAlreadyUsed: boolean = (size !== 0);
                     res.send(JSON.stringify(isAlreadyUsed));
                 });
-                await db.close();
+                await client.close();
             });
         }
 
         public async getGames(red: Request, res: Response, next: NextFunction): Promise<void> {
             const games: IMultiplayerGame[] = [];
-            await require("mongodb").MongoClient.connect(MONGO_URL, async(err: MongoError, db: MongoClient) => {
-                const collection: Db = db.db("log2990-03-db");
-                const gamesCursor: Cursor<ICrosswordGame> = collection.collection("games").find({"gameInfo.userName2": ""});
+            await require("mongodb").MongoClient.connect(MONGO_URL, async(err: MongoError, client: MongoClient) => {
+                const db: Db = client.db("log2990-03-db");
+                const gamesCursor: Cursor<ICrosswordGame> = db.collection("games").find({"gameInfo.userName2": ""});
                 for (let game: ICrosswordGame = await gamesCursor.next(); game != null; game = await gamesCursor.next()) {
                     games.push({ userName1: game.gameInfo.userName1, userName2: game.gameInfo.userName2,
                                  gameName: game.gameInfo.gameName, difficulty: game.gameInfo.difficulty });
                 }
-                await db.close();
+                await client.close();
                 res.send(games);
             });
         }
 
         public async getMultiplayerGrid(req: Request, res: Response, next: NextFunction): Promise<void> {
-            await require("mongodb").MongoClient.connect(MONGO_URL, async(err: MongoError, db: MongoClient) => {
-                const collection: Db = db.db("log2990-03-db");
-                const currentGame: ICrosswordGame = await collection.collection("games")
+            await require("mongodb").MongoClient.connect(MONGO_URL, async(err: MongoError, client: MongoClient) => {
+                const db: Db = client.db("log2990-03-db");
+                const currentGame: ICrosswordGame = await db.collection("games")
                 .findOne({"gameInfo.gameName": req.params.gameName});
                 const letters: string[][] = currentGame.letters;
                 const wordsAndDefs: {
@@ -122,22 +122,22 @@ module Route {
                     position: { x: number, y: number }
                 }[] = currentGame.words;
 
-                await db.close();
+                await client.close();
                 res.send({ letters, words: wordsAndDefs });
             });
         }
 
         public async updateMultiplayerGame(req: Request, res: Response, next: NextFunction): Promise<void> {
             const gameInfo: ICrosswordGameInfo = req.body;
-            require("mongodb").MongoClient.connect(MONGO_URL, (err: MongoError, db: MongoClient) => {
-                const collection: Db = db.db("log2990-03-db");
-                collection.collection("games").updateOne(
+            require("mongodb").MongoClient.connect(MONGO_URL, (err: MongoError, client: MongoClient) => {
+                const db: Db = client.db("log2990-03-db");
+                db.collection("games").updateOne(
                     { "gameInfo.gameName": (gameInfo.gameName) },
                     { $set: { "gameInfo.userName2": gameInfo.userName2 } }, (updateErr: MongoError) => {
                         const isOk: boolean = updateErr === null;
                         res.send(JSON.stringify(isOk));
                     });
-                db.close();
+                client.close();
             });
         }
 
