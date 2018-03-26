@@ -10,9 +10,11 @@ import { SkyboxService } from "./skybox.service";
 import { RenderTrackService } from "../render-track/render-track.service";
 import { CollisionService } from "../race/collisions/collision.service";
 import { RaceTrack } from "../race/raceTrack";
+import {Router} from "@angular/router";
 
 const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
+const QUIT_KEYCODE: number = 81;        // q
 
 @Injectable()
 export class RenderService {
@@ -37,7 +39,8 @@ export class RenderService {
         private cameraService: CameraService,
         private skyboxService: SkyboxService,
         private collisionService: CollisionService,
-        private renderTrackService: RenderTrackService) {
+        private renderTrackService: RenderTrackService,
+        private route: Router) {
         this._car = new Car();
         this.cars.push(this._car);
 
@@ -60,7 +63,6 @@ export class RenderService {
     }
 
     public async initialize(container: HTMLDivElement): Promise<void> {
-        // this.clearGameView();
         if (container) {
             this.container = container;
         }
@@ -169,6 +171,7 @@ export class RenderService {
 
     public handleKeyDown(event: KeyboardEvent): void {
         this.carEventHandlerService.handleKeyDown(event, this._car);
+        if (event.keyCode === QUIT_KEYCODE) { this.clearGameView(); }
     }
 
     public handleKeyUp(event: KeyboardEvent): void {
@@ -176,9 +179,9 @@ export class RenderService {
     }
     public clearGameView(): void {
         this.track = null;
-        this._car = null;
-        this.stats = null;
-        for ( let car of this.botCars) { car = null; }
-        for (let car of this.cars) { car = null; }
+        for ( const children of this.scene.children) { this.scene.remove(children); }
+        this.cars.forEach((car) => {this.cars.pop(); });
+        this.scene = new THREE.Scene;
+        this.route.navigateByUrl("/track-list");
     }
 }

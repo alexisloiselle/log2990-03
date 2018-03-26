@@ -45,10 +45,6 @@ export class MultiplayerGameComponent implements OnInit {
 
     public async opponentFound(): Promise<void> {
         this.isOpponentFound = true;
-        this.route.params.subscribe((params) => {
-            // this.difficulty = params.difficulty;
-            this.difficulty = Difficulty.Mock;
-        });
         this.defService.IsCheatModeOn = false;
         await this.crosswordService.getMultiplayerGrid(this.gameName);
         this.defService.configureDefinitions();
