@@ -35,6 +35,11 @@ describe("PasswordFormComponent", () => {
             await component.validatePassword("passfake");
             expect(component.validPassword).toBeFalsy();
          });
+         it("should be false", async () => {
+            component.password = "password";
+            await component.validatePassword("    ");
+            expect(component.validPassword).toBeFalsy();
+         });
 
          it("should be true", async () => {
             component.password = "password";
