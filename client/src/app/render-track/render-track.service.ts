@@ -147,7 +147,7 @@ export class RenderTrackService {
     }
 
     public positionCars(playerCar: Car, botCars: Array<BotCar>): void {
-        const positionNumbers: Array<number> = this.generateAleatoryCarPositions();
+        const positionNumbers: Array<number> = this.generateRandomCarPositions();
         this.placeCars(playerCar, positionNumbers[0]);
         this.placeCars(botCars[0], positionNumbers[1]);
         this.placeCars(botCars[1], positionNumbers[2]);
@@ -155,38 +155,31 @@ export class RenderTrackService {
     }
 
     public placeCars(car: Car, position: number): void {
-        const firstSegment: Segment = this.segment[0]; const ratio: number = firstSegment.lastPoint.x / firstSegment.lastPoint.y;
+        const firstSegment: Segment = this.segment[0];
+        const ratio: number = firstSegment.lastPoint.x / firstSegment.lastPoint.y;
         switch (position) {
             case FIRST :
-                car.mesh.position.x = Math.cos(ratio) * POSITIONCARAHEAD;
-                car.mesh.position.z = Math.sin(ratio) * POSITIONCARAHEAD;
-                car.mesh.position.x += Math.cos(Math.cos(ratio) + Math.PI) * POSITIONOFFSET;
-                car.mesh.position.z += Math.sin(Math.cos(ratio) + Math.PI) * POSITIONOFFSET;
+                car.mesh.position.x = Math.cos(ratio) * POSITIONCARAHEAD + Math.cos(Math.cos(ratio) + Math.PI) * POSITIONOFFSET;
+                car.mesh.position.z = Math.sin(ratio) * POSITIONCARAHEAD + Math.sin(Math.cos(ratio) + Math.PI) * POSITIONOFFSET;
                 break;
             case SECOND :
-                car.mesh.position.x = Math.cos(ratio) * POSITIONCARAHEAD;
-                car.mesh.position.z = Math.sin(ratio) * POSITIONCARAHEAD;
-                car.mesh.position.x -= Math.cos(Math.cos(ratio) + Math.PI) * POSITIONOFFSET;
-                car.mesh.position.z -= Math.sin(Math.cos(ratio) + Math.PI) * POSITIONOFFSET;
+                car.mesh.position.x = Math.cos(ratio) * POSITIONCARAHEAD  - Math.cos(Math.cos(ratio) + Math.PI) * POSITIONOFFSET;
+                car.mesh.position.z = Math.sin(ratio) * POSITIONCARAHEAD - Math.sin(Math.cos(ratio) + Math.PI) * POSITIONOFFSET;
                 break;
             case THIRD :
-                car.mesh.position.x = Math.cos(ratio) * POSITIONCARBEHIND;
-                car.mesh.position.z = Math.sin(ratio) * POSITIONCARBEHIND;
-                car.mesh.position.x += Math.cos(Math.cos(ratio) + Math.PI) * POSITIONOFFSET;
-                car.mesh.position.z += Math.sin(Math.cos(ratio) + Math.PI) * POSITIONOFFSET;
+                car.mesh.position.x = Math.cos(ratio) * POSITIONCARBEHIND  + Math.cos(Math.cos(ratio) + Math.PI) * POSITIONOFFSET;
+                car.mesh.position.z = Math.sin(ratio) * POSITIONCARBEHIND + Math.sin(Math.cos(ratio) + Math.PI) * POSITIONOFFSET;
                 break;
             case FOURTH :
-                car.mesh.position.x = Math.cos(ratio) * POSITIONCARBEHIND;
-                car.mesh.position.z = Math.sin(ratio) * POSITIONCARBEHIND;
-                car.mesh.position.x -= Math.cos(Math.cos(ratio) + Math.PI) * POSITIONOFFSET;
-                car.mesh.position.z -= Math.sin(Math.cos(ratio) + Math.PI) * POSITIONOFFSET;
+                car.mesh.position.x = Math.cos(ratio) * POSITIONCARBEHIND - Math.cos(Math.cos(ratio) + Math.PI) * POSITIONOFFSET;
+                car.mesh.position.z = Math.sin(ratio) * POSITIONCARBEHIND - Math.sin(Math.cos(ratio) + Math.PI) * POSITIONOFFSET;
                 break;
             default:
             break;
         }
     }
 
-    private generateAleatoryCarPositions(): Array<number> {
+    public generateRandomCarPositions(): Array<number> {
         const positionNumbers: Array<number> = [];
 
         while (positionNumbers.length < 4) {

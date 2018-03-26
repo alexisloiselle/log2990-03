@@ -2,6 +2,8 @@ import { TestBed, inject } from "@angular/core/testing";
 
 import { RenderTrackService } from "./render-track.service";
 
+const FOUR: number = 4;
+
 describe("RenderTrackService", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -12,4 +14,37 @@ describe("RenderTrackService", () => {
   it("should be created", inject([RenderTrackService], (service: RenderTrackService) => {
     expect(service).toBeTruthy();
   }));
+
+  it("should create a random array with numbers from 1 to 4", () => {
+    const renderTrackService: RenderTrackService = new RenderTrackService();
+    let positionNumbersOk: boolean = true;
+    const positionNumbers1: Array<number> = renderTrackService.generateRandomCarPositions();
+    const positionNumbers2: Array<number> = renderTrackService.generateRandomCarPositions();
+    const positionNumbers3: Array<number> = renderTrackService.generateRandomCarPositions();
+
+    // We first check if the size of the arrays is correct
+    if (positionNumbers1.length !== FOUR || positionNumbers2.length !== FOUR || positionNumbers3.length !== FOUR) {
+      positionNumbersOk = false;
+    }
+    // Then we check if the numbers are in the correct range
+    for (const n of positionNumbers1) {
+      if (n > FOUR || n < 1) { positionNumbersOk = false; break; }
+    }
+    for (const n of positionNumbers2) {
+      if (n > FOUR || n < 1) { positionNumbersOk = false; break; }
+    }
+    for (const n of positionNumbers3) {
+      if (n > FOUR || n < 1) { positionNumbersOk = false; break; }
+    }
+    // Then we check if the function really generates aleatory numbers
+    // With 3 arrays, there's almost no chance that the numbers will be the same
+    for (let i: number = 0; i < positionNumbers1.length; i++) {
+      if (positionNumbers1[i] === positionNumbers2[i] && positionNumbers1[i] === positionNumbers3[i] &&
+          positionNumbers2[i] === positionNumbers3[i]) {
+            positionNumbersOk = false;
+      } else { break; }
+    }
+
+    expect(positionNumbersOk).toBe(true);
+});
 });
