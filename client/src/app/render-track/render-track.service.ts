@@ -152,9 +152,9 @@ export class RenderTrackService {
     public positionCars(playerCar: Car, botCars: Array<BotCar>): void {
         const positionNumbers: Array<number> = this.generateRandomCarPositions();
         this.placeCars(playerCar, positionNumbers[0]);
-        this.placeCars(botCars[0], positionNumbers[1]);
-        this.placeCars(botCars[1], positionNumbers[2]);
-        this.placeCars(botCars[2], positionNumbers[3]);
+        for (const botCar of botCars) {
+            this.placeCars(botCar, positionNumbers[botCars.indexOf(botCar) + 1]);
+        }
     }
 
     public placeCars(car: Car, position: number): void {
