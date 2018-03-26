@@ -22,8 +22,7 @@ export class SocketService {
     }
 
     public gameBegin(): Observable<boolean> {
-        // tslint:disable-next-line:no-unnecessary-local-variable
-        const observable: Observable<boolean> = new Observable((observer) => {
+        return new Observable((observer) => {
             this.socket.on("gameBegin", (data: boolean) => {
                 observer.next(data);
             });
@@ -32,8 +31,6 @@ export class SocketService {
                 this.socket.disconnect();
             };
         });
-
-        return observable;
     }
 
 }
