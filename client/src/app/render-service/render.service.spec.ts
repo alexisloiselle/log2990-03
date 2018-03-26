@@ -1,4 +1,5 @@
 import { TestBed, inject } from "@angular/core/testing";
+import { Router } from "@angular/router";
 
 import { RenderService } from "./render.service";
 import { CarEventHandlerService } from "./car-event-handler.service";
@@ -16,7 +17,8 @@ describe("RenderService", () => {
                 CameraService,
                 SkyboxService,
                 CollisionService,
-                RenderTrackService
+                RenderTrackService,
+                { provide: Router, useClass: class { public navigate: jasmine.Spy = jasmine.createSpy("navigate"); } }
             ]
         });
     });
