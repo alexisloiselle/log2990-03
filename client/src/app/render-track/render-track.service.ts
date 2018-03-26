@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
 import * as THREE from "three";
 import { RaceTrack } from "../race/raceTrack";
+import { BotCar } from "../race/car/bot-car";
+import { Car } from "../race/car/car";
 
 const CONVERTING_FACTOR: number = 1;
 const NUMBER_FIVE: number = 5;
@@ -13,6 +15,16 @@ const WHITE: number = 0xFFFFFF;
 const STARTINGLINEWIDTH: number = 3;
 const STARTINGLINELENGTH: number = 11;
 const STARTINGLINEDISTANCE: number = 20;
+
+const FIRST: number = 1;
+const SECOND: number = 2;
+const THIRD: number = 3;
+const FOURTH: number = 4;
+
+const POSITIONCARAHEAD: number = 16;
+const POSITIONCARBEHIND: number = 10;
+
+const POSITIONOFFSET: number = 2;
 
 const POINT1_X: number = 329; const POINT1_Y: number = 114;
 const POINT2_X: number = 250; const POINT2_Y: number = 347;
@@ -134,27 +146,74 @@ export class RenderTrackService {
         return startingLine;
     }
 
-    // public positionCars(): void {
-    //     let positionNumbers: Array<number> = this.generateAleatoryCarPositions();
+    public positionCars(playerCar: Car, botCars: Array<BotCar>): void {
+        const positionNumbers: Array<number> = this.generateAleatoryCarPositions();
+        this.placeCars(playerCar, positionNumbers[0]);
+        this.placeCars(botCars[0], positionNumbers[1]);
+        this.placeCars(botCars[1], positionNumbers[2]);
+        this.placeCars(botCars[2], positionNumbers[3]);
+    }
 
-    //     while (positionNumbers.length < 3) {
+    public placeCars(car: Car, position: number): void {
+        const firstSegment: Segment = this.segment[0]; const ratio: number = firstSegment.lastPoint.x / firstSegment.lastPoint.y;
+        switch (position) {
+            case FIRST :
+                car.mesh.position.x = Math.cos(ratio) * POSITIONCARAHEAD;
+                car.mesh.position.z = Math.sin(ratio) * POSITIONCARAHEAD;
+                car.mesh.position.x += Math.cos(Math.cos(ratio) + Math.PI) * POSITIONOFFSET;
+                car.mesh.position.z += Math.sin(Math.cos(ratio) + Math.PI) * POSITIONOFFSET;
+                break;
+            case SECOND :
+                car.mesh.position.x = Math.cos(ratio) * POSITIONCARAHEAD;
+                car.mesh.position.z = Math.sin(ratio) * POSITIONCARAHEAD;
+                car.mesh.position.x -= Math.cos(Math.cos(ratio) + Math.PI) * POSITIONOFFSET;
+                car.mesh.position.z -= Math.sin(Math.cos(ratio) + Math.PI) * POSITIONOFFSET;
+                break;
+            case THIRD :
+                car.mesh.position.x = Math.cos(ratio) * POSITIONCARBEHIND;
+                car.mesh.position.z = Math.sin(ratio) * POSITIONCARBEHIND;
+                car.mesh.position.x += Math.cos(Math.cos(ratio) + Math.PI) * POSITIONOFFSET;
+                car.mesh.position.z += Math.sin(Math.cos(ratio) + Math.PI) * POSITIONOFFSET;
+                break;
+            case FOURTH :
+                car.mesh.position.x = Math.cos(ratio) * POSITIONCARBEHIND;
+                car.mesh.position.z = Math.sin(ratio) * POSITIONCARBEHIND;
+                car.mesh.position.x -= Math.cos(Math.cos(ratio) + Math.PI) * POSITIONOFFSET;
+                car.mesh.position.z -= Math.sin(Math.cos(ratio) + Math.PI) * POSITIONOFFSET;
+                break;
+            default:
+            break;
+        }
+    }
 
-    //     }
-    // }
+    private generateAleatoryCarPositions(): Array<number> {
+        const positionNumbers: Array<number> = [];
 
-    // private generateAleatoryCarPositions(): Array<number> {
-    //     const positionNumbers: Array<number> = [];
+        while (positionNumbers.length < 4) {
+            if (positionNumbers.length === 0) {
+                positionNumbers.push(Math.floor(Math.random() * 4) + 1);
+            } else if (positionNumbers.length === 3) {
+                let temp: number = 0;
+                for (const n of positionNumbers) {
+                    temp += n;
+                }
+                positionNumbers.push(10 - temp);
+            } else {
+                const temp2: number = Math.floor(Math.random() * 4) + 1;
+                let alreadyInArray: boolean = false;
+                for (const n of positionNumbers) {
+                    if (n === temp2) {
+                        alreadyInArray = true;
+                    }
+                }
+                if (!alreadyInArray) {
+                    positionNumbers.push(temp2);
+                }
+            }
+        }
 
-    //     // while (positionNumbers.length < 3) {
-    //     //     if (positionNumbers.length === 0) {
-    //     //         positionNumbers.push(Math.floor(Math.random() * 4) + 1);
-    //     //     } else {
-
-    //     //     }
-    //     // }
-
-    //     return positionNumbers;
-    // }
+        return positionNumbers;
+    }
 
 }
 

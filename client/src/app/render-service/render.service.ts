@@ -79,7 +79,7 @@ export class RenderService {
 
     private async initBotCars(): Promise<void> {
         // tslint:disable-next-line:no-magic-numbers
-        const positions: Array<number> = [-2, 2, 4];
+        // const positions: Array<number> = [-2, 2, 4];
         const carModelsDirectories: Array<string> = [
             "../../assets/porsche/porsche.json",
             "../../assets/lamborghini/lamborghini.json",
@@ -87,7 +87,7 @@ export class RenderService {
         ];
         for (let i: number = 0; i < this.botCars.length; i++) {
             this.botCars[i].init(await RenderService.loadCar(carModelsDirectories[i]));
-            this.botCars[i].translateOnAxis(new THREE.Vector3(0, 0, positions[i]), 1);
+            this.botCars[i].translateOnAxis(new THREE.Vector3(0, 0, 0), 1);
             this.scene.add(this.botCars[i]);
         }
 
@@ -145,6 +145,8 @@ export class RenderService {
         }
 
         this.scene.add(this.renderTrackService.createStartingLine());
+
+        this.renderTrackService.positionCars(this._car, this.botCars);
     }
     public loadTrack(track: RaceTrack): void {
         this.track = track;
