@@ -10,14 +10,17 @@ import { SocketService } from "../../services/socket.service";
 })
 export class CreateGameComponent implements OnInit {
 
+    // TODO utiliser la classe difficulty dans common
     public difficulty: string;
     public username: string;
     public gameName: string;
     public isNameAlreadyUsed: boolean;
 
-    public constructor( private router: Router,
-                        private crosswordService: CrosswordService,
-                        private socketService: SocketService ) {
+    public constructor(
+        private router: Router,
+        private crosswordService: CrosswordService,
+        private socketService: SocketService
+    ) {
         this.gameName = "";
         this.difficulty = "";
         this.isNameAlreadyUsed = false;
@@ -37,21 +40,28 @@ export class CreateGameComponent implements OnInit {
     }
 
     public isFormValid(): boolean {
-        return (this.gameName.length !== 0 && this.difficulty !== "" && this.username.length !== 0);
+        return this.gameName.length !== 0 &&
+            this.difficulty !== "" &&
+            this.username.length !== 0;
     }
 
+    // TODO set comme suivant
+    // public set value(v : string) {
+    //     this.<attribut> = v;
+    // }
     public setDifficulty(difficulty: string): void {
         this.difficulty = difficulty;
     }
 
     public async createGame(): Promise<void> {
-        await this.crosswordService.isNameAlreadyUsed(this.gameName)
-            .then((isAlreadyUsed: boolean) => (this.isNameAlreadyUsed = isAlreadyUsed));
-        if (!this.isNameAlreadyUsed ) {
+        this.isNameAlreadyUsed = await this.crosswordService.isNameAlreadyUsed(this.gameName);
+        if (!this.isNameAlreadyUsed) {
             await this.crosswordService.createGame(this.username, this.gameName, this.difficulty);
             this.socketService.newGame(this.gameName);
             this.router.navigate(["multiplayer-game", this.gameName, false]);
         }
     }
 
+    // TODO pt faire un background color comme dans join game pour les difficultes, ou autres,
+    // juste pour savoir cest quelle difficulte la partie.
 }

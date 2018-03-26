@@ -20,6 +20,11 @@ export class CrosswordService {
     }
 
     public async createGame(userName: string, gameName: string, difficulty: string): Promise<void> {
+        // TODO cest pas de meme quon initialise une interface, cest justement pour ca que ca existe
+        // newGameInfo.userName1 = userName;
+        // newGameInfo.userName2 = "";
+        // newGameInfo.gameName = gameName;
+        // newGameInfo.difficulty = difficulty;
         const newGame: IMultiplayerGame = { userName1: userName, userName2: "", gameName: gameName, difficulty: difficulty };
 
         this.http.post(`${API_URL}/${CROSSWORD_PARAM}/createNewGame`, newGame).toPromise();
@@ -42,7 +47,13 @@ export class CrosswordService {
     }
 
     public async updateMultiplayerGame(userName: string, gameName: string): Promise<void> {
+        // TODO cest pas de meme quon initialise une interface, cest justement pour ca que ca existe
+        // newGameInfo.userName1 = "";
+        // newGameInfo.userName2 = userName;
+        // newGameInfo.gameName = gameName;
+        // newGameInfo.difficulty = "";
         const newGameInfo: IMultiplayerGame = { userName1: "", userName2: userName, gameName: gameName, difficulty: "" };
+
         this.http.post(`${API_URL}/${CROSSWORD_PARAM}/updateMultiplayerGame`, newGameInfo).toPromise();
     }
 

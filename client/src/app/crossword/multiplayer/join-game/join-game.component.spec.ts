@@ -28,4 +28,6 @@ describe("JoinGameComponent", () => {
     it("should create", () => {
         expect(component).toBeTruthy();
     });
+
+    // TODO tester que la partie est bien joined
 });

@@ -30,6 +30,8 @@ export class MultiplayerGameComponent implements OnInit {
     public async ngOnInit(): Promise<void> {
         this.route.params.subscribe(async (params) => {
             this.gameName = params.gamename;
+            // TODO pas sur si cest une bonne pratique de mettre un booleen direct dans l'url
+            // mais si ta pas le temps de changer, ca va faire l'affaire pour l'instant
             if (params.isjoingame === "true") {
                 await this.opponentFound();
             } else {
