@@ -11,6 +11,7 @@ export class Server {
     private readonly appPort: string | number | boolean = this.normalizePort(process.env.PORT || "3000");
     private readonly baseDix: number = 10;
     private server: http.Server;
+    // tslint:disable-next-line:no-any
     private io: any;
     private crosswordGames: [string, number][];
 

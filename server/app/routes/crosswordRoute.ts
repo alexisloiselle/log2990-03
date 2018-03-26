@@ -99,7 +99,7 @@ module Route {
             const games: IMultiplayerGame[] = [];
             await require("mongodb").MongoClient.connect(MONGO_URL, async(err: MongoError, db: MongoClient) => {
                 const collection: Db = db.db("log2990-03-db");
-                const gamesCursor: Cursor<ICrosswordGame> = await collection.collection("games").find({"gameInfo.userName2": ""});
+                const gamesCursor: Cursor<ICrosswordGame> = collection.collection("games").find({"gameInfo.userName2": ""});
                 for (let game: ICrosswordGame = await gamesCursor.next(); game != null; game = await gamesCursor.next()) {
                     games.push({ userName1: game.gameInfo.userName1, userName2: game.gameInfo.userName2,
                                  gameName: game.gameInfo.gameName, difficulty: game.gameInfo.difficulty });
