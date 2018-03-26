@@ -97,7 +97,7 @@ export class RenderTrackService {
         return this.segment[0];
     }
 
-    public genererSurfaceHorsPiste(): THREE.Mesh {
+    public generateOffTrackSurface(): THREE.Mesh {
         let hPSurface: THREE.Mesh;
         const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(NUMBER_EIGHT_HUN, NUMBER_EIGHT_HUN);
         let material: THREE.MeshBasicMaterial;

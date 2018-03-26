@@ -10,11 +10,11 @@ import { SkyboxService } from "./skybox.service";
 import { RenderTrackService } from "../render-track/render-track.service";
 import { CollisionService } from "../race/collisions/collision.service";
 import { RaceTrack } from "../race/raceTrack";
-import {Router} from "@angular/router";
+import { Router } from "@angular/router";
 
 const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
-const QUIT_KEYCODE: number = 81;        // q
+const QUIT_KEYCODE: number = 81;    // q
 
 @Injectable()
 export class RenderService {
@@ -78,8 +78,6 @@ export class RenderService {
     }
 
     private async initBotCars(): Promise<void> {
-        // tslint:disable-next-line:no-magic-numbers
-        // const positions: Array<number> = [-2, 2, 4];
         const carModelsDirectories: Array<string> = [
             "../../assets/porsche/porsche.json",
             "../../assets/lamborghini/lamborghini.json",
@@ -129,7 +127,7 @@ export class RenderService {
             this.scene.add(plane);
         }
 
-        this.scene.add(this.renderTrackService.genererSurfaceHorsPiste());
+        this.scene.add(this.renderTrackService.generateOffTrackSurface());
 
         let circles: THREE.Mesh[] = [];
         circles = this.renderTrackService.patchTrack(this.track.width);
@@ -148,6 +146,7 @@ export class RenderService {
 
         this.renderTrackService.positionCars(this._car, this.botCars);
     }
+
     public loadTrack(track: RaceTrack): void {
         this.track = track;
     }

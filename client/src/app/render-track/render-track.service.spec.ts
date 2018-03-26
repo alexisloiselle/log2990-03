@@ -1,5 +1,4 @@
 import { TestBed, inject } from "@angular/core/testing";
-
 import { RenderTrackService } from "./render-track.service";
 
 const NUMBEROFCARS: number = 4;
