@@ -31,30 +31,28 @@ export class RenderTrackService {
 
     public buildTrack(track: RaceTrack): THREE.Mesh[] {
         const plane: THREE.Mesh[] = [];
-        this.generateSegments(track.trackShape.getPoints());
-        for (let i: number = 0; i < this.segment.length; i++) {
-            const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(NUMBER_TEN, this.segment[i].length());
+        const trackShape: THREE.Shape = new THREE.Shape();
+        this.generateSegments(track.points);
+        for (const segment of this.segment) {
+            const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(NUMBER_TEN, segment.length());
             let material: THREE.MeshBasicMaterial;
-            // tslint:disable-next-line:prefer-conditional-expression
-            if (i === 0) {
-                material = new THREE.MeshBasicMaterial({ color: WHITE, side: THREE.DoubleSide });
-            } else if (i === 1) {
-                material = new THREE.MeshBasicMaterial({ color: WHITE, side: THREE.DoubleSide });
-            // tslint:disable-next-line:prefer-conditional-expression
-            } else if (i === 2) {
-                material = new THREE.MeshBasicMaterial({ color: WHITE, side: THREE.DoubleSide });
-            } else {
-                material = new THREE.MeshBasicMaterial({ color: WHITE, side: THREE.DoubleSide });
-            }
+
+            material = new THREE.MeshBasicMaterial({ color: WHITE, side: THREE.DoubleSide });
+
             plane.push(new THREE.Mesh(geometry, material));
-            plane[plane.length - 1].rotation.z = -this.segment[i].angle;
+
+            trackShape.moveTo(segment.firstPoint.x, segment.firstPoint.y);
+
+            plane[plane.length - 1].rotation.z = -segment.angle;
             plane[plane.length - 1].rotation.x = Math.PI / 2;
-            plane[plane.length - 1].position.x = (this.segment[i].firstPoint.y + this.segment[i].lastPoint.y) / 2;
-            plane[plane.length - 1].position.z = (this.segment[i].firstPoint.x + this.segment[i].lastPoint.x) / 2;
+
+            plane[plane.length - 1].position.x = (segment.firstPoint.y + segment.lastPoint.y) / 2;
+            plane[plane.length - 1].position.z = (segment.firstPoint.x + segment.lastPoint.x) / 2;
         }
 
         return plane;
     }
+
     public generateDefaultTrack(): RaceTrack {
         const point1: THREE.Vector2 = new THREE.Vector2(POINT1_X, POINT1_Y);
         const point2: THREE.Vector2 = new THREE.Vector2(POINT2_X, POINT2_Y);
@@ -80,6 +78,10 @@ export class RenderTrackService {
 
             this.segment.push(new Segment(firstPoint, lastPoint));
         }
+    }
+
+    public getFirstSegment(): Segment {
+        return this.segment[0];
     }
 
     public genererSurfaceHorsPiste(): THREE.Mesh {
