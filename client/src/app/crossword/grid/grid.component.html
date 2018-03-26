@@ -8,8 +8,10 @@
   <div *ngFor="let line of crosswordService.FormattedGrid.letters; let i  = index" class="row">
     <li class="case">{{crosswordService.FormattedGrid.letters.indexOf(line)+1}}</li>
     <div *ngFor="let letter of line; let j = index">
-      <li *ngIf="letter === ''" class="case bordercase blackCase"></li>
-      <li *ngIf="letter !== ''" class="case bordercase letterCase">
+      <li *ngIf="letter === ''" class="case blackCase"></li>
+      <li *ngIf="letter !== ''" class="case bordercase letterCase" [ngClass]="{
+                      'thick-border': isPartOfWord(defService.SelectedWord, i, j)
+                    }">
         <input id="{{i}}{{j}}" type="text" [ngClass]="{
                         'whiteCaseInput': true,
                         'canSelect': true,
