@@ -10,6 +10,9 @@ const NUMBER_EIGHT_HUN: number = 800;
 const APPROX_ZERO_MINUS: number = -0.001;
 const BLACK: number = 0x000000;
 const WHITE: number = 0xFFFFFF;
+const STARTINGLINEWIDTH: number = 3;
+const STARTINGLINELENGTH: number = 11;
+const STARTINGLINEDISTANCE: number = 20;
 
 const POINT1_X: number = 329; const POINT1_Y: number = 114;
 const POINT2_X: number = 250; const POINT2_Y: number = 347;
@@ -99,7 +102,7 @@ export class RenderTrackService {
         return hPSurface;
     }
 
-    public genererCircle(): THREE.Mesh[] {
+    public patchTrack(): THREE.Mesh[] {
         const circle: THREE.Mesh[] = [];
         for (let i: number = 0; i < this.segment.length; i++) {
             const geometry: THREE.CircleGeometry = new THREE.CircleGeometry(NUMBER_FIVE, NUMBER_HUN);
@@ -114,6 +117,45 @@ export class RenderTrackService {
 
         return circle;
     }
+
+    public createStartingLine(): THREE.Mesh {
+        let startingLine: THREE.Mesh;
+
+        const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(STARTINGLINELENGTH, STARTINGLINEWIDTH);
+        const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: BLACK, side: THREE.DoubleSide });
+        startingLine = new THREE.Mesh(geometry, material);
+
+        startingLine.rotation.z = -this.segment[0].angle;
+        startingLine.rotation.x = Math.PI / 2;
+
+        startingLine.position.x = Math.cos(this.segment[0].lastPoint.x / this.segment[0].lastPoint.y) * STARTINGLINEDISTANCE;
+        startingLine.position.z = Math.sin(this.segment[0].lastPoint.x / this.segment[0].lastPoint.y) * STARTINGLINEDISTANCE;
+
+        return startingLine;
+    }
+
+    // public positionCars(): void {
+    //     let positionNumbers: Array<number> = this.generateAleatoryCarPositions();
+
+    //     while (positionNumbers.length < 3) {
+
+    //     }
+    // }
+
+    // private generateAleatoryCarPositions(): Array<number> {
+    //     const positionNumbers: Array<number> = [];
+
+    //     // while (positionNumbers.length < 3) {
+    //     //     if (positionNumbers.length === 0) {
+    //     //         positionNumbers.push(Math.floor(Math.random() * 4) + 1);
+    //     //     } else {
+
+    //     //     }
+    //     // }
+
+    //     return positionNumbers;
+    // }
+
 }
 
 export class Segment {

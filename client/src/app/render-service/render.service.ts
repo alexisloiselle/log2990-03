@@ -128,17 +128,23 @@ export class RenderService {
         for (const plane of planes) {
             this.scene.add(plane);
         }
+
         this.scene.add(this.renderTrackService.genererSurfaceHorsPiste());
+
         let circles: THREE.Mesh[] = [];
-        circles = this.renderTrackService.genererCircle();
+        circles = this.renderTrackService.patchTrack();
 
         for (const circle of circles) {
             this.scene.add(circle);
         }
+
         this._car.orientCar(this.renderTrackService.getFirstSegment());
-        this.botCars[0].orientCar(this.renderTrackService.getFirstSegment());
-        this.botCars[1].orientCar(this.renderTrackService.getFirstSegment());
-        this.botCars[2].orientCar(this.renderTrackService.getFirstSegment());
+
+        for (const botCar of this.botCars) {
+            botCar.orientCar(this.renderTrackService.getFirstSegment());
+        }
+
+        this.scene.add(this.renderTrackService.createStartingLine());
     }
     public loadTrack(track: RaceTrack): void {
         this.track = track;
