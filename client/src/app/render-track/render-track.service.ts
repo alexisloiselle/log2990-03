@@ -97,7 +97,7 @@ export class RenderTrackService {
         return this.segment[0];
     }
 
-    public genererSurfaceHorsPiste(): THREE.Mesh {
+    public generateOffTrackSurface(): THREE.Mesh {
         let hPSurface: THREE.Mesh;
         const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(NUMBER_EIGHT_HUN, NUMBER_EIGHT_HUN);
         let material: THREE.MeshBasicMaterial;
@@ -144,17 +144,17 @@ export class RenderTrackService {
         startingLine.position.z = this.segment[0].lastPoint.x /
                                             Math.sqrt(Math.pow(this.segment[0].lastPoint.x, 2) +
                                                       Math.pow(this.segment[0].lastPoint.y, 2)) * STARTINGLINEDISTANCE;
-        startingLine.position.y = 0.4;
+        startingLine.position.y = 0.2;
 
         return startingLine;
     }
 
     public positionCars(playerCar: Car, botCars: Array<BotCar>): void {
-        const positionNumbers: Array<number> = this.generateRandomCarPositions();
+        const positionNumbers: Array<number> = this.generateRandomCarPositions(botCars.length + 1);
         this.placeCars(playerCar, positionNumbers[0]);
-        this.placeCars(botCars[0], positionNumbers[1]);
-        this.placeCars(botCars[1], positionNumbers[2]);
-        this.placeCars(botCars[2], positionNumbers[3]);
+        for (const botCar of botCars) {
+            this.placeCars(botCar, positionNumbers[botCars.indexOf(botCar) + 1]);
+        }
     }
 
     public placeCars(car: Car, position: number): void {
@@ -187,20 +187,23 @@ export class RenderTrackService {
         }
     }
 
-    public generateRandomCarPositions(): Array<number> {
+    public generateRandomCarPositions(numberOfCars: number): Array<number> {
         const positionNumbers: Array<number> = [];
-
-        while (positionNumbers.length < 4) {
+        while (positionNumbers.length < numberOfCars) {
             if (positionNumbers.length === 0) {
-                positionNumbers.push(Math.floor(Math.random() * 4) + 1);
-            } else if (positionNumbers.length === 3) {
+                positionNumbers.push(Math.floor(Math.random() * numberOfCars) + 1);
+            } else if (positionNumbers.length === numberOfCars - 1) {
                 let temp: number = 0;
                 for (const n of positionNumbers) {
                     temp += n;
                 }
-                positionNumbers.push(10 - temp);
+                let sum: number = 0;
+                for (let i: number = 0; i <= numberOfCars; i++) {
+                    sum += i;
+                }
+                positionNumbers.push(sum - temp);
             } else {
-                const temp2: number = Math.floor(Math.random() * 4) + 1;
+                const temp2: number = Math.floor(Math.random() * numberOfCars) + 1;
                 let alreadyInArray: boolean = false;
                 for (const n of positionNumbers) {
                     if (n === temp2) {
