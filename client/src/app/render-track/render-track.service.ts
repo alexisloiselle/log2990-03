@@ -5,8 +5,6 @@ import { BotCar } from "../race/car/bot-car";
 import { Car } from "../race/car/car";
 
 const CONVERTING_FACTOR: number = 1;
-const NUMBER_FIVE: number = 5;
-const NUMBER_TEN: number = 10;
 const NUMBER_HUN: number = 100;
 const NUMBER_EIGHT_HUN: number = 800;
 const APPROX_ZERO_MINUS: number = -0.001;
@@ -117,7 +115,7 @@ export class RenderTrackService {
     public patchTrack(trackWidth: number): THREE.Mesh[] {
         const circle: THREE.Mesh[] = [];
         for (let i: number = 0; i < this.segment.length; i++) {
-            const geometry: THREE.CircleGeometry = new THREE.CircleGeometry(trackWidth/2, NUMBER_HUN);
+            const geometry: THREE.CircleGeometry = new THREE.CircleGeometry(trackWidth / 2, NUMBER_HUN);
             let material: THREE.MeshBasicMaterial;
             material = new THREE.MeshBasicMaterial({ color: WHITE, side: THREE.DoubleSide });
             circle.push(new THREE.Mesh(geometry, material));
