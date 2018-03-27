@@ -43,6 +43,7 @@ export class CrosswordService {
 
     public async updateMultiplayerGame(userName: string, gameName: string): Promise<void> {
         const newGameInfo: IMultiplayerGame = { userName1: "", userName2: userName, gameName: gameName, difficulty: "" };
+
         this.http.post(`${API_URL}/${CROSSWORD_PARAM}/updateMultiplayerGame`, newGameInfo).toPromise();
     }
 

@@ -5,6 +5,9 @@
     <br>
     <input id="usernameInput" (keyup)="updateUsername($event)">
     <br>
+    <div id="refresh">
+      <button (click)="refresh()">Refresh games list</button>
+    </div>
     <div id="gamesDiv" *ngIf="isReady">
       <table>
         <thead>

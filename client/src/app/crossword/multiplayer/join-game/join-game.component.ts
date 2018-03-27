@@ -9,16 +9,19 @@ import { SocketService } from "../../services/socket.service";
     templateUrl: "./join-game.component.html",
     styleUrls: ["./join-game.component.css"]
 })
+
 export class JoinGameComponent implements OnInit {
 
     public username: string;
     public games: IMultiplayerGame[];
-    public isReady: Boolean;
+    public isReady: boolean;
     public selectedGame: string;
 
-    public constructor( private crosswordService: CrosswordService,
-                        private router: Router,
-                        private socketService: SocketService ) {
+    public constructor(
+        private crosswordService: CrosswordService,
+        private router: Router,
+        private socketService: SocketService
+    ) {
         this.username = "";
         this.games = [];
         this.isReady = false;
@@ -37,7 +40,8 @@ export class JoinGameComponent implements OnInit {
     }
 
     public isFormValid(): Boolean {
-        return this.username !== "" && this.selectedGame !== "";
+        return this.username !== "" &&
+            this.selectedGame !== "";
     }
 
     public getBackgroundColor(gameName: string): string {
@@ -46,6 +50,11 @@ export class JoinGameComponent implements OnInit {
         } else {
             return "white";
         }
+    }
+
+    public async refresh(): Promise<void> {
+        await this.crosswordService.getGames();
+        this.games = this.crosswordService.Games;
     }
 
     public async joinGame(): Promise<void> {

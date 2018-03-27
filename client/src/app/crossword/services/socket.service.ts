@@ -1,33 +1,35 @@
 import { Injectable } from "@angular/core";
 import * as io from "socket.io-client";
 import { Observable } from "rxjs/Observable";
+import { SERVER_URL } from "../../config";
+import { JOIN_GAME_EVENT, NEW_GAME_EVENT, GAME_BEGIN_EVENT } from "../../../../../common/socket-constants";
 
 @Injectable()
 export class SocketService {
 
     private socket: SocketIOClient.Socket;
 
-    public constructor() {}
+    public constructor() { }
 
     public connect(): void {
-        this.socket = io("http://localhost:3000/");
+        this.socket = io(SERVER_URL);
     }
 
     public joinGame(gameName: string): void {
-        this.socket.emit("joinGame", gameName);
+        this.socket.emit(JOIN_GAME_EVENT, gameName);
     }
 
     public newGame(gameName: string): void {
-        this.socket.emit("newGame", gameName);
+        this.socket.emit(NEW_GAME_EVENT, gameName);
     }
 
     public gameBegin(): Observable<boolean> {
         return new Observable((observer) => {
-            this.socket.on("gameBegin", (data: boolean) => {
+            this.socket.on(GAME_BEGIN_EVENT, (data: boolean) => {
                 observer.next(data);
             });
 
-            return() => {
+            return () => {
                 this.socket.disconnect();
             };
         });
