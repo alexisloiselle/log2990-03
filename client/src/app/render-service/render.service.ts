@@ -15,6 +15,7 @@ import { RaceTrack } from "../race/raceTrack";
 const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
 const QUIT_KEYCODE: number = 81;    // q
+const STARTING_SOUND: string = "../../assets/sounds/ReadySetGo.ogg";
 
 @Injectable()
 export class RenderService {
@@ -29,6 +30,9 @@ export class RenderService {
     private lastDate: number;
     private track: RaceTrack;
     private botsController: BotsController;
+    
+    private audioListener: THREE.AudioListener;
+    public startingSound: THREE.Audio;
 
     public get car(): Car {
         return this._car;
@@ -51,6 +55,7 @@ export class RenderService {
             this.cars.push(botCar);
         }
         this.track = null;
+       
     }
 
     public static async loadCar(descriptionFileName: string): Promise<THREE.Object3D> {
@@ -69,6 +74,7 @@ export class RenderService {
         await this.createScene();
         this.initStats();
         this.startRenderingLoop();
+        this.loadSounds();
     }
 
     private initStats(): void {
@@ -191,5 +197,25 @@ export class RenderService {
         this.cars.forEach((car) => {this.cars.pop(); });
         this.scene = new THREE.Scene;
         this.route.navigateByUrl("/track-list");
+    }
+
+    public getStartingSound(): THREE.Audio {
+        return Object.create(this.startingSound);
+    }
+
+    private loadSounds(): void {
+        this.audioListener = new THREE.AudioListener();
+        this.startingSound = new THREE.Audio(this.audioListener);
+        const audioLoader = new THREE.AudioLoader();
+        audioLoader.load(
+            STARTING_SOUND,
+            (audioBuffer: any) => {
+                this.startingSound.setBuffer(audioBuffer);
+                this.startingSound.setVolume(5);
+                this.startingSound.setLoop(false);
+                this.startingSound.play();
+            },
+            (loading: any) => { },
+            (error: any) => { });
     }
 }
