@@ -30,7 +30,7 @@ export class RenderService {
     private lastDate: number;
     private track: RaceTrack;
     private botsController: BotsController;
-    
+
     private audioListener: THREE.AudioListener;
     public startingSound: THREE.Audio;
 
@@ -55,7 +55,6 @@ export class RenderService {
             this.cars.push(botCar);
         }
         this.track = null;
-       
     }
 
     public static async loadCar(descriptionFileName: string): Promise<THREE.Object3D> {
@@ -119,9 +118,11 @@ export class RenderService {
         this.scene.add(new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY));
         await this.initBotCars();
         this.skyboxService.createSkybox(this.scene);
-        this.createTrack();
+        await this.createTrack();
+        await this.orientAndPositionCars();
         this.botsController = new BotsController(this.botCars, this.track.segments, this.track.width);
     }
+
 
     private async createTrack(): Promise<void> {
         if (this.track == null) {
@@ -141,14 +142,15 @@ export class RenderService {
         for (const circle of circles) {
             this.scene.add(circle);
         }
+        this.scene.add(this.renderTrackService.createStartingLine(this.track.width));
+    }
 
+    private async orientAndPositionCars(): Promise<void> {
         this._car.orientCar(this.track.segments[0]);
 
         for (const botCar of this.botCars) {
             botCar.orientCar(this.track.segments[0]);
         }
-
-        this.scene.add(this.renderTrackService.createStartingLine(this.track.width));
 
         this.renderTrackService.positionCars(this._car, this.botCars);
     }
@@ -206,7 +208,7 @@ export class RenderService {
     private loadSounds(): void {
         this.audioListener = new THREE.AudioListener();
         this.startingSound = new THREE.Audio(this.audioListener);
-        const audioLoader = new THREE.AudioLoader();
+        const audioLoader: THREE.AudioLoader = new THREE.AudioLoader();
         audioLoader.load(
             STARTING_SOUND,
             (audioBuffer: any) => {
