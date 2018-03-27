@@ -80,12 +80,12 @@ export class RenderTrackService {
         const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: BLACK, side: THREE.DoubleSide });
         const hPSurface: THREE.Mesh = new THREE.Mesh(geometry, material);
 
-        hPSurface.position.y = APPROX_ZERO_MINUS;
         hPSurface.rotation.z = Math.PI / 2;
         hPSurface.rotation.x = Math.PI / 2;
 
         hPSurface.position.x = 0;
         hPSurface.position.z = 0;
+        hPSurface.position.y = APPROX_ZERO_MINUS;
 
         return hPSurface;
     }
