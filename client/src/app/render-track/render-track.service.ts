@@ -14,6 +14,8 @@ const STARTING_LINE_WIDTH: number = 3;
 
 const STARTING_LINE_DISTANCE: number = 30;
 
+const FIRST: number = 1;
+const SECOND: number = 2;
 const THIRD: number = 3;
 const FOURTH: number = 4;
 
@@ -24,26 +26,16 @@ const POSITIONOFFSET: number = 2;
 
 @Injectable()
 export class RenderTrackService {
-    public curve: THREE.CatmullRomCurve3;
-    public vectorPoints: THREE.Vector3[] = [];
-    public geometry: THREE.BufferGeometry;
-    public material: THREE.LineBasicMaterial;
-    public curveObject: THREE.Line;
     public segments: THREE.LineCurve[] = [];
 
     public buildTrack(track: RaceTrack): THREE.Mesh[] {
         const plane: THREE.Mesh[] = [];
-        const trackShape: THREE.Shape = new THREE.Shape();
         this.generateSegments(track.points);
         for (const segment of this.segments) {
             const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(track.width, segment.getLength());
-            let material: THREE.MeshBasicMaterial;
-
-            material = new THREE.MeshBasicMaterial({ color: WHITE, side: THREE.DoubleSide });
+            const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: WHITE, side: THREE.DoubleSide });
 
             plane.push(new THREE.Mesh(geometry, material));
-
-            trackShape.moveTo(segment.v1.x, segment.v1.y);
 
             plane[plane.length - 1].rotation.z = -Math.atan((segment.v2.y - segment.v1.y) /
                                                             (segment.v2.x - segment.v1.x));
@@ -84,14 +76,14 @@ export class RenderTrackService {
     }
 
     public generateOffTrackSurface(): THREE.Mesh {
-        let hPSurface: THREE.Mesh;
         const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(NUMBER_EIGHT_HUN, NUMBER_EIGHT_HUN);
-        let material: THREE.MeshBasicMaterial;
-        material = new THREE.MeshBasicMaterial({ color: BLACK, side: THREE.DoubleSide });
-        hPSurface = new THREE.Mesh(geometry, material);
+        const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: BLACK, side: THREE.DoubleSide });
+        const hPSurface: THREE.Mesh = new THREE.Mesh(geometry, material);
+
         hPSurface.position.y = APPROX_ZERO_MINUS;
         hPSurface.rotation.z = Math.PI / 2;
         hPSurface.rotation.x = Math.PI / 2;
+
         hPSurface.position.x = 0;
         hPSurface.position.z = 0;
 
@@ -102,9 +94,10 @@ export class RenderTrackService {
         const circle: THREE.Mesh[] = [];
         for (let i: number = 0; i < this.segments.length; i++) {
             const geometry: THREE.CircleGeometry = new THREE.CircleGeometry(trackWidth / 2, NUMBER_HUN);
-            let material: THREE.MeshBasicMaterial;
-            material = new THREE.MeshBasicMaterial({ color: WHITE, side: THREE.DoubleSide });
+            const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: WHITE, side: THREE.DoubleSide });
+
             circle.push(new THREE.Mesh(geometry, material));
+
             circle[i].rotation.z = Math.PI / 2;
             circle[i].rotation.x = Math.PI / 2;
             circle[i].position.z = this.segments[i].v1.x;
@@ -115,22 +108,16 @@ export class RenderTrackService {
     }
 
     public createStartingLine(trackWidth: number): THREE.Mesh {
-        let startingLine: THREE.Mesh;
-
         const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(trackWidth, STARTING_LINE_WIDTH);
         const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: BLACK, side: THREE.DoubleSide });
-        startingLine = new THREE.Mesh(geometry, material);
+        const startingLine: THREE.Mesh = new THREE.Mesh(geometry, material);
 
         startingLine.rotation.z = -Math.atan((this.segments[0].v2.y - this.segments[0].v1.y) /
                                              (this.segments[0].v2.x - this.segments[0].v1.x));
         startingLine.rotation.x = Math.PI / 2;
 
-        startingLine.position.x = this.segments[0].v2.y
-                                  / Math.sqrt(Math.pow(this.segments[0].v2.x, 2) + Math.pow(this.segments[0].v2.y, 2))
-                                  * STARTING_LINE_DISTANCE;
-        startingLine.position.z = this.segments[0].v2.x
-                                  / Math.sqrt(Math.pow(this.segments[0].v2.x, 2) + Math.pow(this.segments[0].v2.y, 2))
-                                  * STARTING_LINE_DISTANCE;
+        startingLine.position.x = this.firstSegmentRatioOfXOnHypotenuse() * STARTING_LINE_DISTANCE;
+        startingLine.position.z = this.firstSegmentRatioOfZOnHypotenuse() * STARTING_LINE_DISTANCE;
         // tslint:disable-next-line:no-magic-numbers
         startingLine.position.y = 0.2;
 
@@ -146,19 +133,15 @@ export class RenderTrackService {
     }
 
     public placeCars(car: Car, position: number): void {
-        const ratioX: number = this.segments[0].v2.y /
-                  Math.sqrt(Math.pow(this.segments[0].v2.x, 2) +
-                            Math.pow(this.segments[0].v2.y, 2));
-        const ratioY: number = this.segments[0].v2.x /
-                  Math.sqrt(Math.pow(this.segments[0].v2.x, 2) +
-                            Math.pow(this.segments[0].v2.y, 2));
+        const ratioX: number = this.firstSegmentRatioOfXOnHypotenuse();
+        const ratioY: number = this.firstSegmentRatioOfZOnHypotenuse();
         const angle: number = Math.acos(ratioX) + Math.PI;
         switch (position) {
-            case 1 :
+            case FIRST :
                 car.mesh.position.x = ratioX * POSITIONCARAHEAD + Math.sin(angle) * POSITIONOFFSET;
                 car.mesh.position.z = ratioY * POSITIONCARAHEAD + Math.cos(angle) * POSITIONOFFSET;
                 break;
-            case 2 :
+            case SECOND:
                 car.mesh.position.x = ratioX * POSITIONCARAHEAD - Math.sin(angle) * POSITIONOFFSET;
                 car.mesh.position.z = ratioY * POSITIONCARAHEAD - Math.cos(angle) * POSITIONOFFSET;
                 break;
@@ -207,4 +190,14 @@ export class RenderTrackService {
         return positionNumbers;
     }
 
+    private firstSegmentRatioOfXOnHypotenuse(): number {
+        return (this.segments[0].v2.y /
+               Math.sqrt(Math.pow(this.segments[0].v2.x, 2) +
+                         Math.pow(this.segments[0].v2.y, 2)));
+    }
+    private firstSegmentRatioOfZOnHypotenuse(): number {
+        return (this.segments[0].v2.x /
+               Math.sqrt(Math.pow(this.segments[0].v2.x, 2) +
+                         Math.pow(this.segments[0].v2.y, 2)));
+    }
 }
