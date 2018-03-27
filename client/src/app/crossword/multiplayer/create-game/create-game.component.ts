@@ -10,7 +10,6 @@ import { SocketService } from "../../services/socket.service";
 })
 export class CreateGameComponent implements OnInit {
 
-    // TODO utiliser la classe difficulty dans common
     public difficulty: string;
     public username: string;
     public gameName: string;

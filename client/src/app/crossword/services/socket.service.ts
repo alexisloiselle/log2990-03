@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
 import * as io from "socket.io-client";
 import { Observable } from "rxjs/Observable";
+import { SERVER_URL } from "../../config";
+import { JOIN_GAME_EVENT, NEW_GAME_EVENT, GAME_BEGIN_EVENT } from "../../../../../common/socket-constants";
 
 @Injectable()
 export class SocketService {
@@ -10,24 +12,20 @@ export class SocketService {
     public constructor() { }
 
     public connect(): void {
-        // TODO url dans le fichier src/app/config.ts
-        this.socket = io("http://localhost:3000/");
+        this.socket = io(SERVER_URL);
     }
 
     public joinGame(gameName: string): void {
-        // TODO je sais pas si faudrait mettre les string dans des constantes globales, a voir
-        this.socket.emit("joinGame", gameName);
+        this.socket.emit(JOIN_GAME_EVENT, gameName);
     }
 
     public newGame(gameName: string): void {
-        // TODO encore une fois constante, a voir
-        this.socket.emit("newGame", gameName);
+        this.socket.emit(NEW_GAME_EVENT, gameName);
     }
 
     public gameBegin(): Observable<boolean> {
         return new Observable((observer) => {
-            // TODO encore une fois constante, a voir
-            this.socket.on("gameBegin", (data: boolean) => {
+            this.socket.on(GAME_BEGIN_EVENT, (data: boolean) => {
                 observer.next(data);
             });
 

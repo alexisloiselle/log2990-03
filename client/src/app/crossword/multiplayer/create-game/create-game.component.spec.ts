@@ -28,6 +28,4 @@ describe("CreateGameComponent", () => {
     it("should create", () => {
         expect(component).toBeTruthy();
     });
-
-    // TODO tester que les la game est creee et quelle a la bonne difficulte
 });
