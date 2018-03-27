@@ -11,7 +11,7 @@ import { SkyboxService } from "./skybox.service";
 import { RenderTrackService } from "../render-track/render-track.service";
 import { CollisionService } from "../race/collisions/collision.service";
 import { RaceTrack } from "../race/raceTrack";
-
+ 
 const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
 const QUIT_KEYCODE: number = 81;    // q
@@ -31,8 +31,10 @@ export class RenderService {
     private track: RaceTrack;
     private botsController: BotsController;
     
-    private audioListener: THREE.AudioListener;
+    public audioListener: THREE.AudioListener;
     public startingSound: THREE.Audio;
+
+    public loader: THREE.ImageLoader;
 
     public get car(): Car {
         return this._car;
@@ -218,4 +220,10 @@ export class RenderService {
             (loading: any) => { },
             (error: any) => { });
     }
+    public sleep(miliseconds: number): void {
+    let currentTime = new Date().getTime();
+    while (currentTime + miliseconds >= new Date().getTime()) {
+    }
+ }
 }
+
