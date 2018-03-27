@@ -11,6 +11,7 @@ const APPROX_ZERO_MINUS: number = -0.001;
 const BLACK: number = 0x000000;
 const WHITE: number = 0xFFFFFF;
 const STARTING_LINE_WIDTH: number = 3;
+const OFF_SET_FACTOR: number = 0.2;
 
 const STARTING_LINE_DISTANCE: number = 30;
 
@@ -34,13 +35,9 @@ export class RenderTrackService {
         for (const segment of this.segments) {
             const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(track.width, segment.getLength());
             const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: WHITE, side: THREE.DoubleSide });
-
             plane.push(new THREE.Mesh(geometry, material));
-
-            plane[plane.length - 1].rotation.z = -Math.atan((segment.v2.y - segment.v1.y) /
-                                                            (segment.v2.x - segment.v1.x));
+            plane[plane.length - 1].rotation.z = -(this.getRotationArcTan(segment));
             plane[plane.length - 1].rotation.x = Math.PI / 2;
-
             plane[plane.length - 1].position.x = (segment.v1.y + segment.v2.y) / 2;
             plane[plane.length - 1].position.z = (segment.v1.x + segment.v2.x) / 2;
         }
@@ -95,9 +92,7 @@ export class RenderTrackService {
         for (let i: number = 0; i < this.segments.length; i++) {
             const geometry: THREE.CircleGeometry = new THREE.CircleGeometry(trackWidth / 2, NUMBER_HUN);
             const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: WHITE, side: THREE.DoubleSide });
-
             circle.push(new THREE.Mesh(geometry, material));
-
             circle[i].rotation.z = Math.PI / 2;
             circle[i].rotation.x = Math.PI / 2;
             circle[i].position.z = this.segments[i].v1.x;
@@ -111,15 +106,11 @@ export class RenderTrackService {
         const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(trackWidth, STARTING_LINE_WIDTH);
         const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: BLACK, side: THREE.DoubleSide });
         const startingLine: THREE.Mesh = new THREE.Mesh(geometry, material);
-
-        startingLine.rotation.z = -Math.atan((this.segments[0].v2.y - this.segments[0].v1.y) /
-                                             (this.segments[0].v2.x - this.segments[0].v1.x));
+        startingLine.rotation.z = -(this.getRotationArcTan(this.segments[0]));
         startingLine.rotation.x = Math.PI / 2;
-
         startingLine.position.x = this.firstSegmentRatioOfXOnHypotenuse() * STARTING_LINE_DISTANCE;
         startingLine.position.z = this.firstSegmentRatioOfZOnHypotenuse() * STARTING_LINE_DISTANCE;
-        // tslint:disable-next-line:no-magic-numbers
-        startingLine.position.y = 0.2;
+        startingLine.position.y = OFF_SET_FACTOR;
 
         return startingLine;
     }
@@ -135,23 +126,19 @@ export class RenderTrackService {
     public placeCars(car: Car, position: number): void {
         const ratioX: number = this.firstSegmentRatioOfXOnHypotenuse();
         const ratioY: number = this.firstSegmentRatioOfZOnHypotenuse();
-        const angle: number = Math.acos(ratioX) + Math.PI;
+        const angle: number = this.getAngle(ratioX);
         switch (position) {
             case FIRST :
-                car.mesh.position.x = ratioX * POSITIONCARAHEAD + Math.sin(angle) * POSITIONOFFSET;
-                car.mesh.position.z = ratioY * POSITIONCARAHEAD + Math.cos(angle) * POSITIONOFFSET;
+                this.calulateCarPositionPositive(car, ratioX, POSITIONCARAHEAD, ratioY, angle);
                 break;
             case SECOND:
-                car.mesh.position.x = ratioX * POSITIONCARAHEAD - Math.sin(angle) * POSITIONOFFSET;
-                car.mesh.position.z = ratioY * POSITIONCARAHEAD - Math.cos(angle) * POSITIONOFFSET;
+                this.calulateCarPositionNegative(car, ratioX, POSITIONCARAHEAD, ratioY, angle);
                 break;
             case THIRD :
-                car.mesh.position.x = ratioX * POSITIONCARBEHIND + Math.sin(angle) * POSITIONOFFSET;
-                car.mesh.position.z = ratioY * POSITIONCARBEHIND + Math.cos(angle) * POSITIONOFFSET;
+                this.calulateCarPositionPositive(car, ratioX, POSITIONCARBEHIND, ratioY, angle);
                 break;
             case FOURTH :
-                car.mesh.position.x = ratioX * POSITIONCARBEHIND -  Math.sin(angle) * POSITIONOFFSET;
-                car.mesh.position.z = ratioY * POSITIONCARBEHIND -  Math.cos(angle) * POSITIONOFFSET;
+                this.calulateCarPositionNegative(car, ratioX, POSITIONCARBEHIND, ratioY, angle);
                 break;
             default:
             break;
@@ -162,7 +149,7 @@ export class RenderTrackService {
         const positionNumbers: Array<number> = [];
         while (positionNumbers.length < numberOfCars) {
             if (positionNumbers.length === 0) {
-                positionNumbers.push(Math.floor(Math.random() * numberOfCars) + 1);
+                positionNumbers.push(this.generateRandomNumber(numberOfCars));
             } else if (positionNumbers.length === numberOfCars - 1) {
                 let temp: number = 0;
                 for (const n of positionNumbers) {
@@ -174,7 +161,7 @@ export class RenderTrackService {
                 }
                 positionNumbers.push(sum - temp);
             } else {
-                const temp2: number = Math.floor(Math.random() * numberOfCars) + 1;
+                const temp2: number = this.generateRandomNumber(numberOfCars);
                 let alreadyInArray: boolean = false;
                 for (const n of positionNumbers) {
                     if (n === temp2) {
@@ -189,15 +176,34 @@ export class RenderTrackService {
 
         return positionNumbers;
     }
+    private calulateCarPositionPositive(car: Car, ratioX: number, position: number, ratioY: number, angle: number): void {
+        car.mesh.position.x = ratioX * position + Math.sin(angle) * POSITIONOFFSET;
+        car.mesh.position.z = ratioY * position + Math.cos(angle) * POSITIONOFFSET;
+    }
+    private calulateCarPositionNegative(car: Car, ratioX: number, position: number, ratioY: number, angle: number): void {
+        car.mesh.position.x = ratioX * position - Math.sin(angle) * POSITIONOFFSET;
+        car.mesh.position.z = ratioY * position - Math.cos(angle) * POSITIONOFFSET;
+    }
 
     private firstSegmentRatioOfXOnHypotenuse(): number {
         return (this.segments[0].v2.y /
-               Math.sqrt(Math.pow(this.segments[0].v2.x, 2) +
-                         Math.pow(this.segments[0].v2.y, 2)));
+            this.squareRootAddition(this.segments[0].v2.x, this.segments[0].v2.y));
     }
     private firstSegmentRatioOfZOnHypotenuse(): number {
         return (this.segments[0].v2.x /
-               Math.sqrt(Math.pow(this.segments[0].v2.x, 2) +
-                         Math.pow(this.segments[0].v2.y, 2)));
+            this.squareRootAddition(this.segments[0].v2.x, this.segments[0].v2.y));
+    }
+    private squareRootAddition(firstNumber: number, secondNumber: number): number {
+        return (Math.sqrt(Math.pow(firstNumber, 2) +
+        Math.pow( secondNumber, 2)));
+    }
+    private getAngle(ratio: number): number {
+        return (Math.acos(ratio) + Math.PI);
+    }
+    private getRotationArcTan(segment: THREE.LineCurve): number {
+       return (Math.atan((segment.v2.y - segment.v1.y) / (segment.v2.x - segment.v1.x)));
+    }
+    private generateRandomNumber(numberMax: number): number {
+       return (Math.floor(Math.random() * numberMax) + 1);
     }
 }
