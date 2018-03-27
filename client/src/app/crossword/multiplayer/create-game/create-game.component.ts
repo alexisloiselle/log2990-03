@@ -14,6 +14,7 @@ export class CreateGameComponent implements OnInit {
     public username: string;
     public gameName: string;
     public isNameAlreadyUsed: boolean;
+    public isCreateGameAlreadyClicked: boolean;
 
     public constructor(
         private router: Router,
@@ -24,6 +25,7 @@ export class CreateGameComponent implements OnInit {
         this.difficulty = "";
         this.isNameAlreadyUsed = false;
         this.username = "";
+        this.isCreateGameAlreadyClicked = false;
     }
 
     public ngOnInit(): void {
@@ -41,10 +43,12 @@ export class CreateGameComponent implements OnInit {
     public isFormValid(): boolean {
         return this.gameName.length !== 0 &&
             this.difficulty !== "" &&
-            this.username.length !== 0;
+            this.username.length !== 0 &&
+            !this.isCreateGameAlreadyClicked;
     }
 
     public async createGame(): Promise<void> {
+        this.isCreateGameAlreadyClicked = true;
         this.isNameAlreadyUsed = await this.crosswordService.isNameAlreadyUsed(this.gameName);
         if (!this.isNameAlreadyUsed) {
             await this.crosswordService.createGame(this.username, this.gameName, this.difficulty);
