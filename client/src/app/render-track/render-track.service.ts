@@ -83,10 +83,6 @@ export class RenderTrackService {
         }
     }
 
-    public getFirstSegment(): THREE.LineCurve {
-        return this.segments[0];
-    }
-
     public generateOffTrackSurface(): THREE.Mesh {
         let hPSurface: THREE.Mesh;
         const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(NUMBER_EIGHT_HUN, NUMBER_EIGHT_HUN);

@@ -136,10 +136,10 @@ export class RenderService {
             this.scene.add(circle);
         }
 
-        this._car.orientCar(this.renderTrackService.getFirstSegment());
+        this._car.orientCar(this.track.segments[0]);
 
         for (const botCar of this.botCars) {
-            botCar.orientCar(this.renderTrackService.getFirstSegment());
+            botCar.orientCar(this.track.segments[0]);
         }
 
         this.scene.add(this.renderTrackService.createStartingLine(this.track.width));
