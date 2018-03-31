@@ -22,7 +22,7 @@ export class RenderService {
 
     private container: HTMLDivElement;
     private _car: Car;
-    private cars: Car[] = [];
+    private cars: Car[] = [];   // All the cars in the game
     private botCars: Array<BotCar> = new Array<BotCar>();
     private renderer: THREE.WebGLRenderer;
     private scene: THREE.Scene;
@@ -207,6 +207,7 @@ export class RenderService {
         return Object.create(this.startingSound);
     }
 
+    // correct this method (remove the any's)
     private loadSounds(): void {
         this.audioListener = new THREE.AudioListener();
         this.startingSound = new THREE.Audio(this.audioListener);
@@ -222,10 +223,10 @@ export class RenderService {
             (loading: any) => { },
             (error: any) => { });
     }
-    public sleep(miliseconds: number): void {
-    let currentTime = new Date().getTime();
-    while (currentTime + miliseconds >= new Date().getTime()) {
-    }
- }
-}
 
+    public sleep(miliseconds: number): void {
+        const currentTime: number = new Date().getTime();
+        while (currentTime + miliseconds >= new Date().getTime()) {
+        }
+    }
+}
