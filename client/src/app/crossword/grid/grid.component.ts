@@ -201,6 +201,7 @@ export class GridComponent implements OnInit {
     public getSocketMessage = () => {
         return Observable.create((observer: any) => {
             this.socket.on(WORD_CORRECT, (data: any) => {
+                console.log("socket recu !");
                 observer.next(data);
             });
         });
