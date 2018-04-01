@@ -6,6 +6,7 @@ import { Word } from "../word";
 import { Case } from "../case";
 import * as io from 'socket.io-client';
 import {WORD_CORRECT} from "../../../../../common/socket-constants";
+import { Observable } from 'rxjs/Observable';
 
 const LEFT_KEYCODE: number = 37;
 const UP_KEYCODE: number = 38;
@@ -196,5 +197,12 @@ export class GridComponent implements OnInit {
             caseFound.nativeElement.focus();
             caseFound.nativeElement.select();
         }
+    }
+    public getSocketMessage = () => {
+        return Observable.create((observer: any) => {
+            this.socket.on(WORD_CORRECT, (data: any) => {
+                observer.next(data);
+            });
+        });
     }
 }
