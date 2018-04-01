@@ -4,11 +4,14 @@ import { InputService } from "../services/crossword/input.service";
 import { DefinitionService } from "../services/crossword/definition.service";
 import { Word } from "../word";
 import { Case } from "../case";
+import * as io from 'socket.io-client';
+import {WORD_CORRECT} from "../../../../../common/socket-constants";
 
 const LEFT_KEYCODE: number = 37;
 const UP_KEYCODE: number = 38;
 const RIGHT_KEYCODE: number = 39;
 const DOWN_KEYCODE: number = 40;
+
 
 @Component({
     selector: "app-grid",
@@ -18,6 +21,7 @@ const DOWN_KEYCODE: number = 40;
 export class GridComponent implements OnInit {
     @ViewChildren("case") public cases: QueryList<ElementRef>;
     private letterGrid: Case[][];
+    public socket: SocketIOClient.Socket;
 
     public constructor(
         private crosswordService: CrosswordService,
@@ -30,6 +34,7 @@ export class GridComponent implements OnInit {
         this.listenArrowInput();
         this.listenEnterInput();
         this.letterGrid = this.initLetterGrid(this.crosswordService.FormattedGrid.letters.length);
+        this.socket = io.connect('localhost:3000');
     }
 
     public ngOnInit(): void { }
@@ -132,7 +137,7 @@ export class GridComponent implements OnInit {
             i = this.defService.SelectedWord.IsHorizontal ? i : i + 1;
             j = this.defService.SelectedWord.IsHorizontal ? j + 1 : j;
         }
-
+        this.socket.emit(WORD_CORRECT, this.defService.SelectedWord.Line, this.defService.SelectedWord.Column);
         return true;
     }
 
