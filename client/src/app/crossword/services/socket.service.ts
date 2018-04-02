@@ -19,8 +19,8 @@ export class SocketService {
         this.socket.emit(JOIN_GAME_EVENT, gameName);
     }
 
-    public newGame(gameName: string): void {
-        this.socket.emit(NEW_GAME_EVENT, gameName);
+    public newGame(gameName: string, playerName: string): void {
+        this.socket.emit(NEW_GAME_EVENT, gameName, playerName);
     }
 
     public gameBegin(): Observable<boolean> {

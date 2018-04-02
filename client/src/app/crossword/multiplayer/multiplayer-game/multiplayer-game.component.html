@@ -1,6 +1,7 @@
 <script src="/socket.io/socket.io.js"></script> 
 <div *ngIf="!isOpponentFound" id="waitingForOpponent">Waiting for an opponent...</div>
 <div *ngIf="isOpponentFound">
+  <p> Partie : {{gameName}}</p>
   <button type="button" class="btn btn-outline-primary" (click)="defService.isCheatModeOn = !defService.isCheatModeOn">
     {{defService.isCheatModeOn ? 'Disable Cheat Mode' : 'Enable Cheat Mode'}}
   </button>
@@ -14,4 +15,9 @@
       </div>
     </div>
   </div>
+  <div>
+      <p> Words Placed : </p>
+      <p> {{thisPlayerName}} : {{thisPlayerNumber}} </p> 
+      <p> {{playerTwoName}} : {{playerTwoNumber}} </p> 
+    </div>
 </div>

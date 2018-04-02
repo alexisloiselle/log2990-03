@@ -45,10 +45,12 @@ export class Server {
                 }
             });
 
-            socket.on(NEW_GAME_EVENT, (gameName: string) => {
+            socket.on(NEW_GAME_EVENT, (gameName: string, playerName: string) => {
                 const tempGame: [string, number] = [gameName, 1];
                 this.crosswordGames.push(tempGame);
                 socket.join(gameName);
+                socket.emit(NEW_GAME_EVENT , {playerName,  isHost: true });
+                socket.broadcast.emit(NEW_GAME_EVENT, {playerName, isHost: false });
             });
             socket.on(WORD_CORRECT , (Line: number, Column: number) => {
                 socket.emit(WORD_CORRECT , {Line, Column, isHost: true });

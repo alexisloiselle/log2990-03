@@ -16,6 +16,10 @@ export class MultiplayerGameComponent implements OnInit {
     public difficulty: Difficulty;
     public isConfigured: boolean;
     private gameName: string;
+    public thisPlayerName: string;
+    public playerTwoName: string;
+    public thisPlayerNumber: number;
+    public playerTwoNumber: number;
 
     public constructor(
         private crosswordService: CrosswordService,
@@ -25,11 +29,17 @@ export class MultiplayerGameComponent implements OnInit {
     ) {
         this.isOpponentFound = false;
         this.isConfigured = false;
+        this.thisPlayerName = "";
+        this.playerTwoName = "";
+        this.thisPlayerNumber = 0;
+        this.playerTwoNumber = 0;
     }
 
     public async ngOnInit(): Promise<void> {
         this.route.params.subscribe(async (params) => {
             this.gameName = params.gamename;
+            console.log(this.gameName);
+            console.log(this.thisPlayerName);
             if (params.isjoingame === "true") {
                 await this.opponentFound();
             } else {
@@ -39,6 +49,7 @@ export class MultiplayerGameComponent implements OnInit {
                     }
                 });
             }
+            this.thisPlayerName = params.playerName;
         });
 
     }
@@ -50,5 +61,4 @@ export class MultiplayerGameComponent implements OnInit {
         this.defService.configureDefinitions();
         this.isConfigured = true;
     }
-
 }

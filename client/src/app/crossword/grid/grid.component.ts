@@ -6,7 +6,6 @@ import { Word } from "../word";
 import { Case } from "../case";
 import * as io from 'socket.io-client';
 import {WORD_CORRECT} from "../../../../../common/socket-constants";
-import { Observable } from 'rxjs/Observable';
 
 const LEFT_KEYCODE: number = 37;
 const UP_KEYCODE: number = 38;
@@ -23,6 +22,7 @@ export class GridComponent implements OnInit {
     @ViewChildren("case") public cases: QueryList<ElementRef>;
     private letterGrid: Case[][];
     public socket: SocketIOClient.Socket;
+    public numberPlacedWords: number;
 
     public constructor(
         private crosswordService: CrosswordService,
@@ -36,6 +36,7 @@ export class GridComponent implements OnInit {
         this.listenEnterInput();
         this.letterGrid = this.initLetterGrid(this.crosswordService.FormattedGrid.letters.length);
         this.socket = io.connect('localhost:3000');
+        this.numberPlacedWords = 0;
     }
 
     public ngOnInit(): void { }
@@ -139,6 +140,7 @@ export class GridComponent implements OnInit {
             j = this.defService.SelectedWord.IsHorizontal ? j + 1 : j;
         }
         this.socket.emit(WORD_CORRECT, this.defService.SelectedWord.Line, this.defService.SelectedWord.Column);
+        this.getSocketMessage();
         return true;
     }
 
@@ -199,11 +201,8 @@ export class GridComponent implements OnInit {
         }
     }
     public getSocketMessage = () => {
-        return Observable.create((observer: any) => {
             this.socket.on(WORD_CORRECT, (data: any) => {
-                console.log("socket recu !");
-                observer.next(data);
+            this.numberPlacedWords++;
             });
-        });
     }
 }
