@@ -2,6 +2,7 @@ import { Vector3, Vector2, Matrix4, Object3D, Euler, Quaternion, PerspectiveCame
 import { Engine } from "./engine";
 import { MS_TO_SECONDS, GRAVITY, PI_OVER_2, RAD_TO_DEG } from "../constants";
 import { Wheel } from "./wheel";
+import { CarGPS } from "./car-gps";
 
 export const DEFAULT_WHEELBASE: number = 2.78;
 export const DEFAULT_MASS: number = 1515;
@@ -29,6 +30,7 @@ export class Car extends Object3D {
     private _mesh: Object3D;
     private steeringWheelDirection: number;
     private weightRear: number;
+    private carGPS: CarGPS;
 
     public get mass(): number {
         return this._mass;
@@ -118,6 +120,7 @@ export class Car extends Object3D {
         this.steeringWheelDirection = 0;
         this.weightRear = INITIAL_WEIGHT_DISTRIBUTION;
         this._speed = new Vector3(0, 0, 0);
+        this.carGPS = new CarGPS();
     }
 
     public init(object: Object3D): void {
@@ -295,11 +298,10 @@ export class Car extends Object3D {
 
     /*MOVED IT TO HERE INSTEAD OF IN BOTCARS*/
     public getPosition(): Vector2 {
-        return new Vector2(this.mesh.position.z, this.mesh.position.x);
+        return this.carGPS.getPosition(this.mesh);
     }
     public reachedJonction(jonctionPosition: Vector2, trackWidth: number): boolean {
-        const factor: number = 0.8;
-
-        return this.getPosition().distanceTo(jonctionPosition) < (trackWidth * factor);
+        // Bad smell the function takes too much arguments, find a way to make it take less
+        return this.carGPS.reachedJonction(this.mesh, jonctionPosition, trackWidth);
     }
 }

@@ -11,7 +11,7 @@ export class RaceAdministratorService {
    * Simulation du temps des autres joueurs
    */
   public getLap(): number {
-    /* Prends le lap où toutes les autos sont rendues et prends la maximale */
+    /* Lap où le player est arrivé */
     return 1;
   }
 
