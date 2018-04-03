@@ -73,6 +73,9 @@ export class Car extends Object3D {
     }
 
     public get BoundingBox(): Box3 {
+        // Bounding box follows
+        this.boundingBox.setFromObject(this);
+
         return this.boundingBox;
     }
 
@@ -166,9 +169,6 @@ export class Car extends Object3D {
         const R: number = DEFAULT_WHEELBASE / Math.sin(this.steeringWheelDirection * deltaTime);
         const omega: number = this._speed.length() / R;
         this._mesh.rotateY(omega);
-
-        // Bounding box follows
-        this.boundingBox.setFromObject(this);
     }
 
     private physicsUpdate(deltaTime: number): void {

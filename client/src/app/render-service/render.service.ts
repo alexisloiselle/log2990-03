@@ -11,7 +11,8 @@ import { SkyboxService } from "./skybox.service";
 import { RenderTrackService } from "../render-track/render-track.service";
 import { CollisionService } from "../race/collisions/collision.service";
 import { RaceTrack } from "../race/raceTrack";
- 
+import { HudService } from "./hud.service";
+
 const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
 const QUIT_KEYCODE: number = 81;    // q
@@ -30,7 +31,7 @@ export class RenderService {
     private lastDate: number;
     private track: RaceTrack;
     private botsController: BotsController;
-    
+
     public audioListener: THREE.AudioListener;
     public startingSound: THREE.Audio;
 
@@ -46,6 +47,7 @@ export class RenderService {
         private skyboxService: SkyboxService,
         private collisionService: CollisionService,
         private renderTrackService: RenderTrackService,
+        private hudService: HudService,
         private route: Router) {
         this._car = new Car();
         this.cars.push(this._car);
@@ -73,6 +75,7 @@ export class RenderService {
             this.container = container;
         }
         await this.createScene();
+        this.hudService.initialize();
         this.initStats();
         this.startRenderingLoop();
         this.loadSounds();
@@ -108,6 +111,7 @@ export class RenderService {
         this.cameraService.update(this._car.Position);
         this.skyboxService.update(this._car.Position);
         this.collisionService.checkForCollision(this.cars);
+        this.hudService.update();
         this.lastDate = Date.now();
     }
 
@@ -197,8 +201,8 @@ export class RenderService {
 
     public clearGameView(): void {
         this.track = null;
-        for ( const children of this.scene.children) { this.scene.remove(children); }
-        this.cars.forEach((car) => {this.cars.pop(); });
+        for (const children of this.scene.children) { this.scene.remove(children); }
+        this.cars.forEach((car) => { this.cars.pop(); });
         this.scene = new THREE.Scene;
         this.route.navigateByUrl("/track-list");
     }
@@ -223,9 +227,9 @@ export class RenderService {
             (error: any) => { });
     }
     public sleep(miliseconds: number): void {
-    let currentTime = new Date().getTime();
-    while (currentTime + miliseconds >= new Date().getTime()) {
+        let currentTime = new Date().getTime();
+        while (currentTime + miliseconds >= new Date().getTime()) {
+        }
     }
- }
 }
 
