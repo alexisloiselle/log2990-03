@@ -1,4 +1,4 @@
-import { Vector3, Matrix4, Object3D, Euler, Quaternion, PerspectiveCamera, Box3 } from "three";
+import { Vector3, Vector2, Matrix4, Object3D, Euler, Quaternion, PerspectiveCamera, Box3 } from "three";
 import { Engine } from "./engine";
 import { MS_TO_SECONDS, GRAVITY, PI_OVER_2, RAD_TO_DEG } from "../constants";
 import { Wheel } from "./wheel";
@@ -291,5 +291,15 @@ export class Car extends Object3D {
     private isGoingForward(): boolean {
         // tslint:disable-next-line:no-magic-numbers
         return this.speed.normalize().dot(this.direction) > 0.05;
+    }
+
+    /*MOVED IT TO HERE INSTEAD OF IN BOTCARS*/
+    public getPosition(): Vector2 {
+        return new Vector2(this.mesh.position.z, this.mesh.position.x);
+    }
+    public reachedJonction(jonctionPosition: Vector2, trackWidth: number): boolean {
+        const factor: number = 0.8;
+
+        return this.getPosition().distanceTo(jonctionPosition) < (trackWidth * factor);
     }
 }

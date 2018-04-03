@@ -1,5 +1,5 @@
 import { BotCar } from "./car/bot-car";
-import { LineCurve, Vector2 } from "three";
+import { LineCurve } from "three";
 
 export class BotsController {
 
@@ -23,8 +23,8 @@ export class BotsController {
 
     public controlCars(): void {
         for (let i: number = 0; i < this.botCars.length; i++) {
-            if (this.reachedJonction(this.botCars[i].getPosition(),
-                                     this.trackSegments[this.currentSegmentIndex[i]].v2)) {
+            if (this.botCars[i].reachedJonction(this.trackSegments[this.currentSegmentIndex[i]].v2,
+                                                this.trackWidth)) {
                 if ((this.currentSegmentIndex[i] + 1) === this.trackSegments.length) {
                     this.currentLap[i] += 1;
                 }
@@ -34,11 +34,5 @@ export class BotsController {
                 this.botCars[i].ajustDirection(this.trackSegments[this.currentSegmentIndex[i]], true);
             }
         }
-    }
-
-    public reachedJonction(carPosition: Vector2, jonctionPosition: Vector2): boolean {
-        const factor: number = 0.8;
-
-        return carPosition.distanceTo(jonctionPosition) < (this.trackWidth * factor);
     }
 }

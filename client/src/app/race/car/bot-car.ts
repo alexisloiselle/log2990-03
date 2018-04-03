@@ -18,10 +18,6 @@ export class BotCar extends Car {
         return angle;
     }
 
-    public getPosition(): Vector2 {
-        return new Vector2(this.mesh.position.z, this.mesh.position.x);
-    }
-
     public ajustDirection(trackSegment: LineCurve, accelerate: boolean): void {
         const segmentDirection: Vector2 = new Vector2((trackSegment.v2.x - trackSegment.v1.x),
                                                       (trackSegment.v2.y - trackSegment.v1.y));
