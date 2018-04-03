@@ -36,8 +36,9 @@ export class MultiplayerGameComponent implements OnInit {
     }
 
     public async ngOnInit(): Promise<void> {
-        this.route.params.subscribe(async (params) => {
+        this.route.params.subscribe(async (params) => { //params -> recoit par URL (paramètres)
             this.gameName = params.gamename;
+            this.thisPlayerName = params.playerName;
             console.log(this.gameName);
             console.log(this.thisPlayerName);
             if (params.isjoingame === "true") {
@@ -49,7 +50,6 @@ export class MultiplayerGameComponent implements OnInit {
                     }
                 });
             }
-            this.thisPlayerName = params.playerName;
         });
 
     }
