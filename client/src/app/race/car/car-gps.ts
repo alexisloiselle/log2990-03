@@ -1,9 +1,11 @@
-import { Object3D, Vector2 } from "three";
+import { Object3D, Vector2, LineCurve } from "three";
 
 /*Class that has the informations about the position of the car inside the track */
 export class CarGPS {
-    
-    public constructor() {
+    private trackSegments: Array<LineCurve> = [];   // Segments of the track
+
+    public constructor( trackSegments: Array<LineCurve>) {
+        this.trackSegments = trackSegments;
     }
 
     public getPosition(carMesh: Object3D): Vector2 {
@@ -15,6 +17,8 @@ export class CarGPS {
 
         return this.getPosition(carMesh).distanceTo(jonctionPosition) < (trackWidth * factor);
     }
+
+    // Maintenant le carGPS devrait être capable de calculer la position des jonctions
 
     // Must determine the segment and the lap we're in
 }

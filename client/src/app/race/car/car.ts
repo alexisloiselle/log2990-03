@@ -1,4 +1,4 @@
-import { Vector3, Vector2, Matrix4, Object3D, Euler, Quaternion, PerspectiveCamera, Box3 } from "three";
+import { Vector3, Vector2, Matrix4, Object3D, Euler, Quaternion, LineCurve, PerspectiveCamera, Box3 } from "three";
 import { Engine } from "./engine";
 import { MS_TO_SECONDS, GRAVITY, PI_OVER_2, RAD_TO_DEG } from "../constants";
 import { Wheel } from "./wheel";
@@ -120,7 +120,11 @@ export class Car extends Object3D {
         this.steeringWheelDirection = 0;
         this.weightRear = INITIAL_WEIGHT_DISTRIBUTION;
         this._speed = new Vector3(0, 0, 0);
-        this.carGPS = new CarGPS();
+
+    }
+
+    public initializeGPS(trackSegments: Array<LineCurve>): void {
+        this.carGPS = new CarGPS(trackSegments);
     }
 
     public init(object: Object3D): void {
