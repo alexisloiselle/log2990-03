@@ -29,8 +29,6 @@ export class CarGPS {
                 this._currentLap += 1;
             }
             this._currentSegmentIndex = (this._currentSegmentIndex + 1) % (this.trackSegments.length);
-            console.log("Current segment :" + this._currentSegmentIndex);
-            console.log("Current lap :" + this._currentLap);
         }
 
         return reachedJonction;

@@ -4,7 +4,6 @@ import Stats = require("stats.js");
 import * as THREE from "three";
 import { Car } from "../race/car/car";
 import { BotCar } from "../race/car/bot-car";
-import { BotsController } from "../race/bots-controller";
 import { CarEventHandlerService } from "./car-event-handler.service";
 import { CameraService } from "./camera.service";
 import { SkyboxService } from "./skybox.service";
