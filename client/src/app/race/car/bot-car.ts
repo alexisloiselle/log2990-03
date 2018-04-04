@@ -44,6 +44,10 @@ export class BotCar extends Car {
     }
 
     public stop(): void {
-        this.brake();
+        if (this.carGPS.reachedJonction(this.mesh)) {
+            this.ajustDirection(this.carGPS.currentSegment, false);
+        } else {
+            this.ajustDirection(this.carGPS.currentSegment, false);
+        }
     }
 }

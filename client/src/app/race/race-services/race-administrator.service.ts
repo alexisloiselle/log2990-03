@@ -1,8 +1,16 @@
 import { Injectable } from "@angular/core";
+import { BotCar } from "../car/bot-car";
+import { Car } from "../car/car";
+
+// const PLAYERCAR: number = 0;
+// const FIRSTBOTCAR: number = 1;
+// const SECONDBOTCAR: number = 2;
+// const THIRDBOTCAR: number = 3;
 
 @Injectable()
 export class RaceAdministratorService {
   private isRaceOnGoing: boolean;
+  private losersTime: Array<number> = [];
 
   public constructor() {
     this.isRaceOnGoing = true;
@@ -13,18 +21,38 @@ export class RaceAdministratorService {
    * Détermine lorsque la course commence et se termine
    * Simulation du temps des autres joueurs
    */
-  public getLap(): number {
-    /* Lap où le player est arrivé */
-    return 1;
+  public getPlayerLap(playerCar: Car): number {
+    // Not really elegant, maybe find another way
+    if (playerCar.carGPS === undefined) {
+      return 0;
+    }
+
+    playerCar.carGPS.reachedJonction(playerCar.mesh);
+
+    return playerCar.carGPS.currentLap;
   }
 
-  public botController(): void {
-    // if (this.isRaceOnGoing) {
-    //   car.go();
-    // }
-    // else {
+  public determineWinner(cars: Array<Car>): number {
+    for (const car of cars) {
+      if (car.carGPS.currentLap === 3) {
+        this.isRaceOnGoing = false;
+        console.log("car : " + cars.indexOf(car) + "won the race!");
 
-    // }
+        return cars.indexOf(car);
+      }
+    }
+
+    return -1;
+  }
+
+  public controlBots(botCars: Array<BotCar>): void {
+    for (const car of botCars) {
+      if (this.isRaceOnGoing) {
+        car.go();
+      } else {
+        car.stop();
+      }
+    }
   }
 
 }

@@ -37,6 +37,7 @@ import { JoinGameComponent } from "./crossword/multiplayer/join-game/join-game.c
 import { CreateGameComponent } from "./crossword/multiplayer/create-game/create-game.component";
 import { MultiplayerGameComponent } from "./crossword/multiplayer/multiplayer-game/multiplayer-game.component";
 import { RenderTrackService } from "./render-track/render-track.service";
+import { RaceAdministratorService } from "./race/race-services/race-administrator.service";
 import { TrackListGameComponent } from "./race/game-component/track-list-game/track-list-game.component";
 import { AdminComponent } from "./admin/admin/admin.component";
 
@@ -83,7 +84,8 @@ import { AdminComponent } from "./admin/admin/admin.component";
         SkyboxService,
         CollisionService,
         TrackService,
-        RenderTrackService
+        RenderTrackService,
+        RaceAdministratorService
     ],
     bootstrap: [AppComponent]
 })

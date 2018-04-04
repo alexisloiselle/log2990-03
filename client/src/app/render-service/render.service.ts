@@ -10,6 +10,7 @@ import { SkyboxService } from "./skybox.service";
 import { RenderTrackService } from "../render-track/render-track.service";
 import { CollisionService } from "../race/collisions/collision.service";
 import { RaceTrack } from "../race/raceTrack";
+import { RaceAdministratorService } from "../race/race-services/race-administrator.service";
 
 const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
@@ -44,6 +45,7 @@ export class RenderService {
         private skyboxService: SkyboxService,
         private collisionService: CollisionService,
         private renderTrackService: RenderTrackService,
+        private raceAdministratorService: RaceAdministratorService,
         private route: Router) {
         this._car = new Car();
         this.cars.push(this._car);
@@ -98,15 +100,21 @@ export class RenderService {
 
     private update(): void {
         const timeSinceLastFrame: number = Date.now() - this.lastDate;
-        this._car.update(timeSinceLastFrame);
-        for (const car of this.botCars) {
+        // this._car.update(timeSinceLastFrame);
+        for (const car of this.cars) {
             car.update(timeSinceLastFrame);
-            car.go();
+            // car.go();
         }
+        this.raceAdministratorService.controlBots(this.botCars);
+        this.raceAdministratorService.determineWinner(this.cars);
         this.cameraService.update(this._car.Position);
         this.skyboxService.update(this._car.Position);
         this.collisionService.checkForCollision(this.cars);
         this.lastDate = Date.now();
+    }
+
+    public get playerLap(): number {
+        return this.raceAdministratorService.getPlayerLap(this._car);
     }
 
     private async createScene(): Promise<void> {
