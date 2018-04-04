@@ -120,11 +120,10 @@ export class Car extends Object3D {
         this.steeringWheelDirection = 0;
         this.weightRear = INITIAL_WEIGHT_DISTRIBUTION;
         this._speed = new Vector3(0, 0, 0);
-
     }
 
-    public initializeGPS(trackSegments: Array<LineCurve>): void {
-        this.carGPS = new CarGPS(trackSegments);
+    public initializeGPS(trackSegments: Array<LineCurve>, trackWidth: number): void {
+        this.carGPS = new CarGPS(trackSegments, trackWidth);
     }
 
     public init(object: Object3D): void {

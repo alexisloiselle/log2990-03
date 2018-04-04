@@ -122,7 +122,7 @@ export class RenderService {
         this.skyboxService.createSkybox(this.scene);
         await this.createTrack();
         for (const car of this.cars) {
-            car.initializeGPS(this.track.segments);
+            car.initializeGPS(this.track.segments, this.track.width);
         }
         await this.orientAndPositionCars();
         this.botsController = new BotsController(this.botCars, this.track.segments, this.track.width);
