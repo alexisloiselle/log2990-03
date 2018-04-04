@@ -30,7 +30,7 @@ export class Car extends Object3D {
     private _mesh: Object3D;
     private steeringWheelDirection: number;
     private weightRear: number;
-    private carGPS: CarGPS;
+    public carGPS: CarGPS; // GPS can be public it doesn't really matter
 
     public get mass(): number {
         return this._mass;
@@ -305,6 +305,6 @@ export class Car extends Object3D {
     }
     public reachedJonction(jonctionPosition: Vector2, trackWidth: number): boolean {
         // Bad smell the function takes too much arguments, find a way to make it take less
-        return this.carGPS.reachedJonction(this.mesh, jonctionPosition, trackWidth);
+        return this.carGPS.reachedJonction(this.mesh);
     }
 }

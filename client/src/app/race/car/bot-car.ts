@@ -35,20 +35,15 @@ export class BotCar extends Car {
         }
     }
 
-    // public go(): void {
-    //     if (this.reachedJonction(this.trackSegments[this.currentSegmentIndex[i]].v2,
-    //                              this.trackWidth)) {
-    //         if ((this.currentSegmentIndex[i] + 1) === this.trackSegments.length) {
-    //             this.currentLap[i] += 1;
-    //         }
-    //         this.currentSegmentIndex[i] = (this.currentSegmentIndex[i] + 1) % (this.trackSegments.length);
-    //         this.ajustDirection(this.trackSegments[this.currentSegmentIndex[i]], false);
-    //         } else {
-    //             this.ajustDirection(this.trackSegments[this.currentSegmentIndex[i]], true);
-    //     }
-    // }
+    public go(): void {
+        if (this.carGPS.reachedJonction(this.mesh)) {
+            this.ajustDirection(this.carGPS.currentSegment, false);
+        } else {
+            this.ajustDirection(this.carGPS.currentSegment, true);
+        }
+    }
 
-    /*public stop(): void {
-        this.brake = true; // or something like that
-    } */
+    public stop(): void {
+        this.brake();
+    }
 }

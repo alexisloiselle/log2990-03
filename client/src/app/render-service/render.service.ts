@@ -29,7 +29,6 @@ export class RenderService {
     private stats: Stats;
     private lastDate: number;
     private track: RaceTrack;
-    private botsController: BotsController;
 
     public audioListener: THREE.AudioListener;
     public startingSound: THREE.Audio;
@@ -101,10 +100,10 @@ export class RenderService {
     private update(): void {
         const timeSinceLastFrame: number = Date.now() - this.lastDate;
         this._car.update(timeSinceLastFrame);
-        this.botCars[0].update(timeSinceLastFrame);
-        this.botCars[1].update(timeSinceLastFrame);
-        this.botCars[2].update(timeSinceLastFrame);
-        this.botsController.controlCars();
+        for (const car of this.botCars) {
+            car.update(timeSinceLastFrame);
+            car.go();
+        }
         this.cameraService.update(this._car.Position);
         this.skyboxService.update(this._car.Position);
         this.collisionService.checkForCollision(this.cars);
@@ -125,7 +124,6 @@ export class RenderService {
             car.initializeGPS(this.track.segments, this.track.width);
         }
         await this.orientAndPositionCars();
-        this.botsController = new BotsController(this.botCars, this.track.segments, this.track.width);
     }
 
     private async createTrack(): Promise<void> {
