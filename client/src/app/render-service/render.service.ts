@@ -11,7 +11,7 @@ import { SkyboxService } from "./skybox.service";
 import { RenderTrackService } from "../render-track/render-track.service";
 import { CollisionService } from "../race/collisions/collision.service";
 import { RaceTrack } from "../race/raceTrack";
- 
+
 const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
 const QUIT_KEYCODE: number = 81;    // q
@@ -30,7 +30,7 @@ export class RenderService {
     private lastDate: number;
     private track: RaceTrack;
     private botsController: BotsController;
-    
+
     public audioListener: THREE.AudioListener;
     public startingSound: THREE.Audio;
 
@@ -107,7 +107,7 @@ export class RenderService {
         this.botsController.controlCars();
         this.cameraService.update(this._car.Position);
         this.skyboxService.update(this._car.Position);
-        this.collisionService.checkForCollision(this.cars);
+        this.collisionService.checkForCollision(this.cars, this.track.segments, this.track.width);
         this.lastDate = Date.now();
     }
 
@@ -124,7 +124,6 @@ export class RenderService {
         await this.orientAndPositionCars();
         this.botsController = new BotsController(this.botCars, this.track.segments, this.track.width);
     }
-
 
     private async createTrack(): Promise<void> {
         if (this.track == null) {
@@ -223,9 +222,8 @@ export class RenderService {
             (error: any) => { });
     }
     public sleep(miliseconds: number): void {
-    let currentTime = new Date().getTime();
+    const currentTime: number = new Date().getTime();
     while (currentTime + miliseconds >= new Date().getTime()) {
     }
  }
 }
-

@@ -1,4 +1,4 @@
-import { Vector3, Matrix4, Object3D, Euler, Quaternion, PerspectiveCamera, Box3 } from "three";
+import { Vector2, Vector3, Matrix4, Object3D, Euler, Quaternion, PerspectiveCamera, Box3 } from "three";
 import { Engine } from "./engine";
 import { MS_TO_SECONDS, GRAVITY, PI_OVER_2, RAD_TO_DEG } from "../constants";
 import { Wheel } from "./wheel";
@@ -286,6 +286,10 @@ export class Car extends Object3D {
 
     private getDeltaPosition(deltaTime: number): Vector3 {
         return this.speed.multiplyScalar(deltaTime);
+    }
+
+    public getPosition(): Vector2 {
+        return new Vector2(this.mesh.position.z, this.mesh.position.x);
     }
 
     private isGoingForward(): boolean {
