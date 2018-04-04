@@ -34,4 +34,21 @@ export class BotCar extends Car {
             this.steerLeft();
         }
     }
+
+    // public go(): void {
+    //     if (this.reachedJonction(this.trackSegments[this.currentSegmentIndex[i]].v2,
+    //                              this.trackWidth)) {
+    //         if ((this.currentSegmentIndex[i] + 1) === this.trackSegments.length) {
+    //             this.currentLap[i] += 1;
+    //         }
+    //         this.currentSegmentIndex[i] = (this.currentSegmentIndex[i] + 1) % (this.trackSegments.length);
+    //         this.ajustDirection(this.trackSegments[this.currentSegmentIndex[i]], false);
+    //         } else {
+    //             this.ajustDirection(this.trackSegments[this.currentSegmentIndex[i]], true);
+    //     }
+    // }
+
+    /*public stop(): void {
+        this.brake = true; // or something like that
+    } */
 }

@@ -21,11 +21,23 @@ export class CarGPS {
     // BAD SMELL : TOO MUCH ARGUMENTS FOR THAT FUNCTION
     public reachedJonction(carMesh: Object3D, jonctionPosition: Vector2, trackWidth: number): boolean {
         const factor: number = 0.8;
+        const reachedJonction: boolean =  this.getPosition(carMesh).distanceTo(jonctionPosition) < (trackWidth * factor);
 
-        return this.getPosition(carMesh).distanceTo(jonctionPosition) < (trackWidth * factor);
+        if (reachedJonction) {
+            if ((this.currentSegmentIndex + 1) === this.trackSegments.length) {
+                this.currentLap += 1;
+            }
+            this.currentSegmentIndex = (this.currentSegmentIndex + 1) % (this.trackSegments.length);
+        }
+
+        return reachedJonction;
     }
 
     // Maintenant le carGPS devrait être capable de calculer la position des jonctions
+    public currentJunctionPosition(): Vector2 {
+        return this.trackSegments[this.currentSegmentIndex].v2;
+    }
+    // Must determine the segment we're in
 
-    // Must determine the segment and the lap we're in
+    // Must determine the lap we're in
 }
