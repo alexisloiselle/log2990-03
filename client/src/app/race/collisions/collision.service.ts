@@ -49,7 +49,7 @@ export class CollisionService {
         car2.speed = finalVelocity2;
     }
 
-    public manageTrackCollision(car: Car, trackSegments: LineCurve[], trackWidth: number): number {
+    public manageTrackCollision(car: Car, trackSegments: LineCurve[], trackWidth: number): void {
         let segmentIndex: number = -1;
         let smallestDistance: number = Infinity;
         let distance: number;
@@ -65,8 +65,6 @@ export class CollisionService {
         if (smallestDistance >= trackWidth / 2 && segmentIndex !== -1) {
             this.handleTrackCollision(car, trackSegments[segmentIndex]);
         }
-
-        return segmentIndex;
     }
 
     public distanceToSegment(carPosition: Vector2, trackSegment: LineCurve): number {
@@ -88,21 +86,28 @@ export class CollisionService {
     }
 
     private handleTrackCollision(car: Car, trackSegment: LineCurve): void {
-        // const initialVelocity1: Vector3 = car.speed;
-        const initialVelocity2: Vector3 = new Vector3(-car.speed.x, car.speed.y, -car.speed.z);
+        const segmentDirection: Vector2 = new Vector2((trackSegment.v2.x - trackSegment.v1.x),
+                                                      (trackSegment.v2.y - trackSegment.v1.y));
+        const angle: number = this.getPositiveAngle(new Vector2(car.direction.z, car.direction.x)) -
+                              this.getPositiveAngle(new Vector2(segmentDirection.x, segmentDirection.y));
 
-        const rotationMatrix1: Matrix4 = new Matrix4();
-        rotationMatrix1.extractRotation(car.mesh.matrix);
+        if ((angle > 0 && Math.abs(angle) < Math.PI) || (angle < 0 && !(Math.abs(angle) < Math.PI))) {
+            car.mesh.rotateY(-1.5);
+        } else {
+            car.mesh.rotateY(1.5);
+        }
 
-        const rotationQuaternion1: Quaternion = new Quaternion();
-        rotationQuaternion1.setFromRotationMatrix(rotationMatrix1);
+        const finalVelocity: Vector3 = car.speed.normalize();
+        finalVelocity.multiplyScalar(15);
+        car.speed = finalVelocity;
+    }
 
-        initialVelocity2.applyMatrix4(rotationMatrix1);
+    public getPositiveAngle(vector: Vector2): number {
+        let angle: number = Math.atan2(vector.y, vector.x);
+        if (angle < 0) {
+            angle += Math.PI * 2;
+        }
 
-        const finalVelocity1: Vector3 = initialVelocity2.multiplyScalar(0.8);
-
-        finalVelocity1.applyQuaternion(rotationQuaternion1.inverse());
-
-        car.speed = finalVelocity1;
+        return angle;
     }
 }
