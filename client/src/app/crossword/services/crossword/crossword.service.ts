@@ -54,7 +54,7 @@ export class CrosswordService {
     }
 
     public async getUserNames(gameName: string) : Promise<any> {
-        await this.http.get(`${API_URL}/${CROSSWORD_PARAM}/getUserNamePlayerOne/${gameName}`)
+        await this.http.get(`${API_URL}/${CROSSWORD_PARAM}/getUserNames/${gameName}`)
             .toPromise()
             .then((userNames: {userNameOne: string, userNameTwo: string}) => {
                 this.userNamePlayerOne = userNames.userNameOne, 
