@@ -151,10 +151,10 @@ module Route {
                 const db: Db = client.db("log2990-03-db");
                 const currentGame: ICrosswordGame = await db.collection("games")
                 .findOne({"gameInfo.gameName": req.params.gameName});
-                const userName1: string = currentGame.gameInfo.userName1;
-                const userName2: string = currentGame.gameInfo.userName2;
+                const userNameOne: string = currentGame.gameInfo.userName1;
+                const userNameTwo: string = currentGame.gameInfo.userName2;
                 await client.close();
-                res.send({ userName1, userName2});
+                res.send({ userNameOne, userNameTwo});
             });
         }
     }

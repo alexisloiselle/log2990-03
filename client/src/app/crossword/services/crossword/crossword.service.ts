@@ -25,7 +25,6 @@ export class CrosswordService {
     }
 
     public async createGame(userName: string, gameName: string, difficulty: string): Promise<void> {
-        this.userNamePlayerOne = userName;
         const newGame: IMultiplayerGame = { userName1: userName, userName2: "", gameName: gameName, difficulty: difficulty };
         this.http.post(`${API_URL}/${CROSSWORD_PARAM}/createNewGame`, newGame).toPromise();
     }
@@ -47,7 +46,6 @@ export class CrosswordService {
     }
 
     public async updateMultiplayerGame(userName: string, gameName: string): Promise<void> {
-        this.userNamePlayerTwo = userName;
         const newGameInfo: IMultiplayerGame = { userName1: "", userName2: userName, gameName: gameName, difficulty: "" };
 
         this.http.post(`${API_URL}/${CROSSWORD_PARAM}/updateMultiplayerGame`, newGameInfo).toPromise();
@@ -56,7 +54,7 @@ export class CrosswordService {
     public async getUserNames(gameName: string) : Promise<any> {
         await this.http.get(`${API_URL}/${CROSSWORD_PARAM}/getUserNames/${gameName}`)
             .toPromise()
-            .then((userNames: {userNameOne: string, userNameTwo: string}) => {
+            .then((userNames: {userNameOne: any, userNameTwo: any}) => {
                 this.userNamePlayerOne = userNames.userNameOne, 
                 this.userNamePlayerTwo = userNames.userNameTwo})
             .catch((error: Error) => this.handleError<any>(error));
