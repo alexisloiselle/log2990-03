@@ -10,8 +10,13 @@ export class CrosswordService {
 
     private formattedGrid: IFormattedGrid;
     private games: IMultiplayerGame[];
+    public userNamePlayerOne: string;
+    public userNamePlayerTwo: string;
 
-    public constructor(private http: HttpClient) { }
+    public constructor(private http: HttpClient) { 
+        this.userNamePlayerOne = "";
+        this.userNamePlayerTwo = "";
+    }
 
     public async generateGrid(difficulty: Difficulty): Promise<void> {
         this.formattedGrid = await this.http.get(`${API_URL}/${CROSSWORD_PARAM}/getGrid/${difficulty}`)
@@ -20,8 +25,8 @@ export class CrosswordService {
     }
 
     public async createGame(userName: string, gameName: string, difficulty: string): Promise<void> {
+        this.userNamePlayerOne = userName;
         const newGame: IMultiplayerGame = { userName1: userName, userName2: "", gameName: gameName, difficulty: difficulty };
-
         this.http.post(`${API_URL}/${CROSSWORD_PARAM}/createNewGame`, newGame).toPromise();
     }
 
@@ -42,10 +47,22 @@ export class CrosswordService {
     }
 
     public async updateMultiplayerGame(userName: string, gameName: string): Promise<void> {
+        this.userNamePlayerTwo = userName;
         const newGameInfo: IMultiplayerGame = { userName1: "", userName2: userName, gameName: gameName, difficulty: "" };
 
         this.http.post(`${API_URL}/${CROSSWORD_PARAM}/updateMultiplayerGame`, newGameInfo).toPromise();
     }
+
+    public async getUserNames(gameName: string) : Promise<any> {
+        await this.http.get(`${API_URL}/${CROSSWORD_PARAM}/getUserNamePlayerOne/${gameName}`)
+            .toPromise()
+            .then((userNames: {userNameOne: string, userNameTwo: string}) => {
+                this.userNamePlayerOne = userNames.userNameOne, 
+                this.userNamePlayerTwo = userNames.userNameTwo})
+            .catch((error: Error) => this.handleError<any>(error));
+        console.log(this.userNamePlayerOne);
+        console.log(this.userNamePlayerTwo);
+    }   
 
     public get FormattedGrid(): IFormattedGrid {
         return this.formattedGrid;
@@ -53,5 +70,8 @@ export class CrosswordService {
 
     public get Games(): IMultiplayerGame[] {
         return this.games;
+    }
+    private async handleError<T>(error: Error): Promise<T> {
+        return Promise.reject(error.message);
     }
 }
