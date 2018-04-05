@@ -58,8 +58,6 @@ export class CrosswordService {
                 this.userNamePlayerOne = userNames.userNameOne, 
                 this.userNamePlayerTwo = userNames.userNameTwo})
             .catch((error: Error) => this.handleError<any>(error));
-        console.log(this.userNamePlayerOne);
-        console.log(this.userNamePlayerTwo);
     }   
 
     public get FormattedGrid(): IFormattedGrid {
