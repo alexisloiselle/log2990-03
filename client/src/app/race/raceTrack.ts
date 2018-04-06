@@ -57,10 +57,6 @@ export class BestTime {
         }
     }
 
-    public appendArrayBestTimes(): void {
-
-    }
-
 }
 export interface Player {
     name: string;

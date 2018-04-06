@@ -10,7 +10,7 @@ import { Car } from "../car/car";
 @Injectable()
 export class RaceAdministratorService {
   private isRaceOnGoing: boolean;
-  private losersTime: Array<number> = [];
+  //private losersTime: Array<number> = [];
 
   public constructor() {
     this.isRaceOnGoing = true;
@@ -37,7 +37,7 @@ export class RaceAdministratorService {
       if (car.carGPS.currentLap === 3) {
         this.isRaceOnGoing = false;
         console.log("car : " + cars.indexOf(car) + "won the race!");
-
+        // appendchild criss
         return cars.indexOf(car);
       }
     }
