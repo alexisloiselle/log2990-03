@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { BotCar } from "../car/bot-car";
 import { Car } from "../car/car";
+import { NUMBER_OF_LAPS } from "../../config";
 
 // const PLAYERCAR: number = 0;
 // const FIRSTBOTCAR: number = 1;
@@ -34,9 +35,9 @@ export class RaceAdministratorService {
 
     public determineWinner(cars: Array<Car>): number {
         for (const car of cars) {
-            if (car.carGPS.currentLap === 3) {
+            if (car.carGPS.currentLap === NUMBER_OF_LAPS) {
                 this.isRaceOnGoing = false;
-                console.log("car : " + cars.indexOf(car) + "won the race!");
+                // console.log("car : " + cars.indexOf(car) + "won the race!");
 
                 return cars.indexOf(car);
             }

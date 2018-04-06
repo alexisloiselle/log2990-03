@@ -70,6 +70,12 @@ export class RenderService {
         });
     }
 
+    private listenIncrementLap(): void {
+        this._car.carGPS.IncrementLapSub.subscribe(() => {
+            this.hudService.finishLap();
+        });
+    }
+
     public async initialize(container: HTMLDivElement): Promise<void> {
         if (container) {
             this.container = container;
@@ -79,6 +85,7 @@ export class RenderService {
         this.initStats();
         this.startRenderingLoop();
         this.loadSounds();
+        this.listenIncrementLap();
     }
 
     private initStats(): void {
