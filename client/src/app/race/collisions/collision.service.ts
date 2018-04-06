@@ -64,6 +64,18 @@ export class CollisionService {
 
         if (smallestDistance >= trackWidth / 2 && segmentIndex !== -1) {
             this.handleTrackCollision(car, trackSegments[segmentIndex]);
+        } else if (segmentIndex === -1) {
+            for (let i: number = 0; i < trackSegments.length; i++) {
+                distance = this.distanceToCorner(car.getPosition(), trackSegments[i].v1);
+                if (distance < smallestDistance) {
+                    smallestDistance = distance;
+                    segmentIndex = i;
+                }
+            }
+
+            if (smallestDistance >= trackWidth / 2 && segmentIndex !== -1) {
+                this.handleCornerCollision(car, trackSegments[segmentIndex]);
+            }
         }
     }
 
@@ -71,21 +83,46 @@ export class CollisionService {
         const deltaY: number = trackSegment.v2.y - trackSegment.v1.y;
         const deltaX: number = trackSegment.v2.x - trackSegment.v1.x;
 
-        return Math.abs(deltaY * carPosition.x
-                        - deltaX * carPosition.y
+        return Math.abs(deltaY * carPosition.x - deltaX * carPosition.y
                         + trackSegment.v2.x * trackSegment.v1.y
                         - trackSegment.v2.y * trackSegment.v1.x) /
                Math.sqrt(Math.pow(deltaY, 2) + Math.pow(deltaX, 2));
     }
 
+    public distanceToCorner(carPosition: Vector2, cornerPosition: Vector2): number {
+        return Math.abs(Math.sqrt(Math.pow((carPosition.x - cornerPosition.x), 2) +
+                                  Math.pow((carPosition.y - cornerPosition.y), 2)));
+    }
+
     public isBetweenPoints(carPosition: Vector2, trackSegment: LineCurve, trackWidth: number): boolean {
-        return carPosition.x >= Math.min(trackSegment.v2.x, trackSegment.v1.x) - trackWidth / 2 &&
-               carPosition.x <= Math.max(trackSegment.v2.x, trackSegment.v1.x) + trackWidth / 2 &&
-               carPosition.y <= Math.max(trackSegment.v2.y, trackSegment.v1.y) + trackWidth / 2 &&
-               carPosition.y >= Math.min(trackSegment.v2.y, trackSegment.v1.y) - trackWidth / 2;
+        return (carPosition.x > Math.min(trackSegment.v2.x, trackSegment.v1.x) &&
+               carPosition.x < Math.max(trackSegment.v2.x, trackSegment.v1.x)) ||
+               (carPosition.y < Math.max(trackSegment.v2.y, trackSegment.v1.y) &&
+               carPosition.y > Math.min(trackSegment.v2.y, trackSegment.v1.y));
+    }
+
+    public getPositiveAngle(vector: Vector2): number {
+        let angle: number = Math.atan2(vector.y, vector.x);
+        if (angle < 0) {
+            angle += Math.PI * 2;
+        }
+
+        return angle;
     }
 
     private handleTrackCollision(car: Car, trackSegment: LineCurve): void {
+        const segmentDirection: Vector2 = new Vector2((trackSegment.v2.x - trackSegment.v1.x),
+                                                      (trackSegment.v2.y - trackSegment.v1.y));
+        const angle: number = this.getPositiveAngle(new Vector2(car.direction.z, car.direction.x)) -
+                              this.getPositiveAngle(new Vector2(segmentDirection.x, segmentDirection.y));
+
+        car.mesh.rotateY(this.findRotationAngle(angle));
+        const finalVelocity: Vector3 = car.speed.normalize();
+        finalVelocity.multiplyScalar(Math.min(15, car.speed.length()));
+        car.speed = finalVelocity;
+    }
+
+    private handleCornerCollision(car: Car, trackSegment: LineCurve): void {
         const segmentDirection: Vector2 = new Vector2((trackSegment.v2.x - trackSegment.v1.x),
                                                       (trackSegment.v2.y - trackSegment.v1.y));
         const angle: number = this.getPositiveAngle(new Vector2(car.direction.z, car.direction.x)) -
@@ -98,16 +135,23 @@ export class CollisionService {
         }
 
         const finalVelocity: Vector3 = car.speed.normalize();
-        finalVelocity.multiplyScalar(15);
+        finalVelocity.multiplyScalar(Math.min(15, car.speed.length()));
         car.speed = finalVelocity;
     }
 
-    public getPositiveAngle(vector: Vector2): number {
-        let angle: number = Math.atan2(vector.y, vector.x);
-        if (angle < 0) {
-            angle += Math.PI * 2;
+    public findRotationAngle(angle: number): number {
+        let sign: number = (angle > 0 && Math.abs(angle) < Math.PI)
+                            || (angle < 0 && !(Math.abs(angle) < Math.PI)) ?
+                            -1 : 1;
+        let newAngle: number = Math.abs(angle);
+        if (newAngle > Math.PI) {
+            newAngle = Math.PI * 2 - newAngle;
+        }
+        if (newAngle > Math.PI / 2) {
+            newAngle = Math.PI - newAngle;
+            sign *= -1;
         }
 
-        return angle;
+        return sign * newAngle * 2;
     }
 }
