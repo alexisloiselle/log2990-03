@@ -105,7 +105,8 @@ export class RenderService {
         const timeSinceLastFrame: number = Date.now() - this.lastDate;
         // this._car.update(timeSinceLastFrame);
         for (const car of this.cars) {
-            car.update(timeSinceLastFrame);
+            // tslint:disable-next-line:no-magic-numbers
+            car.update(timeSinceLastFrame * 4);
             // car.go();
         }
         this.raceAdministratorService.controlBots(this.botCars);

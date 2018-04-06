@@ -23,7 +23,7 @@ export class Car extends Object3D {
     private readonly rearWheel: Wheel;
     private readonly wheelbase: number;
     private readonly dragCoefficient: number;
-    private readonly boundingBox: Box3;
+    // private readonly boundingBox: Box3;
 
     private _speed: Vector3;
     private isBraking: boolean;
@@ -76,9 +76,9 @@ export class Car extends Object3D {
 
     public get BoundingBox(): Box3 {
         // Bounding box follows
-        this.boundingBox.setFromObject(this);
+        // this.boundingBox.setFromObject(this);
 
-        return this.boundingBox;
+        return new Box3().setFromObject(this);
     }
 
     public attachCamera(camera: PerspectiveCamera): void {
@@ -117,7 +117,7 @@ export class Car extends Object3D {
         this.wheelbase = wheelbase;
         this._mass = mass;
         this.dragCoefficient = dragCoefficient;
-        this.boundingBox = new Box3().setFromObject(this);
+        // this.boundingBox = new Box3().setFromObject(this);
 
         this.isBraking = false;
         this.steeringWheelDirection = 0;

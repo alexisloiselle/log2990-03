@@ -8,9 +8,21 @@ export class CollisionService {
     public constructor() { }
 
     public checkForCollision(cars: Car[]): void {
+        // for (const car1 of botCars) {
+        //     const mbBox: Box3 = new Box3().setFromObject(mainCar);
+        //     const bBox: Box3 = new Box3().setFromObject(car1);
+        //     if (this.isInCollision(mbBox, bBox)) {
+        //         this.handleCollision(mainCar, car1);
+        //     }
+        //     for (const car2 of botCars) {
+        //         if (car1 !== car2 && this.isInCollision(bBox, new Box3().setFromObject(car2))) {
+        //             this.handleCollision(car1, car2);
+        //         }
+        //     }
+        // }
         for (let i: number = 0; i < cars.length; i++) {
             for (let j: number = i + 1; j < cars.length; j++) {
-                if (this.isInCollision(cars[i], cars[j])) {
+                if (cars[i] !== cars[j] && this.isInCollision(cars[i], cars[j])) {
                     this.handleCollision(cars[i], cars[j]);
                 }
             }
