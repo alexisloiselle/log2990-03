@@ -18,10 +18,6 @@ export class BotCar extends Car {
         return angle;
     }
 
-    public getPosition(): Vector2 {
-        return new Vector2(this.mesh.position.z, this.mesh.position.x);
-    }
-
     public ajustDirection(trackSegment: LineCurve, accelerate: boolean): void {
         const segmentDirection: Vector2 = new Vector2((trackSegment.v2.x - trackSegment.v1.x),
                                                       (trackSegment.v2.y - trackSegment.v1.y));
@@ -36,6 +32,22 @@ export class BotCar extends Car {
             this.steerRight();
         } else {
             this.steerLeft();
+        }
+    }
+
+    public go(): void {
+        if (this.carGPS.reachedJonction(this.mesh)) {
+            this.ajustDirection(this.carGPS.currentSegment, false);
+        } else {
+            this.ajustDirection(this.carGPS.currentSegment, true);
+        }
+    }
+
+    public stop(): void {
+        if (this.carGPS.reachedJonction(this.mesh)) {
+            this.ajustDirection(this.carGPS.currentSegment, false);
+        } else {
+            this.ajustDirection(this.carGPS.currentSegment, false);
         }
     }
 }

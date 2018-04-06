@@ -1,7 +1,8 @@
-import { Vector3, Matrix4, Object3D, Euler, Quaternion, PerspectiveCamera, Box3 } from "three";
+import { Vector3, Vector2, Matrix4, Object3D, Euler, Quaternion, LineCurve, PerspectiveCamera, Box3 } from "three";
 import { Engine } from "./engine";
 import { MS_TO_SECONDS, GRAVITY, PI_OVER_2, RAD_TO_DEG } from "../constants";
 import { Wheel } from "./wheel";
+import { CarGPS } from "./car-gps";
 
 export const DEFAULT_WHEELBASE: number = 2.78;
 export const DEFAULT_MASS: number = 1515;
@@ -29,6 +30,7 @@ export class Car extends Object3D {
     private _mesh: Object3D;
     private steeringWheelDirection: number;
     private weightRear: number;
+    public carGPS: CarGPS; // GPS can be public it doesn't really matter
 
     public get mass(): number {
         return this._mass;
@@ -121,6 +123,10 @@ export class Car extends Object3D {
         this.steeringWheelDirection = 0;
         this.weightRear = INITIAL_WEIGHT_DISTRIBUTION;
         this._speed = new Vector3(0, 0, 0);
+    }
+
+    public initializeGPS(trackSegments: Array<LineCurve>, trackWidth: number): void {
+        this.carGPS = new CarGPS(trackSegments, trackWidth);
     }
 
     public init(object: Object3D): void {
@@ -291,5 +297,14 @@ export class Car extends Object3D {
     private isGoingForward(): boolean {
         // tslint:disable-next-line:no-magic-numbers
         return this.speed.normalize().dot(this.direction) > 0.05;
+    }
+
+    /*MOVED IT TO HERE INSTEAD OF IN BOTCARS*/
+    public getPosition(): Vector2 {
+        return this.carGPS.getPosition(this.mesh);
+    }
+    public reachedJonction(jonctionPosition: Vector2, trackWidth: number): boolean {
+        // Bad smell the function takes too much arguments, find a way to make it take less
+        return this.carGPS.reachedJonction(this.mesh);
     }
 }

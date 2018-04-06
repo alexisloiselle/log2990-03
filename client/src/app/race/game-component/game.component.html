@@ -2,6 +2,9 @@
     <ul>
         <li>Lap time: {{this.hudService.lapTime | number :'2.2-2'}} s</li>
         <li>Race time: {{this.hudService.raceTime | number :'2.2-2'}} s</li>
-        <li>Lap: {{this.hudService.lap}}/{{this.NumberOfLaps}}</li>
+        <li>Speed: {{this.renderService.car.speed.length() * 3.6 | number :'2.2-2'}} km/h</li>
+        <li>Gear: {{this.renderService.car.currentGear + 1}}</li>
+        <li>RPM: {{this.renderService.car.rpm | number:'2.0-0'}}</li>
+        <li>Lap : {{this.renderService.playerLap}} </li>
     </ul>
 </div>

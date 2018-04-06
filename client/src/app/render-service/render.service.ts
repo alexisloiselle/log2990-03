@@ -4,7 +4,6 @@ import Stats = require("stats.js");
 import * as THREE from "three";
 import { Car } from "../race/car/car";
 import { BotCar } from "../race/car/bot-car";
-import { BotsController } from "../race/bots-controller";
 import { CarEventHandlerService } from "./car-event-handler.service";
 import { CameraService } from "./camera.service";
 import { SkyboxService } from "./skybox.service";
@@ -12,6 +11,7 @@ import { RenderTrackService } from "../render-track/render-track.service";
 import { CollisionService } from "../race/collisions/collision.service";
 import { RaceTrack } from "../race/raceTrack";
 import { HudService } from "./hud.service";
+import { RaceAdministratorService } from "../race/race-services/race-administrator.service";
 
 const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
@@ -23,14 +23,13 @@ export class RenderService {
 
     private container: HTMLDivElement;
     private _car: Car;
-    private cars: Car[] = [];
+    private cars: Car[] = [];   // All the cars in the game
     private botCars: Array<BotCar> = new Array<BotCar>();
     private renderer: THREE.WebGLRenderer;
     private scene: THREE.Scene;
     private stats: Stats;
     private lastDate: number;
     private track: RaceTrack;
-    private botsController: BotsController;
 
     public audioListener: THREE.AudioListener;
     public startingSound: THREE.Audio;
@@ -48,6 +47,7 @@ export class RenderService {
         private collisionService: CollisionService,
         private renderTrackService: RenderTrackService,
         private hudService: HudService,
+        private raceAdministratorService: RaceAdministratorService,
         private route: Router) {
         this._car = new Car();
         this.cars.push(this._car);
@@ -103,16 +103,22 @@ export class RenderService {
 
     private update(): void {
         const timeSinceLastFrame: number = Date.now() - this.lastDate;
-        this._car.update(timeSinceLastFrame);
-        this.botCars[0].update(timeSinceLastFrame);
-        this.botCars[1].update(timeSinceLastFrame);
-        this.botCars[2].update(timeSinceLastFrame);
-        this.botsController.controlCars();
+        // this._car.update(timeSinceLastFrame);
+        for (const car of this.cars) {
+            car.update(timeSinceLastFrame);
+            // car.go();
+        }
+        this.raceAdministratorService.controlBots(this.botCars);
+        this.raceAdministratorService.determineWinner(this.cars);
         this.cameraService.update(this._car.Position);
         this.skyboxService.update(this._car.Position);
         this.collisionService.checkForCollision(this.cars);
         this.hudService.update();
         this.lastDate = Date.now();
+    }
+
+    public get playerLap(): number {
+        return this.raceAdministratorService.getPlayerLap(this._car);
     }
 
     private async createScene(): Promise<void> {
@@ -125,10 +131,11 @@ export class RenderService {
         await this.initBotCars();
         this.skyboxService.createSkybox(this.scene);
         await this.createTrack();
+        for (const car of this.cars) {
+            car.initializeGPS(this.track.segments, this.track.width);
+        }
         await this.orientAndPositionCars();
-        this.botsController = new BotsController(this.botCars, this.track.segments, this.track.width);
     }
-
 
     private async createTrack(): Promise<void> {
         if (this.track == null) {
@@ -211,6 +218,7 @@ export class RenderService {
         return Object.create(this.startingSound);
     }
 
+    // correct this method (remove the any's)
     private loadSounds(): void {
         this.audioListener = new THREE.AudioListener();
         this.startingSound = new THREE.Audio(this.audioListener);
@@ -226,10 +234,10 @@ export class RenderService {
             (loading: any) => { },
             (error: any) => { });
     }
+
     public sleep(miliseconds: number): void {
-        let currentTime = new Date().getTime();
+        const currentTime: number = new Date().getTime();
         while (currentTime + miliseconds >= new Date().getTime()) {
         }
     }
 }
-
