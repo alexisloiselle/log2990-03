@@ -11,8 +11,10 @@ import { RenderTrackService } from "../render-track/render-track.service";
 import { CollisionService } from "../race/collisions/collision.service";
 import { RaceTrack } from "../race/raceTrack";
 import { RaceAdministratorService } from "../race/race-services/race-administrator.service";
+import { Object3D } from "three";
 
 const WHITE: number = 0xFFFFFF;
+const GREY: number = 0x334F66;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
 const QUIT_KEYCODE: number = 81;    // q
 const STARTING_SOUND: string = "../../assets/sounds/ReadySetGo.ogg";
@@ -29,6 +31,7 @@ export class RenderService {
     private stats: Stats;
     private lastDate: number;
     private track: RaceTrack;
+    private isNight: boolean;
 
     public audioListener: THREE.AudioListener;
     public startingSound: THREE.Audio;
@@ -57,6 +60,7 @@ export class RenderService {
             this.cars.push(botCar);
         }
         this.track = null;
+        this.isNight = false;
     }
 
     public static async loadCar(descriptionFileName: string): Promise<THREE.Object3D> {
@@ -122,8 +126,9 @@ export class RenderService {
         this._car.init(await RenderService.loadCar("../../assets/camero/camero-2010-low-poly.json"));
         this.cameraService.createCameras(this._car.Position, this.getAspectRatio(), this.scene);
         this.scene.add(this._car);
-
-        this.scene.add(new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY));
+        const light: THREE.AmbientLight = new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY);
+        light.name = "ambiantLight";
+        this.scene.add(light);
         await this.initBotCars();
         this.skyboxService.createSkybox(this.scene);
         await this.createTrack();
@@ -198,8 +203,30 @@ export class RenderService {
         if (event.keyCode === QUIT_KEYCODE) { this.clearGameView(); }
     }
 
+    private removeAmbiantLight(): void {
+        const light: Object3D = this.scene.getObjectByName("ambiantLight");
+        this.scene.remove(light);
+    }
+
+    private changeMomentOfTheDay(): void {
+        this.isNight = !this.isNight;
+        this.removeAmbiantLight();
+        if (this.isNight) {
+            const newLight: THREE.AmbientLight = new THREE.AmbientLight(GREY, AMBIENT_LIGHT_OPACITY);
+            newLight.name = "ambiantLight";
+            this.scene.add(newLight);
+        } else {
+            const newLight: THREE.AmbientLight = new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY);
+            newLight.name = "ambiantLight";
+            this.scene.add(newLight);
+        }
+    }
+
     public handleKeyUp(event: KeyboardEvent): void {
-        this.carEventHandlerService.handleKeyUp(event, this._car);
+        const isNightKey: boolean = this.carEventHandlerService.handleKeyUp(event, this._car);
+        if (isNightKey) {
+            this.changeMomentOfTheDay();
+        }
     }
 
     public clearGameView(): void {
