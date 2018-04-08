@@ -113,7 +113,7 @@ export class RenderService {
         // this._car.update(timeSinceLastFrame);
         for (const car of this.cars) {
             // tslint:disable-next-line:no-magic-numbers
-            car.update(timeSinceLastFrame * 4);
+            car.update(timeSinceLastFrame * 2.5);
             // car.go();
         }
         this.raceAdministratorService.controlBots(this.botCars);
@@ -226,26 +226,24 @@ export class RenderService {
         return Object.create(this.startingSound);
     }
 
-    // correct this method (remove the any's)
     private loadSounds(): void {
         this.audioListener = new THREE.AudioListener();
         this.startingSound = new THREE.Audio(this.audioListener);
         const audioLoader: THREE.AudioLoader = new THREE.AudioLoader();
         audioLoader.load(
             STARTING_SOUND,
-            (audioBuffer: any) => {
+            (audioBuffer: THREE.AudioBuffer) => {
                 this.startingSound.setBuffer(audioBuffer);
-                this.startingSound.setVolume(5);
+                this.startingSound.setVolume(0.3);
                 this.startingSound.setLoop(false);
                 this.startingSound.play();
             },
-            (loading: any) => { },
-            (error: any) => { });
+            () => { },
+            () => { });
     }
 
     public sleep(miliseconds: number): void {
         const currentTime: number = new Date().getTime();
-        while (currentTime + miliseconds >= new Date().getTime()) {
-        }
+        while (currentTime + miliseconds >= new Date().getTime()) { }
     }
 }
