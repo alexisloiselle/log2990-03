@@ -4,32 +4,33 @@ import Stats = require("stats.js");
 import * as THREE from "three";
 import { Car } from "../race/car/car";
 import { BotCar } from "../race/car/bot-car";
-import { BotsController } from "../race/bots-controller";
 import { CarEventHandlerService } from "./car-event-handler.service";
 import { CameraService } from "./camera.service";
 import { SkyboxService } from "./skybox.service";
 import { RenderTrackService } from "../render-track/render-track.service";
 import { CollisionService } from "../race/collisions/collision.service";
 import { RaceTrack } from "../race/raceTrack";
+import { HudService } from "./hud.service";
+import { RaceAdministratorService } from "../race/race-services/race-administrator.service";
 
 const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
 const QUIT_KEYCODE: number = 81;    // q
 const STARTING_SOUND: string = "../../assets/sounds/ReadySetGo.ogg";
+const INITIAL_VOLUME: number = 0.3;
 
 @Injectable()
 export class RenderService {
 
     private container: HTMLDivElement;
     private _car: Car;
-    private cars: Car[] = [];
+    private cars: Car[] = [];   // All the cars in the game
     private botCars: Array<BotCar> = new Array<BotCar>();
     private renderer: THREE.WebGLRenderer;
     private scene: THREE.Scene;
     private stats: Stats;
     private lastDate: number;
     private track: RaceTrack;
-    private botsController: BotsController;
 
     public audioListener: THREE.AudioListener;
     public startingSound: THREE.Audio;
@@ -46,6 +47,8 @@ export class RenderService {
         private skyboxService: SkyboxService,
         private collisionService: CollisionService,
         private renderTrackService: RenderTrackService,
+        private hudService: HudService,
+        private raceAdministratorService: RaceAdministratorService,
         private route: Router) {
         this._car = new Car();
         this.cars.push(this._car);
@@ -68,14 +71,22 @@ export class RenderService {
         });
     }
 
+    private listenIncrementLap(): void {
+        this._car.carGPS.IncrementLapSub.subscribe(() => {
+            this.hudService.finishLap();
+        });
+    }
+
     public async initialize(container: HTMLDivElement): Promise<void> {
         if (container) {
             this.container = container;
         }
         await this.createScene();
+        this.hudService.initialize();
         this.initStats();
         this.startRenderingLoop();
         this.loadSounds();
+        this.listenIncrementLap();
     }
 
     private initStats(): void {
@@ -100,15 +111,23 @@ export class RenderService {
 
     private update(): void {
         const timeSinceLastFrame: number = Date.now() - this.lastDate;
-        this._car.update(timeSinceLastFrame);
-        this.botCars[0].update(timeSinceLastFrame);
-        this.botCars[1].update(timeSinceLastFrame);
-        this.botCars[2].update(timeSinceLastFrame);
-        this.botsController.controlCars();
+        // this._car.update(timeSinceLastFrame);
+        for (const car of this.cars) {
+            // tslint:disable-next-line:no-magic-numbers
+            car.update(timeSinceLastFrame * 2.5);
+            // car.go();
+        }
+        this.raceAdministratorService.controlBots(this.botCars);
+        this.raceAdministratorService.determineWinner(this.cars);
         this.cameraService.update(this._car.Position);
         this.skyboxService.update(this._car.Position);
         this.collisionService.checkForCollision(this.cars, this.track.segments, this.track.width);
+        this.hudService.update();
         this.lastDate = Date.now();
+    }
+
+    public get playerLap(): number {
+        return this.raceAdministratorService.getPlayerLap(this._car);
     }
 
     private async createScene(): Promise<void> {
@@ -121,8 +140,10 @@ export class RenderService {
         await this.initBotCars();
         this.skyboxService.createSkybox(this.scene);
         await this.createTrack();
+        for (const car of this.cars) {
+            car.initializeGPS(this.track.segments, this.track.width);
+        }
         await this.orientAndPositionCars();
-        this.botsController = new BotsController(this.botCars, this.track.segments, this.track.width);
     }
 
     private async createTrack(): Promise<void> {
@@ -196,8 +217,8 @@ export class RenderService {
 
     public clearGameView(): void {
         this.track = null;
-        for ( const children of this.scene.children) { this.scene.remove(children); }
-        this.cars.forEach((car) => {this.cars.pop(); });
+        for (const children of this.scene.children) { this.scene.remove(children); }
+        this.cars.forEach((car) => { this.cars.pop(); });
         this.scene = new THREE.Scene;
         this.route.navigateByUrl("/track-list");
     }
@@ -212,18 +233,18 @@ export class RenderService {
         const audioLoader: THREE.AudioLoader = new THREE.AudioLoader();
         audioLoader.load(
             STARTING_SOUND,
-            (audioBuffer: any) => {
+            (audioBuffer: THREE.AudioBuffer) => {
                 this.startingSound.setBuffer(audioBuffer);
-                this.startingSound.setVolume(5);
+                this.startingSound.setVolume(INITIAL_VOLUME);
                 this.startingSound.setLoop(false);
                 this.startingSound.play();
             },
-            (loading: any) => { },
-            (error: any) => { });
+            () => { },
+            () => { });
     }
+
     public sleep(miliseconds: number): void {
-    const currentTime: number = new Date().getTime();
-    while (currentTime + miliseconds >= new Date().getTime()) {
+        const currentTime: number = new Date().getTime();
+        while (currentTime + miliseconds >= new Date().getTime()) { }
     }
- }
 }

@@ -34,4 +34,20 @@ export class BotCar extends Car {
             this.steerLeft();
         }
     }
+
+    public go(): void {
+        if (this.carGPS.reachedJonction(this.mesh)) {
+            this.ajustDirection(this.carGPS.currentSegment, false);
+        } else {
+            this.ajustDirection(this.carGPS.currentSegment, true);
+        }
+    }
+
+    public stop(): void {
+        if (this.carGPS.reachedJonction(this.mesh)) {
+            this.ajustDirection(this.carGPS.currentSegment, false);
+        } else {
+            this.ajustDirection(this.carGPS.currentSegment, false);
+        }
+    }
 }

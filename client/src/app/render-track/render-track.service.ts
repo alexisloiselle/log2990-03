@@ -133,29 +133,15 @@ export class RenderTrackService {
     public generateRandomCarPositions(numberOfCars: number): Array<number> {
         const positionNumbers: Array<number> = [];
         while (positionNumbers.length < numberOfCars) {
-            if (positionNumbers.length === 0) {
-                positionNumbers.push(this.generateRandomNumber(numberOfCars));
-            } else if (positionNumbers.length === numberOfCars - 1) {
-                let temp: number = 0;
-                for (const n of positionNumbers) {
-                    temp += n;
+            const temp2: number = this.generateRandomNumber(numberOfCars);
+            let alreadyInArray: boolean = false;
+            for (const n of positionNumbers) {
+                if (n === temp2) {
+                    alreadyInArray = true;
                 }
-                let sum: number = 0;
-                for (let i: number = 0; i <= numberOfCars; i++) {
-                    sum += i;
-                }
-                positionNumbers.push(sum - temp);
-            } else {
-                const temp2: number = this.generateRandomNumber(numberOfCars);
-                let alreadyInArray: boolean = false;
-                for (const n of positionNumbers) {
-                    if (n === temp2) {
-                        alreadyInArray = true;
-                    }
-                }
-                if (!alreadyInArray) {
-                    positionNumbers.push(temp2);
-                }
+            }
+            if (!alreadyInArray) {
+                positionNumbers.push(temp2);
             }
         }
 
