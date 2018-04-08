@@ -10,7 +10,7 @@ export class CollisionService {
     public checkForCollision(cars: Car[]): void {
         for (let i: number = 0; i < cars.length; i++) {
             for (let j: number = i + 1; j < cars.length; j++) {
-                if (this.isInCollision(cars[i], cars[j])) {
+                if (cars[i] !== cars[j] && this.isInCollision(cars[i], cars[j])) {
                     this.handleCollision(cars[i], cars[j]);
                 }
             }
