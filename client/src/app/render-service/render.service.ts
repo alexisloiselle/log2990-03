@@ -17,6 +17,7 @@ const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
 const QUIT_KEYCODE: number = 81;    // q
 const STARTING_SOUND: string = "../../assets/sounds/ReadySetGo.ogg";
+const INITIAL_VOLUME: number = 0.3;
 
 @Injectable()
 export class RenderService {
@@ -234,7 +235,7 @@ export class RenderService {
             STARTING_SOUND,
             (audioBuffer: THREE.AudioBuffer) => {
                 this.startingSound.setBuffer(audioBuffer);
-                this.startingSound.setVolume(0.3);
+                this.startingSound.setVolume(INITIAL_VOLUME);
                 this.startingSound.setLoop(false);
                 this.startingSound.play();
             },
