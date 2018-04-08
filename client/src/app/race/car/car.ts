@@ -294,19 +294,15 @@ export class Car extends Object3D {
         return this.speed.multiplyScalar(deltaTime);
     }
 
-    public getPosition(): Vector2 {
-        return new Vector2(this.mesh.position.z, this.mesh.position.x);
-    }
-
     private isGoingForward(): boolean {
         // tslint:disable-next-line:no-magic-numbers
         return this.speed.normalize().dot(this.direction) > 0.05;
     }
 
-    /*MOVED IT TO HERE INSTEAD OF IN BOTCARS*/
     public getPosition(): Vector2 {
         return this.carGPS.getPosition(this.mesh);
     }
+
     public reachedJonction(jonctionPosition: Vector2, trackWidth: number): boolean {
         // Bad smell the function takes too much arguments, find a way to make it take less
         return this.carGPS.reachedJonction(this.mesh);
