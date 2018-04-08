@@ -9,8 +9,7 @@ import { RenderTrackService } from "../render-track/render-track.service";
 import { CollisionService } from "../race/collisions/collision.service";
 import { HudService } from "./hud.service";
 import { RaceAdministratorService } from "../race/race-services/race-administrator.service";
-import { LineCurve, Object3D } from "three";
-import { Subject } from "rxjs/Subject";
+import { LineCurve } from "three";
 
 describe("RenderService", () => {
     beforeEach(async () => {
