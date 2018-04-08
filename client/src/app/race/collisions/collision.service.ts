@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Car } from "../car/car";
 import { LineCurve, Vector2, Vector3, Matrix4, Quaternion } from "three";
+import { delay } from "q";
 
 @Injectable()
 export class CollisionService {
@@ -56,7 +57,7 @@ export class CollisionService {
 
         for (let i: number = 0; i < trackSegments.length; i++) {
             distance = this.distanceToSegment(car.getPosition(), trackSegments[i]);
-            if (distance < smallestDistance && this.isBetweenPoints(car.getPosition(), trackSegments[i], trackWidth)) {
+            if (distance < smallestDistance && this.isBetweenPoints(car.getPosition(), trackSegments[i])) {
                 smallestDistance = distance;
                 segmentIndex = i;
             }
@@ -64,6 +65,7 @@ export class CollisionService {
 
         if (smallestDistance >= trackWidth / 2 && segmentIndex !== -1) {
             this.handleTrackCollision(car, trackSegments[segmentIndex]);
+            delay(2000);
         } else if (segmentIndex === -1) {
             for (let i: number = 0; i < trackSegments.length; i++) {
                 distance = this.distanceToCorner(car.getPosition(), trackSegments[i].v1);
@@ -75,6 +77,7 @@ export class CollisionService {
 
             if (smallestDistance >= trackWidth / 2 && segmentIndex !== -1) {
                 this.handleCornerCollision(car, trackSegments[segmentIndex]);
+                delay(2000);
             }
         }
     }
@@ -94,11 +97,20 @@ export class CollisionService {
                                   Math.pow((carPosition.y - cornerPosition.y), 2)));
     }
 
-    public isBetweenPoints(carPosition: Vector2, trackSegment: LineCurve, trackWidth: number): boolean {
-        return (carPosition.x > Math.min(trackSegment.v2.x, trackSegment.v1.x) &&
-               carPosition.x < Math.max(trackSegment.v2.x, trackSegment.v1.x)) ||
-               (carPosition.y < Math.max(trackSegment.v2.y, trackSegment.v1.y) &&
-               carPosition.y > Math.min(trackSegment.v2.y, trackSegment.v1.y));
+    /*public isBetweenPoints(carPosition: Vector2, trackSegment: LineCurve): boolean {
+        return carPosition.x > Math.min(trackSegment.v2.x, trackSegment.v1.x) &&
+               carPosition.x < Math.max(trackSegment.v2.x, trackSegment.v1.x) &&
+               carPosition.y < Math.max(trackSegment.v2.y, trackSegment.v1.y) &&
+               carPosition.y > Math.min(trackSegment.v2.y, trackSegment.v1.y);
+    }*/
+
+    public isBetweenPoints(p: Vector2, trackSegment: LineCurve): boolean {
+        const e1: Vector2 = new Vector2(trackSegment.v2.x - trackSegment.v1.x, trackSegment.v2.y - trackSegment.v1.y);
+        const recArea: number = Math.pow(e1.x, 2) + Math.pow(e1.y, 2);
+        const e2: Vector2 = new Vector2(p.x - trackSegment.v1.x, p.y - trackSegment.v1.y);
+        const val: number = e1.x * e2.x + e1.y * e2.y;
+
+        return (val > 0 && val < recArea);
     }
 
     public getPositiveAngle(vector: Vector2): number {
