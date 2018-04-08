@@ -23,7 +23,8 @@ export class CarGPS {
 
     public reachedJonction(carMesh: Object3D): boolean {
         const factor: number = 0.8;
-        const reachedJonction: boolean = this.getPosition(carMesh).distanceTo(this.currentJunctionPosition) < (this.trackWidth * factor);
+        const reachedJonction: boolean =
+            this.getPosition(carMesh).distanceTo(this.currentJunctionPosition) < (this.trackWidth * factor);
 
         if (reachedJonction) {
             if ((this._currentSegmentIndex + 1) === this.trackSegments.length) {

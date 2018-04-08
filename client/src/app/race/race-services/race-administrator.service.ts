@@ -28,8 +28,6 @@ export class RaceAdministratorService {
             return 0;
         }
 
-        playerCar.carGPS.reachedJonction(playerCar.mesh);
-
         return playerCar.carGPS.currentLap;
     }
 

@@ -30,7 +30,7 @@ export class Car extends Object3D {
     private _mesh: Object3D;
     private steeringWheelDirection: number;
     private weightRear: number;
-    public carGPS: CarGPS; // GPS can be public it doesn't really matter
+    public carGPS: CarGPS;
 
     public get mass(): number {
         return this._mass;
