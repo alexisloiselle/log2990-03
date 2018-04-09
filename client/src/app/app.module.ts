@@ -40,6 +40,7 @@ import { RenderTrackService } from "./render-track/render-track.service";
 import { RaceAdministratorService } from "./race/race-services/race-administrator.service";
 import { TrackListGameComponent } from "./race/game-component/track-list-game/track-list-game.component";
 import { AdminComponent } from "./admin/admin/admin.component";
+import { HudService } from "./render-service/hud.service";
 
 @NgModule({
     declarations: [
@@ -85,6 +86,7 @@ import { AdminComponent } from "./admin/admin/admin.component";
         CollisionService,
         TrackService,
         RenderTrackService,
+        HudService,
         RaceAdministratorService
     ],
     bootstrap: [AppComponent]

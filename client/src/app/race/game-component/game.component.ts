@@ -1,6 +1,8 @@
 import { AfterViewInit, Component, ElementRef, ViewChild, HostListener } from "@angular/core";
 import { RenderService } from "../../render-service/render.service";
 import { Car } from "../car/car";
+import { HudService } from "../../render-service/hud.service";
+import { NUMBER_OF_LAPS } from "../../config";
 
 @Component({
     moduleId: module.id,
@@ -14,7 +16,10 @@ export class GameComponent implements AfterViewInit {
     @ViewChild("container")
     private containerRef: ElementRef;
 
-    public constructor(private renderService: RenderService) {
+    public constructor(
+        private renderService: RenderService,
+        protected hudService: HudService
+    ) {
     }
 
     @HostListener("window:resize", ["$event"])
@@ -37,6 +42,10 @@ export class GameComponent implements AfterViewInit {
             .initialize(this.containerRef.nativeElement)
             .then(/* do nothing */)
             .catch((err) => console.error(err));
+    }
+
+    public get NumberOfLaps(): number {
+        return NUMBER_OF_LAPS;
     }
 
     public get car(): Car {

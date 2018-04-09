@@ -36,18 +36,10 @@ export class BotCar extends Car {
     }
 
     public go(): void {
-        if (this.carGPS.reachedJonction(this.mesh)) {
-            this.ajustDirection(this.carGPS.currentSegment, false);
-        } else {
-            this.ajustDirection(this.carGPS.currentSegment, true);
-        }
+        this.ajustDirection(this.carGPS.currentSegment, !this.carGPS.reachedJonction(this.mesh));
     }
 
     public stop(): void {
-        if (this.carGPS.reachedJonction(this.mesh)) {
-            this.ajustDirection(this.carGPS.currentSegment, false);
-        } else {
-            this.ajustDirection(this.carGPS.currentSegment, false);
-        }
+        this.ajustDirection(this.carGPS.currentSegment, false);
     }
 }
