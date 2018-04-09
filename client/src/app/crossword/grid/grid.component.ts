@@ -192,4 +192,17 @@ export class GridComponent implements OnInit {
             caseFound.nativeElement.select();
         }
     }
+
+    private isCompleted(): boolean {
+        for (const line of this.letterGrid) {
+            // tslint:disable-next-line:prefer-for-of
+            for (let j: number = 0; j < line.length; j++) {
+                if (line[j].Letter !== "" && !line[j].IsPlaced) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
 }
