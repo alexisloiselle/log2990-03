@@ -1,9 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild} from "@angular/core";
 import { Difficulty } from "../../../../../../common/difficulty";
 import { ActivatedRoute } from "@angular/router";
 import { CrosswordService } from "../../services/crossword/crossword.service";
 import { DefinitionService } from "../../services/crossword/definition.service";
 import { SocketService } from "../../services/socket.service";
+import { GridComponent } from "../../grid/grid.component";
 // import {IMultiplayerGame} from "../../../../../../common/multiplayer-game"
 
 @Component({
@@ -12,6 +13,7 @@ import { SocketService } from "../../services/socket.service";
     styleUrls: ["./multiplayer-game.component.css"]
 })
 export class MultiplayerGameComponent implements OnInit {
+    @ViewChild(GridComponent) grid: GridComponent;
 
     public isOpponentFound: boolean;
     public difficulty: Difficulty;
