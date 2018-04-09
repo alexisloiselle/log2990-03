@@ -38,7 +38,6 @@ export class RaceTrack {
 export class BestTime {
 
     public arrayBestTimes: Array<Player>;
-    public title: string;
 
     public constructor() {
         this.title = "Top 5 des meilleurs temps";
