@@ -55,7 +55,6 @@ export class Server {
             socket.on(WORD_CORRECT , (Line: number, Column: number) => {
                 socket.emit(WORD_CORRECT , {Line, Column, isHost: true });
                 socket.broadcast.emit(WORD_CORRECT , {Line, Column, isHost: false });
-                console.log("Socket emited");
             });
         });
     }

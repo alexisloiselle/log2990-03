@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import * as io from "socket.io-client";
 import { Observable } from "rxjs/Observable";
 import { SERVER_URL } from "../../config";
-import { JOIN_GAME_EVENT, NEW_GAME_EVENT, GAME_BEGIN_EVENT } from "../../../../../common/socket-constants";
+import { JOIN_GAME_EVENT, NEW_GAME_EVENT, GAME_BEGIN_EVENT, WORD_CORRECT } from "../../../../../common/socket-constants";
 
 @Injectable()
 export class SocketService {
@@ -28,10 +28,16 @@ export class SocketService {
             this.socket.on(GAME_BEGIN_EVENT, (data: boolean) => {
                 observer.next(data);
             });
-
             return () => {
                 this.socket.disconnect();
             };
+        });
+    }
+    public wordCorrect(): Observable<{line:number, column:number}> {
+        return new Observable((observer) => {
+            this.socket.on(WORD_CORRECT, (line: number, column: number) => {
+                observer.next({line, column});
+            });
         });
     }
 

@@ -2,10 +2,12 @@ import { Component, OnInit, ViewChildren, ElementRef, QueryList } from "@angular
 import { CrosswordService } from "../services/crossword/crossword.service";
 import { InputService } from "../services/crossword/input.service";
 import { DefinitionService } from "../services/crossword/definition.service";
+import { Subject } from "rxjs/Subject";
 import { Word } from "../word";
 import { Case } from "../case";
 import * as io from 'socket.io-client';
 import {WORD_CORRECT} from "../../../../../common/socket-constants";
+import {SocketService} from "../services/socket.service";
 
 const LEFT_KEYCODE: number = 37;
 const UP_KEYCODE: number = 38;
@@ -22,21 +24,24 @@ export class GridComponent implements OnInit {
     @ViewChildren("case") public cases: QueryList<ElementRef>;
     private letterGrid: Case[][];
     public socket: SocketIOClient.Socket;
+    public rSocket: Subject<{socket: SocketIOClient.Socket }>;
     public numberPlacedWords: number;
 
     public constructor(
         private crosswordService: CrosswordService,
         private inputService: InputService,
-        private defService: DefinitionService
+        private defService: DefinitionService,
+        private socketService: SocketService
     ) {
+        this.socket = io.connect('localhost:3000');
+        this.numberPlacedWords = 0;
         this.listenSelectedWord();
         this.listenLetterInput();
         this.listenBackspaceInput();
         this.listenArrowInput();
         this.listenEnterInput();
+        this.listenWordCorrect();
         this.letterGrid = this.initLetterGrid(this.crosswordService.FormattedGrid.letters.length);
-        this.socket = io.connect('localhost:3000');
-        this.numberPlacedWords = 0;
     }
 
     public ngOnInit(): void { }
@@ -52,7 +57,12 @@ export class GridComponent implements OnInit {
             });
         });
     }
-
+    private listenWordCorrect(): void {
+        this.socketService.wordCorrect().subscribe((data) => {
+            console.log("SOCKETRECIEVED_BITCH");
+            console.log(data);
+        }); 
+    }
     private listenSelectedWord(): void {
         this.defService.SelectWordSub.subscribe((res) => {
             this.focusOnWord(res.word);
@@ -140,7 +150,6 @@ export class GridComponent implements OnInit {
             j = this.defService.SelectedWord.IsHorizontal ? j + 1 : j;
         }
         this.socket.emit(WORD_CORRECT, this.defService.SelectedWord.Line, this.defService.SelectedWord.Column);
-        this.getSocketMessage();
         return true;
     }
 
@@ -199,10 +208,5 @@ export class GridComponent implements OnInit {
             caseFound.nativeElement.focus();
             caseFound.nativeElement.select();
         }
-    }
-    public getSocketMessage = () => {
-            this.socket.on(WORD_CORRECT, (data: any) => {
-            this.numberPlacedWords++;
-            });
     }
 }
