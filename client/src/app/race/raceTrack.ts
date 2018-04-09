@@ -37,13 +37,8 @@ export class RaceTrack {
 
 export class BestTime {
 
-<<<<<<< HEAD
-    private arrayBestTimes: Array<Player>;
-    private title: string;
-=======
     public arrayBestTimes: Array<Player>;
     public title: string;
->>>>>>> 4b0711e... NEW COMPONENT BEST TIME
 
     public constructor() {
         this.title = "Top 5 des meilleurs temps";
@@ -56,12 +51,8 @@ export class BestTime {
     public updateBestTime(newPlayer: Player): void {
         for (let i: number = 0; i < NUMBER_OF_BEST_TIMES_IN_ARRAY; i++) {
             if (newPlayer.time < this.arrayBestTimes[i].time) {
-<<<<<<< HEAD
-                this.arrayBestTimes[i].time = newPlayer.time;
-=======
                 this.arrayBestTimes.splice(i, 0, newPlayer);
                 this.arrayBestTimes.pop();
->>>>>>> 4b0711e... NEW COMPONENT BEST TIME
                 break;
             }
         }

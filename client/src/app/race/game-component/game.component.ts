@@ -51,4 +51,5 @@ export class GameComponent implements AfterViewInit {
     public get car(): Car {
         return this.renderService.car;
     }
+
 }

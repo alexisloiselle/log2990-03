@@ -32,6 +32,7 @@ export class TrackListComponent implements OnInit {
 
     public set SelectedTrack(track: RaceTrack) {
         this.selectedTrack = track;
+        // Observable pour quand sa change envoyer la track au Best-time-component
     }
 
     public get SelectedTrack(): RaceTrack {

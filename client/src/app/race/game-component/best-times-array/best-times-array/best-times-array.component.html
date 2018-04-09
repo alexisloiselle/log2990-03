@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<div *ngIf="RaceAdministratorService.isRaceOnGoing === false" class="container">
+<div *ngIf="RaceAdministratorService.isRaceOnGoing === false" class="container" id="best-time-array">
   <h2>Top 5 of the best times</h2>
   <p>The .table-striped class adds zebra-stripes to a table:</p>            
   <table class="table table-striped">
@@ -24,7 +24,7 @@
     </thead>
     <tbody>
       <tr>
-        <td></td>
+        <td>{{}}</td>
         <td></td>
         <td></td>
       </tr>
