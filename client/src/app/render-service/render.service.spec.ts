@@ -7,12 +7,9 @@ import { CameraService } from "./camera.service";
 import { SkyboxService } from "./skybox.service";
 import { RenderTrackService } from "../render-track/render-track.service";
 import { CollisionService } from "../race/collisions/collision.service";
-import { HudService } from "./hud.service";
-import { RaceAdministratorService } from "../race/race-services/race-administrator.service";
-import { LineCurve } from "three";
 
 describe("RenderService", () => {
-    beforeEach(async () => {
+    beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
                 RenderService,
@@ -21,8 +18,6 @@ describe("RenderService", () => {
                 SkyboxService,
                 CollisionService,
                 RenderTrackService,
-                HudService,
-                RaceAdministratorService,
                 { provide: Router, useClass: class { public navigate: jasmine.Spy = jasmine.createSpy("navigate"); } }
             ]
         });
@@ -32,11 +27,4 @@ describe("RenderService", () => {
         expect(service).toBeTruthy();
     }));
 
-    describe("player Lap (HUD)", () => {
-        it("player lap should be initialized", inject([RenderService], (service: RenderService) => {
-            service.car.initializeGPS(new Array<LineCurve>(), 0);
-            expect(service.playerLap).toEqual(1);
-        }));
-        // TODO : test player lap update (event), if possible (all in reached junction, cant mock)
-    });
 });

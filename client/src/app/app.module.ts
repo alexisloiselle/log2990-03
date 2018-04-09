@@ -40,8 +40,6 @@ import { RenderTrackService } from "./render-track/render-track.service";
 import { RaceAdministratorService } from "./race/race-services/race-administrator.service";
 import { TrackListGameComponent } from "./race/game-component/track-list-game/track-list-game.component";
 import { AdminComponent } from "./admin/admin/admin.component";
-import { HudService } from "./render-service/hud.service";
-import { AdminComponent } from "./admin/admin/admin.component";
 import { BestTimesArrayComponent } from './race/game-component/best-times-array/best-times-array/best-times-array.component';
 
 @NgModule({
@@ -89,7 +87,6 @@ import { BestTimesArrayComponent } from './race/game-component/best-times-array/
         CollisionService,
         TrackService,
         RenderTrackService,
-        HudService,
         RaceAdministratorService
     ],
     bootstrap: [AppComponent]

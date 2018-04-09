@@ -12,8 +12,8 @@ module Route {
         public addTrack(req: express.Request, res: express.Response, next: express.NextFunction): void {
             require("mongodb").MongoClient.connect(MONGO_URL, async (err: MongoError, client: MongoClient) => {
                 req.body._id = undefined;
-                const db: Db = client.db("log2990-03-db");
-                db.collection("tracks").insertOne(req.body, (insertErr: MongoError) => {
+                const collection: Db = client.db("log2990-03-db");
+                collection.collection("tracks").insertOne(req.body, (insertErr: MongoError) => {
                     const isOk: boolean = (insertErr === null);
                     res.send(JSON.stringify(isOk));
                 });
@@ -23,8 +23,8 @@ module Route {
 
         public getTracks(req: express.Request, res: express.Response, next: express.NextFunction): void {
             require("mongodb").MongoClient.connect(MONGO_URL, (err: MongoError, client: MongoClient) => {
-                const db: Db = client.db("log2990-03-db");
-                db.collection("tracks").find({}).toArray((findErr: MongoError, docs: {_id: string, track: string}[]) => {
+                const collection: Db = client.db("log2990-03-db");
+                collection.collection("tracks").find({}).toArray((findErr: MongoError, docs: {_id: string, track: string}[]) => {
                     if (findErr === null) {
                         res.send(JSON.stringify(docs));
                     } else {
@@ -52,28 +52,28 @@ module Route {
         }
 
         public updateTrack(req: express.Request, res: express.Response, next: express.NextFunction): void {
-            require("mongodb").MongoClient.connect(MONGO_URL, (err: MongoError, client: MongoClient) => {
-                const db: Db = client.db("log2990-03-db");
-                db.collection("tracks").updateOne(
+            require("mongodb").MongoClient.connect(MONGO_URL, (err: MongoError, db: MongoClient) => {
+                const collection: Db = db.db("log2990-03-db");
+                collection.collection("tracks").updateOne(
                     { _id: new ObjectId(req.params.id) },
                     { $set: { "track": req.body.$set } }, (updateErr: MongoError) => {
                         const isOk: boolean = updateErr === null;
                         res.send(JSON.stringify(isOk));
                     });
-                client.close();
+                db.close();
             });
         }
 
         public deleteTrack(req: express.Request, res: express.Response, next: express.NextFunction): void {
-            require("mongodb").MongoClient.connect(MONGO_URL, (err: MongoError, client: MongoClient) => {
-                const db: Db = client.db("log2990-03-db");
-                db.collection("tracks").remove(
+            require("mongodb").MongoClient.connect(MONGO_URL, (err: MongoError, db: MongoClient) => {
+                const collection: Db = db.db("log2990-03-db");
+                collection.collection("tracks").remove(
                     { _id: new ObjectId(req.params.id) },
                     (deleteErr: MongoError) => {
                         const isOk: boolean = (deleteErr === null);
                         res.send(JSON.stringify(isOk));
                     });
-                client.close();
+                db.close();
             });
         }
     }

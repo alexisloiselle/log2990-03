@@ -10,14 +10,12 @@ import { SkyboxService } from "./skybox.service";
 import { RenderTrackService } from "../render-track/render-track.service";
 import { CollisionService } from "../race/collisions/collision.service";
 import { RaceTrack } from "../race/raceTrack";
-import { HudService } from "./hud.service";
 import { RaceAdministratorService } from "../race/race-services/race-administrator.service";
 
 const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
 const QUIT_KEYCODE: number = 81;    // q
 const STARTING_SOUND: string = "../../assets/sounds/ReadySetGo.ogg";
-const INITIAL_VOLUME: number = 0.3;
 
 @Injectable()
 export class RenderService {
@@ -47,7 +45,6 @@ export class RenderService {
         private skyboxService: SkyboxService,
         private collisionService: CollisionService,
         private renderTrackService: RenderTrackService,
-        private hudService: HudService,
         private raceAdministratorService: RaceAdministratorService,
         private route: Router) {
         this._car = new Car();
@@ -71,22 +68,14 @@ export class RenderService {
         });
     }
 
-    private listenIncrementLap(): void {
-        this._car.carGPS.IncrementLapSub.subscribe(() => {
-            this.hudService.finishLap();
-        });
-    }
-
     public async initialize(container: HTMLDivElement): Promise<void> {
         if (container) {
             this.container = container;
         }
         await this.createScene();
-        this.hudService.initialize();
         this.initStats();
         this.startRenderingLoop();
         this.loadSounds();
-        this.listenIncrementLap();
     }
 
     private initStats(): void {
@@ -113,16 +102,14 @@ export class RenderService {
         const timeSinceLastFrame: number = Date.now() - this.lastDate;
         // this._car.update(timeSinceLastFrame);
         for (const car of this.cars) {
-            // tslint:disable-next-line:no-magic-numbers
-            car.update(timeSinceLastFrame * 2.5);
+            car.update(timeSinceLastFrame);
             // car.go();
         }
         this.raceAdministratorService.controlBots(this.botCars);
         this.raceAdministratorService.determineWinner(this.cars);
         this.cameraService.update(this._car.Position);
         this.skyboxService.update(this._car.Position);
-        this.collisionService.checkForCollision(this.cars, this.track.segments, this.track.width);
-        this.hudService.update();
+        this.collisionService.checkForCollision(this.cars);
         this.lastDate = Date.now();
     }
 
@@ -217,8 +204,8 @@ export class RenderService {
 
     public clearGameView(): void {
         this.track = null;
-        for (const children of this.scene.children) { this.scene.remove(children); }
-        this.cars.forEach((car) => { this.cars.pop(); });
+        for ( const children of this.scene.children) { this.scene.remove(children); }
+        this.cars.forEach((car) => {this.cars.pop(); });
         this.scene = new THREE.Scene;
         this.route.navigateByUrl("/track-list");
     }
@@ -227,24 +214,26 @@ export class RenderService {
         return Object.create(this.startingSound);
     }
 
+    // correct this method (remove the any's)
     private loadSounds(): void {
         this.audioListener = new THREE.AudioListener();
         this.startingSound = new THREE.Audio(this.audioListener);
         const audioLoader: THREE.AudioLoader = new THREE.AudioLoader();
         audioLoader.load(
             STARTING_SOUND,
-            (audioBuffer: THREE.AudioBuffer) => {
+            (audioBuffer: any) => {
                 this.startingSound.setBuffer(audioBuffer);
-                this.startingSound.setVolume(INITIAL_VOLUME);
+                this.startingSound.setVolume(5);
                 this.startingSound.setLoop(false);
                 this.startingSound.play();
             },
-            () => { },
-            () => { });
+            (loading: any) => { },
+            (error: any) => { });
     }
 
     public sleep(miliseconds: number): void {
         const currentTime: number = new Date().getTime();
-        while (currentTime + miliseconds >= new Date().getTime()) { }
+        while (currentTime + miliseconds >= new Date().getTime()) {
+        }
     }
 }
