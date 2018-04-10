@@ -1,5 +1,4 @@
 import * as THREE from "three";
-const NUMBER_OF_BEST_TIMES_IN_ARRAY: number = 5;
 
 export class RaceTrack {
 
@@ -10,11 +9,11 @@ export class RaceTrack {
     public points: THREE.Vector2[] = [];
     public segments: THREE.LineCurve[] = [];
     public width: number = 20;
-    private bestTimes: BestTime;
+    public bestTimes: BestTime;
 
     public constructor(name: string, description: string, type: RaceType, points: THREE.Vector2[]) {
         this.name = name;
-        this.bestTimes = new BestTime;
+        this.bestTimes = null;
         this.description = description;
         this.type = type;
         for (const point of points) {
