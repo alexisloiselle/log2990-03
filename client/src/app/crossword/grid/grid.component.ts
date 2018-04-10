@@ -85,6 +85,20 @@ export class GridComponent implements OnInit {
         return Word.isPartOfWord(word, i, j);
     }
 
+    private isCompleted(): boolean {
+        let isCompleted: boolean = true;
+
+        for (let i: number = 0; i < this.letterGrid.length; i++) {
+            // tslint:disable-next-line:prefer-for-of
+            for (let j: number = 0; j < this.letterGrid[0].length; j++) {
+                isCompleted = isCompleted && (this.crosswordService.FormattedGrid.letters[i][j] === ""
+                                              || this.letterGrid[i][j].IsPlaced);
+            }
+        }
+
+        return isCompleted;
+    }
+
     public selectWordFromCase(i: number, j: number): void {
         if (this.findWordWithCase(this.defService.HorizontalWords, i, j)) { return; }
         if (this.findWordWithCase(this.defService.VerticalWords, i, j)) { return; }
@@ -191,18 +205,5 @@ export class GridComponent implements OnInit {
             caseFound.nativeElement.focus();
             caseFound.nativeElement.select();
         }
-    }
-
-    private isCompleted(): boolean {
-        for (const line of this.letterGrid) {
-            // tslint:disable-next-line:prefer-for-of
-            for (let j: number = 0; j < line.length; j++) {
-                if (line[j].Letter !== "" && !line[j].IsPlaced) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
     }
 }
