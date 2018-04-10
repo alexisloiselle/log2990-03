@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { BotCar } from "../car/bot-car";
 import { Car } from "../car/car";
+import { NUMBER_OF_LAPS } from "../../config";
 
 // const PLAYERCAR: number = 0;
 // const FIRSTBOTCAR: number = 1;
@@ -10,6 +11,7 @@ import { Car } from "../car/car";
 @Injectable()
 export class RaceAdministratorService {
     private isRaceOnGoing: boolean;
+
     public constructor() {
         this.isRaceOnGoing = true;
     }
@@ -25,14 +27,12 @@ export class RaceAdministratorService {
             return 0;
         }
 
-        playerCar.carGPS.reachedJonction(playerCar.mesh);
-
         return playerCar.carGPS.currentLap;
     }
 
     public determineWinner(cars: Array<Car>): number {
         for (const car of cars) {
-            if (car.carGPS.currentLap === 3) {
+            if (car.carGPS.currentLap === NUMBER_OF_LAPS) {
                 this.isRaceOnGoing = false;
                 // console.log("car : " + cars.indexOf(car) + "won the race!");
 
@@ -51,5 +51,5 @@ export class RaceAdministratorService {
                 car.stop();
             }
         }
-    }]
+    }
 }
