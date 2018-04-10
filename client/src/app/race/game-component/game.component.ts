@@ -3,6 +3,7 @@ import { RenderService } from "../../render-service/render.service";
 import { Car } from "../car/car";
 import { HudService } from "../../render-service/hud.service";
 import { NUMBER_OF_LAPS } from "../../config";
+import { BestTimeService } from "./best-times-array/best-time.service";
 
 @Component({
     moduleId: module.id,
@@ -18,16 +19,18 @@ export class GameComponent implements AfterViewInit {
 
     public constructor(
         private renderService: RenderService,
-        protected hudService: HudService
+        protected hudService: HudService,
+        private bestTimeService: BestTimeService
     ) {
         this.raceDone = false;
         this.listenRaceEnd();
     }
 
     private listenRaceEnd(): void {
-        this.renderService.EndRaceSub.subscribe((res) => {
+        this.renderService.EndRaceSub.subscribe(async (res) => {
+            console.log(res.track);
+            await this.bestTimeService.initialize(res.track, res.time);
             this.raceDone = true;
-            // TODO: gerer res (track) pour l'envoyer au component
         });
     }
 

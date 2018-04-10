@@ -33,7 +33,7 @@ export class RenderService {
     private stats: Stats;
     private lastDate: number;
     private track: RaceTrack;
-    private endRaceSub: Subject<RaceTrack>;
+    private endRaceSub: Subject<{ track: RaceTrack, time: number }>;
 
     public audioListener: THREE.AudioListener;
     public startingSound: THREE.Audio;
@@ -54,7 +54,7 @@ export class RenderService {
         private raceAdministratorService: RaceAdministratorService,
         private route: Router
     ) {
-        this.endRaceSub = new Subject<RaceTrack>();
+        this.endRaceSub = new Subject<{ track: RaceTrack, time: number }>();
 
         this._car = new Car();
         this.cars.push(this._car);
@@ -77,7 +77,7 @@ export class RenderService {
         });
     }
 
-    public get EndRaceSub(): Observable<RaceTrack> {
+    public get EndRaceSub(): Observable<{ track: RaceTrack, time: number }> {
         return this.endRaceSub.asObservable();
     }
 
@@ -130,7 +130,9 @@ export class RenderService {
         }
         this.raceAdministratorService.controlBots(this.botCars);
         if (this.raceAdministratorService.determineWinner(this.cars) >= 0) {
-            this.endRaceSub.next(this.track);
+            const track: RaceTrack = this.track;
+            const time: number = this.hudService.raceTime;
+            this.endRaceSub.next({track, time});
         }
         this._car.carGPS.reachedJonction(this._car.mesh);
         this.cameraService.update(this._car.Position);

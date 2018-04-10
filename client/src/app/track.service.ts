@@ -64,7 +64,7 @@ export class TrackService {
             .then((response: boolean) => response)
             .catch((error: Error) => this.handleError<boolean>(error));
     }
-
+    
     private async handleError<T>(error: Error): Promise<T> {
         return Promise.reject(error.message);
     }

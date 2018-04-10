@@ -42,6 +42,7 @@ import { TrackListGameComponent } from "./race/game-component/track-list-game/tr
 import { AdminComponent } from "./admin/admin/admin.component";
 import { HudService } from "./render-service/hud.service";
 import { BestTimeComponent } from "./race/game-component/best-times-array/best-times-array.component";
+import { BestTimeService } from "./race/game-component/best-times-array/best-time.service";
 
 @NgModule({
     declarations: [
@@ -89,7 +90,8 @@ import { BestTimeComponent } from "./race/game-component/best-times-array/best-t
         TrackService,
         RenderTrackService,
         HudService,
-        RaceAdministratorService
+        RaceAdministratorService,
+        BestTimeService
     ],
     bootstrap: [AppComponent]
 })
