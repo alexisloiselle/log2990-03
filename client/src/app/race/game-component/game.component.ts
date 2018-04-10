@@ -10,16 +10,24 @@ import { NUMBER_OF_LAPS } from "../../config";
     templateUrl: "./game.component.html",
     styleUrls: ["./game.component.css"]
 })
-
 export class GameComponent implements AfterViewInit {
 
     @ViewChild("container")
     private containerRef: ElementRef;
+    protected raceDone: boolean;
 
     public constructor(
         private renderService: RenderService,
         protected hudService: HudService
     ) {
+        this.raceDone = false;
+        this.listenRaceEnd();
+    }
+
+    private listenRaceEnd(): void {
+        this.renderService.EndRaceSub.subscribe((res) => {
+            this.raceDone = true;
+        });
     }
 
     @HostListener("window:resize", ["$event"])

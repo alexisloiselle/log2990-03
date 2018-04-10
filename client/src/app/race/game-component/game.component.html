@@ -7,4 +7,7 @@
         <li>RPM: {{this.renderService.car.rpm | number:'2.0-0'}}</li>
         <li>Lap : {{this.renderService.playerLap}} </li>
     </ul>
+    <div *ngIf="this.raceDone">
+        <app-best-times-array></app-best-times-array>
+    </div>
 </div>
