@@ -28,12 +28,14 @@ export class SocketService {
             this.socket.on(GAME_BEGIN_EVENT, (data: boolean) => {
                 observer.next(data);
             });
+
             return () => {
                 this.socket.disconnect();
             };
         });
     }
-    public wordCorrect(): Observable<{line:number, column:number}> {
+
+    public wordCorrect(): Observable<{line: number, column: number}> {
         return new Observable((observer) => {
             this.socket.on(WORD_CORRECT, (line: number, column: number) => {
                 observer.next({line, column});
