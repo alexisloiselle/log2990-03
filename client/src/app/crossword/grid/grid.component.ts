@@ -5,7 +5,7 @@ import { DefinitionService } from "../services/crossword/definition.service";
 import { Subject } from "rxjs/Subject";
 import { Word } from "../word";
 import { Case } from "../case";
-import * as io from 'socket.io-client';
+import * as io from "socket.io-client";
 import {WORD_CORRECT} from "../../../../../common/socket-constants";
 import {SocketService} from "../services/socket.service";
 
@@ -57,12 +57,14 @@ export class GridComponent implements OnInit {
             });
         });
     }
+
     private listenWordCorrect(): void {
         this.socketService.wordCorrect().subscribe((data) => {
 
             console.log(data);
         });
     }
+
     private listenSelectedWord(): void {
         this.defService.SelectWordSub.subscribe((res) => {
             this.focusOnWord(res.word);
