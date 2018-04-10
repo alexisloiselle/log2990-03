@@ -126,7 +126,7 @@ export class RenderService {
         this.raceAdministratorService.determineWinner(this.cars);
         this.cameraService.update(this._car.Position);
         this.skyboxService.update(this._car.Position);
-        this.collisionService.checkForCollision(this.cars);
+        this.collisionService.checkForCollision(this.cars, this.track.segments, this.track.width);
         this.hudService.update();
         this.lastDate = Date.now();
     }
