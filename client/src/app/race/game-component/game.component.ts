@@ -28,7 +28,6 @@ export class GameComponent implements AfterViewInit {
 
     private listenRaceEnd(): void {
         this.renderService.EndRaceSub.subscribe(async (res) => {
-            console.log(res.track);
             await this.bestTimeService.initialize(res.track, res.time);
             this.raceDone = true;
         });

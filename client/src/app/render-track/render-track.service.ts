@@ -54,7 +54,12 @@ export class RenderTrackService {
         defaultTrackPoints.push(new THREE.Vector2(136, 167));
         defaultTrackPoints.push(defaultTrackPoints[0]);
 
-        return new RaceTrack("Track", "Default Track", 0, defaultTrackPoints);
+        return new RaceTrack(
+            "Track",
+            "Default Track",
+            0,
+            defaultTrackPoints
+        );
     }
 
     public generateOffTrackSurface(): THREE.Mesh {
@@ -113,20 +118,20 @@ export class RenderTrackService {
         const ratioY: number = this.firstSegmentRatioOfZOnHypotenuse();
         const angle: number = this.getAngle(ratioX);
         switch (position) {
-            case FIRST :
+            case FIRST:
                 this.calulateCarPositionPositive(car, ratioX, POSITIONCARAHEAD, ratioY, angle);
                 break;
             case SECOND:
                 this.calulateCarPositionNegative(car, ratioX, POSITIONCARAHEAD, ratioY, angle);
                 break;
-            case THIRD :
+            case THIRD:
                 this.calulateCarPositionPositive(car, ratioX, POSITIONCARBEHIND, ratioY, angle);
                 break;
-            case FOURTH :
+            case FOURTH:
                 this.calulateCarPositionNegative(car, ratioX, POSITIONCARBEHIND, ratioY, angle);
                 break;
             default:
-            break;
+                break;
         }
     }
 
@@ -166,15 +171,15 @@ export class RenderTrackService {
     }
     private squareRootAddition(firstNumber: number, secondNumber: number): number {
         return (Math.sqrt(Math.pow(firstNumber, 2) +
-        Math.pow( secondNumber, 2)));
+            Math.pow(secondNumber, 2)));
     }
     private getAngle(ratio: number): number {
         return (Math.acos(ratio) + Math.PI);
     }
     private getRotationArcTan(segment: THREE.LineCurve): number {
-       return (Math.atan((segment.v2.y - segment.v1.y) / (segment.v2.x - segment.v1.x)));
+        return (Math.atan((segment.v2.y - segment.v1.y) / (segment.v2.x - segment.v1.x)));
     }
     private generateRandomNumber(numberMax: number): number {
-       return (Math.floor(Math.random() * numberMax) + 1);
+        return (Math.floor(Math.random() * numberMax) + 1);
     }
 }

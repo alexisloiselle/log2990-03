@@ -24,6 +24,7 @@ const INITIAL_VOLUME: number = 0.3;
 @Injectable()
 export class RenderService {
 
+    private raceOnGoing: boolean;
     private container: HTMLDivElement;
     private _car: Car;
     private cars: Car[] = [];
@@ -83,7 +84,6 @@ export class RenderService {
 
     private listenIncrementLap(): void {
         this._car.carGPS.IncrementLapSub.subscribe(() => {
-            console.log("increment listen");
             this.hudService.finishLap();
         });
     }
@@ -98,6 +98,7 @@ export class RenderService {
         this.startRenderingLoop();
         this.loadSounds();
         this.listenIncrementLap();
+        this.raceOnGoing = true;
     }
 
     private initStats(): void {
@@ -121,25 +122,28 @@ export class RenderService {
     }
 
     private update(): void {
-        const timeSinceLastFrame: number = Date.now() - this.lastDate;
-        // this._car.update(timeSinceLastFrame);
-        for (const car of this.cars) {
-            // tslint:disable-next-line:no-magic-numbers
-            car.update(timeSinceLastFrame * 3);
-            // car.go();
+        if (this.raceOnGoing) {
+            const timeSinceLastFrame: number = Date.now() - this.lastDate;
+            // this._car.update(timeSinceLastFrame);
+            for (const car of this.cars) {
+                // tslint:disable-next-line:no-magic-numbers
+                car.update(timeSinceLastFrame * 3);
+                // car.go();
+            }
+            this.raceAdministratorService.controlBots(this.botCars);
+            if (this.raceAdministratorService.determineWinner(this.cars) >= 0) {
+                const track: RaceTrack = this.track;
+                const time: number = this.hudService.raceTime;
+                this.endRaceSub.next({ track, time });
+                this.raceOnGoing = false;
+            }
+            this._car.carGPS.reachedJonction(this._car.mesh);
+            this.cameraService.update(this._car.Position);
+            this.skyboxService.update(this._car.Position);
+            this.collisionService.checkForCollision(this.cars, this.track.segments, this.track.width);
+            this.hudService.update();
+            this.lastDate = Date.now();
         }
-        this.raceAdministratorService.controlBots(this.botCars);
-        if (this.raceAdministratorService.determineWinner(this.cars) >= 0) {
-            const track: RaceTrack = this.track;
-            const time: number = this.hudService.raceTime;
-            this.endRaceSub.next({track, time});
-        }
-        this._car.carGPS.reachedJonction(this._car.mesh);
-        this.cameraService.update(this._car.Position);
-        this.skyboxService.update(this._car.Position);
-        this.collisionService.checkForCollision(this.cars, this.track.segments, this.track.width);
-        this.hudService.update();
-        this.lastDate = Date.now();
     }
 
     public get playerLap(): number {
@@ -265,6 +269,11 @@ export class RenderService {
     }
 
     public get Track(): RaceTrack {
-        return new RaceTrack(this.track.name, this.track.description, this.track.type, this.track.points);
+        return new RaceTrack(
+            this.track.name,
+            this.track.description,
+            this.track.type,
+            this.track.points
+        );
     }
 }
