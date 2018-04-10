@@ -12,6 +12,7 @@ import { CollisionService } from "../race/collisions/collision.service";
 import { RaceTrack } from "../race/raceTrack";
 import { HudService } from "./hud.service";
 import { RaceAdministratorService } from "../race/race-services/race-administrator.service";
+import { URL_DAY_PREFIX, URL_DAY_POSTFIX } from "../race/constants";
 import { Object3D } from "three";
 
 const WHITE: number = 0xFFFFFF;
@@ -143,7 +144,7 @@ export class RenderService {
         light.name = "ambiantLight";
         this.scene.add(light);
         await this.initBotCars();
-        this.skyboxService.createSkybox(this.scene);
+        this.skyboxService.createSkybox(this.scene, URL_DAY_PREFIX, URL_DAY_POSTFIX);
         await this.createTrack();
         for (const car of this.cars) {
             car.initializeGPS(this.track.segments, this.track.width);
@@ -228,10 +229,12 @@ export class RenderService {
             const newLight: THREE.AmbientLight = new THREE.AmbientLight(GREY, AMBIENT_LIGHT_OPACITY);
             newLight.name = "ambiantLight";
             this.scene.add(newLight);
+            this.skyboxService.changeToNight(this.scene);
         } else {
             const newLight: THREE.AmbientLight = new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY);
             newLight.name = "ambiantLight";
             this.scene.add(newLight);
+            this.skyboxService.changeToDay(this.scene);
         }
     }
 
