@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
 import { BotCar } from "../car/bot-car";
 import { Car } from "../car/car";
+import { RaceTrack } from "../raceTrack";
+import { Subject } from "rxjs/Subject";
 
 // const PLAYERCAR: number = 0;
 // const FIRSTBOTCAR: number = 1;
@@ -11,7 +13,7 @@ import { Car } from "../car/car";
 export class RaceAdministratorService {
     private isRaceOnGoing: boolean;
     //private losersTime: Array<number> = [];
-
+    private EndRaceSub: Subject<{track: RaceTrack}>;
     public constructor() {
         this.isRaceOnGoing = true;
     }
@@ -21,6 +23,10 @@ export class RaceAdministratorService {
      * Détermine lorsque la course commence et se termine
      * Simulation du temps des autres joueurs
      */
+    public getEndRaceSub(): Observable<{track: RaceTrack}> {
+        return this.EndRaceSub.asObservable();
+    }
+
     public getPlayerLap(playerCar: Car): number {
         // Not really elegant, maybe find another way
         if (playerCar.carGPS === undefined) {

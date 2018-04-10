@@ -12,6 +12,8 @@ import { CollisionService } from "../race/collisions/collision.service";
 import { RaceTrack } from "../race/raceTrack";
 import { HudService } from "./hud.service";
 import { RaceAdministratorService } from "../race/race-services/race-administrator.service";
+import { Subject } from "rxjs/Subject";
+import { Observable } from "rxjs/Observable";
 
 const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
@@ -30,6 +32,7 @@ export class RenderService {
     private stats: Stats;
     private lastDate: number;
     private track: RaceTrack;
+    private EndRaceSub: Subject<RaceTrack>;
 
     public audioListener: THREE.AudioListener;
     public startingSound: THREE.Audio;
@@ -68,6 +71,10 @@ export class RenderService {
                 resolve(object);
             });
         });
+    }
+
+    public getEndRaceSub(): Observable<RaceTrack> {
+        return this.EndRaceSub.asObservable();
     }
 
     public async initialize(container: HTMLDivElement): Promise<void> {
@@ -109,7 +116,9 @@ export class RenderService {
             // car.go();
         }
         this.raceAdministratorService.controlBots(this.botCars);
-        this.raceAdministratorService.determineWinner(this.cars);
+        if (this.raceAdministratorService.determineWinner(this.cars) > 0) {
+            this.EndRaceSub.next(this.track);
+        }
         this.cameraService.update(this._car.Position);
         this.skyboxService.update(this._car.Position);
         this.collisionService.checkForCollision(this.cars);
