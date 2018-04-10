@@ -52,7 +52,10 @@ export class RenderService {
         private renderTrackService: RenderTrackService,
         private hudService: HudService,
         private raceAdministratorService: RaceAdministratorService,
-        private route: Router) {
+        private route: Router
+    ) {
+        this.endRaceSub = new Subject<RaceTrack>();
+
         this._car = new Car();
         this.cars.push(this._car);
 
@@ -80,6 +83,7 @@ export class RenderService {
 
     private listenIncrementLap(): void {
         this._car.carGPS.IncrementLapSub.subscribe(() => {
+            console.log("increment listen");
             this.hudService.finishLap();
         });
     }
@@ -121,13 +125,14 @@ export class RenderService {
         // this._car.update(timeSinceLastFrame);
         for (const car of this.cars) {
             // tslint:disable-next-line:no-magic-numbers
-            car.update(timeSinceLastFrame * 2.5);
+            car.update(timeSinceLastFrame * 3);
             // car.go();
         }
         this.raceAdministratorService.controlBots(this.botCars);
         if (this.raceAdministratorService.determineWinner(this.cars) >= 0) {
             this.endRaceSub.next(this.track);
         }
+        this._car.carGPS.reachedJonction(this._car.mesh);
         this.cameraService.update(this._car.Position);
         this.skyboxService.update(this._car.Position);
         this.collisionService.checkForCollision(this.cars, this.track.segments, this.track.width);

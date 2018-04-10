@@ -32,9 +32,8 @@ export class RaceAdministratorService {
 
     public determineWinner(cars: Array<Car>): number {
         for (const car of cars) {
-            if (car.carGPS.currentLap === NUMBER_OF_LAPS) {
+            if (car.carGPS.currentLap === NUMBER_OF_LAPS + 1) {
                 this.isRaceOnGoing = false;
-                // console.log("car : " + cars.indexOf(car) + "won the race!");
 
                 return cars.indexOf(car);
             }
