@@ -44,6 +44,7 @@ export class RenderTrackService {
         return plane;
     }
 
+    // TODO: get from mongodb instead OU disable best time
     public generateDefaultTrack(): RaceTrack {
         const defaultTrackPoints: THREE.Vector2[] = [];
         // tslint:disable-next-line:no-magic-numbers

@@ -132,10 +132,7 @@ export class RenderService {
             }
             this.raceAdministratorService.controlBots(this.botCars);
             if (this.raceAdministratorService.determineWinner(this.cars) >= 0) {
-                const track: RaceTrack = this.track;
-                const time: number = this.hudService.raceTime;
-                this.endRaceSub.next({ track, time });
-                this.raceOnGoing = false;
+                this.manageRaceEnd();
             }
             this._car.carGPS.reachedJonction(this._car.mesh);
             this.cameraService.update(this._car.Position);
@@ -144,6 +141,11 @@ export class RenderService {
             this.hudService.update();
             this.lastDate = Date.now();
         }
+    }
+
+    private manageRaceEnd(): void {
+        this.endRaceSub.next({ track: this.track, time: this.hudService.raceTime });
+        this.raceOnGoing = false;
     }
 
     public get playerLap(): number {
