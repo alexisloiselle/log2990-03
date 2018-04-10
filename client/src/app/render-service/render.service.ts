@@ -23,7 +23,7 @@ export class RenderService {
 
     private container: HTMLDivElement;
     private _car: Car;
-    private cars: Car[] = [];   // All the cars in the game
+    private cars: Car[] = [];
     private botCars: Array<BotCar> = new Array<BotCar>();
     private renderer: THREE.WebGLRenderer;
     private scene: THREE.Scene;
@@ -239,5 +239,9 @@ export class RenderService {
         const currentTime: number = new Date().getTime();
         while (currentTime + miliseconds >= new Date().getTime()) {
         }
+    }
+
+    public get Track(): RaceTrack {
+        return new RaceTrack(this.track.name, this.track.description, this.track.type, this.track.points);
     }
 }
