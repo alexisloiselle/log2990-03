@@ -22,7 +22,7 @@ export class SkyboxService {
 
     public constructor() { }
 
-    public async createSkybox(scene: Scene, urlPrefix: string, urlPostFix: string): void {
+    public async createSkybox(scene: Scene, urlPrefix: string, urlPostFix: string): Promise<void> {
         const urls1: string[] = [
             `${urlPrefix}lf${urlPostFix}`,
             `${urlPrefix}rt${urlPostFix}`,
