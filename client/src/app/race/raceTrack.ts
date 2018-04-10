@@ -36,8 +36,13 @@ export class RaceTrack {
 }
 
 export class BestTime {
-
     public arrayBestTimes: Array<Player>;
+
+    public constructor(array: Array<Player>) {
+        this.arrayBestTimes = array;
+    }
+}
+
 export interface Player {
     name: string;
     time: number;
