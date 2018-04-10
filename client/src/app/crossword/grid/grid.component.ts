@@ -33,7 +33,7 @@ export class GridComponent implements OnInit {
         private defService: DefinitionService,
         private socketService: SocketService
     ) {
-        this.socket = io.connect('localhost:3000');
+        this.socket = io.connect("localhost:3000");
         this.numberPlacedWords = 0;
         this.listenSelectedWord();
         this.listenLetterInput();
@@ -59,9 +59,9 @@ export class GridComponent implements OnInit {
     }
     private listenWordCorrect(): void {
         this.socketService.wordCorrect().subscribe((data) => {
-            console.log("SOCKETRECIEVED_BITCH");
+
             console.log(data);
-        }); 
+        });
     }
     private listenSelectedWord(): void {
         this.defService.SelectWordSub.subscribe((res) => {
@@ -150,6 +150,7 @@ export class GridComponent implements OnInit {
             j = this.defService.SelectedWord.IsHorizontal ? j + 1 : j;
         }
         this.socket.emit(WORD_CORRECT, this.defService.SelectedWord.Line, this.defService.SelectedWord.Column);
+
         return true;
     }
 

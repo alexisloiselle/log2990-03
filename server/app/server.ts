@@ -52,9 +52,10 @@ export class Server {
                 socket.emit(NEW_GAME_EVENT , {playerName,  isHost: true });
                 socket.broadcast.emit(NEW_GAME_EVENT, {playerName, isHost: false });
             });
-            socket.on(WORD_CORRECT , (Line: number, Column: number) => {
-                socket.emit(WORD_CORRECT , {Line, Column, isHost: true });
-                socket.broadcast.emit(WORD_CORRECT , {Line, Column, isHost: false });
+
+            socket.on(WORD_CORRECT , (line: number, column: number) => {
+                socket.emit(WORD_CORRECT , {line, column, isHost: true });
+                socket.broadcast.emit(WORD_CORRECT , {line, column, isHost: false });
             });
         });
     }
