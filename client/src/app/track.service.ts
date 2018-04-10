@@ -23,7 +23,7 @@ export class TrackService {
 
                 return tracks;
             })
-            .catch((error: Error) => this.handleError<RaceTrack[]>(errorerror));
+            .catch((error: Error) => this.handleError<RaceTrack[]>(error));
     }
 
     public async getTrack(id: string): Promise<RaceTrack> {

@@ -33,7 +33,7 @@ export class GridComponent implements OnInit {
     }
 
     public ngOnInit(): void { }
-s
+
     public get LetterGrid(): Case[][] {
         return this.letterGrid;
     }
