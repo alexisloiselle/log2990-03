@@ -12,9 +12,7 @@ export class BestTimeComponent implements OnInit {
 
     public bestTimes: BestTime;
 
-    public constructor() {
+    public constructor() { }
 
-    }
-
-    public ngOnInit(): void {}
+    public ngOnInit(): void { }
 }
