@@ -10,8 +10,6 @@ import { Car } from "../car/car";
 @Injectable()
 export class RaceAdministratorService {
     private isRaceOnGoing: boolean;
-    // private losersTime: Array<number> = [];
-
     public constructor() {
         this.isRaceOnGoing = true;
     }

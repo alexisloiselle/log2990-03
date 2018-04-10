@@ -27,6 +27,7 @@ export class GameComponent implements AfterViewInit {
     private listenRaceEnd(): void {
         this.renderService.EndRaceSub.subscribe((res) => {
             this.raceDone = true;
+            // TODO: gerer res (track) pour l'envoyer au component
         });
     }
 
