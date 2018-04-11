@@ -71,7 +71,7 @@ export class MultiplayerGameComponent implements OnInit {
 
     private listenOpponentFoundWords(): void {
         this.socketService.wordCorrect().subscribe((word) => {
-            console.log(word);
+            // console.log(word);
             if (word.word.isHost) {
                 this.playerScore += 1;
             } else {

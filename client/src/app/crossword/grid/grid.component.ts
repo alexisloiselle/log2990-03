@@ -88,12 +88,13 @@ export class GridComponent implements OnInit {
 
     private listenWordCorrect(): void {
         this.socketService.wordCorrect().subscribe((word) => {
-            console.log(word);
-            const tempWord: Word = new Word(word.word.word,
-                                            word.word.definition,
-                                            word.word.isHorizontal,
-                                            word.word.line,
-                                            word.word.column);
+            
+            const tempWord: Word = new Word(word.word.word.word,
+                                            word.word.word.definition,
+                                            word.word.word.isHorizontal,
+                                            word.word.word.line,
+                                            word.word.word.column);
+            console.log(tempWord);
             this.placeWord(tempWord);
         });
     }
