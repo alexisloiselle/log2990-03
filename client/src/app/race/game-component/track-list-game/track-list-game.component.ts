@@ -1,53 +1,61 @@
-import { Component, OnInit} from "@angular/core";
-import {RaceTrack} from "../../raceTrack";
-import {TrackService} from "../../../track.service";
-import {RenderService} from "../../../render-service/render.service";
+import { Component, OnInit } from "@angular/core";
+import { RaceTrack } from "../../raceTrack";
+import { TrackService } from "../../../track.service";
+import { RenderService } from "../../../render-service/render.service";
 import { Router } from "@angular/router";
 
 @Component({
-  selector: "app-track-list-game",
-  templateUrl: "./track-list-game.component.html",
-  styleUrls: ["./track-list-game.component.css"]
+    selector: "app-track-list-game",
+    templateUrl: "./track-list-game.component.html",
+    styleUrls: ["./track-list-game.component.css"]
 })
 
 export class TrackListGameComponent implements OnInit {
 
-  public parsedTracks: RaceTrack[];
-  private selectedTrack: RaceTrack;
+    public parsedTracks: RaceTrack[];
+    private selectedTrack: RaceTrack;
 
-  public constructor(private trackService: TrackService,
-                     private renderService: RenderService,
-                     private router: Router) {
-      this.parsedTracks = [];
-  }
+    public constructor(
+        private trackService: TrackService,
+        private renderService: RenderService,
+        private router: Router
+    ) {
+        this.parsedTracks = [];
+    }
 
-  public async ngOnInit(): Promise<void> {
-      await this.getTracks();
-  }
+    public async ngOnInit(): Promise<void> {
+        await this.getTracks();
+    }
 
-  public set SelectedTrack(track: RaceTrack) {
-      this.selectedTrack = track;
-  }
+    public set SelectedTrack(track: RaceTrack) {
+        this.selectedTrack = track;
+    }
 
-  public get SelectedTrack(): RaceTrack {
-      return this.selectedTrack;
-  }
+    public get SelectedTrack(): RaceTrack {
+        return this.selectedTrack;
+    }
 
-  public async getTracks(): Promise<void> {
-      this.parsedTracks = await this.trackService.getTracks();
-  }
+    public async getTracks(): Promise<void> {
+        this.parsedTracks = await this.trackService.getTracks();
+    }
 
-  public onSelectTrack(track: RaceTrack): void {
-      this.selectedTrack = track;
-  }
+    public onSelectTrack(track: RaceTrack): void {
+        this.selectedTrack = track;
+    }
 
-  public async deleteTrack(track: RaceTrack): Promise<void> {
-      await this.trackService.deleteTrack(track.id);
-      await this.ngOnInit();
-  }
+    public async deleteTrack(track: RaceTrack): Promise<void> {
+        await this.trackService.deleteTrack(track.id);
+        await this.ngOnInit();
+    }
 
-  public async playTrack(selectedTrack: RaceTrack): Promise<void> {
-    await this.renderService.loadTrack(selectedTrack);
-    this.router.navigateByUrl("/car-game");
-  }
+    public async playTrack(selectedTrack: RaceTrack): Promise<void> {
+        const race: RaceTrack = new RaceTrack(
+            selectedTrack.name,
+            selectedTrack.description,
+            selectedTrack.type,
+            selectedTrack.points
+        );
+        await this.renderService.loadTrack(race);
+        this.router.navigateByUrl("/car-game");
+    }
 }
