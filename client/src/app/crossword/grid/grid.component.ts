@@ -85,7 +85,7 @@ export class GridComponent implements OnInit {
         return Word.isPartOfWord(word, i, j);
     }
 
-    private isCompleted(): boolean {
+    public isCompleted(): boolean {
         let isCompleted: boolean = true;
 
         for (let i: number = 0; i < this.letterGrid.length; i++) {
