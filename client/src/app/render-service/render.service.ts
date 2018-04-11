@@ -172,8 +172,7 @@ export class RenderService {
         if (this.track == null) {
             await (this.track = this.renderTrackService.generateDefaultTrack());
         }
-        let planes: THREE.Mesh[] = [];
-        await (planes = this.renderTrackService.buildTrack(this.track));
+        const planes: THREE.Mesh[] = this.renderTrackService.buildTrack(this.track);
         for (const plane of planes) {
             this.scene.add(plane);
         }

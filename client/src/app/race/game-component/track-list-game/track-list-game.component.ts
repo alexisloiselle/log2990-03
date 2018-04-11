@@ -57,8 +57,6 @@ export class TrackListGameComponent implements OnInit {
             selectedTrack.points,
             selectedTrack.bestTimes
         );
-        console.log(selectedTrack);
-        console.log(race);
         await this.renderService.loadTrack(race);
         this.router.navigateByUrl("/car-game");
     }
