@@ -36,12 +36,11 @@ export class SocketService {
         });
     }
 
-    public wordCorrect(): Observable<{line: number, column: number}> {
+    public wordCorrect(): Observable<{word: Word}> {
         return new Observable((observer) => {
-            this.socket.on(WORD_CORRECT, (line: number, column: number) => {
-                observer.next({line, column});
+            this.socket.on(WORD_CORRECT, (word: Word) => {
+                observer.next({word});
             });
-
         });
     }
 
@@ -53,4 +52,11 @@ export class SocketService {
         });
     }
 
+    public emitWordSelected(signal: string, word: Word): void {
+        this.socket.emit(signal, word);
+    }
+
+    public emitWordFound(signal: string, word: Word): void {
+        this.socket.emit(signal, word);
+    }
 }

@@ -33,7 +33,6 @@ export class Server {
         this.io = require("socket.io").listen(this.server);
 
         this.io.on("connection", (socket: SocketIO.Socket) => {
-
             socket.on(JOIN_GAME_EVENT, (gameName: string) => {
                 for (const game of this.crosswordGames) {
                     if (gameName === game[0]) {
@@ -45,7 +44,6 @@ export class Server {
                     }
                 }
             });
-
             socket.on(NEW_GAME_EVENT, (gameName: string, playerName: string) => {
                 const tempGame: [string, number] = [gameName, 1];
                 this.crosswordGames.push(tempGame);
@@ -53,10 +51,10 @@ export class Server {
                 socket.emit(NEW_GAME_EVENT , {playerName,  isHost: true });
                 socket.broadcast.emit(NEW_GAME_EVENT, {playerName, isHost: false });
             });
-
-            socket.on(WORD_CORRECT , (line: number, column: number) => {
-                socket.emit(WORD_CORRECT , {line, column, isHost: true });
-                socket.broadcast.emit(WORD_CORRECT , {line, column, isHost: false });
+            socket.on(WORD_CORRECT , (word: Word) => {
+                console.log("Opponnent Guesses a word");
+                socket.emit(WORD_CORRECT , {word, isHost: true });
+                socket.broadcast.emit(WORD_CORRECT , {word, isHost: false });
             });
             socket.on(SELECTED_WORD , (word: Word) => {
                 console.log("Opponent selected a word");

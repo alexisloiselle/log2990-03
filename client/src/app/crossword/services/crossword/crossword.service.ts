@@ -51,14 +51,14 @@ export class CrosswordService {
         this.http.post(`${API_URL}/${CROSSWORD_PARAM}/updateMultiplayerGame`, newGameInfo).toPromise();
     }
 
-    public async getUserNames(gameName: string) : Promise<any> {
+    public async getUserNames(gameName: string): Promise<any> {
         await this.http.get(`${API_URL}/${CROSSWORD_PARAM}/getUserNames/${gameName}`)
             .toPromise()
             .then((userNames: {userNameOne: any, userNameTwo: any}) => {
-                this.userNamePlayerOne = userNames.userNameOne, 
-                this.userNamePlayerTwo = userNames.userNameTwo})
+                this.userNamePlayerOne = userNames.userNameOne,
+                this.userNamePlayerTwo = userNames.userNameTwo; })
             .catch((error: Error) => this.handleError<any>(error));
-    }   
+    }
 
     public get FormattedGrid(): IFormattedGrid {
         return this.formattedGrid;
