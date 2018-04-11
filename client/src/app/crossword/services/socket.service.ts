@@ -3,6 +3,7 @@ import * as io from "socket.io-client";
 import { Observable } from "rxjs/Observable";
 import { SERVER_URL } from "../../config";
 import { JOIN_GAME_EVENT, NEW_GAME_EVENT, GAME_BEGIN_EVENT, WORD_CORRECT, SELECTED_WORD } from "../../../../../common/socket-constants";
+import { Word } from "../word";
 
 @Injectable()
 export class SocketService {
@@ -44,10 +45,10 @@ export class SocketService {
         });
     }
 
-    public selectWord(): Observable<{line: number, column: number}> {
+    public selectWord(): Observable<{word: Word}> {
         return new Observable((observer) => {
-            this.socket.on(SELECTED_WORD, (line: number, column: number) => {
-                observer.next({line, column});
+            this.socket.on(SELECTED_WORD, (word: Word) => {
+                observer.next({word});
             });
         });
     }
