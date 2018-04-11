@@ -37,3 +37,7 @@ li.thick-border {
 .selected {
     background-color: rgb(247, 228, 125);
 }
+
+.selectedMP {
+    background-color: rgb(247, 0, 125);
+}

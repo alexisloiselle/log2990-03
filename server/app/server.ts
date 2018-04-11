@@ -4,7 +4,7 @@ import Types from "./types";
 import { injectable, inject } from "inversify";
 import { IServerAddress } from "./iserver.address";
 import { } from "socket.io";
-import { JOIN_GAME_EVENT, GAME_BEGIN_EVENT, NEW_GAME_EVENT, WORD_CORRECT } from "../../common/socket-constants";
+import { JOIN_GAME_EVENT, GAME_BEGIN_EVENT, NEW_GAME_EVENT, WORD_CORRECT, SELECTED_WORD } from "../../common/socket-constants";
 
 @injectable()
 export class Server {
@@ -56,6 +56,10 @@ export class Server {
             socket.on(WORD_CORRECT , (line: number, column: number) => {
                 socket.emit(WORD_CORRECT , {line, column, isHost: true });
                 socket.broadcast.emit(WORD_CORRECT , {line, column, isHost: false });
+            });
+            socket.on(SELECTED_WORD , (line: number, column: number) => {
+                socket.emit(SELECTED_WORD , {line, column, isHost: true });
+                socket.broadcast.emit(SELECTED_WORD , {line, column, isHost: false });
             });
         });
     }

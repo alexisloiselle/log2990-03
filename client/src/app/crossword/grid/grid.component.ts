@@ -6,14 +6,13 @@ import { Subject } from "rxjs/Subject";
 import { Word } from "../word";
 import { Case } from "../case";
 import * as io from "socket.io-client";
-import {WORD_CORRECT} from "../../../../../common/socket-constants";
+import {WORD_CORRECT, SELECTED_WORD} from "../../../../../common/socket-constants";
 import {SocketService} from "../services/socket.service";
 
 const LEFT_KEYCODE: number = 37;
 const UP_KEYCODE: number = 38;
 const RIGHT_KEYCODE: number = 39;
 const DOWN_KEYCODE: number = 40;
-
 
 @Component({
     selector: "app-grid",
@@ -26,6 +25,7 @@ export class GridComponent implements OnInit {
     public socket: SocketIOClient.Socket;
     public rSocket: Subject<{socket: SocketIOClient.Socket }>;
     public numberPlacedWords: number;
+    public opponentSelectedWord: Word;
 
     public constructor(
         private crosswordService: CrosswordService,
@@ -37,6 +37,7 @@ export class GridComponent implements OnInit {
         this.numberPlacedWords = 0;
         this.listenSelectedWord();
         this.listenLetterInput();
+        this.listenOpponentSelectsWord();
         this.listenBackspaceInput();
         this.listenArrowInput();
         this.listenEnterInput();
@@ -64,9 +65,15 @@ export class GridComponent implements OnInit {
             console.log(data);
         });
     }
+    private listenOpponentSelectsWord(): void {
+        this.socketService.selectWord().subscribe((data) => {
+            console.log(data);
+        });
+    }
 
     private listenSelectedWord(): void {
         this.defService.SelectWordSub.subscribe((res) => {
+            this.socket.emit(SELECTED_WORD, this.defService.SelectedWord.Line, this.defService.SelectedWord.Column);
             this.focusOnWord(res.word);
         });
     }
