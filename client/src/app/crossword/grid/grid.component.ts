@@ -68,11 +68,11 @@ export class GridComponent implements OnInit {
     private listenOpponentSelectsWord(): void {
         this.socketService.selectWord().subscribe((data) => {
             console.log(data);
-            this.opponentSelectedWord = new Word(data.word.word.word,
-                                                 data.word.word.definition,
-                                                 data.word.word.isHorizontal,
-                                                 data.word.word.line,
-                                                 data.word.word.column);
+            this.opponentSelectedWord = new Word(data.word.Word,
+                                                 data.word.Definition,
+                                                 data.word.IsHorizontal,
+                                                 data.word.Line,
+                                                 data.word.Column);
             console.log("Opponent word selected :");
             console.log(this.defService.SelectedWord);
             console.log(this.opponentSelectedWord);
