@@ -59,7 +59,7 @@ export class Server {
                 socket.broadcast.emit(WORD_CORRECT , {line, column, isHost: false });
             });
             socket.on(SELECTED_WORD , (word: Word) => {
-                socket.emit(SELECTED_WORD , {word, isHost: true });
+                console.log("Opponent selected a word");
                 socket.broadcast.emit(SELECTED_WORD , {word, isHost: false });
             });
         });
