@@ -59,16 +59,28 @@ export class TrackEditorComponent implements OnInit {
         return (this.trackName.length !== 0 && this.trackDescription.length !== 0);
     }
 
-    public async addTrack(trackName: string, trackDescription: string, trackType: RaceType, itemsOnTrack: number): Promise<void> {
+    public async addTrack(
+        trackName: string,
+        trackDescription: string,
+        trackType: RaceType,
+        itemsOnTrack: number
+    ): Promise<void> {
         this.trackName = trackName;
         this.trackDescription = trackDescription;
         this.trackType = trackType;
-        this.track = new RaceTrack(trackName, trackDescription, trackType, this.canvasRef.myTrackEditorModel.PointArray);
+        this.track = new RaceTrack(
+            "",
+            trackName,
+            trackDescription,
+            trackType,
+            this.canvasRef.myTrackEditorModel.PointArray
+        );
         await this.trackService.addTrack(this.track);
     }
 
     public getTrack(): RaceTrack {
         this.track = new RaceTrack(
+            "",
             this.trackName,
             this.trackDescription,
             this.trackType,

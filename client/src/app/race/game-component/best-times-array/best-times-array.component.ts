@@ -9,7 +9,7 @@ import { BestTimeService } from "./best-time.service";
 export class BestTimeComponent implements OnInit {
 
     public constructor(
-        protected bestTimeService: BestTimeService
+        public bestTimeService: BestTimeService
     ) {
     }
 

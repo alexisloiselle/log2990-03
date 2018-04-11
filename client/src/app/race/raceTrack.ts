@@ -12,6 +12,7 @@ export class RaceTrack {
     public bestTimes: Array<Player>;
 
     public constructor(
+        id: string,
         name: string,
         description: string,
         type: RaceType,
@@ -24,6 +25,7 @@ export class RaceTrack {
             { name: "N/A", time: -1 }
         )
     ) {
+        this.id = id;
         this.name = name;
         this.bestTimes = bestTimes;
         this.description = description;

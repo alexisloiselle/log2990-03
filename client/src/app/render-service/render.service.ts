@@ -229,12 +229,16 @@ export class RenderService {
     }
 
     public handleKeyDown(event: KeyboardEvent): void {
-        this.carEventHandlerService.handleKeyDown(event, this._car);
-        if (event.keyCode === QUIT_KEYCODE) { this.clearGameView(); }
+        if (this.raceOnGoing) {
+            this.carEventHandlerService.handleKeyDown(event, this._car);
+            if (event.keyCode === QUIT_KEYCODE) { this.clearGameView(); }
+        }
     }
 
     public handleKeyUp(event: KeyboardEvent): void {
-        this.carEventHandlerService.handleKeyUp(event, this._car);
+        if (this.raceOnGoing) {
+            this.carEventHandlerService.handleKeyUp(event, this._car);
+        }
     }
 
     public clearGameView(): void {
@@ -272,6 +276,7 @@ export class RenderService {
 
     public get Track(): RaceTrack {
         return new RaceTrack(
+            this.track.id,
             this.track.name,
             this.track.description,
             this.track.type,

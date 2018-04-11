@@ -56,6 +56,7 @@ export class RenderTrackService {
         defaultTrackPoints.push(defaultTrackPoints[0]);
 
         return new RaceTrack(
+            "5ace7e73f36d285dd8f2eac5",
             "Track",
             "Default Track",
             0,

@@ -10,13 +10,15 @@ export class BestTimeService {
 
     public track: RaceTrack;
     public bestTimes: Array<Player>;
-    public timeBeaten: boolean;
+    private isTimeBeaten: boolean;
     private position: number;
+    private isPostDone: boolean;
 
     public constructor(
         private trackService: TrackService
     ) {
-        this.timeBeaten = false;
+        this.isTimeBeaten = false;
+        this.isPostDone = false;
         this.position = -1;
         this.bestTimes = new Array(
             { name: "N/A", time: -1 },
@@ -27,10 +29,22 @@ export class BestTimeService {
         );
     }
 
+    public get IsTimeBeaten(): boolean {
+        return this.isTimeBeaten;
+    }
+
+    public get IsPostDone(): boolean {
+        return this.isPostDone;
+    }
+
+    public get Position(): number {
+        return this.position;
+    }
+
     public async initialize(track: RaceTrack, time: number): Promise<void> {
         this.track = track;
         this.bestTimes = this.track.bestTimes;
-        this.timeBeaten = this.checkTime(time);
+        this.isTimeBeaten = this.checkTime(time);
     }
 
     private checkTime(time: number): boolean {
@@ -52,8 +66,10 @@ export class BestTimeService {
 
     public async postNewBestTime(name: string): Promise<void> {
         const time: number = this.bestTimes[this.position].time;
-        this.bestTimes[this.position] = {name: name, time: time};
+        this.bestTimes[this.position] = { name: name, time: time };
         this.track.bestTimes = this.bestTimes;
         this.trackService.updateTrack(this.track);
+        this.isPostDone = true;
+        event.preventDefault();
     }
 }
