@@ -6,12 +6,3 @@
 #crossword {
     min-width: 600px;
 }
-
-.endingButtons{
-    padding-left:400px;
-    position:relative;
-}
-
-.modal fade {
-    display: block;
-}
