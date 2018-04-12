@@ -1,4 +1,4 @@
-<div (mousemove)="isGridCompleted()">
+
 <div id="difficultyTitle">Difficulty : {{difficulty}}</div>
 <a class="btn btn-outline-primary" routerLink="/single-player">Change difficulty</a>
 <button type="button" class="btn btn-outline-primary" (click)="defService.isCheatModeOn = !defService.isCheatModeOn">
@@ -13,5 +13,7 @@
       <app-definitions></app-definitions>
     </div>
   </div>
-</div> 
+</div>
+<div *ngIf="isGridCompleted()">
+  VOUS AVEZ GAGNÉ!
 </div>

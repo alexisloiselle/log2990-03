@@ -36,7 +36,16 @@ export class SinglePlayerGameComponent implements OnInit {
     }
 
     public isGridCompleted(): boolean {
-        console.log(this.grid);
+        if (this.grid === undefined) {
+            return false;
+        }
+
         return this.grid.isCompleted();
+    }
+
+    public gridCompleted(): void {
+        if(this.isGridCompleted()) {
+            console.log("Felicitations!");
+        }
     }
 }
