@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, ViewChild, AfterViewInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { CrosswordService } from "../services/crossword/crossword.service";
 import { DefinitionService } from "../services/crossword/definition.service";
@@ -8,10 +8,12 @@ import { GridComponent } from "../grid/grid.component";
 @Component({
     selector: "app-single-player-game",
     templateUrl: "./single-player-game.component.html",
-    styleUrls: ["./single-player-game.component.css"]
+    styleUrls: ["./single-player-game.component.css"],
+    providers: [CrosswordService]
 })
-export class SinglePlayerGameComponent implements OnInit {
-    @ViewChild("grid") private grid: GridComponent;
+
+export class SinglePlayerGameComponent implements AfterViewInit {
+    @ViewChild("grid") private myGrid: GridComponent;
 
     public difficulty: Difficulty;
     public isConfigured: boolean;
@@ -24,7 +26,8 @@ export class SinglePlayerGameComponent implements OnInit {
         this.isConfigured = false;
     }
 
-    public async ngOnInit(): Promise<void> {
+    public async ngAfterViewInit(): Promise<void> {
+        this.myGrid.ngOnInit();
         this.route.params.subscribe((params) => {
             // this.difficulty = params.difficulty;
             this.difficulty = Difficulty.Mock;
@@ -36,6 +39,6 @@ export class SinglePlayerGameComponent implements OnInit {
     }
 
     public isGridCompleted(): boolean {
-        return this.grid.isCompleted();
+        return this.myGrid.isCompleted();
     }
 }
