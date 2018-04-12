@@ -36,16 +36,6 @@ export class SinglePlayerGameComponent implements OnInit {
     }
 
     public isGridCompleted(): boolean {
-        if (this.grid === undefined) {
-            return false;
-        }
-
-        return this.grid.isCompleted();
-    }
-
-    public gridCompleted(): void {
-        if(this.isGridCompleted()) {
-            console.log("Felicitations!");
-        }
+        return this.grid === undefined ? false : this.grid.isCompleted();
     }
 }
