@@ -8,7 +8,7 @@
   <div *ngIf="isConfigured">
     <div class="row">
       <div id="crossword" class="col-sm-5">
-        <app-grid></app-grid>
+        <app-grid #grid></app-grid>
       </div>
       <div id="definitions" class="col-sm-7">
         <app-definitions></app-definitions>
@@ -20,4 +20,14 @@
       <p> {{playerName}} : {{playerScore}} </p> 
       <p> {{opponentName}} : {{opponentScore}} </p> 
     </div>
+</div>
+<div *ngIf="isGameEnded()">
+  La partie et terminée.
+  <div *ngIf="isYouWinning()">
+    You won!
+  </div>
+  <div *ngIf="!isYouWinning()">
+    You lost!
+  </div>
+
 </div>
