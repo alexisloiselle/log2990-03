@@ -36,6 +36,7 @@ export class SinglePlayerGameComponent implements OnInit {
     }
 
     public isGridCompleted(): boolean {
+        console.log(this.grid);
         return this.grid.isCompleted();
     }
 }
