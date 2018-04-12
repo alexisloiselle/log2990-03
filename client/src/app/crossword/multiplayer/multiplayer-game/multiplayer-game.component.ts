@@ -54,7 +54,6 @@ export class MultiplayerGameComponent implements OnInit {
                 });
             }
         });
-        console.log(this.playerName);
 
     }
 

@@ -60,53 +60,34 @@ export class GridComponent implements OnInit {
         });
     }
 
-    // private listenWordCorrect(): void {
-    //     this.socket.on(WORD_CORRECT, (word: Word) => {
-    //         if (word.isHost) {
-    //             this.isOpponentFoundWord = false;
-    //         } else {
-    //             this.isOpponentFoundWord = true;
-    //         }
-    //         const tempWord: Word = new Word(word.word.word,
-    //                                         word.word.definition,
-    //                                         word.word.isHorizontal,
-    //                                         word.word.line,
-    //                                         word.word.column);
-    //         this.placeWord(tempWord);
-    //     });
-    // }
-
-    // private listenOpponentSelectsWord(): void {
-    //     this.socket.on(SELECTED_WORD, (word: Word) => {
-    //         this.opponentSelectedWord = new Word(word.word.word,
-    //                                              word.word.definition,
-    //                                              word.word.isHorizontal,
-    //                                              word.word.line,
-    //                                              word.word.column);
-    //     });
-    // }
-
     private listenWordCorrect(): void {
         this.socketService.wordCorrect().subscribe((word) => {
-            
+
             const tempWord: Word = new Word(word.word.word.word,
                                             word.word.word.definition,
                                             word.word.word.isHorizontal,
                                             word.word.word.line,
                                             word.word.word.column);
-            console.log(tempWord);
+            // tslint:disable-next-line:prefer-for-of
+            if (!word.word.isHost) {
+                for (let i: number = 0; i < tempWord.Word.length; i++) {
+                    if (tempWord.IsHorizontal) {
+                        this.addLetter(tempWord, tempWord.Word[i], tempWord.Line, tempWord.Column + i);
+                    } else {
+                        this.addLetter(tempWord, tempWord.Word[i], tempWord.Line + i, tempWord.Column);
+                    }
+                }
+            }
             this.placeWord(tempWord);
         });
     }
     private listenOpponentSelectsWord(): void {
         this.socketService.selectWord().subscribe((word) => {
-            console.log(word);
             this.opponentSelectedWord = new Word(word.word.word.word,
                                                  word.word.word.definition,
                                                  word.word.word.isHorizontal,
                                                  word.word.word.line,
                                                  word.word.word.column);
-            console.log(this.opponentSelectedWord);
         });
     }
 
@@ -119,7 +100,7 @@ export class GridComponent implements OnInit {
 
     private listenLetterInput(): void {
         this.inputService.LetterInputSub.subscribe((res) => {
-            this.addLetter(res.letter, res.i, res.j);
+            this.addLetter(this.defService.SelectedWord, res.letter, res.i, res.j);
             this.focusOnNextCase(res.i, res.j);
         });
     }
@@ -139,7 +120,7 @@ export class GridComponent implements OnInit {
 
     private listenEnterInput(): void {
         this.inputService.EnterInputSub.subscribe((res) => {
-            if (this.isValidWord()) {
+            if (this.isValidWord(this.defService.SelectedWord)) {
                 this.placeWord(this.defService.SelectedWord);
             }
         });
@@ -148,6 +129,20 @@ export class GridComponent implements OnInit {
     // html can't access static function of Word
     public isPartOfWord(word: Word, i: number, j: number): boolean {
         return Word.isPartOfWord(word, i, j);
+    }
+
+    public isCompleted(): boolean {
+        let isCompleted: boolean = true;
+
+        for (let i: number = 0; i < this.letterGrid.length; i++) {
+            // tslint:disable-next-line:prefer-for-of
+            for (let j: number = 0; j < this.letterGrid[0].length; j++) {
+                isCompleted = isCompleted && (this.crosswordService.FormattedGrid.letters[i][j] === ""
+                                              || this.letterGrid[i][j].IsPlaced);
+            }
+        }
+
+        return isCompleted;
     }
 
     public selectWordFromCase(i: number, j: number): void {
@@ -167,17 +162,17 @@ export class GridComponent implements OnInit {
         return false;
     }
 
-    private addLetter(letter: string, i: number, j: number): void {
+    private addLetter(word: Word, letter: string, i: number, j: number): void {
         if (!this.letterGrid[i][j].IsPlaced) {
             this.letterGrid[i][j].Letter = letter;
         }
 
-        this.verifyEndOfWord(i, j);
+        this.verifyEndOfWord(word, i, j);
     }
 
-    private verifyEndOfWord(i: number, j: number): void {
-        if (Word.isEndOfWord(this.defService.SelectedWord, i, j) && this.isValidWord()) {
-            this.placeWord(this.defService.SelectedWord);
+    private verifyEndOfWord(word: Word, i: number, j: number): void {
+        if (Word.isEndOfWord(word, i, j) && this.isValidWord(word)) {
+            this.placeWord(word);
         }
     }
 
@@ -187,17 +182,17 @@ export class GridComponent implements OnInit {
         }
     }
 
-    private isValidWord(): boolean {
-        let i: number = this.defService.SelectedWord.Line;
-        let j: number = this.defService.SelectedWord.Column;
-        for (const letter of this.defService.SelectedWord.Word.split("")) {
+    private isValidWord(word: Word): boolean {
+        let i: number = word.Line;
+        let j: number = word.Column;
+        for (const letter of word.Word.split("")) {
             if (letter.toUpperCase() !== this.letterGrid[i][j].Letter) {
                 return false;
             }
-            i = this.defService.SelectedWord.IsHorizontal ? i : i + 1;
-            j = this.defService.SelectedWord.IsHorizontal ? j + 1 : j;
+            i = word.IsHorizontal ? i : i + 1;
+            j = word.IsHorizontal ? j + 1 : j;
         }
-        this.socketService.emitWordFound(WORD_CORRECT, this.defService.SelectedWord);
+        this.socketService.emitWordFound(WORD_CORRECT, word);
 
         return true;
     }
