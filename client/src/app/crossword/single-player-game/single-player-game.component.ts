@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { CrosswordService } from "../services/crossword/crossword.service";
 import { DefinitionService } from "../services/crossword/definition.service";
 import { Difficulty } from "../../../../../common/difficulty";
@@ -19,7 +19,8 @@ export class SinglePlayerGameComponent implements OnInit {
     public constructor(
         private crosswordService: CrosswordService,
         private defService: DefinitionService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private router: Router
     ) {
         this.isConfigured = false;
     }
@@ -37,5 +38,9 @@ export class SinglePlayerGameComponent implements OnInit {
 
     public isGridCompleted(): boolean {
         return this.grid === undefined ? false : this.grid.isCompleted();
+    }
+
+    public exitGame(): void {
+        this.router.navigate(["homepage"]);
     }
 }

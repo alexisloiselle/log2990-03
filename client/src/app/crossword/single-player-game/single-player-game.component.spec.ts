@@ -35,7 +35,7 @@ describe("SinglePlayerGameComponent", () => {
     let component: SinglePlayerGameComponent;
 
     beforeEach(() => {
-        component = new SinglePlayerGameComponent(crosswordService, defService, new MockActivatedRoute());
+        component = new SinglePlayerGameComponent(crosswordService, defService, new MockActivatedRoute(), null);
     });
 
     it("should create", () => {
