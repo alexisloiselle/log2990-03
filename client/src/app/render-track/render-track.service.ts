@@ -7,8 +7,9 @@ import { Car } from "../race/car/car";
 const NUMBER_HUN: number = 100;
 const NUMBER_EIGHT_HUN: number = 800;
 const APPROX_ZERO_MINUS: number = -0.001;
-const BLACK: number = 0x000000;
-const WHITE: number = 0xFFFFFF;
+const OFFTRACK_COLOR: number = 0x56A83A;
+const TRACK_COLOR: number = 0x65686D;
+const STARTING_LINE_COLOR: number = 0x000000;
 const STARTING_LINE_WIDTH: number = 3;
 const OFF_SET_FACTOR: number = 0.2;
 
@@ -33,7 +34,7 @@ export class RenderTrackService {
         this.segments = track.segments;
         for (const segment of this.segments) {
             const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(track.width, segment.getLength());
-            const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: WHITE, side: THREE.DoubleSide });
+            const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: TRACK_COLOR, side: THREE.DoubleSide });
             plane.push(new THREE.Mesh(geometry, material));
             plane[plane.length - 1].rotation.z = -(this.getRotationArcTan(segment));
             plane[plane.length - 1].rotation.x = Math.PI / 2;
@@ -66,7 +67,7 @@ export class RenderTrackService {
 
     public generateOffTrackSurface(): THREE.Mesh {
         const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(NUMBER_EIGHT_HUN, NUMBER_EIGHT_HUN);
-        const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: BLACK, side: THREE.DoubleSide });
+        const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: OFFTRACK_COLOR, side: THREE.DoubleSide });
         const hPSurface: THREE.Mesh = new THREE.Mesh(geometry, material);
 
         hPSurface.rotation.z = Math.PI / 2;
@@ -83,7 +84,7 @@ export class RenderTrackService {
         const circle: THREE.Mesh[] = [];
         for (let i: number = 0; i < this.segments.length; i++) {
             const geometry: THREE.CircleGeometry = new THREE.CircleGeometry(trackWidth / 2, NUMBER_HUN);
-            const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: WHITE, side: THREE.DoubleSide });
+            const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: TRACK_COLOR, side: THREE.DoubleSide });
             circle.push(new THREE.Mesh(geometry, material));
             circle[i].rotation.z = Math.PI / 2;
             circle[i].rotation.x = Math.PI / 2;
@@ -96,7 +97,7 @@ export class RenderTrackService {
 
     public createStartingLine(trackWidth: number): THREE.Mesh {
         const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(trackWidth, STARTING_LINE_WIDTH);
-        const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: BLACK, side: THREE.DoubleSide });
+        const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: STARTING_LINE_COLOR, side: THREE.DoubleSide });
         const startingLine: THREE.Mesh = new THREE.Mesh(geometry, material);
         startingLine.rotation.z = -(this.getRotationArcTan(this.segments[0]));
         startingLine.rotation.x = Math.PI / 2;
