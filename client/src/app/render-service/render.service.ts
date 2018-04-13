@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import Stats = require("stats.js");
-import * as THREE from "three";
 import { Car } from "../race/car/car";
 import { BotCar } from "../race/car/bot-car";
 import { CarEventHandlerService } from "./car-event-handler.service";
@@ -14,6 +13,7 @@ import { HudService } from "./hud.service";
 import { RaceAdministratorService } from "../race/race-services/race-administrator.service";
 import { URL_DAY_PREFIX, URL_DAY_POSTFIX } from "../race/constants";
 import { Object3D } from "three";
+import THREE = require("three");
 
 const WHITE: number = 0xFFFFFF;
 const GREY: number = 0x334F66;
