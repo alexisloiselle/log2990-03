@@ -67,7 +67,7 @@ import { RaceResultComponent } from './race/game-component/race-result/race-resu
         MultiplayerGameComponent,
         TrackListGameComponent,
         AdminComponent,
-        BestTimeComponent,
+        BestTimesArrayComponent,
         RaceResultComponent
     ],
     imports: [
