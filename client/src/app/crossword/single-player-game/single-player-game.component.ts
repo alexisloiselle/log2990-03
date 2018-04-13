@@ -43,4 +43,8 @@ export class SinglePlayerGameComponent implements OnInit {
     public exitGame(): void {
         this.router.navigate(["homepage"]);
     }
+
+    public restartGame(): void {
+        this.ngOnInit();
+    }
 }
