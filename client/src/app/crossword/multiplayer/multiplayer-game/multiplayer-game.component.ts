@@ -5,6 +5,8 @@ import { CrosswordService } from "../../services/crossword/crossword.service";
 import { DefinitionService } from "../../services/crossword/definition.service";
 import { SocketService } from "../../services/socket.service";
 import { GridComponent } from "../../grid/grid.component";
+import { DefinitionsComponent } from "../../definitions/definitions.component";
+import { Word } from "../../word";
 
 // import {IMultiplayerGame} from "../../../../../../common/multiplayer-game"
 
@@ -15,6 +17,7 @@ import { GridComponent } from "../../grid/grid.component";
 })
 export class MultiplayerGameComponent implements OnInit {
     @ViewChild("grid") private grid: GridComponent;
+    @ViewChild("definitions") private definitions: DefinitionsComponent;
     public isOpponentFound: boolean;
     public difficulty: Difficulty;
     public isConfigured: boolean;
@@ -31,6 +34,7 @@ export class MultiplayerGameComponent implements OnInit {
         private socketService: SocketService
     ) {
         this.listenOpponentFoundWords();
+        this.listenOpponentSelectedWords();
         this.isOpponentFound = false;
         this.isConfigured = false;
         this.playerName = "";
@@ -40,7 +44,7 @@ export class MultiplayerGameComponent implements OnInit {
     }
 
     public async ngOnInit(): Promise<void> {
-        this.route.params.subscribe(async (params) => { //params -> recoit par URL (paramètres)
+        this.route.params.subscribe(async (params) => {
             this.gameName = params.gamename;
             if (params.isjoingame === "true") {
                 await this.opponentFound();
@@ -80,6 +84,24 @@ export class MultiplayerGameComponent implements OnInit {
             }
             // this.placeWord(tempWord);
         });
+    }
+
+    private listenOpponentSelectedWords(): void {
+        this.socketService.selectWord().subscribe((word) => {
+            this.definitions.opponentSelectedWord = new Word(word.word.word.word,
+                                                             word.word.word.definition,
+                                                             word.word.word.isHorizontal,
+                                                             word.word.word.line,
+                                                             word.word.word.column);
+        });
+    }
+
+    public isGridDefined(): boolean {
+        return this.grid !== undefined;
+    }
+
+    public isDefinitionsDefined(): boolean {
+        return this.definitions !== undefined;
     }
 
     private isGameEnded(): boolean {

@@ -4,7 +4,8 @@
     <div *ngFor="let word of defService.HorizontalWords" (click)="defService.handleClickDef(word);" [ngClass]="{
                     'definition': true,
                     'selected': defService.SelectedWord != undefined && word.Word == defService.SelectedWord.Word,
-                    'placed': word.IsPlaced
+                    'placed': word.IsPlaced,
+                    'selectedByOpponent' : opponentSelectedWord != undefined && word.Word == opponentSelectedWord.Word
                   }">
       <p class="canSelect"> {{word.Line + 1}} : {{defService.isCheatModeOn ? word.Word : word.Definition}}</p>
     </div>
@@ -16,7 +17,8 @@
     <div *ngFor="let word of defService.VerticalWords" (click)="defService.handleClickDef(word);" [ngClass]="{
                   'definition': true,
                   'selected': defService.SelectedWord != undefined && word.Word == defService.SelectedWord.Word,
-                  'placed': word.IsPlaced
+                  'placed': word.IsPlaced,
+                  'selectedByOpponent' : opponentSelectedWord != undefined && word.Word == opponentSelectedWord.Word
                 }">
       <p class="canSelect">{{word.Column + 1}} : {{defService.isCheatModeOn ? word.Word : word.Definition}}</p>
     </div>

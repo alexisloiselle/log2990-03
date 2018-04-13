@@ -12,13 +12,13 @@
       <li *ngIf="letter !== ''" class="case bordercase letterCase" [ngClass]="{
                       'thick-border': isPartOfWord(defService.SelectedWord, i, j)
                     }">
-        <input id="{{i}}{{j}}" type="text" [ngClass]="{
+        <input id="{{i}}{{j}}" type="text"  [ngClass]="{
                         'whiteCaseInput': true,
                         'canSelect': true,
                         'selectedByOpponent': isPartOfWord(opponentSelectedWord, i, j),
                         'selected': isPartOfWord(defService.SelectedWord, i, j),
-                        'placed': letterGrid[i][j].IsPlaced && !this.letterGrid[i][j].IsFoundByOpponent,
-                        'placedByOpponent' : letterGrid[i][j].IsPlaced && this.letterGrid[i][j].IsFoundByOpponent
+                        'placed': letterGrid[i][j].IsPlaced && !letterGrid[i][j].IsFoundByOpponent,
+                        'placedByOpponent' : letterGrid[i][j].IsPlaced && letterGrid[i][j].IsFoundByOpponent
                       }" maxlength="1" (keydown)="inputService.handleKey($event.keyCode, i, j ); 
                       $event.preventDefault();" (click)="selectWordFromCase(i, j)" [(value)]="letterGrid[i][j].Letter" #case
         />
