@@ -4,13 +4,31 @@
   <button type="button" class="btn btn-outline-primary" (click)="defService.isCheatModeOn = !defService.isCheatModeOn">
     {{defService.isCheatModeOn ? 'Disable Cheat Mode' : 'Enable Cheat Mode'}}
   </button>
-  <div *ngIf="isConfigured">
+  <div *ngIf="isConfigured && !isGameOver()">
     <div class="row">
       <div id="crossword" class="col-sm-5">
-        <app-grid></app-grid>
+        <app-grid #grid></app-grid>
       </div>
       <div id="definitions" class="col-sm-7">
         <app-definitions></app-definitions>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="gameOverModal" *ngIf="isGameOver()">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" *ngIf="currentPlayerWon();  else elseBlock">Congratulations, you won!</h5>
+        <ng-template #elseBlock><b>You lose!</b></ng-template>
+      </div>
+      <div class="modal-body">
+        Would you like to restart the game with the same options?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="exitGame()">Exit</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="restartGame()">Restart Game</button>
       </div>
     </div>
   </div>

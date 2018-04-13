@@ -1,9 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { Difficulty } from "../../../../../../common/difficulty";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { CrosswordService } from "../../services/crossword/crossword.service";
 import { DefinitionService } from "../../services/crossword/definition.service";
 import { SocketService } from "../../services/socket.service";
+import { GridComponent } from "../../grid/grid.component";
 
 @Component({
     selector: "app-multiplayer-game",
@@ -11,6 +12,7 @@ import { SocketService } from "../../services/socket.service";
     styleUrls: ["./multiplayer-game.component.css"]
 })
 export class MultiplayerGameComponent implements OnInit {
+    @ViewChild("grid") private grid: GridComponent;
 
     public isOpponentFound: boolean;
     public difficulty: Difficulty;
@@ -21,7 +23,8 @@ export class MultiplayerGameComponent implements OnInit {
         private crosswordService: CrosswordService,
         private defService: DefinitionService,
         private route: ActivatedRoute,
-        private socketService: SocketService
+        private socketService: SocketService,
+        private router: Router
     ) {
         this.isOpponentFound = false;
         this.isConfigured = false;
@@ -51,4 +54,19 @@ export class MultiplayerGameComponent implements OnInit {
         this.isConfigured = true;
     }
 
+    public isGameOver(): boolean {
+        return this.grid === undefined ? false : this.grid.isCompleted();
+    }
+
+    public currentPlayerWon(): boolean {
+        return true;
+    }
+
+    public exitGame(): void {
+        this.router.navigate(["homepage"]);
+    }
+
+    public restartGame(): void {
+        this.ngOnInit();
+    }
 }
