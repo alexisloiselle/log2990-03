@@ -13,6 +13,7 @@ import { DefinitionService } from "./crossword/services/crossword/definition.ser
 import { SocketService } from "./crossword/services/socket.service";
 
 import { TrackEditorComponent } from "./race/track-editor/track-editor.component";
+import { HeadlightService } from "./race/car/headlight.service";
 
 import { TrackListComponent } from "./race/track-list//track-list.component";
 import { AppRoutingModule } from "./app-routing.module";
@@ -87,7 +88,8 @@ import { HudService } from "./render-service/hud.service";
         TrackService,
         RenderTrackService,
         HudService,
-        RaceAdministratorService
+        RaceAdministratorService,
+        HeadlightService
     ],
     bootstrap: [AppComponent]
 })

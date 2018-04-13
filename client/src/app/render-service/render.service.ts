@@ -222,7 +222,7 @@ export class RenderService {
         this.scene.remove(light);
     }
 
-    private changeMomentOfTheDay(): void {
+    private async changeMomentOfTheDay(): Promise<void> {
         this.isNight = !this.isNight;
         this.removeAmbiantLight();
         if (this.isNight) {

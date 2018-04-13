@@ -3,6 +3,8 @@ import { Engine } from "./engine";
 import { MS_TO_SECONDS, GRAVITY, PI_OVER_2, RAD_TO_DEG } from "../constants";
 import { Wheel } from "./wheel";
 import { CarGPS } from "./car-gps";
+import THREE = require("three");
+import { HeadlightService } from "./headlight.service";
 
 export const DEFAULT_WHEELBASE: number = 2.78;
 export const DEFAULT_MASS: number = 1515;
@@ -31,6 +33,7 @@ export class Car extends Object3D {
     private steeringWheelDirection: number;
     private weightRear: number;
     public carGPS: CarGPS;
+    private headlightService: HeadlightService;
 
     public get mass(): number {
         return this._mass;
@@ -123,6 +126,7 @@ export class Car extends Object3D {
         this.steeringWheelDirection = 0;
         this.weightRear = INITIAL_WEIGHT_DISTRIBUTION;
         this._speed = new Vector3(0, 0, 0);
+        this.headlightService = new HeadlightService(this.position);
     }
 
     public initializeGPS(trackSegments: Array<LineCurve>, trackWidth: number): void {
@@ -175,6 +179,9 @@ export class Car extends Object3D {
         const R: number = DEFAULT_WHEELBASE / Math.sin(this.steeringWheelDirection * deltaTime);
         const omega: number = this._speed.length() / R;
         this._mesh.rotateY(omega);
+
+        // update light position
+        this.headlightService.updateLocation();
     }
 
     private physicsUpdate(deltaTime: number): void {
