@@ -69,7 +69,7 @@ export class CollisionService {
                 index = i;
             }
         }
-        if (this.isBetweenPoints(car.getPosition(), trackSegments[index])) {
+        if (index !== -1 && this.isBetweenPoints(car.getPosition(), trackSegments[index])) {
             if (this.isOnTrackLimit(smallestDistance, trackWidth)) {
                 this.handleTrackCollision(car, trackSegments[index], false);
             }
