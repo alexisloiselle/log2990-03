@@ -34,10 +34,14 @@ li.thick-border {
     font-weight: bold;
 }
 
+.placedByOpponent {
+    background-color: rgb(42, 60, 219) !important;
+}
+
 .selected {
     background-color: rgb(247, 228, 125);
 }
 
-.selectedMP {
+.selectedByOpponent {
     background-color: rgb(247, 0, 125);
 }

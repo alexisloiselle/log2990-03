@@ -33,8 +33,6 @@ export class GridComponent implements OnInit {
         private defService: DefinitionService,
         private socketService: SocketService
     ) {
-
-        // this.socket = io.connect("localhost:3000");
         this.numberPlacedWords = 0;
         this.listenSelectedWord();
         this.listenLetterInput();
@@ -62,7 +60,6 @@ export class GridComponent implements OnInit {
 
     private listenWordCorrect(): void {
         this.socketService.wordCorrect().subscribe((word) => {
-
             const tempWord: Word = new Word(word.word.word.word,
                                             word.word.word.definition,
                                             word.word.word.isHorizontal,
@@ -72,9 +69,9 @@ export class GridComponent implements OnInit {
             if (!word.word.isHost) {
                 for (let i: number = 0; i < tempWord.Word.length; i++) {
                     if (tempWord.IsHorizontal) {
-                        this.addLetter(tempWord, tempWord.Word[i], tempWord.Line, tempWord.Column + i);
+                        this.addLetter(tempWord, tempWord.Word[i], tempWord.Line, tempWord.Column + i, true);
                     } else {
-                        this.addLetter(tempWord, tempWord.Word[i], tempWord.Line + i, tempWord.Column);
+                        this.addLetter(tempWord, tempWord.Word[i], tempWord.Line + i, tempWord.Column, true);
                     }
                 }
             }
@@ -100,7 +97,7 @@ export class GridComponent implements OnInit {
 
     private listenLetterInput(): void {
         this.inputService.LetterInputSub.subscribe((res) => {
-            this.addLetter(this.defService.SelectedWord, res.letter, res.i, res.j);
+            this.addLetter(this.defService.SelectedWord, res.letter, res.i, res.j, false);
             this.focusOnNextCase(res.i, res.j);
         });
     }
@@ -162,11 +159,12 @@ export class GridComponent implements OnInit {
         return false;
     }
 
-    private addLetter(word: Word, letter: string, i: number, j: number): void {
+    private addLetter(word: Word, letter: string, i: number, j: number, foundByOpponent: boolean): void {
         if (!this.letterGrid[i][j].IsPlaced) {
             this.letterGrid[i][j].Letter = letter;
         }
 
+        this.letterGrid[i][j].IsFoundByOpponent = foundByOpponent;
         this.verifyEndOfWord(word, i, j);
     }
 
