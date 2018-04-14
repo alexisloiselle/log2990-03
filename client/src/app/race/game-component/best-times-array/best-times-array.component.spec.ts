@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { BestTimesArrayComponent } from "./best-times-array.component";
 
-describe('BestTimesArrayComponent', () => {
+describe("BestTimesArrayComponent", () => {
     let component: BestTimesArrayComponent;
     let fixture: ComponentFixture<BestTimesArrayComponent>;
 
@@ -19,7 +19,7 @@ describe('BestTimesArrayComponent', () => {
         fixture.detectChanges();
     });
 
-    it('should create', () => {
+    it("should create", () => {
         expect(component).toBeTruthy();
     });
 });
