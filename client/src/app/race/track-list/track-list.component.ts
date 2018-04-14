@@ -79,9 +79,9 @@ export class TrackListComponent implements OnInit {
         await this.ngOnInit();
     }
     public async playTrack(selectedTrack: RaceTrack): Promise<void> {
-        this.router.navigateByUrl("/car-game/" + selectedTrack.id);
+        location.replace("/car-game/" + selectedTrack.id);
     }
     public playDefaultTrack(): void {
-        this.router.navigateByUrl("/car-game/" + DEFAULT_TRACK_ID);
+        location.replace("/car-game/" + DEFAULT_TRACK_ID);
     }
 }

@@ -49,6 +49,6 @@ export class TrackListGameComponent implements OnInit {
     }
 
     public async playTrack(selectedTrack: RaceTrack): Promise<void> {
-        this.router.navigateByUrl("/car-game/" + selectedTrack.id);
+        location.replace("/car-game/" + selectedTrack.id);
     }
 }
