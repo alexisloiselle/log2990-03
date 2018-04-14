@@ -1,10 +1,10 @@
 <script src="/socket.io/socket.io.js"></script> 
 <div *ngIf="!isOpponentFound" id="waitingForOpponent">Waiting for an opponent...</div>
-<div *ngIf="isOpponentFound">
+<div *ngIf="isOpponentFound && !isGameOver()">
   <button type="button" class="btn btn-outline-primary" (click)="defService.isCheatModeOn = !defService.isCheatModeOn">
     {{defService.isCheatModeOn ? 'Disable Cheat Mode' : 'Enable Cheat Mode'}}
   </button>
-  <div *ngIf="isConfigured && !isGameOver()">
+  <div *ngIf="isConfigured">
     <div class="row">
       <div id="crossword" class="col-sm-5">
         <app-grid #grid></app-grid>
@@ -24,11 +24,11 @@
         <ng-template #elseBlock><b>You lose!</b></ng-template>
       </div>
       <div class="modal-body">
-        Would you like to restart the game with the same options?
+        Would you like to rematch with the same opponent?
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="exitGame()">Exit</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="restartGame()">Restart Game</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="rematch()">Rematch</button>
       </div>
     </div>
   </div>

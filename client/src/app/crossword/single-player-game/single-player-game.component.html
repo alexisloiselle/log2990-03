@@ -1,10 +1,9 @@
-
-<div id="difficultyTitle">Difficulty : {{difficulty}}</div>
-<a class="btn btn-outline-primary" routerLink="/single-player">Change difficulty</a>
-<button type="button" class="btn btn-outline-primary" (click)="defService.isCheatModeOn = !defService.isCheatModeOn">
-  {{defService.isCheatModeOn ? 'Disable Cheat Mode' : 'Enable Cheat Mode'}}
-</button>
 <div *ngIf="isConfigured && !isGridCompleted()">
+  <div id="difficultyTitle">Difficulty : {{difficulty}}</div>
+  <a class="btn btn-outline-primary" routerLink="/single-player">Change difficulty</a>
+  <button type="button" class="btn btn-outline-primary" (click)="defService.isCheatModeOn = !defService.isCheatModeOn">
+    {{defService.isCheatModeOn ? 'Disable Cheat Mode' : 'Enable Cheat Mode'}}
+  </button>
   <div class="row">
     <div id="crossword" class="col-sm-5">
       <app-grid #grid></app-grid>

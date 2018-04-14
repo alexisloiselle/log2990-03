@@ -89,7 +89,6 @@ export class GridComponent implements OnInit {
         let isCompleted: boolean = true;
 
         for (let i: number = 0; i < this.letterGrid.length; i++) {
-            // tslint:disable-next-line:prefer-for-of
             for (let j: number = 0; j < this.letterGrid[0].length; j++) {
                 isCompleted = isCompleted && (this.crosswordService.FormattedGrid.letters[i][j] === ""
                                               || this.letterGrid[i][j].IsPlaced);

@@ -43,7 +43,6 @@ export class MultiplayerGameComponent implements OnInit {
                 });
             }
         });
-
     }
 
     public async opponentFound(): Promise<void> {
@@ -66,7 +65,7 @@ export class MultiplayerGameComponent implements OnInit {
         this.router.navigate(["homepage"]);
     }
 
-    public restartGame(): void {
+    public rematch(): void {
         this.ngOnInit();
     }
 }
