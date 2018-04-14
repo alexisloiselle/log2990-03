@@ -3,7 +3,7 @@ import { BotCar } from "../car/bot-car";
 import { Car } from "../car/car";
 import { NUMBER_OF_LAPS } from "../../config";
 
-const MEAN_CAR_SPEED: number = 40;  // POTENTIALLY TO MODIFY
+const MEAN_CAR_SPEED: number = 40;  // TODO: POTENTIALLY TO MODIFY
 
 @Injectable()
 export class RaceAdministratorService {
@@ -14,13 +14,8 @@ export class RaceAdministratorService {
         this.isRaceOnGoing = true;
     }
 
-    /* RESPONSABILITÉS:
-     * Retourne le lap auquel sont rendus les autos
-     * Détermine lorsque la course commence et se termine
-     * Simulation du temps des autres joueurs
-     */
     public getPlayerLap(playerCar: Car): number {
-        // Not really elegant, maybe find another way
+        // TODO: Not really elegant, maybe find another way
         if (playerCar.carGPS === undefined) {
             return 0;
         }
@@ -43,33 +38,25 @@ export class RaceAdministratorService {
 
     public determinePlayersTime(cars: Array<Car>, winnerCar: Car): void {
         for (const car of cars) {
-            // Il faut déterminer le nombre de segments restants pour terminer la course
             if (car !== winnerCar) {
-                // Remaining time to complete segment
                 const remTimeToCompSeg: number = Math.sqrt(Math.pow(car.mesh.position.z - car.carGPS.currentSegment.v2.x, 2) +
                                                         Math.pow(car.mesh.position.x - car.carGPS.currentSegment.v2.y, 2)) / MEAN_CAR_SPEED;
-                // Remaining time to complete current lap
                 let remTimeToCompLap: number = 0;
                 for (let i: number = 1; i + car.carGPS.currentSegmentIndex < car.carGPS.NumberOfTrackSegments; i++) {
-                    console.log(i + car.carGPS.currentSegmentIndex);
                     remTimeToCompLap += car.carGPS.trackSegments[i].getLength() / MEAN_CAR_SPEED;
                 }
-                // Remaining time to complete the rest of the race
                 const remainingLaps: number = NUMBER_OF_LAPS - car.carGPS.currentLap;
                 const remainingSegments: number = remainingLaps * car.carGPS.trackSegments.length;
                 let remTimeToCompRestOfRace: number = 0;
                 for (let i: number = 0; i < remainingSegments; i++) {
                     remTimeToCompRestOfRace += car.carGPS.trackSegments[i % car.carGPS.NumberOfTrackSegments].getLength() / MEAN_CAR_SPEED;
                 }
-
-
                 this.playersTime.push(remTimeToCompSeg + remTimeToCompLap + remTimeToCompRestOfRace);
             } else {
                 this.playersTime.push(0);
             }
 
         }
-        console.log(this.playersTime);
     }
 
     public controlBots(botCars: Array<BotCar>): void {

@@ -4,6 +4,7 @@ import { Car } from "../car/car";
 import { HudService } from "../../render-service/hud.service";
 import { NUMBER_OF_LAPS } from "../../config";
 import { BestTimeService } from "./best-times-array/best-time.service";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
     moduleId: module.id,
@@ -20,7 +21,8 @@ export class GameComponent implements AfterViewInit {
     public constructor(
         private renderService: RenderService,
         protected hudService: HudService,
-        private bestTimeService: BestTimeService
+        private bestTimeService: BestTimeService,
+        private route: ActivatedRoute
     ) {
         this.raceDone = false;
         this.listenRaceEnd();
@@ -49,8 +51,12 @@ export class GameComponent implements AfterViewInit {
     }
 
     public ngAfterViewInit(): void {
+        let raceTrackId: string;
+        this.route.params.subscribe((params) => {
+            raceTrackId = params.raceTrackId;
+        });
         this.renderService
-            .initialize(this.containerRef.nativeElement)
+            .initialize(this.containerRef.nativeElement, raceTrackId)
             .then(/* do nothing */)
             .catch((err) => console.error(err));
     }

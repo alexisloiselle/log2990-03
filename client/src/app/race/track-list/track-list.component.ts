@@ -5,6 +5,7 @@ import { CanvasComponent } from "../track-editor/canvas/canvas.component";
 import * as THREE from "three";
 import { RenderService } from "../../render-service/render.service";
 import { Router } from "@angular/router";
+import { DEFAULT_TRACK_ID } from "../../config";
 
 @Component({
     selector: "app-track-list",
@@ -78,18 +79,9 @@ export class TrackListComponent implements OnInit {
         await this.ngOnInit();
     }
     public async playTrack(selectedTrack: RaceTrack): Promise<void> {
-        const race: RaceTrack = new RaceTrack(
-            selectedTrack.id,
-            selectedTrack.name,
-            selectedTrack.description,
-            selectedTrack.type,
-            selectedTrack.points,
-            selectedTrack.bestTimes
-        );
-        this.renderService.loadTrack(race);
-        this.router.navigateByUrl("/car-game");
+        this.router.navigateByUrl("/car-game/" + selectedTrack.id);
     }
     public playDefaultTrack(): void {
-        this.router.navigateByUrl("/car-game");
+        this.router.navigateByUrl("/car-game/" + DEFAULT_TRACK_ID);
     }
 }

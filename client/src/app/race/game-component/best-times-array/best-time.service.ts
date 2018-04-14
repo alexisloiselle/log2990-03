@@ -80,7 +80,6 @@ export class BestTimeService {
     }
 
     public async replayTrack(): Promise<void> {
-        await this.renderService.loadTrack(this.track);
-        this.router.navigateByUrl("/car-game");
+        location.reload();
     }
 }

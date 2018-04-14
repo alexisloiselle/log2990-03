@@ -14,6 +14,7 @@ import { HudService } from "./hud.service";
 import { RaceAdministratorService } from "../race/race-services/race-administrator.service";
 import { Subject } from "rxjs/Subject";
 import { Observable } from "rxjs/Observable";
+import { TrackService } from "../track.service";
 
 const WHITE: number = 0xFFFFFF;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
@@ -53,6 +54,7 @@ export class RenderService {
         private renderTrackService: RenderTrackService,
         private hudService: HudService,
         private raceAdministratorService: RaceAdministratorService,
+        private trackService: TrackService,
         private route: Router
     ) {
         this.endRaceSub = new Subject<{ track: RaceTrack, time: number, isPlayer: boolean }>();
@@ -88,10 +90,11 @@ export class RenderService {
         });
     }
 
-    public async initialize(container: HTMLDivElement): Promise<void> {
+    public async initialize(container: HTMLDivElement, raceTrackId: string): Promise<void> {
         if (container) {
             this.container = container;
         }
+        await this.loadTrack(raceTrackId);
         await this.createScene();
         this.hudService.initialize();
         this.initStats();
@@ -131,7 +134,6 @@ export class RenderService {
             this.raceAdministratorService.controlBots(this.botCars);
             const index: number = this.raceAdministratorService.determineWinner(this.cars);
             if (index >= 0) {
-                console.log(index);
                 this.manageRaceEnd(index);
             }
             this.cameraService.update(this._car.Position);
@@ -197,8 +199,16 @@ export class RenderService {
         this.renderTrackService.positionCars(this._car, this.botCars);
     }
 
-    public loadTrack(track: RaceTrack): void {
-        this.track = track;
+    public async loadTrack(raceTrackId: string): Promise<void> {
+        const track: RaceTrack = await this.trackService.getTrack(raceTrackId);
+        this.track = new RaceTrack(
+            track.id,
+            track.name,
+            track.description,
+            track.type,
+            track.points,
+            track.bestTimes
+        );
     }
 
     private getAspectRatio(): number {

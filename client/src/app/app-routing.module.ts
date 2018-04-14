@@ -24,7 +24,7 @@ const routes: Routes = [
     { path: "admin", component: AdminComponent},
     { path: "passwordForm", component: PasswordFormComponent},
     { path: "homepage", component: HomepageComponent },
-    { path: "car-game", component: GameComponent },
+    { path: "car-game/:raceTrackId", component: GameComponent },
     { path: "track-editor", component: TrackEditorComponent },
     { path: "track-list", component: TrackListComponent },
     { path: "race", component: RaceMainComponent },
