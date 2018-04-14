@@ -1,11 +1,11 @@
 import { Injectable } from "@angular/core";
 import * as THREE from "three";
-import { RaceTrack } from "../race/raceTrack";
+import { RaceTrack, RaceType } from "../race/raceTrack";
 import { BotCar } from "../race/car/bot-car";
 import { Car } from "../race/car/car";
 import { TrackService } from "../track.service";
 
-const DEFAULT_TRACK_ID: string = "5ace7e73f36d285dd8f2eac5";
+const DEFAULT_TRACK_ID: string = "5ad24ecff36d286a71b51851";
 
 const NUMBER_HUN: number = 100;
 const NUMBER_EIGHT_HUN: number = 800;
@@ -55,15 +55,23 @@ export class RenderTrackService {
     }
 
     public async generateDefaultTrack(): Promise<RaceTrack> {
-        const defaultTrack: RaceTrack = await this.trackService.getTrack(DEFAULT_TRACK_ID);
+        // const defaultTrack: RaceTrack = await this.trackService.getTrack(DEFAULT_TRACK_ID);
+
+        const defaultTrackPoints: THREE.Vector2[] = [];
+        // tslint:disable-next-line:no-magic-numbers
+        defaultTrackPoints.push(new THREE.Vector2(329, 114));
+        // tslint:disable-next-line:no-magic-numbers
+        defaultTrackPoints.push(new THREE.Vector2(250, 347));
+        // tslint:disable-next-line:no-magic-numbers
+        defaultTrackPoints.push(new THREE.Vector2(136, 167));
+        defaultTrackPoints.push(defaultTrackPoints[0]);
 
         return new RaceTrack(
-            defaultTrack.id,
-            defaultTrack.name,
-            defaultTrack.description,
-            defaultTrack.type,
-            defaultTrack.points,
-            defaultTrack.bestTimes
+            DEFAULT_TRACK_ID,
+            "Default Track",
+            "Default Track",
+            0,
+            defaultTrackPoints
         );
     }
 

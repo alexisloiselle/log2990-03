@@ -131,6 +131,7 @@ export class RenderService {
             this.raceAdministratorService.controlBots(this.botCars);
             const index: number = this.raceAdministratorService.determineWinner(this.cars);
             if (index >= 0) {
+                console.log(index);
                 this.manageRaceEnd(index);
             }
             this.cameraService.update(this._car.Position);

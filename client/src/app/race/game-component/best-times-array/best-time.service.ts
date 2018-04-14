@@ -51,8 +51,8 @@ export class BestTimeService {
 
     public async initialize(track: RaceTrack, time: number, isPlayer: boolean): Promise<void> {
         this.track = track;
-        this.isTimeBeaten = this.checkTime(time);
         this.isPlayer = isPlayer;
+        this.isTimeBeaten = this.checkTime(time);
     }
 
     private checkTime(time: number): boolean {
