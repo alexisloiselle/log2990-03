@@ -34,7 +34,7 @@ export class RenderService {
     private stats: Stats;
     private lastDate: number;
     private track: RaceTrack;
-    private endRaceSub: Subject<{ track: RaceTrack, time: number }>;
+    private endRaceSub: Subject<{ track: RaceTrack, time: number, isPlayer: boolean }>;
 
     public audioListener: THREE.AudioListener;
     public startingSound: THREE.Audio;
@@ -55,7 +55,7 @@ export class RenderService {
         private raceAdministratorService: RaceAdministratorService,
         private route: Router
     ) {
-        this.endRaceSub = new Subject<{ track: RaceTrack, time: number }>();
+        this.endRaceSub = new Subject<{ track: RaceTrack, time: number, isPlayer: boolean }>();
 
         this._car = new Car();
         this.cars.push(this._car);
@@ -78,7 +78,7 @@ export class RenderService {
         });
     }
 
-    public get EndRaceSub(): Observable<{ track: RaceTrack, time: number }> {
+    public get EndRaceSub(): Observable<{ track: RaceTrack, time: number, isPlayer: boolean }> {
         return this.endRaceSub.asObservable();
     }
 
@@ -131,8 +131,9 @@ export class RenderService {
                 // car.go();
             }
             this.raceAdministratorService.controlBots(this.botCars);
-            if (this.raceAdministratorService.determineWinner(this.cars) >= 0) {
-                this.manageRaceEnd();
+            const index: number = this.raceAdministratorService.determineWinner(this.cars);
+            if (index >= 0) {
+                this.manageRaceEnd(index);
             }
             this._car.carGPS.reachedJonction(this._car.mesh);
             this.cameraService.update(this._car.Position);
@@ -143,8 +144,8 @@ export class RenderService {
         }
     }
 
-    private manageRaceEnd(): void {
-        this.endRaceSub.next({ track: this.track, time: this.hudService.raceTime });
+    private manageRaceEnd(index: number): void {
+        this.endRaceSub.next({ track: this.track, time: this.hudService.raceTime, isPlayer: index === 0 });
         this.raceOnGoing = false;
     }
 
@@ -170,7 +171,7 @@ export class RenderService {
 
     private async createTrack(): Promise<void> {
         if (this.track == null) {
-            await (this.track = this.renderTrackService.generateDefaultTrack());
+            this.track = await this.renderTrackService.generateDefaultTrack();
         }
         const planes: THREE.Mesh[] = this.renderTrackService.buildTrack(this.track);
         for (const plane of planes) {

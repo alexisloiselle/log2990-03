@@ -3,6 +3,9 @@ import * as THREE from "three";
 import { RaceTrack } from "../race/raceTrack";
 import { BotCar } from "../race/car/bot-car";
 import { Car } from "../race/car/car";
+import { TrackService } from "../track.service";
+
+const DEFAULT_TRACK_ID: string = "5ace7e73f36d285dd8f2eac5";
 
 const NUMBER_HUN: number = 100;
 const NUMBER_EIGHT_HUN: number = 800;
@@ -29,12 +32,18 @@ const POSITIONOFFSET: number = 2;
 export class RenderTrackService {
     public segments: THREE.LineCurve[] = [];
 
+    public constructor(
+        private trackService: TrackService
+    ) { }
+
     public buildTrack(track: RaceTrack): THREE.Mesh[] {
         const plane: THREE.Mesh[] = [];
         this.segments = track.segments;
         for (const segment of this.segments) {
             const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(track.width, segment.getLength());
-            const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: TRACK_COLOR, side: THREE.DoubleSide });
+            const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial(
+                { color: TRACK_COLOR, side: THREE.DoubleSide }
+            );
             plane.push(new THREE.Mesh(geometry, material));
             plane[plane.length - 1].rotation.z = -(this.getRotationArcTan(segment));
             plane[plane.length - 1].rotation.x = Math.PI / 2;
@@ -45,29 +54,24 @@ export class RenderTrackService {
         return plane;
     }
 
-    // TODO: get from mongodb instead OU disable best time
-    public generateDefaultTrack(): RaceTrack {
-        const defaultTrackPoints: THREE.Vector2[] = [];
-        // tslint:disable-next-line:no-magic-numbers
-        defaultTrackPoints.push(new THREE.Vector2(329, 114));
-        // tslint:disable-next-line:no-magic-numbers
-        defaultTrackPoints.push(new THREE.Vector2(250, 347));
-        // tslint:disable-next-line:no-magic-numbers
-        defaultTrackPoints.push(new THREE.Vector2(136, 167));
-        defaultTrackPoints.push(defaultTrackPoints[0]);
+    public async generateDefaultTrack(): Promise<RaceTrack> {
+        const defaultTrack: RaceTrack = await this.trackService.getTrack(DEFAULT_TRACK_ID);
 
         return new RaceTrack(
-            "5ace7e73f36d285dd8f2eac5",
-            "Track",
-            "Default Track",
-            0,
-            defaultTrackPoints
+            defaultTrack.id,
+            defaultTrack.name,
+            defaultTrack.description,
+            defaultTrack.type,
+            defaultTrack.points,
+            defaultTrack.bestTimes
         );
     }
 
     public generateOffTrackSurface(): THREE.Mesh {
         const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(NUMBER_EIGHT_HUN, NUMBER_EIGHT_HUN);
-        const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: OFFTRACK_COLOR, side: THREE.DoubleSide });
+        const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial(
+            { color: OFFTRACK_COLOR, side: THREE.DoubleSide }
+        );
         const hPSurface: THREE.Mesh = new THREE.Mesh(geometry, material);
 
         hPSurface.rotation.z = Math.PI / 2;
@@ -84,7 +88,9 @@ export class RenderTrackService {
         const circle: THREE.Mesh[] = [];
         for (let i: number = 0; i < this.segments.length; i++) {
             const geometry: THREE.CircleGeometry = new THREE.CircleGeometry(trackWidth / 2, NUMBER_HUN);
-            const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: TRACK_COLOR, side: THREE.DoubleSide });
+            const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial(
+                { color: TRACK_COLOR, side: THREE.DoubleSide }
+            );
             circle.push(new THREE.Mesh(geometry, material));
             circle[i].rotation.z = Math.PI / 2;
             circle[i].rotation.x = Math.PI / 2;
@@ -97,7 +103,9 @@ export class RenderTrackService {
 
     public createStartingLine(trackWidth: number): THREE.Mesh {
         const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(trackWidth, STARTING_LINE_WIDTH);
-        const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ color: STARTING_LINE_COLOR, side: THREE.DoubleSide });
+        const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial(
+            { color: STARTING_LINE_COLOR, side: THREE.DoubleSide }
+        );
         const startingLine: THREE.Mesh = new THREE.Mesh(geometry, material);
         startingLine.rotation.z = -(this.getRotationArcTan(this.segments[0]));
         startingLine.rotation.x = Math.PI / 2;
@@ -155,11 +163,15 @@ export class RenderTrackService {
 
         return positionNumbers;
     }
-    private calulateCarPositionPositive(car: Car, ratioX: number, position: number, ratioY: number, angle: number): void {
+    private calulateCarPositionPositive(
+        car: Car, ratioX: number, position: number, ratioY: number, angle: number
+    ): void {
         car.mesh.position.x = ratioX * position + Math.sin(angle) * POSITIONOFFSET;
         car.mesh.position.z = ratioY * position + Math.cos(angle) * POSITIONOFFSET;
     }
-    private calulateCarPositionNegative(car: Car, ratioX: number, position: number, ratioY: number, angle: number): void {
+    private calulateCarPositionNegative(
+        car: Car, ratioX: number, position: number, ratioY: number, angle: number
+    ): void {
         car.mesh.position.x = ratioX * position - Math.sin(angle) * POSITIONOFFSET;
         car.mesh.position.z = ratioY * position - Math.cos(angle) * POSITIONOFFSET;
     }

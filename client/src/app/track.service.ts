@@ -29,7 +29,7 @@ export class TrackService {
     public async getTrack(id: string): Promise<RaceTrack> {
         return this.http.get(`${this.BASE_URL}/${id}`)
             .toPromise()
-            .then((response: RaceTrack) => response)
+            .then((response: {_id: string, track: string}) => JSON.parse(response.track))
             .catch((error: Error) => this.handleError<RaceTrack>(error));
     }
 
