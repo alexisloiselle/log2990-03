@@ -5,7 +5,7 @@ import { DefinitionService } from "../services/crossword/definition.service";
 import { Subject } from "rxjs/Subject";
 import { Word } from "../word";
 import { Case } from "../case";
-import * as io from "socket.io-client";
+// import * as io from "socket.io-client";
 import {WORD_CORRECT, SELECTED_WORD} from "../../../../../common/socket-constants";
 import {SocketService} from "../services/socket.service";
 
