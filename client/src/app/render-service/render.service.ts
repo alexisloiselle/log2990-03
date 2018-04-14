@@ -124,18 +124,15 @@ export class RenderService {
     private update(): void {
         if (this.raceOnGoing) {
             const timeSinceLastFrame: number = Date.now() - this.lastDate;
-            // this._car.update(timeSinceLastFrame);
             for (const car of this.cars) {
-                // tslint:disable-next-line:no-magic-numbers
                 car.update(timeSinceLastFrame * 3);
-                // car.go();
+                car.carGPS.updatePosition(car.mesh);
             }
             this.raceAdministratorService.controlBots(this.botCars);
             const index: number = this.raceAdministratorService.determineWinner(this.cars);
             if (index >= 0) {
                 this.manageRaceEnd(index);
             }
-            this._car.carGPS.reachedJonction(this._car.mesh);
             this.cameraService.update(this._car.Position);
             this.skyboxService.update(this._car.Position);
             this.collisionService.checkForCollision(this.cars, this.track.segments, this.track.width);

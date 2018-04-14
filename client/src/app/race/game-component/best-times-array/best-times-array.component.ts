@@ -6,7 +6,7 @@ import { BestTimeService } from "./best-time.service";
     templateUrl: "./best-times-array.component.html",
     styleUrls: ["./best-times-array.component.css"]
 })
-export class BestTimeComponent implements OnInit {
+export class BestTimesArrayComponent implements OnInit {
 
     public constructor(
         public bestTimeService: BestTimeService

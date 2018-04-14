@@ -3,7 +3,7 @@ import { Subject } from "rxjs/Subject";
 import { Observable } from "rxjs/Observable";
 
 export class CarGPS {
-    private trackSegments: Array<LineCurve> = [];
+    public trackSegments: Array<LineCurve> = [];
     private trackWidth: number;
     private _currentSegmentIndex: number;
     private _currentLap: number;
@@ -37,6 +37,10 @@ export class CarGPS {
         return reachedJonction;
     }
 
+    public updatePosition(carMesh: Object3D): void {
+        this.reachedJonction(carMesh);
+    }
+
     public get currentJunctionPosition(): Vector2 {
         return this.trackSegments[this._currentSegmentIndex].v2;
     }
@@ -55,5 +59,9 @@ export class CarGPS {
 
     public get IncrementLapSub(): Observable<{}> {
         return this._incrementLapSub.asObservable();
+    }
+
+    public get NumberOfTrackSegments(): number {
+        return this.trackSegments.length;
     }
 }
