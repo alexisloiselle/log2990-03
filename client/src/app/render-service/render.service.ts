@@ -133,8 +133,10 @@ export class RenderService {
             }
             this.raceAdministratorService.controlBots(this.botCars);
             const index: number = this.raceAdministratorService.determineWinner(this.cars);
-            if (index >= 0) {
+            if (index === 0) {
                 this.manageRaceEnd(index);
+            } else if (index !== -1) {
+                this.raceAdministratorService.addWinner(this.cars[index], this.hudService.RaceTime);
             }
             this.cameraService.update(this._car.Position);
             this.skyboxService.update(this._car.Position);
@@ -145,7 +147,7 @@ export class RenderService {
     }
 
     private manageRaceEnd(index: number): void {
-        this.endRaceSub.next({ track: this.track, time: this.hudService.raceTime, isPlayer: index === 0 });
+        this.endRaceSub.next({ track: this.track, time: this.hudService.RaceTime, isPlayer: index === 0 });
         this.raceOnGoing = false;
     }
 

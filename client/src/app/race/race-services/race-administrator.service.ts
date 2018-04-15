@@ -8,9 +8,11 @@ const MEAN_CAR_SPEED: number = 40;  // TODO: POTENTIALLY TO MODIFY
 @Injectable()
 export class RaceAdministratorService {
     private isRaceOnGoing: boolean;
+    private winners: {car: Car, time: number}[];
     public playersTime: Array<number> = [];
 
     public constructor() {
+        this.winners = [];
         this.isRaceOnGoing = true;
     }
 
@@ -57,6 +59,10 @@ export class RaceAdministratorService {
             }
 
         }
+    }
+
+    public addWinner(car: Car, time: number): void {
+        this.winners.push({car, time});
     }
 
     public controlBots(botCars: Array<BotCar>): void {
