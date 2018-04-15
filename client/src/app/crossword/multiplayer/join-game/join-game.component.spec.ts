@@ -29,7 +29,29 @@ describe("JoinGameComponent", () => {
         expect(component).toBeTruthy();
     });
 
-    // TODO: isFormValid tu peux le tester en hardcodant le username et le selectedGame
+    it("should not be a valid form if there is no username", () => {
+        component.username = "";
+        component.selectedGame = "gameName";
+        expect(component.isFormValid()).toBeFalsy();
+    });
+
+    it("should not be a valid form if there is no game name", () => {
+        component.username = "username";
+        component.selectedGame = "";
+        expect(component.isFormValid()).toBeFalsy();
+    });
+
+    it("should not be a valid form if there is no username and no game name", () => {
+        component.username = "";
+        component.selectedGame = "";
+        expect(component.isFormValid()).toBeFalsy();
+    });
+
+    it("should be a valid form if there is a username and a game name", () => {
+        component.username = "username";
+        component.selectedGame = "gameName";
+        expect(component.isFormValid()).toBeTruthy();
+    });
 
     // TODO: update username, tu peux l'appeler en hardcodant l'event aussi
     // let event: any = {
