@@ -21,7 +21,8 @@
                         'selectedByOpponent': isPartOfWord(opponentSelectedWord, i, j) && isMultiplayer(),
                         'selected': isPartOfWord(defService.SelectedWord, i, j),
                         'placed': letterGrid[i][j].IsPlaced && !letterGrid[i][j].IsFoundByOpponent,
-                        'placedByOpponent' : letterGrid[i][j].IsPlaced && letterGrid[i][j].IsFoundByOpponent && isMultiplayer()
+                        'placedByOpponent' : letterGrid[i][j].IsPlaced && letterGrid[i][j].IsFoundByOpponent && isMultiplayer(),
+                        'selectedByBoth' : trues
                       }" maxlength="1" (keydown)="inputService.handleKey($event.keyCode, i, j ); 
                       $event.preventDefault();" (click)="selectWordFromCase(i, j)" [(value)]="letterGrid[i][j].Letter" #case
         />
