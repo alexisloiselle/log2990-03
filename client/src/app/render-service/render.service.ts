@@ -142,6 +142,7 @@ export class RenderService {
             this.skyboxService.update(this._car.Position);
             this.collisionService.checkForCollision(this.cars, this.track.segments, this.track.width);
             this.hudService.update();
+            //TODO this.race.administratorservice.updateLapTime()
             this.lastDate = Date.now();
         }
     }
@@ -151,8 +152,8 @@ export class RenderService {
         this.raceOnGoing = false;
     }
 
-    public get playerLap(): number {
-        return this.raceAdministratorService.getPlayerLap(this._car);
+    public getPlayerLap(car: Car): number {
+        return this.raceAdministratorService.getCarLap(car);
     }
 
     private async createScene(): Promise<void> {

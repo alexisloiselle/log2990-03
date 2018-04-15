@@ -21,7 +21,7 @@ export class RaceAdministratorService {
         return this.winners.length > 0;
     }
 
-    public getPlayerLap(playerCar: Car): number {
+    public getCarLap(playerCar: Car): number {
         // TODO: Not really elegant, maybe find another way
         if (playerCar.carGPS === undefined) {
             return 0;
@@ -29,6 +29,8 @@ export class RaceAdministratorService {
 
         return playerCar.carGPS.currentLap;
     }
+
+    // TODO public getBotCarsLap()
 
     public determineWinner(cars: Array<Car>): number {
         for (const car of cars) {
@@ -65,6 +67,8 @@ export class RaceAdministratorService {
 
         }
     }
+
+    // TODO public getLapTimeCar(car: Array<cars>) 
 
     public addWinner(car: Car, time: number): void {
         for (const winnerCar of this.winners) {
