@@ -169,9 +169,11 @@ export class GridComponent implements OnInit {
             this.letterGrid[i][j].Letter = letter;
         }
         this.letterGrid[i][j].IsFoundByOpponent = foundByOpponent;
-        console.log(foundByOpponent);
+        if (foundByOpponent)
+            word.IsPlaced = true;
         if (this.verifyEndOfWord(word, i, j) && !foundByOpponent)
             this.socketService.emitWordFound(WORD_CORRECT, word);
+        
     }
 
     private verifyEndOfWord(word: Word, i: number, j: number): boolean {
@@ -179,6 +181,7 @@ export class GridComponent implements OnInit {
             this.placeWord(word);
             return true;
         }
+        return false;
     }
 
     private removeLetter(i: number, j: number): void {
