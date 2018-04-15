@@ -44,13 +44,12 @@ export class SkyboxService {
         this.skybox.position.set(position.x, position.y, position.z);
     }
 
-    public async changeToNight(scene: Scene): Promise<void> {
+    public async changeSkybox(scene: Scene, isNight: boolean): Promise<void> {
         scene.remove(this.skybox);
-        this.createSkybox(scene, URL_NIGHT_PREFIX, URL_NIGHT_POSTFIX);
-    }
-
-    public async changeToDay(scene: Scene): Promise<void> {
-        scene.remove(this.skybox);
-        this.createSkybox(scene, URL_DAY_PREFIX, URL_DAY_POSTFIX);
+        if (isNight) {
+            this.createSkybox(scene, URL_NIGHT_PREFIX, URL_NIGHT_POSTFIX);
+        } else {
+            this.createSkybox(scene, URL_DAY_PREFIX, URL_DAY_POSTFIX);
+        }
     }
 }

@@ -225,17 +225,13 @@ export class RenderService {
     private async changeMomentOfTheDay(): Promise<void> {
         this.isNight = !this.isNight;
         this.removeAmbiantLight();
-        if (this.isNight) {
-            const newLight: THREE.AmbientLight = new THREE.AmbientLight(GREY, AMBIENT_LIGHT_OPACITY);
-            newLight.name = "ambiantLight";
-            this.scene.add(newLight);
-            this.skyboxService.changeToNight(this.scene);
-        } else {
-            const newLight: THREE.AmbientLight = new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY);
-            newLight.name = "ambiantLight";
-            this.scene.add(newLight);
-            this.skyboxService.changeToDay(this.scene);
-        }
+        this.car.changeLight();
+        let newLight: THREE.AmbientLight;
+        newLight = this.isNight ? new THREE.AmbientLight(GREY, AMBIENT_LIGHT_OPACITY) :
+                                  new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY);
+        newLight.name = "ambiantLight";
+        this.scene.add(newLight);
+        this.skyboxService.changeSkybox(this.scene, this.isNight);
     }
 
     public handleKeyUp(event: KeyboardEvent): void {
