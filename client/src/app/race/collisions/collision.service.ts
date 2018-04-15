@@ -63,20 +63,20 @@ export class CollisionService {
         let distance: number;
 
         for (let i: number = 0; i < trackSegments.length; i++) {
-            distance = this.distanceToSegment(car.getPosition(), trackSegments[i]);
+            distance = this.distanceToSegment(car.carGPS.getPosition(car.mesh), trackSegments[i]);
             if (distance < smallestDistance) {
                 smallestDistance = distance;
                 index = i;
             }
         }
-        if (index !== -1 && this.isBetweenPoints(car.getPosition(), trackSegments[index])) {
+        if (this.isBetweenPoints(car.carGPS.getPosition(car.mesh), trackSegments[index])) {
             if (this.isOnTrackLimit(smallestDistance, trackWidth)) {
                 this.handleTrackCollision(car, trackSegments[index], false);
             }
         } else {
             smallestDistance = Infinity;
             for (let i: number = 0; i < trackSegments.length; i++) {
-                distance = car.getPosition().distanceTo(trackSegments[i].v1);
+                distance = car.carGPS.getPosition(car.mesh).distanceTo(trackSegments[i].v1);
                 if (distance < smallestDistance) {
                     smallestDistance = distance;
                     index = i;

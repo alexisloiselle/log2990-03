@@ -1,4 +1,4 @@
-import { Vector3, Vector2, Matrix4, Object3D, Euler, Quaternion, LineCurve, PerspectiveCamera, Box3 } from "three";
+import { Vector3, Matrix4, Object3D, Euler, Quaternion, LineCurve, PerspectiveCamera, Box3 } from "three";
 import { Engine } from "./engine";
 import { MS_TO_SECONDS, GRAVITY, PI_OVER_2, RAD_TO_DEG } from "../constants";
 import { Wheel } from "./wheel";
@@ -23,7 +23,6 @@ export class Car extends Object3D {
     private readonly rearWheel: Wheel;
     private readonly wheelbase: number;
     private readonly dragCoefficient: number;
-    // private readonly boundingBox: Box3;
 
     private _speed: Vector3;
     private isBraking: boolean;
@@ -75,9 +74,6 @@ export class Car extends Object3D {
     }
 
     public get BoundingBox(): Box3 {
-        // Bounding box follows
-        // this.boundingBox.setFromObject(this);
-
         return new Box3().setFromObject(this);
     }
 
@@ -117,7 +113,6 @@ export class Car extends Object3D {
         this.wheelbase = wheelbase;
         this._mass = mass;
         this.dragCoefficient = dragCoefficient;
-        // this.boundingBox = new Box3().setFromObject(this);
 
         this.isBraking = false;
         this.steeringWheelDirection = 0;
@@ -221,8 +216,6 @@ export class Car extends Object3D {
 
     private getRollingResistance(): Vector3 {
         const tirePressure: number = 1;
-        // formula taken from: https://www.engineeringtoolbox.com/rolling-friction-resistance-d_1303.html
-
         // tslint:disable-next-line:no-magic-numbers
         const rollingCoefficient: number = (1 / tirePressure) * (Math.pow(this.speed.length() * 3.6 / 100, 2) * 0.0095 + 0.01) + 0.005;
 
@@ -297,14 +290,5 @@ export class Car extends Object3D {
     private isGoingForward(): boolean {
         // tslint:disable-next-line:no-magic-numbers
         return this.speed.normalize().dot(this.direction) > 0.05;
-    }
-
-    public getPosition(): Vector2 {
-        return this.carGPS.getPosition(this.mesh);
-    }
-
-    public reachedJonction(jonctionPosition: Vector2, trackWidth: number): boolean {
-        // Bad smell the function takes too much arguments, find a way to make it take less
-        return this.carGPS.reachedJonction(this.mesh);
     }
 }
