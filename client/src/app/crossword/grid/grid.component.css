@@ -22,7 +22,7 @@ li.border-selectedMultiplayer {
 }
 
 li.border-selectedByBoth {
-    position: absolute;
+    position: sticky;
     z-index: 1;
     outline: 4px dashed rgb(247, 228, 125);
     box-shadow: 0 0 0 4px rgb(247, 0, 125);
