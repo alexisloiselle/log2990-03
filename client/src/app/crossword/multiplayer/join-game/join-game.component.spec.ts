@@ -53,12 +53,17 @@ describe("JoinGameComponent", () => {
         expect(component.isFormValid()).toBeTruthy();
     });
 
-    // TODO: update username, tu peux l'appeler en hardcodant l'event aussi
-    // let event: any = {
-    //     target: {
-    //         value: "new username"
-    //     }
-    // };
+    it("should be a valid form if there is a username and a game name", () => {
+        const newUsername: string = "new username";
+        // tslint:disable-next-line:no-any
+        const event: any = {
+            target: {
+                value: newUsername
+            }
+        };
+        component.updateUsername(event);
+        expect(component.username).toEqual(newUsername);
+    });
 
     // TODO: encore une fois, tu peux hardcoder pour tester le background color
 
