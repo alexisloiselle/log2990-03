@@ -35,11 +35,21 @@ describe("SinglePlayerGameComponent", () => {
     let component: SinglePlayerGameComponent;
 
     beforeEach(() => {
-        component = new SinglePlayerGameComponent(crosswordService, defService, new MockActivatedRoute());
+        component = new SinglePlayerGameComponent(crosswordService, defService, new MockActivatedRoute(), null);
     });
 
     it("should create", () => {
         expect(component).toBeTruthy();
+    });
+
+    it("isGridCompleted() should return false in the beginning of the game", async () => {
+        await component.ngOnInit();
+        expect(component.isGridCompleted()).toBeFalsy();
+    });
+
+    it("restardGame() should empty the current grid", () => {
+        component.restartGame();
+        expect(component.isGridCompleted()).toBeFalsy();
     });
 
     it("should be configured after ngoninit()", async () => {

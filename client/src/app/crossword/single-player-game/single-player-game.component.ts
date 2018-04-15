@@ -1,8 +1,9 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
 import { CrosswordService } from "../services/crossword/crossword.service";
 import { DefinitionService } from "../services/crossword/definition.service";
 import { Difficulty } from "../../../../../common/difficulty";
+import { GridComponent } from "../grid/grid.component";
 
 @Component({
     selector: "app-single-player-game",
@@ -10,6 +11,7 @@ import { Difficulty } from "../../../../../common/difficulty";
     styleUrls: ["./single-player-game.component.css"]
 })
 export class SinglePlayerGameComponent implements OnInit {
+    @ViewChild("grid") private grid: GridComponent;
 
     public difficulty: Difficulty;
     public isConfigured: boolean;
@@ -17,7 +19,8 @@ export class SinglePlayerGameComponent implements OnInit {
     public constructor(
         private crosswordService: CrosswordService,
         private defService: DefinitionService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private router: Router
     ) {
         this.isConfigured = false;
     }
@@ -31,5 +34,17 @@ export class SinglePlayerGameComponent implements OnInit {
         await this.crosswordService.generateGrid(this.difficulty);
         this.defService.configureDefinitions();
         this.isConfigured = true;
+    }
+
+    public isGridCompleted(): boolean {
+        return this.grid === undefined ? false : this.grid.isCompleted();
+    }
+
+    public exitGame(): void {
+        this.router.navigate(["homepage"]);
+    }
+
+    public restartGame(): void {
+        this.ngOnInit();
     }
 }

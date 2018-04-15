@@ -41,6 +41,9 @@ import { RaceAdministratorService } from "./race/race-services/race-administrato
 import { TrackListGameComponent } from "./race/game-component/track-list-game/track-list-game.component";
 import { AdminComponent } from "./admin/admin/admin.component";
 import { HudService } from "./render-service/hud.service";
+import { BestTimesArrayComponent } from "./race/game-component/best-times-array/best-times-array.component";
+import { BestTimeService } from "./race/game-component/best-times-array/best-time.service";
+import { RaceResultComponent } from './race/game-component/race-result/race-result.component';
 
 @NgModule({
     declarations: [
@@ -63,7 +66,9 @@ import { HudService } from "./render-service/hud.service";
         CreateGameComponent,
         MultiplayerGameComponent,
         TrackListGameComponent,
-        AdminComponent
+        AdminComponent,
+        BestTimesArrayComponent,
+        RaceResultComponent
     ],
     imports: [
         BrowserModule,
@@ -87,7 +92,8 @@ import { HudService } from "./render-service/hud.service";
         TrackService,
         RenderTrackService,
         HudService,
-        RaceAdministratorService
+        RaceAdministratorService,
+        BestTimeService
     ],
     bootstrap: [AppComponent]
 })

@@ -5,14 +5,12 @@ export class BotsController {
 
     private botCars: Array<BotCar> = [];
     private trackSegments: Array<LineCurve> = [];
-    private trackWidth: number;
     private currentSegmentIndex: Array<number> = [];
     private currentLap: Array<number> = [];
 
     public constructor(bots: Array<BotCar>, trackSegments: Array<LineCurve>, trackWidth: number) {
         this.botCars = bots;
         this.trackSegments = trackSegments;
-        this.trackWidth = trackWidth;
         this.botCars.forEach(() => {
             this.currentSegmentIndex.push(0);
         });
@@ -23,8 +21,7 @@ export class BotsController {
 
     public controlCars(): void {
         for (let i: number = 0; i < this.botCars.length; i++) {
-            if (this.botCars[i].reachedJonction(this.trackSegments[this.currentSegmentIndex[i]].v2,
-                                                this.trackWidth)) {
+            if (this.botCars[i].carGPS.reachedJonction(this.botCars[i].mesh)) {
                 if ((this.currentSegmentIndex[i] + 1) === this.trackSegments.length) {
                     this.currentLap[i] += 1;
                 }

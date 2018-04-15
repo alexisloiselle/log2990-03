@@ -60,7 +60,7 @@ describe("CollisionService", () => {
                 car1.update(10);
                 car2.update(10);
             }
-            collisionService.checkForCollision(cars);
+            collisionService.checkForCollision(cars, [], 0);
             expect(car2.speed.length()).toBeGreaterThan(initialSpeed2);
         });
     });

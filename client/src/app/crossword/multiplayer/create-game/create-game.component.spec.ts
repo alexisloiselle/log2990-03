@@ -28,4 +28,7 @@ describe("CreateGameComponent", () => {
     it("should create", () => {
         expect(component).toBeTruthy();
     });
+
+    // TODO: comme jai dit pour le join game, mock l'event
+    // TODO: createGame tu dois mock socketService, crosswordService et router comme jai expliquer dans join game
 });
