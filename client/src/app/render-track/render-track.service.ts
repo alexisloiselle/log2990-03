@@ -40,7 +40,7 @@ export class RenderTrackService {
         this.segments = track.segments;
         for (const segment of this.segments) {
             const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(track.width, segment.getLength());
-            const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial(
+            const material: THREE.MeshLambertMaterial = new THREE.MeshLambertMaterial(
                 { color: TRACK_COLOR, side: THREE.DoubleSide }
             );
             plane.push(new THREE.Mesh(geometry, material));
@@ -68,7 +68,7 @@ export class RenderTrackService {
 
     public generateOffTrackSurface(): THREE.Mesh {
         const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(NUMBER_EIGHT_HUN, NUMBER_EIGHT_HUN);
-        const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial(
+        const material: THREE.MeshLambertMaterial = new THREE.MeshLambertMaterial(
             { color: OFFTRACK_COLOR, side: THREE.DoubleSide }
         );
         const hPSurface: THREE.Mesh = new THREE.Mesh(geometry, material);
@@ -87,7 +87,7 @@ export class RenderTrackService {
         const circle: THREE.Mesh[] = [];
         for (let i: number = 0; i < this.segments.length; i++) {
             const geometry: THREE.CircleGeometry = new THREE.CircleGeometry(trackWidth / 2, NUMBER_HUN);
-            const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial(
+            const material: THREE.MeshLambertMaterial = new THREE.MeshLambertMaterial(
                 { color: TRACK_COLOR, side: THREE.DoubleSide }
             );
             circle.push(new THREE.Mesh(geometry, material));
@@ -102,7 +102,7 @@ export class RenderTrackService {
 
     public createStartingLine(trackWidth: number): THREE.Mesh {
         const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(trackWidth, STARTING_LINE_WIDTH);
-        const material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial(
+        const material: THREE.MeshLambertMaterial = new THREE.MeshLambertMaterial(
             { color: STARTING_LINE_COLOR, side: THREE.DoubleSide }
         );
         const startingLine: THREE.Mesh = new THREE.Mesh(geometry, material);
