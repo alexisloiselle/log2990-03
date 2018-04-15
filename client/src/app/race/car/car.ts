@@ -39,7 +39,7 @@ export class Car extends Object3D {
     private weightRear: number;
     public carGPS: CarGPS;
 
-    private headlight: THREE.SpotLight;
+    public headlight: THREE.SpotLight;
     private isLightOpen: boolean;
 
     public get mass(): number {
@@ -133,14 +133,14 @@ export class Car extends Object3D {
         this.steeringWheelDirection = 0;
         this.weightRear = INITIAL_WEIGHT_DISTRIBUTION;
         this._speed = new Vector3(0, 0, 0);
+        this.headlight = new THREE.SpotLight(HEADLIGHT_COLOR, HEADLIGHT_DAY_INTENSITY, HEADLIGHT_DISTANCE,
+                                             Math.PI / HEADLIGHT_ANGLE_DIVIDER, 0, HEADLIGHT_DIM_PERCENTAGE);
     }
 
     private createHeadlight(position: THREE.Vector3, direction: THREE.Vector3): void {
-        this.headlight = new THREE.SpotLight(HEADLIGHT_COLOR, HEADLIGHT_DAY_INTENSITY, HEADLIGHT_DISTANCE,
-                                             Math.PI / HEADLIGHT_ANGLE_DIVIDER, 0, HEADLIGHT_DIM_PERCENTAGE);
         const test: THREE.Vector3 = new THREE.Vector3(0, -1, 0);
         const test2: THREE.Vector3 = new THREE.Vector3().copy(this.position);
-        test2.setY(20);
+        test2.setY(500);
         this.headlight.position.copy(test2);
         this.headlight.target.position.copy(test);
     }
