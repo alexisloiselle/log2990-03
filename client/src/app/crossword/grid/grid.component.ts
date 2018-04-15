@@ -8,6 +8,7 @@ import { Case } from "../case";
 // import * as io from "socket.io-client";
 import {WORD_CORRECT, SELECTED_WORD} from "../../../../../common/socket-constants";
 import {SocketService} from "../services/socket.service";
+import { ActivatedRoute } from "@angular/router";
 
 const LEFT_KEYCODE: number = 37;
 const UP_KEYCODE: number = 38;
@@ -33,6 +34,7 @@ export class GridComponent implements OnInit {
         private defService: DefinitionService,
         private socketService: SocketService
     ) {
+        console.log(location.pathname);
         this.numberPlacedWords = 0;
         this.listenSelectedWord();
         this.listenLetterInput();
@@ -48,6 +50,11 @@ export class GridComponent implements OnInit {
 
     public get LetterGrid(): Case[][] {
         return this.letterGrid;
+    }
+
+    public isMultiplayer(): boolean {
+        console.log(location.pathname.includes("multiplayer-game"));
+        return location.pathname.includes("multiplayer-game");
     }
 
     private initLetterGrid(length: number): Case[][] {

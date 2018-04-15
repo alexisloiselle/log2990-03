@@ -17,6 +17,23 @@ li.thick-border {
     border-width: 4px;
 }
 
+li.border-selectedMultiplayer {
+    border-color: rgb(247, 228, 125);
+}
+
+li.border-selectedByBoth {
+    position: absolute;
+    z-index: 1;
+    outline: 4px dashed rgb(247, 228, 125);
+    box-shadow: 0 0 0 4px rgb(247, 0, 125);
+}
+
+li.border-selectedByOpponent
+{
+    border-width: 4px;
+    border-color: rgb(247, 0, 125);
+}
+
 .whiteCaseInput {
     text-transform: uppercase;
     text-align: center;
@@ -45,4 +62,8 @@ li.thick-border {
 
 .selectedByOpponent {
     background-color: rgb(247, 0, 125);
+}
+
+.selectedByBoth {
+
 }
