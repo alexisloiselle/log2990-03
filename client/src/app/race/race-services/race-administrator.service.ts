@@ -9,6 +9,7 @@ const MEAN_CAR_SPEED: number = 40;  // TODO: POTENTIALLY TO MODIFY
 export class RaceAdministratorService {
     private isRaceOnGoing: boolean;
     public playersTime: Array<number> = [];
+    public playersLap: Array<number> = [];
 
     public constructor() {
         this.isRaceOnGoing = true;

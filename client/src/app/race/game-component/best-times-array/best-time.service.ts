@@ -15,6 +15,7 @@ export class BestTimeService {
     private position: number;
     private isPostDone: boolean;
     private isPlayer: boolean;
+    private raceTime: number;
 
     public constructor(
         private trackService: TrackService,
@@ -53,6 +54,7 @@ export class BestTimeService {
         this.track = track;
         this.isPlayer = isPlayer;
         this.isTimeBeaten = this.checkTime(time);
+        this.raceTime = time;
     }
 
     private checkTime(time: number): boolean {
