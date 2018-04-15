@@ -1,5 +1,5 @@
 <h2>Top 5</h2>
-<form *ngIf="bestTimeService.IsTimeBeaten && bestTimeService.IsPlayer">
+<form *ngIf="bestTimeService.IsTimeBeaten">
   Your username:
   <input #inputName type="text" placeholder="JeMigli">
   <button (click)="bestTimeService.postNewBestTime(inputName.value); $event.preventDefault()">Save</button>

@@ -2,8 +2,6 @@ import { Injectable } from "@angular/core";
 
 import { TrackService } from "../../../track.service";
 import { RaceTrack, Player } from "../../raceTrack";
-import { RenderService } from "../../../render-service/render.service";
-import { Router } from "@angular/router";
 
 const NUMBER_OF_BEST_TIMES_IN_ARRAY: number = 5;
 
@@ -18,14 +16,11 @@ export class BestTimeService {
     private raceTime: number;
 
     public constructor(
-        private trackService: TrackService,
-        private renderService: RenderService,
-        private router: Router
+        private trackService: TrackService
     ) {
         this.isTimeBeaten = false;
         this.isPostDone = false;
         this.position = -1;
-        this.isPlayer = false;
     }
 
     public get BestTimesArray(): Array<Player> {
@@ -42,26 +37,20 @@ export class BestTimeService {
         return this.isPostDone;
     }
 
-    public get IsPlayer(): boolean {
-        return this.isPlayer;
-    }
-
     public get Position(): number {
         return this.position;
     }
 
-    public async initialize(track: RaceTrack, time: number, isPlayer: boolean): Promise<void> {
+    public async initialize(track: RaceTrack, time: number): Promise<void> {
         this.track = track;
-        this.isPlayer = isPlayer;
         this.isTimeBeaten = this.checkTime(time);
         this.raceTime = time;
     }
 
     private checkTime(time: number): boolean {
         for (let i: number = 0; i < NUMBER_OF_BEST_TIMES_IN_ARRAY; i++) {
-            if ((time < this.track.bestTimes[i].time ||
-                this.track.bestTimes[i].time === -1) &&
-                this.isPlayer
+            if (time < this.track.bestTimes[i].time ||
+                this.track.bestTimes[i].time === -1
             ) {
                 this.track.bestTimes.splice(i, 0, { name: "Type your name above", time: time });
                 this.track.bestTimes.pop();

@@ -5,8 +5,8 @@ const MILLISECONDS_IN_SECOND: number = 1000;
 @Injectable()
 export class HudService {
 
-    public lapTime: number;
-    public raceTime: number;
+    private lapTime: number;
+    private raceTime: number;
 
     private initialLapTime: number;
     private initialRaceTime: number;
@@ -15,6 +15,14 @@ export class HudService {
 
     public constructor() {
         this.isCounterStarted = false;
+    }
+
+    public get LapTime(): number {
+        return this.lapTime;
+    }
+
+    public get RaceTime(): number {
+        return this.raceTime;
     }
 
     public initialize(): void {

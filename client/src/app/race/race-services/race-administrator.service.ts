@@ -8,11 +8,17 @@ const MEAN_CAR_SPEED: number = 40;  // TODO: POTENTIALLY TO MODIFY
 @Injectable()
 export class RaceAdministratorService {
     private isRaceOnGoing: boolean;
+    private winners: { car: Car, time: number }[];
     public playersTime: Array<number> = [];
     public playersLap: Array<number> = [];
 
     public constructor() {
+        this.winners = [];
         this.isRaceOnGoing = true;
+    }
+
+    public get IsWinnerDetermined(): boolean {
+        return this.winners.length > 0;
     }
 
     public getPlayerLap(playerCar: Car): number {
@@ -41,7 +47,7 @@ export class RaceAdministratorService {
         for (const car of cars) {
             if (car !== winnerCar) {
                 const remTimeToCompSeg: number = Math.sqrt(Math.pow(car.mesh.position.z - car.carGPS.currentSegment.v2.x, 2) +
-                                                        Math.pow(car.mesh.position.x - car.carGPS.currentSegment.v2.y, 2)) / MEAN_CAR_SPEED;
+                    Math.pow(car.mesh.position.x - car.carGPS.currentSegment.v2.y, 2)) / MEAN_CAR_SPEED;
                 let remTimeToCompLap: number = 0;
                 for (let i: number = 1; i + car.carGPS.currentSegmentIndex < car.carGPS.NumberOfTrackSegments; i++) {
                     remTimeToCompLap += car.carGPS.trackSegments[i].getLength() / MEAN_CAR_SPEED;
@@ -58,6 +64,14 @@ export class RaceAdministratorService {
             }
 
         }
+    }
+
+    public addWinner(car: Car, time: number): void {
+        for (const winnerCar of this.winners) {
+            if (car.id === winnerCar.car.id) { return; }
+        }
+        this.winners.push({ car, time });
+        console.log(`{car: ${car}, time: ${time}}`);
     }
 
     public controlBots(botCars: Array<BotCar>): void {
