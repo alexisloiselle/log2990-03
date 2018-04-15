@@ -4,7 +4,12 @@ import { MS_TO_SECONDS, GRAVITY, PI_OVER_2, RAD_TO_DEG } from "../constants";
 import { Wheel } from "./wheel";
 import { CarGPS } from "./car-gps";
 import THREE = require("three");
-import { HeadlightService } from "./headlight.service";
+import { HEADLIGHT_COLOR,
+         HEADLIGHT_DAY_INTENSITY,
+         HEADLIGHT_DISTANCE,
+         HEADLIGHT_ANGLE_DIVIDER,
+         HEADLIGHT_DIM_PERCENTAGE,
+         HEADLIGHT_NIGHT_INTENSITY} from "./car-constant";
 
 export const DEFAULT_WHEELBASE: number = 2.78;
 export const DEFAULT_MASS: number = 1515;
@@ -33,7 +38,9 @@ export class Car extends Object3D {
     private steeringWheelDirection: number;
     private weightRear: number;
     public carGPS: CarGPS;
-    private headlightService: HeadlightService;
+
+    private headlight: THREE.SpotLight;
+    private isLightOpen: boolean;
 
     public get mass(): number {
         return this._mass;
@@ -128,6 +135,16 @@ export class Car extends Object3D {
         this._speed = new Vector3(0, 0, 0);
     }
 
+    private createHeadlight(position: THREE.Vector3, direction: THREE.Vector3): void {
+        this.headlight = new THREE.SpotLight(HEADLIGHT_COLOR, HEADLIGHT_DAY_INTENSITY, HEADLIGHT_DISTANCE,
+                                             Math.PI / HEADLIGHT_ANGLE_DIVIDER, 0, HEADLIGHT_DIM_PERCENTAGE);
+        const test: THREE.Vector3 = new THREE.Vector3(0, -1, 0);
+        const test2: THREE.Vector3 = new THREE.Vector3().copy(this.position);
+        test2.setY(20);
+        this.headlight.position.copy(test2);
+        this.headlight.target.position.copy(test);
+    }
+
     public initializeGPS(trackSegments: Array<LineCurve>, trackWidth: number): void {
         this.carGPS = new CarGPS(trackSegments, trackWidth);
     }
@@ -136,9 +153,7 @@ export class Car extends Object3D {
         this._mesh = object;
         this.mesh.setRotationFromEuler(INITIAL_MODEL_ROTATION);
         this.add(this._mesh);
-        const startingLampDirection: THREE.Vector3 = new THREE.Vector3().copy(this.direction);
-        startingLampDirection.add(this.position);
-        this.headlightService = new HeadlightService(this.position, startingLampDirection);
+        this.createHeadlight(this.position, this.direction);
     }
 
     public steerLeft(): void {
@@ -183,7 +198,7 @@ export class Car extends Object3D {
         this._mesh.rotateY(omega);
 
         // update light position
-        this.headlightService.updateLocation();
+        // this.headlightService.updateLocation();
     }
 
     private physicsUpdate(deltaTime: number): void {
@@ -318,6 +333,7 @@ export class Car extends Object3D {
     }
 
     public changeLight(): void {
-        this.headlightService.switchLight();
+        this.isLightOpen = !this.isLightOpen;
+        this.headlight.intensity = this.isLightOpen ? HEADLIGHT_NIGHT_INTENSITY : HEADLIGHT_DAY_INTENSITY;
     }
 }

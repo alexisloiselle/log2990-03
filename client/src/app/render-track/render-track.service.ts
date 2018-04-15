@@ -8,7 +8,7 @@ const NUMBER_HUN: number = 100;
 const NUMBER_EIGHT_HUN: number = 800;
 const APPROX_ZERO_MINUS: number = -0.001;
 const BLACK: number = 0x000000;
-const WHITE: number = 0xFFFFFF;
+const WHITE: number = 0x000000;
 const STARTING_LINE_WIDTH: number = 3;
 const OFF_SET_FACTOR: number = 0.2;
 
