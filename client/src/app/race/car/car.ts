@@ -126,7 +126,6 @@ export class Car extends Object3D {
         this.steeringWheelDirection = 0;
         this.weightRear = INITIAL_WEIGHT_DISTRIBUTION;
         this._speed = new Vector3(0, 0, 0);
-        this.headlightService = new HeadlightService(this.position);
     }
 
     public initializeGPS(trackSegments: Array<LineCurve>, trackWidth: number): void {
@@ -137,6 +136,9 @@ export class Car extends Object3D {
         this._mesh = object;
         this.mesh.setRotationFromEuler(INITIAL_MODEL_ROTATION);
         this.add(this._mesh);
+        const startingLampDirection: THREE.Vector3 = new THREE.Vector3().copy(this.direction);
+        startingLampDirection.add(this.position);
+        this.headlightService = new HeadlightService(this.position, startingLampDirection);
     }
 
     public steerLeft(): void {
@@ -313,5 +315,9 @@ export class Car extends Object3D {
     public reachedJonction(jonctionPosition: Vector2, trackWidth: number): boolean {
         // Bad smell the function takes too much arguments, find a way to make it take less
         return this.carGPS.reachedJonction(this.mesh);
+    }
+
+    public changeLight(): void {
+        this.headlightService.switchLight();
     }
 }
