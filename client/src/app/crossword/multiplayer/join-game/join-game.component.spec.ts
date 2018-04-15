@@ -65,19 +65,36 @@ describe("JoinGameComponent", () => {
         expect(component.username).toEqual(newUsername);
     });
 
-    // TODO: encore une fois, tu peux hardcoder pour tester le background color
+    const games: any = [{
+        userName1: "blabla",
+        userName2: "bblbllbl",
+        gameName: "game naime",
+        difficulty: "easy"
+    }];
+    const crosswordService: any = {
+        Games: [{
+            userName1: "blabla",
+            userName2: "bblbllbl",
+            gameName: "game naime",
+            difficulty: "easy"
+        }],
+        getGames: () => {},
+        updateMultiplayerGame: (user: string, game: string) => {},
+    };
 
-    // TODO: pour les autres (refresh et joinGame), cest un peut plus tricky, faut injecter un crosswordService hardcoder
-    // let crosswordService: any = {
-    //     Games: [{
-    //         userName1: "blabla",
-    //         userName2: "bblbllbl",
-    //         gameName: "game naime",
-    //         difficulty: "easy"
-    //     }],
-    //     getGames: () => {},
-    //     updateMultiplayerGame: (user: string, game: string) => {},
-    //     // etc
-    // };
-    // Tu peux faire la meme chose avec le socketService et le router
+    const router: any = {
+        navigateByUrl: () => {}
+    };
+
+    const socketService: any = {
+
+    };
+
+    const newComponent: JoinGameComponent = new JoinGameComponent(crosswordService, router, socketService);
+
+    it("shoud refresh the game list", () => {
+        expect(newComponent.games).toEqual([]);
+        newComponent.refresh();
+        expect(newComponent.games).toEqual(games);
+    });
 });
