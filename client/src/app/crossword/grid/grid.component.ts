@@ -8,7 +8,6 @@ import { Case } from "../case";
 // import * as io from "socket.io-client";
 import {WORD_CORRECT, SELECTED_WORD} from "../../../../../common/socket-constants";
 import {SocketService} from "../services/socket.service";
-import { ActivatedRoute } from "@angular/router";
 
 const LEFT_KEYCODE: number = 37;
 const UP_KEYCODE: number = 38;
@@ -34,7 +33,6 @@ export class GridComponent implements OnInit {
         private defService: DefinitionService,
         private socketService: SocketService
     ) {
-        console.log(location.pathname);
         this.numberPlacedWords = 0;
         this.listenSelectedWord();
         this.listenLetterInput();
@@ -53,7 +51,6 @@ export class GridComponent implements OnInit {
     }
 
     public isMultiplayer(): boolean {
-        console.log(location.pathname.includes("multiplayer-game"));
         return location.pathname.includes("multiplayer-game");
     }
 
@@ -73,12 +70,13 @@ export class GridComponent implements OnInit {
                                             word.word.word.line,
                                             word.word.word.column);
             // tslint:disable-next-line:prefer-for-of
+            tempWord.Word.toUpperCase();
             if (!word.word.isHost) {
                 for (let i: number = 0; i < tempWord.Word.length; i++) {
                     if (tempWord.IsHorizontal) {
-                        this.addLetter(tempWord, tempWord.Word[i], tempWord.Line, tempWord.Column + i, true);
+                        this.addLetter(tempWord, tempWord.Word[i].toUpperCase(), tempWord.Line, tempWord.Column + i, true);
                     } else {
-                        this.addLetter(tempWord, tempWord.Word[i], tempWord.Line + i, tempWord.Column, true);
+                        this.addLetter(tempWord, tempWord.Word[i].toUpperCase(), tempWord.Line + i, tempWord.Column, true);
                     }
                 }
             }
@@ -170,14 +168,16 @@ export class GridComponent implements OnInit {
         if (!this.letterGrid[i][j].IsPlaced) {
             this.letterGrid[i][j].Letter = letter;
         }
-
         this.letterGrid[i][j].IsFoundByOpponent = foundByOpponent;
-        this.verifyEndOfWord(word, i, j);
+        console.log(foundByOpponent);
+        if (this.verifyEndOfWord(word, i, j) && !foundByOpponent)
+            this.socketService.emitWordFound(WORD_CORRECT, word);
     }
 
-    private verifyEndOfWord(word: Word, i: number, j: number): void {
+    private verifyEndOfWord(word: Word, i: number, j: number): boolean {
         if (Word.isEndOfWord(word, i, j) && this.isValidWord(word)) {
             this.placeWord(word);
+            return true;
         }
     }
 
@@ -191,13 +191,13 @@ export class GridComponent implements OnInit {
         let i: number = word.Line;
         let j: number = word.Column;
         for (const letter of word.Word.split("")) {
-            if (letter.toUpperCase() !== this.letterGrid[i][j].Letter) {
+            if (letter.toUpperCase() !== this.letterGrid[i][j].Letter.toUpperCase()) {
                 return false;
             }
             i = word.IsHorizontal ? i : i + 1;
             j = word.IsHorizontal ? j + 1 : j;
         }
-        this.socketService.emitWordFound(WORD_CORRECT, word);
+        word.Word.toUpperCase();
 
         return true;
     }

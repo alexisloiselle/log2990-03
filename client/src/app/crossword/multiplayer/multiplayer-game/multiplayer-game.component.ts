@@ -35,15 +35,15 @@ export class MultiplayerGameComponent implements OnInit {
     ) {
         this.listenOpponentFoundWords();
         this.listenOpponentSelectedWords();
+    }
+
+    public async ngOnInit(): Promise<void> {
         this.isOpponentFound = false;
         this.isConfigured = false;
         this.playerName = "";
         this.opponentName = "";
         this.playerScore = 0;
         this.opponentScore = 0;
-    }
-
-    public async ngOnInit(): Promise<void> {
         this.route.params.subscribe(async (params) => {
             this.gameName = params.gamename;
             if (params.isjoingame === "true") {

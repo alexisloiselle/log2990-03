@@ -65,5 +65,13 @@ li.border-selectedByOpponent
 }
 
 .selectedByBoth {
-
+        color: white;
+        background: repeating-linear-gradient(
+          45deg,
+          rgb(121, 209, 121),
+          rgb(121, 209, 121) 10px,
+          rgb(42, 60, 219) 10px,
+          rgb(42, 60, 219) 20px
+        );  
 }
+

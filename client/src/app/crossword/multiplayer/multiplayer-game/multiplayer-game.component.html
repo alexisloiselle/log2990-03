@@ -15,10 +15,14 @@
       </div>
     </div>
   </div>
-  <div>
+    <div>
       <p> Words Placed : </p>
+      <div class = "player">
       <p> {{playerName}} : {{playerScore}} </p> 
+      </div>
+      <div class = "opponent">
       <p> {{opponentName}} : {{opponentScore}} </p> 
+    </div>
     </div>
 </div>
 <div *ngIf="isGameEnded()">
