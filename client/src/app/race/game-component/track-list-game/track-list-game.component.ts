@@ -1,8 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { RaceTrack } from "../../raceTrack";
 import { TrackService } from "../../../track.service";
-import { RenderService } from "../../../render-service/render.service";
-import { Router } from "@angular/router";
 
 @Component({
     selector: "app-track-list-game",
@@ -16,9 +14,7 @@ export class TrackListGameComponent implements OnInit {
     private selectedTrack: RaceTrack;
 
     public constructor(
-        private trackService: TrackService,
-        private renderService: RenderService,
-        private router: Router
+        private trackService: TrackService
     ) {
         this.parsedTracks = [];
     }

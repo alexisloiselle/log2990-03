@@ -35,7 +35,7 @@ export class RenderService {
     private stats: Stats;
     private lastDate: number;
     private track: RaceTrack;
-    private endRaceSub: Subject<{ track: RaceTrack, time: number, isPlayer: boolean }>;
+    private endRaceSub: Subject<{ track: RaceTrack, time: number }>;
 
     public audioListener: THREE.AudioListener;
     public startingSound: THREE.Audio;
@@ -80,7 +80,7 @@ export class RenderService {
         });
     }
 
-    public get EndRaceSub(): Observable<{ track: RaceTrack, time: number, isPlayer: boolean }> {
+    public get EndRaceSub(): Observable<{ track: RaceTrack, time: number }> {
         return this.endRaceSub.asObservable();
     }
 
@@ -147,7 +147,7 @@ export class RenderService {
     }
 
     private manageRaceEnd(index: number): void {
-        this.endRaceSub.next({ track: this.track, time: this.hudService.RaceTime, isPlayer: index === 0 });
+        this.endRaceSub.next({ track: this.track, time: this.hudService.RaceTime });
         this.raceOnGoing = false;
     }
 

@@ -3,8 +3,6 @@ import { RaceTrack } from "../raceTrack";
 import { TrackService } from "../../track.service";
 import { CanvasComponent } from "../track-editor/canvas/canvas.component";
 import * as THREE from "three";
-import { RenderService } from "../../render-service/render.service";
-import { Router } from "@angular/router";
 import { DEFAULT_TRACK_ID } from "../../config";
 
 @Component({
@@ -22,8 +20,9 @@ export class TrackListComponent implements OnInit {
     public parsedTracks: RaceTrack[];
     private selectedTrack: RaceTrack;
 
-    public constructor(private trackService: TrackService, private renderService: RenderService,
-                       private router: Router) {
+    public constructor(
+        private trackService: TrackService
+    ) {
         this.parsedTracks = [];
     }
 
