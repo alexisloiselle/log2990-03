@@ -72,34 +72,40 @@ export class GridComponent implements OnInit {
                 res.word.line,
                 res.word.column
             );
-            this.manageIfNotHost(res, word);
+
+            if (!res.isHost) {
+                word.IsFoundByOpponent = true;
+                this.manageIfNotHost(res, word);
+            }
             this.placeWord(word);
+            this.defService.AllWords.forEach((w: Word) => {
+                if (w.Line === word.Line && w.Column === word.Column && w.IsHorizontal && word.IsHorizontal) {
+                    w = word;
+                }
+            });
         });
     }
 
     private manageIfNotHost(res: { word: IWord; isHost: boolean; }, word: Word): void {
-        if (!res.isHost) {
-            for (let i: number = 0; i < res.word.word.length; i++) {
-                if (res.word.isHorizontal) {
-                    this.letterGrid[res.word.line][res.word.column + i].IsFoundByOpponent = true;
-                    this.addLetter(word, res.word.word[i].toUpperCase(), res.word.line, res.word.column + i, true);
-                } else {
-                    this.letterGrid[res.word.line + i][res.word.column].IsFoundByOpponent = true;
-                    this.addLetter(word, res.word.word[i].toUpperCase(), res.word.line + i, res.word.column, true);
-                }
+        for (let i: number = 0; i < res.word.word.length; i++) {
+            if (res.word.isHorizontal) {
+                this.letterGrid[res.word.line][res.word.column + i].IsFoundByOpponent = true;
+                this.addLetter(word, res.word.word[i].toUpperCase(), res.word.line, res.word.column + i);
+            } else {
+                this.letterGrid[res.word.line + i][res.word.column].IsFoundByOpponent = true;
+                this.addLetter(word, res.word.word[i].toUpperCase(), res.word.line + i, res.word.column);
             }
         }
     }
 
     private listenOpponentSelectsWord(): void {
         this.socketService.selectWord().subscribe((res) => {
-            this.opponentSelectedWord = new Word(
-                res.word.word,
-                res.word.definition,
-                res.word.isHorizontal,
-                res.word.line,
-                res.word.column
-            );
+            this.opponentSelectedWord = this.defService.AllWords.find((w: Word) => {
+                return w.IsHorizontal &&
+                    res.word.isHorizontal &&
+                    w.Line === res.word.line &&
+                    w.Column === res.word.column;
+            });
         });
     }
 
@@ -112,7 +118,7 @@ export class GridComponent implements OnInit {
 
     private listenLetterInput(): void {
         this.inputService.LetterInputSub.subscribe((res) => {
-            this.addLetter(this.defService.SelectedWord, res.letter, res.i, res.j, false);
+            this.addLetter(this.defService.SelectedWord, res.letter, res.i, res.j);
             this.focusOnNextCase(res.i, res.j);
         });
     }
@@ -173,15 +179,12 @@ export class GridComponent implements OnInit {
         return false;
     }
 
-    private addLetter(word: Word, letter: string, i: number, j: number, foundByOpponent: boolean): void {
+    private addLetter(word: Word, letter: string, i: number, j: number): void {
         if (!this.letterGrid[i][j].IsPlaced) {
             this.letterGrid[i][j].Letter = letter;
         }
-        this.letterGrid[i][j].IsFoundByOpponent = foundByOpponent;
-        if (foundByOpponent) {
-            word.IsPlaced = true;
-        }
-        if (this.verifyEndOfWord(word, i, j) && !foundByOpponent) {
+        console.log(word);
+        if (!word.IsFoundByOpponent && this.verifyEndOfWord(word, i, j)) {
             this.socketService.emitWordFound(WORD_CORRECT, word);
         }
     }
@@ -222,6 +225,7 @@ export class GridComponent implements OnInit {
         let j: number = word.Column;
         word.Word.split("").forEach(() => {
             this.letterGrid[i][j].IsPlaced = true;
+            console.log(this.letterGrid[i][j]);
             i = word.IsHorizontal ? i : i + 1;
             j = word.IsHorizontal ? j + 1 : j;
         });

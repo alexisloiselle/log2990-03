@@ -13,7 +13,7 @@ export class CrosswordService {
     public userNamePlayerOne: string;
     public userNamePlayerTwo: string;
 
-    public constructor(private http: HttpClient) { 
+    public constructor(private http: HttpClient) {
         this.userNamePlayerOne = "";
         this.userNamePlayerTwo = "";
     }
@@ -54,9 +54,10 @@ export class CrosswordService {
     public async getUserNames(gameName: string): Promise<any> {
         await this.http.get(`${API_URL}/${CROSSWORD_PARAM}/getUserNames/${gameName}`)
             .toPromise()
-            .then((userNames: {userNameOne: any, userNameTwo: any}) => {
+            .then((userNames: { userNameOne: any, userNameTwo: any }) => {
                 this.userNamePlayerOne = userNames.userNameOne,
-                this.userNamePlayerTwo = userNames.userNameTwo; })
+                    this.userNamePlayerTwo = userNames.userNameTwo;
+            })
             .catch((error: Error) => this.handleError<any>(error));
     }
 
