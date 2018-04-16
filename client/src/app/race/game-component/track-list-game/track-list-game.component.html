@@ -3,7 +3,7 @@
   <ul class="tracks">
     <li *ngFor="let track of parsedTracks" [class.selected]="track === selectedTrack" (click)="onSelectTrack(track)">
       {{track.name}}
-      <button class="btn btn-sm btn-warning" type="button" (click)="deleteTrack(track)" role="button"> x </button>
+      <button *ngIf="track.id != '5ad24ecff36d286a71b51851'" class="btn btn-sm btn-warning" type="button" (click)="deleteTrack(track)" role="button"> x </button>
     </li>
   </ul>
 </div>

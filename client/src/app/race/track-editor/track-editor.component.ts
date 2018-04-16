@@ -1,9 +1,9 @@
 import { Component, OnInit, ElementRef, ViewChild } from "@angular/core";
 import { TrackEditorModel } from "./canvas/track-editor-model";
 
-import {TrackService} from "../../track.service";
-import {RaceTrack, RaceType} from "../raceTrack";
-import {Location} from "@angular/common";
+import { TrackService } from "../../track.service";
+import { RaceTrack, RaceType } from "../raceTrack";
+import { Location } from "@angular/common";
 import { CanvasComponent } from "./canvas/canvas.component";
 
 @Component({
@@ -56,19 +56,36 @@ export class TrackEditorComponent implements OnInit {
     }
 
     public inputTextNotEmpty(): boolean {
-       return (this.trackName.length !== 0 && this.trackDescription.length !== 0);
+        return (this.trackName.length !== 0 && this.trackDescription.length !== 0);
     }
 
-    public async addTrack(trackName: string, trackDescription: string, trackType: RaceType, itemsOnTrack: number): Promise<void> {
+    public async addTrack(
+        trackName: string,
+        trackDescription: string,
+        trackType: RaceType,
+        itemsOnTrack: number
+    ): Promise<void> {
         this.trackName = trackName;
         this.trackDescription = trackDescription;
         this.trackType = trackType;
-        this.track  = new RaceTrack(trackName, trackDescription, trackType, this.canvasRef.myTrackEditorModel.PointArray);
+        this.track = new RaceTrack(
+            "",
+            trackName,
+            trackDescription,
+            trackType,
+            this.canvasRef.myTrackEditorModel.PointArray
+        );
         await this.trackService.addTrack(this.track);
     }
 
     public getTrack(): RaceTrack {
-        this.track  = new RaceTrack(this.trackName, this.trackDescription, this.trackType, this.myTrackEditorModel.PointArray);
+        this.track = new RaceTrack(
+            "",
+            this.trackName,
+            this.trackDescription,
+            this.trackType,
+            this.myTrackEditorModel.PointArray
+        );
 
         return this.track;
     }
