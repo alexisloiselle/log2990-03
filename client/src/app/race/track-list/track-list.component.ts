@@ -3,8 +3,7 @@ import { RaceTrack } from "../raceTrack";
 import { TrackService } from "../../track.service";
 import { CanvasComponent } from "../track-editor/canvas/canvas.component";
 import * as THREE from "three";
-import { RenderService } from "../../render-service/render.service";
-import { Router } from "@angular/router";
+import { DEFAULT_TRACK_ID } from "../../config";
 
 @Component({
     selector: "app-track-list",
@@ -21,8 +20,9 @@ export class TrackListComponent implements OnInit {
     public parsedTracks: RaceTrack[];
     private selectedTrack: RaceTrack;
 
-    public constructor(private trackService: TrackService, private renderService: RenderService,
-                       private router: Router) {
+    public constructor(
+        private trackService: TrackService
+    ) {
         this.parsedTracks = [];
     }
 
@@ -32,6 +32,7 @@ export class TrackListComponent implements OnInit {
 
     public set SelectedTrack(track: RaceTrack) {
         this.selectedTrack = track;
+        // Observable pour quand sa change envoyer la track au Best-time-component
     }
 
     public get SelectedTrack(): RaceTrack {
@@ -66,6 +67,7 @@ export class TrackListComponent implements OnInit {
 
     private updateTrackParams(updatedTrack: RaceTrack): void {
         updatedTrack.points = this.trackEditor.myTrackEditorModel.PointArray;
+        updatedTrack.findSegments();
         updatedTrack.name = this.trackNameInput.nativeElement.value;
         updatedTrack.description = this.trackDescriptionInput.nativeElement.value;
         updatedTrack.type = this.trackTypeInput.nativeElement.value;
@@ -76,12 +78,9 @@ export class TrackListComponent implements OnInit {
         await this.ngOnInit();
     }
     public async playTrack(selectedTrack: RaceTrack): Promise<void> {
-        const race: RaceTrack = new RaceTrack(selectedTrack.name, selectedTrack.description,
-                                              selectedTrack.type, selectedTrack.points);
-        await this.renderService.loadTrack(race);
-        this.router.navigateByUrl("/car-game");
+        location.replace("/car-game/" + selectedTrack.id);
     }
     public playDefaultTrack(): void {
-        this.router.navigateByUrl("/car-game");
+        location.replace("/car-game/" + DEFAULT_TRACK_ID);
     }
 }

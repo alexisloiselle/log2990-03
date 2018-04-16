@@ -37,8 +37,13 @@ import { JoinGameComponent } from "./crossword/multiplayer/join-game/join-game.c
 import { CreateGameComponent } from "./crossword/multiplayer/create-game/create-game.component";
 import { MultiplayerGameComponent } from "./crossword/multiplayer/multiplayer-game/multiplayer-game.component";
 import { RenderTrackService } from "./render-track/render-track.service";
+import { RaceAdministratorService } from "./race/race-services/race-administrator.service";
 import { TrackListGameComponent } from "./race/game-component/track-list-game/track-list-game.component";
 import { AdminComponent } from "./admin/admin/admin.component";
+import { HudService } from "./render-service/hud.service";
+import { BestTimesArrayComponent } from "./race/game-component/best-times-array/best-times-array.component";
+import { BestTimeService } from "./race/game-component/best-times-array/best-time.service";
+import { RaceResultComponent } from './race/game-component/race-result/race-result.component';
 
 @NgModule({
     declarations: [
@@ -61,7 +66,9 @@ import { AdminComponent } from "./admin/admin/admin.component";
         CreateGameComponent,
         MultiplayerGameComponent,
         TrackListGameComponent,
-        AdminComponent
+        AdminComponent,
+        BestTimesArrayComponent,
+        RaceResultComponent
     ],
     imports: [
         BrowserModule,
@@ -83,7 +90,10 @@ import { AdminComponent } from "./admin/admin/admin.component";
         SkyboxService,
         CollisionService,
         TrackService,
-        RenderTrackService
+        RenderTrackService,
+        HudService,
+        RaceAdministratorService,
+        BestTimeService
     ],
     bootstrap: [AppComponent]
 })

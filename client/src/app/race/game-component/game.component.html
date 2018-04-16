@@ -1,7 +1,16 @@
 <div #container>
-    <ul>
-        <li>Speed: {{this.renderService.car.speed.length() * 3.6 | number :'2.2-2'}} km/h</li>
-        <li>Gear: {{this.renderService.car.currentGear + 1}}</li>
-        <li>RPM: {{this.renderService.car.rpm | number:'2.0-0'}}</li>
-    </ul>
+  <ul>
+    <li>Lap time: {{this.hudService.LapTime | number :'2.2-2'}} s</li>
+    <li>Race time: {{this.hudService.RaceTime | number :'2.2-2'}} s</li>
+    <li>Speed: {{this.renderService.car.speed.length() * 3.6 | number :'2.2-2'}} km/h</li>
+    <li>Gear: {{this.renderService.car.currentGear + 1}}</li>
+    <li>RPM: {{this.renderService.car.rpm | number:'2.0-0'}}</li>
+    <li>Lap : {{this.renderService.playerLap}} </li>
+    <li>
+      <app-best-times-array *ngIf="this.raceDone"></app-best-times-array>
+    </li>
+    <li>
+      <app-race-result *ngIf="this.raceDone"></app-race-result>
+    </li>
+  </ul>
 </div>
