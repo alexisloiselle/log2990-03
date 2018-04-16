@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import Stats = require("stats.js");
-import * as THREE from "three";
 import { Car } from "../race/car/car";
 import { BotCar } from "../race/car/bot-car";
 import { CarEventHandlerService } from "./car-event-handler.service";
@@ -15,8 +14,12 @@ import { RaceAdministratorService } from "../race/race-services/race-administrat
 import { Subject } from "rxjs/Subject";
 import { Observable } from "rxjs/Observable";
 import { TrackService } from "../track.service";
+import { URL_DAY_PREFIX, URL_DAY_POSTFIX } from "../race/constants";
+import { Object3D } from "three";
+import THREE = require("three");
 
 const WHITE: number = 0xFFFFFF;
+const GREY: number = 0x334F66;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
 const QUIT_KEYCODE: number = 81;    // q
 const STARTING_SOUND: string = "../../assets/sounds/ReadySetGo.ogg";
@@ -36,6 +39,7 @@ export class RenderService {
     private lastDate: number;
     private track: RaceTrack;
     private endRaceSub: Subject<{ track: RaceTrack, time: number }>;
+    private isNight: boolean;
 
     public audioListener: THREE.AudioListener;
     public startingSound: THREE.Audio;
@@ -69,6 +73,7 @@ export class RenderService {
             this.cars.push(botCar);
         }
         this.track = null;
+        this.isNight = false;
     }
 
     public static async loadCar(descriptionFileName: string): Promise<THREE.Object3D> {
@@ -120,6 +125,7 @@ export class RenderService {
             this.botCars[i].init(await RenderService.loadCar(carModelsDirectories[i]));
             this.botCars[i].translateOnAxis(new THREE.Vector3(0, 0, 0), 1);
             this.scene.add(this.botCars[i]);
+            // this.scene.add(this.botCars[i].headlight);
         }
 
     }
@@ -160,10 +166,12 @@ export class RenderService {
         this._car.init(await RenderService.loadCar("../../assets/camero/camero-2010-low-poly.json"));
         this.cameraService.createCameras(this._car.Position, this.getAspectRatio(), this.scene);
         this.scene.add(this._car);
-
-        this.scene.add(new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY));
+        // this.scene.add(this._car.headlight);
+        const light: THREE.AmbientLight = new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY);
+        light.name = "ambiantLight";
+        this.scene.add(light);
         await this.initBotCars();
-        this.skyboxService.createSkybox(this.scene);
+        this.skyboxService.createSkybox(this.scene, URL_DAY_PREFIX, URL_DAY_POSTFIX);
         await this.createTrack();
         for (const car of this.cars) {
             car.initializeGPS(this.track.segments, this.track.width);
@@ -245,9 +253,29 @@ export class RenderService {
         }
     }
 
+    private removeAmbiantLight(): void {
+        const light: Object3D = this.scene.getObjectByName("ambiantLight");
+        this.scene.remove(light);
+    }
+
+    private async changeMomentOfTheDay(): Promise<void> {
+        this.isNight = !this.isNight;
+        this.removeAmbiantLight();
+        // this.car.changeLight();
+        let newLight: THREE.AmbientLight;
+        newLight = this.isNight ? new THREE.AmbientLight(GREY, AMBIENT_LIGHT_OPACITY) :
+                                  new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY);
+        newLight.name = "ambiantLight";
+        this.scene.add(newLight);
+        this.skyboxService.changeSkybox(this.scene, this.isNight);
+    }
+
     public handleKeyUp(event: KeyboardEvent): void {
         if (this.raceOnGoing) {
-            this.carEventHandlerService.handleKeyUp(event, this._car);
+            const isNightKey: boolean = this.carEventHandlerService.handleKeyUp(event, this._car);
+            if (isNightKey) {
+                this.changeMomentOfTheDay();
+            }
         }
     }
 
