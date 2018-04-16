@@ -5,9 +5,9 @@ import { DefinitionService } from "../services/crossword/definition.service";
 import { Subject } from "rxjs/Subject";
 import { Word } from "../word";
 import { Case } from "../case";
-// import * as io from "socket.io-client";
-import {WORD_CORRECT, SELECTED_WORD} from "../../../../../common/socket-constants";
-import {SocketService} from "../services/socket.service";
+import { WORD_CORRECT, SELECTED_WORD } from "../../../../../common/socket-constants";
+import { SocketService } from "../services/socket.service";
+import { IWord } from "../../../../../common/IWord";
 
 const LEFT_KEYCODE: number = 37;
 const UP_KEYCODE: number = 38;
@@ -23,7 +23,7 @@ export class GridComponent implements OnInit {
     @ViewChildren("case") public cases: QueryList<ElementRef>;
     private letterGrid: Case[][];
     public socket: SocketIOClient.Socket;
-    public rSocket: Subject<{socket: SocketIOClient.Socket }>;
+    public rSocket: Subject<{ socket: SocketIOClient.Socket }>;
     public numberPlacedWords: number;
     public opponentSelectedWord: Word;
 
@@ -64,33 +64,42 @@ export class GridComponent implements OnInit {
     }
 
     private listenWordCorrect(): void {
-        this.socketService.wordCorrect().subscribe((word) => {
-            const tempWord: Word = new Word(word.word.word.word,
-                                            word.word.word.definition,
-                                            word.word.word.isHorizontal,
-                                            word.word.word.line,
-                                            word.word.word.column);
-            // tslint:disable-next-line:prefer-for-of
-            tempWord.Word.toUpperCase();
-            if (!word.word.isHost) {
-                for (let i: number = 0; i < tempWord.Word.length; i++) {
-                    if (tempWord.IsHorizontal) {
-                        this.addLetter(tempWord, tempWord.Word[i].toUpperCase(), tempWord.Line, tempWord.Column + i, true);
-                    } else {
-                        this.addLetter(tempWord, tempWord.Word[i].toUpperCase(), tempWord.Line + i, tempWord.Column, true);
-                    }
-                }
-            }
-            this.placeWord(tempWord);
+        this.socketService.wordCorrect().subscribe((res) => {
+            const word: Word = new Word(
+                res.word.word,
+                res.word.definition,
+                res.word.isHorizontal,
+                res.word.line,
+                res.word.column
+            );
+            this.manageIfNotHost(res, word);
+            this.placeWord(word);
         });
     }
+
+    private manageIfNotHost(res: { word: IWord; isHost: boolean; }, word: Word): void {
+        if (!res.isHost) {
+            for (let i: number = 0; i < res.word.word.length; i++) {
+                if (res.word.isHorizontal) {
+                    this.letterGrid[res.word.line][res.word.column + i].IsFoundByOpponent = true;
+                    this.addLetter(word, res.word.word[i].toUpperCase(), res.word.line, res.word.column + i, true);
+                } else {
+                    this.letterGrid[res.word.line + i][res.word.column].IsFoundByOpponent = true;
+                    this.addLetter(word, res.word.word[i].toUpperCase(), res.word.line + i, res.word.column, true);
+                }
+            }
+        }
+    }
+
     private listenOpponentSelectsWord(): void {
-        this.socketService.selectWord().subscribe((word) => {
-            this.opponentSelectedWord = new Word(word.word.word.word,
-                                                 word.word.word.definition,
-                                                 word.word.word.isHorizontal,
-                                                 word.word.word.line,
-                                                 word.word.word.column);
+        this.socketService.selectWord().subscribe((res) => {
+            this.opponentSelectedWord = new Word(
+                res.word.word,
+                res.word.definition,
+                res.word.isHorizontal,
+                res.word.line,
+                res.word.column
+            );
         });
     }
 
@@ -130,7 +139,6 @@ export class GridComponent implements OnInit {
         });
     }
 
-    // html can't access static function of Word
     public isPartOfWord(word: Word, i: number, j: number): boolean {
         return Word.isPartOfWord(word, i, j);
     }
@@ -139,10 +147,9 @@ export class GridComponent implements OnInit {
         let isCompleted: boolean = true;
 
         for (let i: number = 0; i < this.letterGrid.length; i++) {
-            // tslint:disable-next-line:prefer-for-of
             for (let j: number = 0; j < this.letterGrid[0].length; j++) {
                 isCompleted = isCompleted && (this.crosswordService.FormattedGrid.letters[i][j] === ""
-                                              || this.letterGrid[i][j].IsPlaced);
+                    || this.letterGrid[i][j].IsPlaced);
             }
         }
 
@@ -266,12 +273,12 @@ export class GridComponent implements OnInit {
             caseFound.nativeElement.select();
         }
     }
-    public  isWordIntersection(i: number, j: number): boolean {
-       return (this.findWordWithCase(this.defService.HorizontalWords, i, j) &&
-                this.findWordWithCase(this.defService.VerticalWords, i, j));
+    public isWordIntersection(i: number, j: number): boolean {
+        return (this.findWordWithCase(this.defService.HorizontalWords, i, j) &&
+            this.findWordWithCase(this.defService.VerticalWords, i, j));
 
     }
-    public casePlaced(i: number, j: number) : boolean {
+    public casePlaced(i: number, j: number): boolean {
         return this.letterGrid[i][j].IsPlaced;
     }
 }

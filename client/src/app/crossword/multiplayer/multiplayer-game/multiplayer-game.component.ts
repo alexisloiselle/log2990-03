@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild} from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { Difficulty } from "../../../../../../common/difficulty";
 import { ActivatedRoute } from "@angular/router";
 import { CrosswordService } from "../../services/crossword/crossword.service";
@@ -7,8 +7,6 @@ import { SocketService } from "../../services/socket.service";
 import { GridComponent } from "../../grid/grid.component";
 import { DefinitionsComponent } from "../../definitions/definitions.component";
 import { Word } from "../../word";
-
-// import {IMultiplayerGame} from "../../../../../../common/multiplayer-game"
 
 @Component({
     selector: "app-multiplayer-game",
@@ -44,23 +42,27 @@ export class MultiplayerGameComponent implements OnInit {
         this.opponentName = "";
         this.playerScore = 0;
         this.opponentScore = 0;
+        this.initSocket();
+
+    }
+
+    private initSocket(): void {
         this.route.params.subscribe(async (params) => {
             this.gameName = params.gamename;
             if (params.isjoingame === "true") {
                 await this.opponentFound();
-                (this.opponentName = this.crosswordService.userNamePlayerOne);
-                (this.playerName = this.crosswordService.userNamePlayerTwo);
+                this.opponentName = this.crosswordService.userNamePlayerOne;
+                this.playerName = this.crosswordService.userNamePlayerTwo;
             } else {
                 this.socketService.gameBegin().subscribe(async (isOpponentFound) => {
                     if (isOpponentFound) {
                         await this.opponentFound();
-                        (this.playerName = this.crosswordService.userNamePlayerOne);
-                        (this.opponentName = this.crosswordService.userNamePlayerTwo);
+                        this.playerName = this.crosswordService.userNamePlayerOne;
+                        this.opponentName = this.crosswordService.userNamePlayerTwo;
                     }
                 });
             }
         });
-
     }
 
     public async opponentFound(): Promise<void> {
@@ -75,9 +77,8 @@ export class MultiplayerGameComponent implements OnInit {
     }
 
     private listenOpponentFoundWords(): void {
-        this.socketService.wordCorrect().subscribe((word) => {
-            // console.log(word);
-            if (word.word.isHost) {
+        this.socketService.wordCorrect().subscribe((res) => {
+            if (res.isHost) {
                 this.playerScore += 1;
             } else {
                 this.opponentScore += 1;
@@ -87,12 +88,14 @@ export class MultiplayerGameComponent implements OnInit {
     }
 
     private listenOpponentSelectedWords(): void {
-        this.socketService.selectWord().subscribe((word) => {
-            this.definitions.opponentSelectedWord = new Word(word.word.word.word,
-                                                             word.word.word.definition,
-                                                             word.word.word.isHorizontal,
-                                                             word.word.word.line,
-                                                             word.word.word.column);
+        this.socketService.selectWord().subscribe((res) => {
+            this.definitions.opponentSelectedWord = new Word(
+                res.word.word,
+                res.word.definition,
+                res.word.isHorizontal,
+                res.word.line,
+                res.word.column
+            );
         });
     }
 
@@ -104,7 +107,7 @@ export class MultiplayerGameComponent implements OnInit {
         return this.definitions !== undefined;
     }
 
-    private isGameEnded(): boolean {
+    public isGameEnded(): boolean {
         return this.grid === undefined ? false : this.grid.isCompleted();
     }
 

@@ -5,7 +5,7 @@ import { injectable, inject } from "inversify";
 import { IServerAddress } from "./iserver.address";
 import { } from "socket.io";
 import { JOIN_GAME_EVENT, GAME_BEGIN_EVENT, NEW_GAME_EVENT, WORD_CORRECT, SELECTED_WORD } from "../../common/socket-constants";
-import { Word } from "./Crossword/word";
+import { IWord } from "./routes/crossword-game";
 
 @injectable()
 export class Server {
@@ -51,12 +51,12 @@ export class Server {
                 socket.emit(NEW_GAME_EVENT , {playerName,  isHost: true });
                 socket.broadcast.emit(NEW_GAME_EVENT, {playerName, isHost: false });
             });
-            socket.on(WORD_CORRECT , (word: Word) => {
+            socket.on(WORD_CORRECT , (word: IWord) => {
                 console.log("Opponnent Guesses a word");
                 socket.emit(WORD_CORRECT , {word, isHost: true });
                 socket.broadcast.emit(WORD_CORRECT , {word, isHost: false });
             });
-            socket.on(SELECTED_WORD , (word: Word) => {
+            socket.on(SELECTED_WORD , (word: IWord) => {
                 console.log("Opponent selected a word");
                 socket.broadcast.emit(SELECTED_WORD , {word, isHost: false });
             });

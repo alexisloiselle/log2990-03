@@ -4,6 +4,7 @@ import { Observable } from "rxjs/Observable";
 import { SERVER_URL } from "../../config";
 import { JOIN_GAME_EVENT, NEW_GAME_EVENT, GAME_BEGIN_EVENT, WORD_CORRECT, SELECTED_WORD } from "../../../../../common/socket-constants";
 import { Word } from "../word";
+import { IWord } from "../../../../../common/IWord";
 
 @Injectable()
 export class SocketService {
@@ -36,23 +37,25 @@ export class SocketService {
         });
     }
 
-    public wordCorrect(): Observable<{word: Word}> {
+    public wordCorrect(): Observable<{word: IWord, isHost: boolean}> {
         return new Observable((observer) => {
-            this.socket.on(WORD_CORRECT, (word: Word) => {
-                observer.next({word});
+            this.socket.on(WORD_CORRECT, (res: {word: IWord, isHost: boolean}) => {
+                observer.next({word: res.word, isHost: res.isHost});
             });
         });
     }
 
-    public selectWord(): Observable<{word: Word}> {
+    public selectWord(): Observable<{word: IWord, isHost: boolean}> {
         return new Observable((observer) => {
-            this.socket.on(SELECTED_WORD, (word: Word) => {
-                observer.next({word});
+            this.socket.on(SELECTED_WORD, (res: {word: IWord, isHost: boolean}) => {
+                console.log("listened");
+                observer.next({word: res.word, isHost: res.isHost});
             });
         });
     }
 
     public emitWordSelected(signal: string, word: Word): void {
+        console.log("emit");
         this.socket.emit(signal, word);
     }
 
