@@ -37,12 +37,9 @@ export class MultiplayerGameComponent implements OnInit {
     }
 
     public async ngOnInit(): Promise<void> {
-        this.isOpponentFound = false;
-        this.isConfigured = false;
+        this.resetAttributes();
         this.playerName = "";
         this.opponentName = "";
-        this.playerScore = 0;
-        this.opponentScore = 0;
         this.initSocket();
 
     }
@@ -71,8 +68,6 @@ export class MultiplayerGameComponent implements OnInit {
         this.defService.IsCheatModeOn = false;
         await this.crosswordService.getMultiplayerGrid(this.gameName);
         await this.crosswordService.getUserNames(this.gameName);
-        // this.playerOneName = this.crosswordService.userNamePlayerOne;
-        // this.playerTwoName = this.crosswordService.userNamePlayerTwo;
         this.defService.configureDefinitions();
         this.isConfigured = true;
     }
@@ -80,11 +75,10 @@ export class MultiplayerGameComponent implements OnInit {
     private listenOpponentFoundWords(): void {
         this.socketService.wordCorrect().subscribe((res) => {
             if (res.isHost) {
-                this.playerScore += 1;
+                this.playerScore++;
             } else {
-                this.opponentScore += 1;
+                this.opponentScore++;
             }
-            // this.placeWord(tempWord);
         });
     }
 
@@ -113,22 +107,25 @@ export class MultiplayerGameComponent implements OnInit {
     }
 
     public async rematch(): Promise<void> {
+        this.resetAttributes();
         if (this.socketService.firstToRematch()) {
             this.socketService.rematch(this.gameName);
-            this.isOpponentFound = false;
-            this.isConfigured = false;
             this.socketService.gameBegin().subscribe(async (isOpponentFound) => {
                 if (isOpponentFound) {
                     await this.opponentFound();
                 }
             });
-            this.socketService.resetFirstRematcher();
         } else {
             this.socketService.restartGame(this.gameName);
-            this.isOpponentFound = false;
-            this.isConfigured = false;
             await this.opponentFound();
-            this.socketService.resetFirstRematcher();
         }
+        this.socketService.resetFirstRematcher();
+    }
+
+    public resetAttributes(): void {
+        this.isOpponentFound = false;
+        this.isConfigured = false;
+        this.playerScore = 0;
+        this.opponentScore = 0;
     }
 }
