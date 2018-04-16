@@ -81,6 +81,8 @@ export class GridComponent implements OnInit {
                 }
             }
             this.placeWord(tempWord);
+            console.log("Inside word correct : ");
+            console.log(tempWord.IsPlaced);
         });
     }
     private listenOpponentSelectsWord(): void {
@@ -123,6 +125,7 @@ export class GridComponent implements OnInit {
     private listenEnterInput(): void {
         this.inputService.EnterInputSub.subscribe((res) => {
             if (this.isValidWord(this.defService.SelectedWord)) {
+                this.socketService.emitWordFound(WORD_CORRECT, this.defService.SelectedWord);
                 this.placeWord(this.defService.SelectedWord);
             }
         });
@@ -169,18 +172,24 @@ export class GridComponent implements OnInit {
             this.letterGrid[i][j].Letter = letter;
         }
         this.letterGrid[i][j].IsFoundByOpponent = foundByOpponent;
-        if (foundByOpponent)
+        if (foundByOpponent) {
             word.IsPlaced = true;
-        if (this.verifyEndOfWord(word, i, j) && !foundByOpponent)
+        }
+        console.log("ADD LETTER:");
+        console.log(this.verifyEndOfWord(word, i, j));
+        console.log(!foundByOpponent);
+        if (this.verifyEndOfWord(word, i, j) && !foundByOpponent) {
             this.socketService.emitWordFound(WORD_CORRECT, word);
-        
+        }
     }
 
     private verifyEndOfWord(word: Word, i: number, j: number): boolean {
         if (Word.isEndOfWord(word, i, j) && this.isValidWord(word)) {
             this.placeWord(word);
+
             return true;
         }
+
         return false;
     }
 
