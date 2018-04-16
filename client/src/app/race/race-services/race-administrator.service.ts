@@ -16,7 +16,6 @@ public interface RemainingRace {
 }
 @Injectable()
 export class RaceAdministratorService {
-    [x: string]: any;
     private isRaceOnGoing: boolean;
     private winners: { car: Car, time: number }[];
     public playersTime: Array<number> = [];
@@ -29,7 +28,7 @@ export class RaceAdministratorService {
         this.remainingRace.remTimeToCompLap = 0;
         this.remainingRace.remTimeToCompRestOfRace = 0;
         this.remainingRace.remTimeToCompSeg = 0;
-        this.remainingRace.currentLap = 0 ;
+        this.remainingRace.currentLap = 0;
     }
 
     public initializeCarsLapsTime(cars: Car[]): void {
@@ -111,15 +110,31 @@ export class RaceAdministratorService {
         this.remainingRace.currentLap = car.carGPS.currentLap; // METTRE A UNE AUTRE PLACE
     }
 
-    public simulatBotsLapsTime(cars: Array<Car>, winnerCar: Car): void {
-        this.simulateBotsUnfinishedLapTime(cars, this.winnerCar);
-        this.simulateBotsUnstardedLapTime(cars, this.winnerCar);
+    public simulateBotsLapsTime(cars: Array<Car>, winnerCar: Car): void {
+        this.simulateBotsUnfinishedLapTime(cars, winnerCar);
+        this.simulateBotsUnstardedLapTime(cars, winnerCar);
+    }
+
+    public addFinishedLapTime(raceTime: number, id: number): void {
+        for (const car of this.carsLapsTime) {
+            if (id === car.id) {
+                let totalPreviousLaps: number = 0;
+                for (let laptime of car.lapsTime) {
+                    if (laptime !== 0) {
+                        totalPreviousLaps += laptime;
+                    } else if (laptime === 0) {
+                        laptime = raceTime - totalPreviousLaps;
+                    }
+                }
+
+            }
+        }
     }
 
     public simulateBotsUnfinishedLapTime(cars: Array<Car>, winnerCar: Car): void {
         for (let i: number = 0; i < cars.length; i++) {
             if (cars[i] !== winnerCar) {
-               this.carsLapsTime[i].lapsTime[this.remainingRace.currentLap - 1] = this.remainingRace.remTimeToCompLap;
+                this.carsLapsTime[i].lapsTime[this.remainingRace.currentLap - 1] = this.remainingRace.remTimeToCompLap;
 
             }
         }
@@ -141,9 +156,8 @@ export class RaceAdministratorService {
         this.remainingRace.remTimeToCompLap = 0;
         this.remainingRace.remTimeToCompRestOfRace = 0;
         this.remainingRace.remTimeToCompSeg = 0;
-        this.remainingRace.currentLap = 0 ;
+        this.remainingRace.currentLap = 0;
     }
-    // TODO public getLapTimeCar(car: Array<cars>)
 
     public addWinner(car: Car, time: number): void {
         for (const winnerCar of this.winners) {

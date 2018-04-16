@@ -88,7 +88,13 @@ export class RenderService {
     private listenIncrementLap(): void {
         this._car.carGPS.IncrementLapSub.subscribe(() => {
             this.hudService.finishLap();
+            this.raceAdministratorService.addFinishedLapTime(this.hudService.RaceTime, this._car.id);
         });
+        for (const botCar of this.botCars) {
+            botCar.carGPS.IncrementLapSub.subscribe(() => {
+                this.raceAdministratorService.addFinishedLapTime(this.hudService.RaceTime, botCar.id);
+            });
+        }
     }
 
     public async initialize(container: HTMLDivElement, raceTrackId: string): Promise<void> {
@@ -129,7 +135,7 @@ export class RenderService {
         if (this.raceOnGoing) {
             const timeSinceLastFrame: number = Date.now() - this.lastDate;
             for (const car of this.cars) {
-                car.update(timeSinceLastFrame * 3);
+                car.update(timeSinceLastFrame * 3); // TODO ENLEVER MAGIC NUMBER
                 car.carGPS.updatePosition(car.mesh);
             }
             this.raceAdministratorService.controlBots(this.botCars);
@@ -143,7 +149,6 @@ export class RenderService {
             this.skyboxService.update(this._car.Position);
             this.collisionService.checkForCollision(this.cars, this.track.segments, this.track.width);
             this.hudService.update();
-            //TODO this.race.administratorservice.updateLapTime()
             this.lastDate = Date.now();
         }
     }
@@ -229,43 +234,43 @@ export class RenderService {
     }
 
     private render(): void {
-        requestAnimationFrame(() => this.render())
-this.update();
-this.cameraService.render(this.scene, this.renderer);
-this.stats.update();
+        requestAnimationFrame(() => this.render());
+        this.update();
+        this.cameraService.render(this.scene, this.renderer);
+        this.stats.update();
     }
 
-    public onResize();: void {
+    public onResize(): void {
         this.cameraService.onResize(this.getAspectRatio());
         this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
-    };
+    }
 
-    public handleKeyDown(event: KeyboardEvent);: void {
+    public handleKeyDown(event: KeyboardEvent): void {
         if (this.raceOnGoing) {
             this.carEventHandlerService.handleKeyDown(event, this._car);
             if (event.keyCode === QUIT_KEYCODE) { this.clearGameView(); }
         }
-    };
+    }
 
-    public handleKeyUp(event: KeyboardEvent);: void {
+    public handleKeyUp(event: KeyboardEvent): void {
         if (this.raceOnGoing) {
             this.carEventHandlerService.handleKeyUp(event, this._car);
         }
-    };
+    }
 
-    public clearGameView();: void {
+    public clearGameView(): void {
         this.track = null;
         for (const children of this.scene.children) { this.scene.remove(children); }
         this.cars.forEach((car) => { this.cars.pop(); });
         this.scene = new THREE.Scene;
         this.route.navigateByUrl("/track-list");
-    };
+    }
 
-    public getStartingSound();: THREE.Audio; {
+    public getStartingSound(): THREE.Audio {
         return Object.create(this.startingSound);
     }
 
-    private loadSounds();: void {
+    private loadSounds(): void {
         this.audioListener = new THREE.AudioListener();
         this.startingSound = new THREE.Audio(this.audioListener);
         const audioLoader: THREE.AudioLoader = new THREE.AudioLoader();
@@ -279,14 +284,14 @@ this.stats.update();
             },
             () => { },
             () => { });
-    };
+    }
 
-    public sleep(miliseconds: number);: void {
+    public sleep(miliseconds: number): void {
         const currentTime: number = new Date().getTime();
         while (currentTime + miliseconds >= new Date().getTime()) { }
-    };
+    }
 
-    public get; Track();: RaceTrack; {
+    public get Track(): RaceTrack {
         return new RaceTrack(
             this.track.id,
             this.track.name,
