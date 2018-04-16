@@ -36,15 +36,23 @@ export class DefinitionService {
     }
 
     public get HorizontalWords(): Word[] {
-        return this.horizontalWords;
+        return this.allWords.filter((word: Word) => {
+            return word.IsHorizontal;
+        });
     }
 
     public get VerticalWords(): Word[] {
-        return this.verticalWords;
+        return this.allWords.filter((word: Word) => {
+            return !word.IsHorizontal;
+        });
     }
 
     public get AllWords(): Word[] {
         return this.allWords;
+    }
+
+    public set AllWords(value: Word[]) {
+        this.allWords = value;
     }
 
     public get IsCheatModeOn(): boolean {

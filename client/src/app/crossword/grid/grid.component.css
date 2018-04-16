@@ -65,7 +65,6 @@ li.border-selectedByOpponent
 }
 
 .placedByBoth {
-        color: white;
         background: repeating-linear-gradient(
           45deg,
           rgb(121, 209, 121),

@@ -78,11 +78,17 @@ export class GridComponent implements OnInit {
                 this.manageIfNotHost(res, word);
             }
             this.placeWord(word);
-            this.defService.AllWords.forEach((w: Word) => {
-                if (w.Line === word.Line && w.Column === word.Column && w.IsHorizontal && word.IsHorizontal) {
-                    w = word;
-                }
-            });
+            this.updateAllWords(word);
+        });
+    }
+
+    private updateAllWords(word: Word): void {
+        this.defService.AllWords = this.defService.AllWords.map((w: Word) => {
+            if (w.Line === word.Line && w.Column === word.Column && w.IsHorizontal === word.IsHorizontal) {
+                return word;
+            }
+
+            return w;
         });
     }
 
@@ -101,8 +107,7 @@ export class GridComponent implements OnInit {
     private listenOpponentSelectsWord(): void {
         this.socketService.selectWord().subscribe((res) => {
             this.opponentSelectedWord = this.defService.AllWords.find((w: Word) => {
-                return w.IsHorizontal &&
-                    res.word.isHorizontal &&
+                return w.IsHorizontal === res.word.isHorizontal &&
                     w.Line === res.word.line &&
                     w.Column === res.word.column;
             });
@@ -165,20 +170,19 @@ export class GridComponent implements OnInit {
     }
 
     public selectWordFromCase(i: number, j: number): void {
-        if (this.findWordWithCase(this.defService.HorizontalWords, i, j)) { return; }
-        if (this.findWordWithCase(this.defService.VerticalWords, i, j)) { return; }
-    }
-
-    private findWordWithCase(words: Word[], i: number, j: number): boolean {
-        for (const word of words) {
+        for (const word of this.defService.AllWords) {
             if (Word.isPartOfWord(word, i, j)) {
                 this.defService.handleClickDef(word);
-
-                return true;
             }
         }
+    }
 
-        return false;
+    private findWordWithCase(words: Word[], i: number, j: number, callback: Function): void {
+        for (const word of words) {
+            if (Word.isPartOfWord(word, i, j)) {
+                callback(word);
+            }
+        }
     }
 
     private addLetter(word: Word, letter: string, i: number, j: number): void {
@@ -277,11 +281,21 @@ export class GridComponent implements OnInit {
             caseFound.nativeElement.select();
         }
     }
-    public isWordIntersection(i: number, j: number): boolean {
-        return (this.findWordWithCase(this.defService.HorizontalWords, i, j) &&
-            this.findWordWithCase(this.defService.VerticalWords, i, j));
 
+    public isPlacedByDifferentPlayers(i: number, j: number): boolean {
+        let res: boolean = false;
+        this.findWordWithCase(this.defService.HorizontalWords, i, j, (hWord: Word) => {
+            this.findWordWithCase(this.defService.VerticalWords, i, j, (vWord: Word) => {
+                if ((hWord.IsPlaced && vWord.IsPlaced) &&
+                    (hWord.IsFoundByOpponent !== vWord.IsFoundByOpponent)) {
+                    res = true;
+                }
+            });
+        });
+
+        return res;
     }
+
     public casePlaced(i: number, j: number): boolean {
         return this.letterGrid[i][j].IsPlaced;
     }
