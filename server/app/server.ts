@@ -4,7 +4,7 @@ import Types from "./types";
 import { injectable, inject } from "inversify";
 import { IServerAddress } from "./iserver.address";
 import { } from "socket.io";
-import { JOIN_GAME_EVENT, GAME_BEGIN_EVENT, NEW_GAME_EVENT } from "../../common/socket-constants";
+import { JOIN_GAME_EVENT, GAME_BEGIN_EVENT, NEW_GAME_EVENT, RESTART_GAME_EVENT } from "../../common/socket-constants";
 
 @injectable()
 export class Server {
@@ -49,6 +49,10 @@ export class Server {
                 const tempGame: [string, number] = [gameName, 1];
                 this.crosswordGames.push(tempGame);
                 socket.join(gameName);
+            });
+
+            socket.on(RESTART_GAME_EVENT, (gameName: string) => {
+                socket.broadcast.to(gameName).emit(GAME_BEGIN_EVENT, true);
             });
         });
     }

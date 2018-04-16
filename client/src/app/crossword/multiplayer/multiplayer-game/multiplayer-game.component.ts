@@ -65,7 +65,20 @@ export class MultiplayerGameComponent implements OnInit {
         this.router.navigate(["homepage"]);
     }
 
-    public rematch(): void {
-        this.ngOnInit();
+    public async rematch(): Promise<void> {
+        this.route.params.subscribe(async (params) => {
+            if (params.isjoingame === "false") {
+                this.isOpponentFound = false;
+                this.isConfigured = false;
+                this.socketService.gameBegin().subscribe(async (isOpponentFound) => {
+                    if (isOpponentFound) {
+                        await this.opponentFound();
+                    }
+                });
+            } else {
+                await this.opponentFound();
+                this.socketService.restartGame(this.gameName);
+            }
+        });
     }
 }

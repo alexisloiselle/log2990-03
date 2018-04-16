@@ -1,5 +1,5 @@
 <script src="/socket.io/socket.io.js"></script> 
-<div *ngIf="!isOpponentFound" id="waitingForOpponent">Waiting for an opponent...</div>
+<div *ngIf="!isOpponentFound" id="waitingForOpponent">Waiting for opponent...</div>
 <div *ngIf="isOpponentFound && !isGameOver()">
   <button type="button" class="btn btn-outline-primary" (click)="defService.isCheatModeOn = !defService.isCheatModeOn">
     {{defService.isCheatModeOn ? 'Disable Cheat Mode' : 'Enable Cheat Mode'}}

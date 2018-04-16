@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import * as io from "socket.io-client";
 import { Observable } from "rxjs/Observable";
 import { SERVER_URL } from "../../config";
-import { JOIN_GAME_EVENT, NEW_GAME_EVENT, GAME_BEGIN_EVENT } from "../../../../../common/socket-constants";
+import { JOIN_GAME_EVENT, NEW_GAME_EVENT, GAME_BEGIN_EVENT, RESTART_GAME_EVENT } from "../../../../../common/socket-constants";
 
 @Injectable()
 export class SocketService {
@@ -35,4 +35,7 @@ export class SocketService {
         });
     }
 
+    public restartGame(gameName: String): void {
+        this.socket.emit(RESTART_GAME_EVENT, gameName);
+    }
 }
