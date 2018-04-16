@@ -5,7 +5,7 @@ import { NUMBER_OF_LAPS } from "../../config";
 
 const MEAN_CAR_SPEED: number = 40;  // TODO: POTENTIALLY TO MODIFY
 
-public interface RemainingRace {
+export interface RemainingRace {
     remTimeToCompRestOfRace: number;
     remTimeToCompLap: number;
     remTimeToCompSeg: number;
@@ -19,24 +19,23 @@ export class RaceAdministratorService {
     private isRaceOnGoing: boolean;
     private winners: { car: Car, time: number }[];
     public playersTime: Array<number> = [];
-    public carsLapsTime: { id: number, lapsTime: number[] }[];
-    public remainingRace: RemainingRace;
+    public carsLapsTime: { id: number, lapsTime: number[] }[] = [];
+    public remainingRace: RemainingRace = {
+        remainingLaps: 0, remainingSegments: 0, remTimeToCompLap: 0,
+        remTimeToCompRestOfRace: 0, remTimeToCompSeg: 0, currentLap: 0
+    };
 
     public constructor() {
-        this.remainingRace.remainingLaps = 0;
-        this.remainingRace.remainingSegments = 0;
-        this.remainingRace.remTimeToCompLap = 0;
-        this.remainingRace.remTimeToCompRestOfRace = 0;
-        this.remainingRace.remTimeToCompSeg = 0;
-        this.remainingRace.currentLap = 0;
+
     }
 
     public initializeCarsLapsTime(cars: Car[]): void {
-        for (let i: number = 0; i < cars.length; i++) {
-            this.carsLapsTime[i].id = cars[i].id;
+        for (const car of cars) {
+            const lapsTime: number[] = [];
             for (let j: number = 0; j < NUMBER_OF_LAPS; j++) {
-                this.carsLapsTime[i].lapsTime.push(-1);
+                lapsTime.push(0);
             }
+            this.carsLapsTime.push({id: car.id, lapsTime});
         }
     }
 
@@ -45,12 +44,7 @@ export class RaceAdministratorService {
     }
 
     public getCarLap(playerCar: Car): number {
-        // TODO: Not really elegant, maybe find another way
-        if (playerCar.carGPS === undefined) {
-            return 0;
-        }
-
-        return playerCar.carGPS.currentLap;
+        return playerCar.carGPS === undefined ? 0 : playerCar.carGPS.currentLap;
     }
 
     public determineWinner(cars: Array<Car>): number {
