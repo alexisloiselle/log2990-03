@@ -185,7 +185,6 @@ export class GridComponent implements OnInit {
         if (!this.letterGrid[i][j].IsPlaced) {
             this.letterGrid[i][j].Letter = letter;
         }
-        console.log(word);
         if (!word.IsFoundByOpponent && this.verifyEndOfWord(word, i, j)) {
             this.socketService.emitWordFound(WORD_CORRECT, word);
         }
@@ -227,7 +226,6 @@ export class GridComponent implements OnInit {
         let j: number = word.Column;
         word.Word.split("").forEach(() => {
             this.letterGrid[i][j].IsPlaced = true;
-            console.log(this.letterGrid[i][j]);
             i = word.IsHorizontal ? i : i + 1;
             j = word.IsHorizontal ? j + 1 : j;
         });

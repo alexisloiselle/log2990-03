@@ -100,24 +100,12 @@ export class MultiplayerGameComponent implements OnInit {
         });
     }
 
-    public isGridDefined(): boolean {
-        return this.grid !== undefined;
-    }
-
-    public isDefinitionsDefined(): boolean {
-        return this.definitions !== undefined;
-    }
-
-    public isYouWinning(): boolean {
-        return this.playerScore > this.opponentScore;
-    }
-
     public isGameOver(): boolean {
         return this.grid === undefined ? false : this.grid.isCompleted();
     }
 
     public currentPlayerWon(): boolean {
-        return true;
+        return this.playerScore > this.opponentScore;
     }
 
     public exitGame(): void {
