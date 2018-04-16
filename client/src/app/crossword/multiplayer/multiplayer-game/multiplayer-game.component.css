@@ -6,6 +6,11 @@
 #crossword {
     min-width: 600px;
 }
+
+#gameOverModal {
+    display: block;
+}
+
 .player {
     background-color: rgb(121, 209, 121) !important;
     font-weight: bold;

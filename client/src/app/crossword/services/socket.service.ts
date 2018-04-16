@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import * as io from "socket.io-client";
 import { Observable } from "rxjs/Observable";
 import { SERVER_URL } from "../../config";
+import { JOIN_GAME_EVENT, NEW_GAME_EVENT, GAME_BEGIN_EVENT, RESTART_GAME_EVENT } from "../../../../../common/socket-constants";
 import { JOIN_GAME_EVENT, NEW_GAME_EVENT, GAME_BEGIN_EVENT, WORD_CORRECT, SELECTED_WORD } from "../../../../../common/socket-constants";
 import { Word } from "../word";
 import { IWord } from "../../../../../common/IWord";
@@ -61,5 +62,8 @@ export class SocketService {
 
     public emitWordFound(signal: string, word: Word): void {
         this.socket.emit(signal, word);
+    }
+    public restartGame(gameName: String): void {
+        this.socket.emit(RESTART_GAME_EVENT, gameName);
     }
 }

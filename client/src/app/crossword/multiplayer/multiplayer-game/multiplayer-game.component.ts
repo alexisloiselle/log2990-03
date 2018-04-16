@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { Difficulty } from "../../../../../../common/difficulty";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { CrosswordService } from "../../services/crossword/crossword.service";
 import { DefinitionService } from "../../services/crossword/definition.service";
 import { SocketService } from "../../services/socket.service";
@@ -29,7 +29,8 @@ export class MultiplayerGameComponent implements OnInit {
         private crosswordService: CrosswordService,
         private defService: DefinitionService,
         private route: ActivatedRoute,
-        private socketService: SocketService
+        private socketService: SocketService,
+        private router: Router
     ) {
         this.listenOpponentFoundWords();
         this.listenOpponentSelectedWords();
@@ -107,11 +108,36 @@ export class MultiplayerGameComponent implements OnInit {
         return this.definitions !== undefined;
     }
 
-    public isGameEnded(): boolean {
+    public isYouWinning(): boolean {
+        return this.playerScore > this.opponentScore;
+    }
+  
+    public isGameOver(): boolean {
         return this.grid === undefined ? false : this.grid.isCompleted();
     }
 
-    public isYouWinning(): boolean {
-        return this.playerScore > this.opponentScore;
+    public currentPlayerWon(): boolean {
+        return true;
+    }
+
+    public exitGame(): void {
+        this.router.navigate(["homepage"]);
+    }
+
+    public async rematch(): Promise<void> {
+        this.route.params.subscribe(async (params) => {
+            if (params.isjoingame === "false") {
+                this.isOpponentFound = false;
+                this.isConfigured = false;
+                this.socketService.gameBegin().subscribe(async (isOpponentFound) => {
+                    if (isOpponentFound) {
+                        await this.opponentFound();
+                    }
+                });
+            } else {
+                await this.opponentFound();
+                this.socketService.restartGame(this.gameName);
+            }
+        });
     }
 }

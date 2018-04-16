@@ -4,6 +4,7 @@ import Types from "./types";
 import { injectable, inject } from "inversify";
 import { IServerAddress } from "./iserver.address";
 import { } from "socket.io";
+import { JOIN_GAME_EVENT, GAME_BEGIN_EVENT, NEW_GAME_EVENT, RESTART_GAME_EVENT } from "../../common/socket-constants";
 import { JOIN_GAME_EVENT, GAME_BEGIN_EVENT, NEW_GAME_EVENT, WORD_CORRECT, SELECTED_WORD } from "../../common/socket-constants";
 import { IWord } from "./routes/crossword-game";
 
@@ -59,6 +60,10 @@ export class Server {
             socket.on(SELECTED_WORD , (word: IWord) => {
                 console.log("Opponent selected a word");
                 socket.broadcast.emit(SELECTED_WORD , {word, isHost: false });
+            });
+
+            socket.on(RESTART_GAME_EVENT, (gameName: string) => {
+                socket.broadcast.to(gameName).emit(GAME_BEGIN_EVENT, true);
             });
         });
     }
