@@ -15,14 +15,14 @@
                       'border-selectedByOpponent': isPartOfWord(opponentSelectedWord, i, j) && isMultiplayer(),
                       'border-selectedByBoth': isPartOfWord(opponentSelectedWord, i, j) && isPartOfWord(defService.SelectedWord, i, j) && isMultiplayer()
                     }">
-        <input id="{{i}}{{j}}" [disabled]="letterGrid[i][j].IsPlaced" type="text" [ngClass]="{
+        <input id="{{i}}{{j}}"  type="text" [ngClass]="{
                         'whiteCaseInput': true,
                         'canSelect': true,
                         'selectedByOpponent': isPartOfWord(opponentSelectedWord, i, j) && isMultiplayer(),
                         'selected': isPartOfWord(defService.SelectedWord, i, j),
                         'placed': letterGrid[i][j].IsPlaced && !letterGrid[i][j].IsFoundByOpponent,
                         'placedByOpponent' : letterGrid[i][j].IsPlaced && letterGrid[i][j].IsFoundByOpponent && isMultiplayer(),
-                        'selectedByBoth' : trues
+                        'placedByBoth' : letterGrid[i][j].IsPlaced && !letterGrid[i][j].IsFoundByOpponent && letterGrid[i][j].IsPlaced && letterGrid[i][j].IsFoundByOpponent && isMultiplayer()
                       }" maxlength="1" (keydown)="inputService.handleKey($event.keyCode, i, j ); 
                       $event.preventDefault();" (click)="selectWordFromCase(i, j)" [(value)]="letterGrid[i][j].Letter" #case
         />

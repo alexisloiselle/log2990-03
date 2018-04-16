@@ -42,6 +42,7 @@ export class GridComponent implements OnInit {
         this.listenEnterInput();
         this.listenWordCorrect();
         this.letterGrid = this.initLetterGrid(this.crosswordService.FormattedGrid.letters.length);
+        this.letterGrid.forEach((line) => line.forEach((word) => word.IsPlaced = false));
     }
 
     public ngOnInit(): void { }
@@ -81,8 +82,6 @@ export class GridComponent implements OnInit {
                 }
             }
             this.placeWord(tempWord);
-            console.log("Inside word correct : ");
-            console.log(tempWord.IsPlaced);
         });
     }
     private listenOpponentSelectsWord(): void {
@@ -175,9 +174,6 @@ export class GridComponent implements OnInit {
         if (foundByOpponent) {
             word.IsPlaced = true;
         }
-        console.log("ADD LETTER:");
-        console.log(this.verifyEndOfWord(word, i, j));
-        console.log(!foundByOpponent);
         if (this.verifyEndOfWord(word, i, j) && !foundByOpponent) {
             this.socketService.emitWordFound(WORD_CORRECT, word);
         }
@@ -269,5 +265,13 @@ export class GridComponent implements OnInit {
             caseFound.nativeElement.focus();
             caseFound.nativeElement.select();
         }
+    }
+    public  isWordIntersection(i: number, j: number): boolean {
+       return (this.findWordWithCase(this.defService.HorizontalWords, i, j) &&
+                this.findWordWithCase(this.defService.VerticalWords, i, j));
+
+    }
+    public casePlaced(i: number, j: number) : boolean {
+        return this.letterGrid[i][j].IsPlaced;
     }
 }

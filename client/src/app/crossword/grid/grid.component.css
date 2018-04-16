@@ -64,7 +64,7 @@ li.border-selectedByOpponent
     background-color: rgb(247, 0, 125);
 }
 
-.selectedByBoth {
+.placedByBoth {
         color: white;
         background: repeating-linear-gradient(
           45deg,
@@ -72,6 +72,6 @@ li.border-selectedByOpponent
           rgb(121, 209, 121) 10px,
           rgb(42, 60, 219) 10px,
           rgb(42, 60, 219) 20px
-        );  
+        ) !important ;  
 }
 
