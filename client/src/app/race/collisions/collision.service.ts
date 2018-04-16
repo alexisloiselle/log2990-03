@@ -2,10 +2,10 @@ import { Injectable } from "@angular/core";
 import { Car } from "../car/car";
 import { LineCurve, Vector2, Vector3, Matrix4, Quaternion } from "three";
 import { SoundsService } from "../../render-service/sounds.service";
+import { CAR_COLLISION_SOUND,
+         WALL_COLLISION_SOUND } from "../../config";
 
 const MIN_SPEED: number = 20;
-const WALL_COLLISION_SOUND: string = "../../../assets/sounds/wallcrash.mp3";
-const CAR_COLLISION_SOUND: string = "../../../assets/sounds/";
 
 @Injectable()
 export class CollisionService {

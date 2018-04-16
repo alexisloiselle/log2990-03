@@ -18,12 +18,12 @@ import { URL_DAY_PREFIX, URL_DAY_POSTFIX } from "../race/constants";
 import { Object3D } from "three";
 import THREE = require("three");
 import { SoundsService } from "./sounds.service";
+import { STARTING_SOUND } from "../config";
 
 const WHITE: number = 0xFFFFFF;
 const GREY: number = 0x334F66;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
 const QUIT_KEYCODE: number = 81;    // q
-const STARTING_SOUND: string = "../../assets/sounds/ReadySetGo.ogg";
 
 @Injectable()
 export class RenderService {

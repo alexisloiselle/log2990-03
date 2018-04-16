@@ -2,6 +2,7 @@ import { Car } from "../race/car/car";
 import { Injectable } from "@angular/core";
 import { CameraService } from "./camera.service";
 import { SoundsService } from "./sounds.service";
+import { ACCELERATE_SOUND } from "../config";
 
 const ACCELERATE_KEYCODE: number = 87;  // w
 const LEFT_KEYCODE: number = 65;        // a
@@ -11,8 +12,6 @@ const ZOOM_KEYCODE: number = 187;        // +
 const UNZOOM_KEYCODE: number = 189;      // -
 const SWITCH_VIEW_KEY: number = 67;    // c
 const NIGHT_KEY: number = 78;       // n
-
-const ACCELERATE_SOUND: string = "../../assets/sounds/accelerate.wav";
 
 @Injectable()
 export class CarEventHandlerService {
