@@ -125,6 +125,7 @@ export class RenderService {
             this.botCars[i].init(await RenderService.loadCar(carModelsDirectories[i]));
             this.botCars[i].translateOnAxis(new THREE.Vector3(0, 0, 0), 1);
             this.scene.add(this.botCars[i]);
+            this.scene.add(this.botCars[i].headlight);
         }
 
     }

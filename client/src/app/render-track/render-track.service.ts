@@ -102,7 +102,7 @@ export class RenderTrackService {
 
     public createStartingLine(trackWidth: number): THREE.Mesh {
         const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(trackWidth, STARTING_LINE_WIDTH);
-        const material: THREE.MeshLambertMaterial = new THREE.MeshLambertMaterial(
+        const material: THREE.MeshPhysicalMaterial = new THREE.MeshPhysicalMaterial(
             { color: STARTING_LINE_COLOR, side: THREE.DoubleSide }
         );
         const startingLine: THREE.Mesh = new THREE.Mesh(geometry, material);
