@@ -274,7 +274,7 @@ export class RenderService {
         if (this.raceOnGoing) {
             const isNightKey: boolean = this.carEventHandlerService.handleKeyUp(event, this._car);
             if (isNightKey) {
-              this.changeMomentOfTheDay();
+                this.changeMomentOfTheDay();
             }
         }
     }
