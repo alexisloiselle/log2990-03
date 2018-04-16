@@ -5,7 +5,7 @@ import { injectable, inject } from "inversify";
 import { IServerAddress } from "./iserver.address";
 import { } from "socket.io";
 import { JOIN_GAME_EVENT, GAME_BEGIN_EVENT, NEW_GAME_EVENT, WORD_CORRECT,
-    SELECTED_WORD, RESTART_GAME_EVENT } from "../../common/socket-constants";
+    SELECTED_WORD, RESTART_GAME_EVENT, REMATCH_GAME_EVENT } from "../../common/socket-constants";
 import { IWord } from "./routes/crossword-game";
 
 @injectable()
@@ -33,6 +33,7 @@ export class Server {
         this.server.on("listening", () => this.onListening());
         this.io = require("socket.io").listen(this.server);
 
+        // tslint:disable-next-line:max-func-body-length
         this.io.on("connection", (socket: SocketIO.Socket) => {
             socket.on(JOIN_GAME_EVENT, (gameName: string) => {
                 for (const game of this.crosswordGames) {
@@ -59,9 +60,11 @@ export class Server {
             socket.on(SELECTED_WORD , (word: IWord) => {
                 socket.broadcast.emit(SELECTED_WORD , {word, isHost: false });
             });
-
             socket.on(RESTART_GAME_EVENT, (gameName: string) => {
                 socket.broadcast.to(gameName).emit(GAME_BEGIN_EVENT, true);
+            });
+            socket.on(REMATCH_GAME_EVENT, (gameName: string) => {
+                socket.broadcast.to(gameName).emit(REMATCH_GAME_EVENT, true);
             });
         });
     }

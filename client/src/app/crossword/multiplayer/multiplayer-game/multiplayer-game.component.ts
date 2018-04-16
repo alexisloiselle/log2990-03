@@ -105,7 +105,7 @@ export class MultiplayerGameComponent implements OnInit {
     }
 
     public currentPlayerWon(): boolean {
-        return this.playerScore > this.opponentScore;
+        return this.playerScore >= this.opponentScore;
     }
 
     public exitGame(): void {
@@ -113,19 +113,22 @@ export class MultiplayerGameComponent implements OnInit {
     }
 
     public async rematch(): Promise<void> {
-        this.route.params.subscribe(async (params) => {
-            if (params.isjoingame === "false") {
-                this.isOpponentFound = false;
-                this.isConfigured = false;
-                this.socketService.gameBegin().subscribe(async (isOpponentFound) => {
-                    if (isOpponentFound) {
-                        await this.opponentFound();
-                    }
-                });
-            } else {
-                await this.opponentFound();
-                this.socketService.restartGame(this.gameName);
-            }
-        });
+        if (this.socketService.firstToRematch()) {
+            this.socketService.rematch(this.gameName);
+            this.isOpponentFound = false;
+            this.isConfigured = false;
+            this.socketService.gameBegin().subscribe(async (isOpponentFound) => {
+                if (isOpponentFound) {
+                    await this.opponentFound();
+                }
+            });
+            this.socketService.resetFirstRematcher();
+        } else {
+            this.socketService.restartGame(this.gameName);
+            this.isOpponentFound = false;
+            this.isConfigured = false;
+            await this.opponentFound();
+            this.socketService.resetFirstRematcher();
+        }
     }
 }

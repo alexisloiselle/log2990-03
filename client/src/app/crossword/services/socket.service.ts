@@ -3,7 +3,7 @@ import * as io from "socket.io-client";
 import { Observable } from "rxjs/Observable";
 import { SERVER_URL } from "../../config";
 import { JOIN_GAME_EVENT, NEW_GAME_EVENT, GAME_BEGIN_EVENT,
-    WORD_CORRECT, SELECTED_WORD, RESTART_GAME_EVENT } from "../../../../../common/socket-constants";
+    WORD_CORRECT, SELECTED_WORD, RESTART_GAME_EVENT, REMATCH_GAME_EVENT } from "../../../../../common/socket-constants";
 import { Word } from "../word";
 import { IWord } from "../../../../../common/IWord";
 
@@ -12,10 +12,15 @@ export class SocketService {
 
     private socket: SocketIOClient.Socket;
 
+    private isFirstToRematch: boolean = true;
+
     public constructor() { }
 
     public connect(): void {
         this.socket = io(SERVER_URL);
+        this.socket.on(REMATCH_GAME_EVENT, () => {
+            this.isFirstToRematch = false;
+        });
     }
 
     public joinGame(gameName: string): void {
@@ -64,5 +69,17 @@ export class SocketService {
 
     public restartGame(gameName: String): void {
         this.socket.emit(RESTART_GAME_EVENT, gameName);
+    }
+
+    public rematch(gameName: String): void {
+        this.socket.emit(REMATCH_GAME_EVENT, gameName);
+    }
+
+    public firstToRematch(): boolean {
+        return this.isFirstToRematch;
+    }
+
+    public resetFirstRematcher(): void {
+        this.isFirstToRematch = true;
     }
 }

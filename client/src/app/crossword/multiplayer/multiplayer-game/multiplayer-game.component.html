@@ -1,6 +1,24 @@
 <script src="/socket.io/socket.io.js"></script> 
 <div *ngIf="!isOpponentFound" id="waitingForOpponent">Waiting for opponent...</div>
-<div *ngIf="isOpponentFound && !isGameOver()">
+<div id="gameOverModal" *ngIf="isGameOver()">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" *ngIf="currentPlayerWon();  else elseBlock">Congratulations, you won!</h5>
+        <ng-template #elseBlock><b>You lose!</b></ng-template>
+      </div>
+      <div class="modal-body">
+        Would you like to rematch with the same opponent?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="exitGame()">Exit</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="rematch()">Rematch</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isOpponentFound">
   <p> Partie : {{gameName}}</p>
   <button type="button" class="btn btn-outline-primary" (click)="defService.isCheatModeOn = !defService.isCheatModeOn">
     {{defService.isCheatModeOn ? 'Disable Cheat Mode' : 'Enable Cheat Mode'}}
@@ -24,22 +42,4 @@
       <p> {{opponentName}} : {{opponentScore}} </p> 
     </div>
     </div>
-</div>
-
-<div id="gameOverModal" *ngIf="isGameOver()">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" *ngIf="currentPlayerWon();  else elseBlock">Congratulations, you won!</h5>
-        <ng-template #elseBlock><b>You lose!</b></ng-template>
-      </div>
-      <div class="modal-body">
-        Would you like to rematch with the same opponent?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="exitGame()">Exit</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="rematch()">Rematch</button>
-      </div>
-    </div>
-  </div>
 </div>
