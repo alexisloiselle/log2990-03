@@ -132,14 +132,6 @@ export class Car extends Object3D {
                                              Math.PI / HEADLIGHT_ANGLE_DIVIDER, 0, HEADLIGHT_DIM_PERCENTAGE);
     }
 
-    private createHeadlight(): void {
-        const test: THREE.Vector3 = new THREE.Vector3().copy(this.direction);
-        // test.add(this.position);
-        this.headlight.position.copy(this.mesh.position);
-        this.headlight.position.setZ(100);
-        this.headlight.target.position.copy(test);
-    }
-
     public initializeGPS(trackSegments: Array<LineCurve>, trackWidth: number): void {
         this.carGPS = new CarGPS(trackSegments, trackWidth);
     }
@@ -172,8 +164,8 @@ export class Car extends Object3D {
     }
 
     private updateHeadlightLocation(): void {
-        const test: THREE.Vector3 = new THREE.Vector3(0, -1, 0);
-        test.add(this.position);
+        const test: THREE.Vector3 = new THREE.Vector3().copy(this.mesh.position);
+        test.setY(0);
         this.headlight.position.copy(this.mesh.position);
         this.headlight.position.setY(20);
         this.headlight.target.position.copy(test);
