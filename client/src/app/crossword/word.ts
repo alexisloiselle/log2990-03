@@ -5,6 +5,7 @@ export class Word {
     private line: number;
     private column: number;
     private isPlaced: boolean;
+    private isFoundByOpponent: boolean;
 
     public constructor(wordname: string, definition: string, isHorizontal: boolean, line: number, column: number) {
         this.word = wordname;
@@ -13,6 +14,7 @@ export class Word {
         this.line = line;
         this.column = column;
         this.isPlaced = false;
+        this.isFoundByOpponent = false;
     }
 
     public get Line(): number {
@@ -41,6 +43,14 @@ export class Word {
 
     public set IsPlaced(value: boolean) {
         this.isPlaced = value;
+    }
+
+    public get IsFoundByOpponent(): boolean {
+        return this.isFoundByOpponent;
+    }
+
+    public set IsFoundByOpponent(value: boolean) {
+        this.isFoundByOpponent = value;
     }
 
     public static isEndOfWord(word: Word, i: number, j: number): boolean {

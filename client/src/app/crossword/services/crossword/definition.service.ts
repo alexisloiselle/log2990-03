@@ -13,6 +13,7 @@ export class DefinitionService {
 
     private horizontalWords: Word[];
     private verticalWords: Word[];
+    private allWords: Word[];
     private isCheatModeOn: boolean;
 
     public constructor(
@@ -42,6 +43,10 @@ export class DefinitionService {
         return this.verticalWords;
     }
 
+    public get AllWords(): Word[] {
+        return this.allWords;
+    }
+
     public get IsCheatModeOn(): boolean {
         return this.isCheatModeOn;
     }
@@ -54,6 +59,7 @@ export class DefinitionService {
         const definitionsSorter: DefinitionsSorter = new DefinitionsSorter(this.crosswordService.FormattedGrid);
         this.horizontalWords = definitionsSorter.HorizontalDefinitions;
         this.verticalWords = definitionsSorter.VerticalDefinitions;
+        this.allWords = this.verticalWords.concat(this.horizontalWords);
     }
 
     public handleClickDef(word: Word): void {
