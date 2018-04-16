@@ -17,13 +17,13 @@ import { TrackService } from "../track.service";
 import { URL_DAY_PREFIX, URL_DAY_POSTFIX } from "../race/constants";
 import { Object3D } from "three";
 import THREE = require("three");
+import { SoundsService } from "./sounds.service";
+import { STARTING_SOUND } from "../config";
 
 const WHITE: number = 0xFFFFFF;
 const GREY: number = 0x334F66;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
 const QUIT_KEYCODE: number = 81;    // q
-const STARTING_SOUND: string = "../../assets/sounds/ReadySetGo.ogg";
-const INITIAL_VOLUME: number = 0.3;
 
 @Injectable()
 export class RenderService {
@@ -41,9 +41,6 @@ export class RenderService {
     private endRaceSub: Subject<{ track: RaceTrack, time: number }>;
     private isNight: boolean;
 
-    public audioListener: THREE.AudioListener;
-    public startingSound: THREE.Audio;
-
     public loader: THREE.ImageLoader;
 
     public get car(): Car {
@@ -59,7 +56,8 @@ export class RenderService {
         private hudService: HudService,
         private raceAdministratorService: RaceAdministratorService,
         private trackService: TrackService,
-        private route: Router
+        private route: Router,
+        private soundsService: SoundsService
     ) {
         this.endRaceSub = new Subject<{ track: RaceTrack, time: number, isPlayer: boolean }>();
 
@@ -104,7 +102,7 @@ export class RenderService {
         this.hudService.initialize();
         this.initStats();
         this.startRenderingLoop();
-        this.loadSounds();
+        this.playStartingSound();
         this.listenIncrementLap();
         this.raceOnGoing = true;
     }
@@ -287,24 +285,8 @@ export class RenderService {
         this.route.navigateByUrl("/track-list");
     }
 
-    public getStartingSound(): THREE.Audio {
-        return Object.create(this.startingSound);
-    }
-
-    private loadSounds(): void {
-        this.audioListener = new THREE.AudioListener();
-        this.startingSound = new THREE.Audio(this.audioListener);
-        const audioLoader: THREE.AudioLoader = new THREE.AudioLoader();
-        audioLoader.load(
-            STARTING_SOUND,
-            (audioBuffer: THREE.AudioBuffer) => {
-                this.startingSound.setBuffer(audioBuffer);
-                this.startingSound.setVolume(INITIAL_VOLUME);
-                this.startingSound.setLoop(false);
-                this.startingSound.play();
-            },
-            () => { },
-            () => { });
+    private playStartingSound(): void {
+        this.soundsService.playSound(STARTING_SOUND);
     }
 
     public sleep(miliseconds: number): void {
