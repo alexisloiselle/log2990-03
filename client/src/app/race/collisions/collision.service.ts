@@ -1,13 +1,16 @@
 import { Injectable } from "@angular/core";
 import { Car } from "../car/car";
 import { LineCurve, Vector2, Vector3, Matrix4, Quaternion } from "three";
+import { SoundsService } from "../../render-service/sounds.service";
 
 const MIN_SPEED: number = 20;
+const WALL_COLLISION_SOUND: string = "../../../assets/sounds/wallcrash.mp3";
+const CAR_COLLISION_SOUND: string = "../../../assets/sounds/";
 
 @Injectable()
 export class CollisionService {
 
-    public constructor() { }
+    public constructor(private soundsService: SoundsService) { }
 
     public checkForCollision(cars: Car[], trackSegments: LineCurve[], trackWidth: number): void {
         for (let i: number = 0; i < cars.length; i++) {
@@ -25,6 +28,7 @@ export class CollisionService {
     }
 
     private handleCarCollision(car1: Car, car2: Car): void {
+        this.soundsService.playSound(CAR_COLLISION_SOUND);
         const initialVelocity1: Vector3 = car1.speed;
         const initialVelocity2: Vector3 = car2.speed;
 
@@ -107,6 +111,7 @@ export class CollisionService {
     }
 
     private handleTrackCollision(car: Car, trackSegment: LineCurve, isCorner: boolean): void {
+        this.soundsService.playSound(WALL_COLLISION_SOUND);
         const segmentDirection: Vector2 = new Vector2((trackSegment.v2.x - trackSegment.v1.x),
                                                       (trackSegment.v2.y - trackSegment.v1.y));
         const angle: number = this.getPositiveAngle(new Vector2(car.direction.z, car.direction.x)) -

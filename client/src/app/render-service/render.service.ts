@@ -17,14 +17,13 @@ import { TrackService } from "../track.service";
 import { URL_DAY_PREFIX, URL_DAY_POSTFIX } from "../race/constants";
 import { Object3D } from "three";
 import THREE = require("three");
-import {SoundsService} from "./sounds.service";
+import { SoundsService } from "./sounds.service";
 
 const WHITE: number = 0xFFFFFF;
 const GREY: number = 0x334F66;
 const AMBIENT_LIGHT_OPACITY: number = 0.5;
 const QUIT_KEYCODE: number = 81;    // q
 const STARTING_SOUND: string = "../../assets/sounds/ReadySetGo.ogg";
-// const ACCELERATION_SOUND: string = "";
 
 @Injectable()
 export class RenderService {
@@ -286,7 +285,7 @@ export class RenderService {
         this.route.navigateByUrl("/track-list");
     }
 
-    private playStartingSound() {
+    private playStartingSound(): void {
         this.soundsService.playSound(STARTING_SOUND);
     }
 
