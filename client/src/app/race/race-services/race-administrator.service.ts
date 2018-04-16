@@ -18,7 +18,7 @@ export interface RemainingRace {
 export class RaceAdministratorService {
     private isRaceOnGoing: boolean;
     private winners: { car: Car, time: number }[];
-    public playersTime: Array<number> = [];
+    // public playersTime: Array<number> = [];
     public carsLapsTime: { id: number, lapsTime: number[] }[] = [];
     public remainingRace: RemainingRace = {
         remainingLaps: 0, remainingSegments: 0, remTimeToCompLap: 0,
@@ -26,17 +26,20 @@ export class RaceAdministratorService {
     };
 
     public constructor() {
-
+        this.isRaceOnGoing = true;
     }
 
     public initializeCarsLapsTime(cars: Car[]): void {
+        console.log(cars);
         for (const car of cars) {
             const lapsTime: number[] = [];
             for (let j: number = 0; j < NUMBER_OF_LAPS; j++) {
                 lapsTime.push(0);
             }
-            this.carsLapsTime.push({id: car.id, lapsTime});
+            console.log({ id: car.id, lapsTime });
+            this.carsLapsTime.push({ id: car.id, lapsTime });
         }
+        console.log(this.carsLapsTime);
     }
 
     public get IsWinnerDetermined(): boolean {
@@ -69,12 +72,12 @@ export class RaceAdministratorService {
                 this.calculateLapRemaining(car);
                 this.calculateRemainingSegments(car);
                 this.calculateRemTimeToCompRestOfRace(car);
-                this.playersTime.push(this.remainingRace.remTimeToCompLap + this.remainingRace.remTimeToCompRestOfRace);
+                // this.playersTime.push(this.remainingRace.remTimeToCompLap + this.remainingRace.remTimeToCompRestOfRace);
                 this.simulateBotsLapsTime(cars, winnerCar);
                 this.resetRemainingRace();
-            } else {
-                this.playersTime.push(0);
-            }
+            } // else {
+            //     this.playersTime.push(0);
+            // }
         }
     }
 
@@ -120,7 +123,6 @@ export class RaceAdministratorService {
                         laptime = raceTime - totalPreviousLaps;
                     }
                 }
-
             }
         }
     }
@@ -158,7 +160,17 @@ export class RaceAdministratorService {
             if (car.id === winnerCar.car.id) { return; }
         }
         this.winners.push({ car, time });
-        console.log(`{car: ${car}, time: ${time}}`);
+    }
+
+    public sortPlayersTime(): void {
+        this.carsLapsTime.sort((a: { id: number, lapsTime: number[] }, b: { id: number, lapsTime: number[] }) => {
+            return a.lapsTime.reduce((sumA, sumB) => sumA + sumB, 0) -
+                b.lapsTime.reduce((sumA, sumB) => sumA + sumB, 0);
+        });
+    }
+
+    public getTotalTime(index: number): number {
+        return this.carsLapsTime[index].lapsTime.reduce((sumA, sumB) => sumA + sumB, 0);
     }
 
     public controlBots(botCars: Array<BotCar>): void {

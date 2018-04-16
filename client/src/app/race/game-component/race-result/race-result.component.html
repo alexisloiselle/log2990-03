@@ -3,7 +3,7 @@
   <thead>
     <tr>
       <th>#</th>
-      <th>Race</th>
+      <th>Total</th>
       <th>Lap #1</th>
       <th>Lap #2</th>
       <th>Lap #3</th>
@@ -11,32 +11,32 @@
   </thead>
   <tbody>
     <tr>
-      <td>1</td>
-      <td>{{this.raceAdministratorService.playersTime[0]+this.bestTimeService.time}}</td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td>{{this.raceAdministratorService.carsLapsTime[0].id}}</td>
+      <td>{{this.raceAdministratorService.getTotalTime(0)}}</td>
+      <td>{{this.raceAdministratorService.carsLapsTime[0].lapsTime[0]}}</td>
+      <td>{{this.raceAdministratorService.carsLapsTime[0].lapsTime[1]}}</td>
+      <td>{{this.raceAdministratorService.carsLapsTime[0].lapsTime[2]}}</td>
     </tr>
     <tr>
-      <td>2</td>
-      <td>{{this.raceAdministratorService.playersTime[1]+this.bestTimeService.time}}</td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td>{{this.raceAdministratorService.carsLapsTime[1].id}}</td>
+      <td>{{this.raceAdministratorService.getTotalTime(1)}}</td>
+      <td>{{this.raceAdministratorService.carsLapsTime[1].lapsTime[0]}}</td>
+      <td>{{this.raceAdministratorService.carsLapsTime[1].lapsTime[1]}}</td>
+      <td>{{this.raceAdministratorService.carsLapsTime[1].lapsTime[2]}}</td>
     </tr>
     <tr>
-      <td>3</td>
-      <td>{{this.raceAdministratorService.playersTime[2]+this.bestTimeService.time}}</td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td>{{this.raceAdministratorService.carsLapsTime[2].id}}</td>
+      <td>{{this.raceAdministratorService.getTotalTime(2)}}</td>
+      <td>{{this.raceAdministratorService.carsLapsTime[2].lapsTime[0]}}</td>
+      <td>{{this.raceAdministratorService.carsLapsTime[2].lapsTime[1]}}</td>
+      <td>{{this.raceAdministratorService.carsLapsTime[2].lapsTime[2]}}</td>
     </tr>
     <tr>
-      <td>4</td>
-      <td>{{this.raceAdministratorService.playersTime[3]+this.bestTimeService.time}}</td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td>{{this.raceAdministratorService.carsLapsTime[3].id}}</td>
+      <td>{{this.raceAdministratorService.getTotalTime(3)}}</td>
+      <td>{{this.raceAdministratorService.carsLapsTime[3].lapsTime[0]}}</td>
+      <td>{{this.raceAdministratorService.carsLapsTime[3].lapsTime[1]}}</td>
+      <td>{{this.raceAdministratorService.carsLapsTime[3].lapsTime[2]}}</td>
     </tr>
   </tbody>
 </table>

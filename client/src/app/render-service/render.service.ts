@@ -69,7 +69,6 @@ export class RenderService {
             this.cars.push(botCar);
         }
         this.track = null;
-        this.raceAdministratorService.initializeCarsLapsTime(this.cars);
     }
 
     public static async loadCar(descriptionFileName: string): Promise<THREE.Object3D> {
@@ -108,6 +107,7 @@ export class RenderService {
         this.startRenderingLoop();
         this.loadSounds();
         this.listenIncrementLap();
+        this.raceAdministratorService.initializeCarsLapsTime(this.cars);
         this.raceOnGoing = true;
     }
 
@@ -155,11 +155,12 @@ export class RenderService {
 
     private manageRaceEnd(index: number): void {
         this.endRaceSub.next({ track: this.track, time: this.hudService.RaceTime });
+        this.raceAdministratorService.sortPlayersTime();
         this.raceOnGoing = false;
     }
 
-    public getPlayerLap(car: Car): number {
-        return this.raceAdministratorService.getCarLap(car);
+    public getPlayerLap(): number {
+        return this.raceAdministratorService.getCarLap(this._car);
     }
 
     private async createScene(): Promise<void> {
