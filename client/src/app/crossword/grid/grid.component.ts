@@ -157,6 +157,8 @@ export class GridComponent implements OnInit {
                 isCompleted = isCompleted && (this.crosswordService.FormattedGrid.letters[i][j] === ""
                     || this.letterGrid[i][j].IsPlaced);
             }
+
+            return isCompleted;
         }
 
         return isCompleted;

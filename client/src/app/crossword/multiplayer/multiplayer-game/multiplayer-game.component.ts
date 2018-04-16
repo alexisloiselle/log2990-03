@@ -111,7 +111,7 @@ export class MultiplayerGameComponent implements OnInit {
     public isYouWinning(): boolean {
         return this.playerScore > this.opponentScore;
     }
-  
+
     public isGameOver(): boolean {
         return this.grid === undefined ? false : this.grid.isCompleted();
     }
