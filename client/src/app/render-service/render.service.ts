@@ -125,7 +125,7 @@ export class RenderService {
             this.botCars[i].init(await RenderService.loadCar(carModelsDirectories[i]));
             this.botCars[i].translateOnAxis(new THREE.Vector3(0, 0, 0), 1);
             this.scene.add(this.botCars[i]);
-            this.scene.add(this.botCars[i].headlight);
+            // this.scene.add(this.botCars[i].headlight);
         }
 
     }
@@ -166,7 +166,7 @@ export class RenderService {
         this._car.init(await RenderService.loadCar("../../assets/camero/camero-2010-low-poly.json"));
         this.cameraService.createCameras(this._car.Position, this.getAspectRatio(), this.scene);
         this.scene.add(this._car);
-        this.scene.add(this._car.headlight);
+        // this.scene.add(this._car.headlight);
         const light: THREE.AmbientLight = new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY);
         light.name = "ambiantLight";
         this.scene.add(light);
@@ -261,7 +261,7 @@ export class RenderService {
     private async changeMomentOfTheDay(): Promise<void> {
         this.isNight = !this.isNight;
         this.removeAmbiantLight();
-        this.car.changeLight();
+        // this.car.changeLight();
         let newLight: THREE.AmbientLight;
         newLight = this.isNight ? new THREE.AmbientLight(GREY, AMBIENT_LIGHT_OPACITY) :
                                   new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY);
