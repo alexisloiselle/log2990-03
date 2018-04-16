@@ -284,8 +284,6 @@ export class GridComponent implements OnInit {
         let res: boolean = false;
         this.findWordWithCase(this.defService.HorizontalWords, i, j, (hWord: Word) => {
             this.findWordWithCase(this.defService.VerticalWords, i, j, (vWord: Word) => {
-                console.log(hWord);
-                console.log(vWord);
                 if ((hWord.IsPlaced && vWord.IsPlaced) &&
                     (hWord.IsFoundByOpponent !== vWord.IsFoundByOpponent)) {
                     res = true;
