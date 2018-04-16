@@ -168,19 +168,19 @@ export class GridComponent implements OnInit {
     }
 
     public selectWordFromCase(i: number, j: number): void {
-        this.findWordWithCase(this.defService.AllWords, i, j, this.defService.handleClickDef);
+        for (const word of this.defService.AllWords) {
+            if (Word.isPartOfWord(word, i, j)) {
+                this.defService.handleClickDef(word);
+            }
+        }
     }
 
-    private findWordWithCase(words: Word[], i: number, j: number, callback: Function): boolean {
+    private findWordWithCase(words: Word[], i: number, j: number, callback: Function): void {
         for (const word of words) {
             if (Word.isPartOfWord(word, i, j)) {
                 callback(word);
-
-                return true;
             }
         }
-
-        return false;
     }
 
     private addLetter(word: Word, letter: string, i: number, j: number): void {
@@ -284,6 +284,8 @@ export class GridComponent implements OnInit {
         let res: boolean = false;
         this.findWordWithCase(this.defService.HorizontalWords, i, j, (hWord: Word) => {
             this.findWordWithCase(this.defService.VerticalWords, i, j, (vWord: Word) => {
+                console.log(hWord);
+                console.log(vWord);
                 if ((hWord.IsPlaced && vWord.IsPlaced) &&
                     (hWord.IsFoundByOpponent !== vWord.IsFoundByOpponent)) {
                     res = true;
