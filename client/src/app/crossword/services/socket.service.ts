@@ -2,25 +2,33 @@ import { Injectable } from "@angular/core";
 import * as io from "socket.io-client";
 import { Observable } from "rxjs/Observable";
 import { SERVER_URL } from "../../config";
-import { JOIN_GAME_EVENT, NEW_GAME_EVENT, GAME_BEGIN_EVENT } from "../../../../../common/socket-constants";
+import { JOIN_GAME_EVENT, NEW_GAME_EVENT, GAME_BEGIN_EVENT,
+    WORD_CORRECT, SELECTED_WORD, RESTART_GAME_EVENT, REMATCH_GAME_EVENT } from "../../../../../common/socket-constants";
+import { Word } from "../word";
+import { IWord } from "../../../../../common/IWord";
 
 @Injectable()
 export class SocketService {
 
     private socket: SocketIOClient.Socket;
 
+    private isFirstToRematch: boolean = true;
+
     public constructor() { }
 
     public connect(): void {
         this.socket = io(SERVER_URL);
+        this.socket.on(REMATCH_GAME_EVENT, () => {
+            this.isFirstToRematch = false;
+        });
     }
 
     public joinGame(gameName: string): void {
         this.socket.emit(JOIN_GAME_EVENT, gameName);
     }
 
-    public newGame(gameName: string): void {
-        this.socket.emit(NEW_GAME_EVENT, gameName);
+    public newGame(gameName: string, playerName: string): void {
+        this.socket.emit(NEW_GAME_EVENT, gameName, playerName);
     }
 
     public gameBegin(): Observable<boolean> {
@@ -35,4 +43,43 @@ export class SocketService {
         });
     }
 
+    public wordCorrect(): Observable<{word: IWord, isHost: boolean}> {
+        return new Observable((observer) => {
+            this.socket.on(WORD_CORRECT, (res: {word: IWord, isHost: boolean}) => {
+                observer.next({word: res.word, isHost: res.isHost});
+            });
+        });
+    }
+
+    public selectWord(): Observable<{word: IWord, isHost: boolean}> {
+        return new Observable((observer) => {
+            this.socket.on(SELECTED_WORD, (res: {word: IWord, isHost: boolean}) => {
+                observer.next({word: res.word, isHost: res.isHost});
+            });
+        });
+    }
+
+    public emitWordSelected(signal: string, word: Word): void {
+        this.socket.emit(signal, word);
+    }
+
+    public emitWordFound(signal: string, word: Word): void {
+        this.socket.emit(signal, word);
+    }
+
+    public restartGame(gameName: String): void {
+        this.socket.emit(RESTART_GAME_EVENT, gameName);
+    }
+
+    public rematch(gameName: String): void {
+        this.socket.emit(REMATCH_GAME_EVENT, gameName);
+    }
+
+    public firstToRematch(): boolean {
+        return this.isFirstToRematch;
+    }
+
+    public resetFirstRematcher(): void {
+        this.isFirstToRematch = true;
+    }
 }

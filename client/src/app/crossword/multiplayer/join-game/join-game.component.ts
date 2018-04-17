@@ -45,11 +45,7 @@ export class JoinGameComponent implements OnInit {
     }
 
     public getBackgroundColor(gameName: string): string {
-        if (gameName === this.selectedGame) {
-            return "lightgray";
-        } else {
-            return "white";
-        }
+        return gameName === this.selectedGame ? "lightgray" : "white";
     }
 
     public async refresh(): Promise<void> {

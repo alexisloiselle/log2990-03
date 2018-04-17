@@ -1,6 +1,3 @@
-.alexis {
-    outline-width: 6px;
-    outline-color: rgb(253, 107, 107);
-    outline-style: dashed;
-    box-shadow: 0 0 0 6px rgb(255, 59, 190);
+.container {
+    text-align: center;
 }

@@ -1,9 +1,11 @@
 export class Case {
     private letter: string;
     private isPlaced: boolean;
+    private isFoundByOpponent: boolean;
 
     public constructor() {
         this.letter = "";
+        this.isFoundByOpponent = false;
     }
 
     public get Letter(): string {
@@ -20,5 +22,13 @@ export class Case {
 
     public set IsPlaced(value: boolean) {
         this.isPlaced = value;
+    }
+
+    public get IsFoundByOpponent(): boolean {
+        return this.isFoundByOpponent;
+    }
+
+    public set IsFoundByOpponent(value: boolean) {
+        this.isFoundByOpponent = value;
     }
 }
