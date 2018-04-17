@@ -7,6 +7,8 @@ export interface IWord {
     word: string;
     definition: string;
     isHorizontal: boolean;
+    line: number;
+    column: number;
     position: IPoint;
 }
 

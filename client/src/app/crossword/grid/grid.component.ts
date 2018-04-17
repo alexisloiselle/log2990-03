@@ -2,8 +2,12 @@ import { Component, OnInit, ViewChildren, ElementRef, QueryList } from "@angular
 import { CrosswordService } from "../services/crossword/crossword.service";
 import { InputService } from "../services/crossword/input.service";
 import { DefinitionService } from "../services/crossword/definition.service";
+import { Subject } from "rxjs/Subject";
 import { Word } from "../word";
 import { Case } from "../case";
+import { WORD_CORRECT, SELECTED_WORD } from "../../../../../common/socket-constants";
+import { SocketService } from "../services/socket.service";
+import { IWord } from "../../../../../common/IWord";
 
 const LEFT_KEYCODE: number = 37;
 const UP_KEYCODE: number = 38;
@@ -18,24 +22,39 @@ const DOWN_KEYCODE: number = 40;
 export class GridComponent implements OnInit {
     @ViewChildren("case") public cases: QueryList<ElementRef>;
     private letterGrid: Case[][];
+    public socket: SocketIOClient.Socket;
+    public rSocket: Subject<{ socket: SocketIOClient.Socket }>;
+    public numberPlacedWords: number;
+    public opponentSelectedWord: Word;
 
     public constructor(
         private crosswordService: CrosswordService,
         private inputService: InputService,
-        private defService: DefinitionService
+        private defService: DefinitionService,
+        private socketService: SocketService
     ) {
+        this.numberPlacedWords = 0;
         this.listenSelectedWord();
         this.listenLetterInput();
+        if (this.isMultiplayer()) {
+            this.listenOpponentSelectsWord();
+            this.listenWordCorrect();
+        }
         this.listenBackspaceInput();
         this.listenArrowInput();
         this.listenEnterInput();
         this.letterGrid = this.initLetterGrid(this.crosswordService.FormattedGrid.letters.length);
+        this.letterGrid.forEach((line) => line.forEach((word) => word.IsPlaced = false));
     }
 
     public ngOnInit(): void { }
 
     public get LetterGrid(): Case[][] {
         return this.letterGrid;
+    }
+
+    public isMultiplayer(): boolean {
+        return location.pathname.includes("multiplayer-game");
     }
 
     private initLetterGrid(length: number): Case[][] {
@@ -46,15 +65,67 @@ export class GridComponent implements OnInit {
         });
     }
 
+    private listenWordCorrect(): void {
+        this.socketService.wordCorrect().subscribe((res) => {
+            const word: Word = new Word(
+                res.word.word,
+                res.word.definition,
+                res.word.isHorizontal,
+                res.word.line,
+                res.word.column
+            );
+
+            if (!res.isHost) {
+                word.IsFoundByOpponent = true;
+                this.manageIfNotHost(res, word);
+            }
+            this.placeWord(word);
+            this.updateAllWords(word);
+        });
+    }
+
+    private updateAllWords(word: Word): void {
+        this.defService.AllWords = this.defService.AllWords.map((w: Word) => {
+            if (w.Line === word.Line && w.Column === word.Column && w.IsHorizontal === word.IsHorizontal) {
+                return word;
+            }
+
+            return w;
+        });
+    }
+
+    private manageIfNotHost(res: { word: IWord; isHost: boolean; }, word: Word): void {
+        for (let i: number = 0; i < res.word.word.length; i++) {
+            if (res.word.isHorizontal) {
+                this.letterGrid[res.word.line][res.word.column + i].IsFoundByOpponent = true;
+                this.addLetter(word, res.word.word[i].toUpperCase(), res.word.line, res.word.column + i);
+            } else {
+                this.letterGrid[res.word.line + i][res.word.column].IsFoundByOpponent = true;
+                this.addLetter(word, res.word.word[i].toUpperCase(), res.word.line + i, res.word.column);
+            }
+        }
+    }
+
+    private listenOpponentSelectsWord(): void {
+        this.socketService.selectWord().subscribe((res) => {
+            this.opponentSelectedWord = this.defService.AllWords.find((w: Word) => {
+                return w.IsHorizontal === res.word.isHorizontal &&
+                    w.Line === res.word.line &&
+                    w.Column === res.word.column;
+            });
+        });
+    }
+
     private listenSelectedWord(): void {
         this.defService.SelectWordSub.subscribe((res) => {
+            this.socketService.emitWordSignal(SELECTED_WORD, this.defService.SelectedWord);
             this.focusOnWord(res.word);
         });
     }
 
     private listenLetterInput(): void {
         this.inputService.LetterInputSub.subscribe((res) => {
-            this.addLetter(res.letter, res.i, res.j);
+            this.addLetter(this.defService.SelectedWord, res.letter, res.i, res.j);
             this.focusOnNextCase(res.i, res.j);
         });
     }
@@ -74,46 +145,63 @@ export class GridComponent implements OnInit {
 
     private listenEnterInput(): void {
         this.inputService.EnterInputSub.subscribe((res) => {
-            if (this.isValidWord()) {
-                this.placeWord();
+            if (this.isValidWord(this.defService.SelectedWord)) {
+                this.socketService.emitWordSignal(WORD_CORRECT, this.defService.SelectedWord);
+                this.placeWord(this.defService.SelectedWord);
             }
         });
     }
 
-    // html can't access static function of Word
     public isPartOfWord(word: Word, i: number, j: number): boolean {
         return Word.isPartOfWord(word, i, j);
     }
 
-    public selectWordFromCase(i: number, j: number): void {
-        if (this.findWordWithCase(this.defService.HorizontalWords, i, j)) { return; }
-        if (this.findWordWithCase(this.defService.VerticalWords, i, j)) { return; }
-    }
+    public isCompleted(): boolean {
+        let isCompleted: boolean = true;
 
-    private findWordWithCase(words: Word[], i: number, j: number): boolean {
-        for (const word of words) {
-            if (Word.isPartOfWord(word, i, j)) {
-                this.defService.handleClickDef(word);
-
-                return true;
+        for (let i: number = 0; i < this.letterGrid.length; i++) {
+            for (let j: number = 0; j < this.letterGrid[0].length; j++) {
+                isCompleted = isCompleted && (this.crosswordService.FormattedGrid.letters[i][j] === ""
+                    || this.letterGrid[i][j].IsPlaced);
             }
         }
 
-        return false;
+        return isCompleted;
     }
 
-    private addLetter(letter: string, i: number, j: number): void {
+    public selectWordFromCase(i: number, j: number): void {
+        for (const word of this.defService.AllWords) {
+            if (Word.isPartOfWord(word, i, j)) {
+                this.defService.handleClickDef(word);
+            }
+        }
+    }
+
+    private findWordWithCase(words: Word[], i: number, j: number, callback: Function): void {
+        for (const word of words) {
+            if (Word.isPartOfWord(word, i, j)) {
+                callback(word);
+            }
+        }
+    }
+
+    private addLetter(word: Word, letter: string, i: number, j: number): void {
         if (!this.letterGrid[i][j].IsPlaced) {
             this.letterGrid[i][j].Letter = letter;
         }
-
-        this.verifyEndOfWord(i, j);
+        if (!word.IsFoundByOpponent && this.verifyEndOfWord(word, i, j)) {
+            this.socketService.emitWordSignal(WORD_CORRECT, word);
+        }
     }
 
-    private verifyEndOfWord(i: number, j: number): void {
-        if (Word.isEndOfWord(this.defService.SelectedWord, i, j) && this.isValidWord()) {
-            this.placeWord();
+    private verifyEndOfWord(word: Word, i: number, j: number): boolean {
+        if (Word.isEndOfWord(word, i, j) && this.isValidWord(word)) {
+            this.placeWord(word);
+
+            return true;
         }
+
+        return false;
     }
 
     private removeLetter(i: number, j: number): void {
@@ -122,30 +210,31 @@ export class GridComponent implements OnInit {
         }
     }
 
-    private isValidWord(): boolean {
-        let i: number = this.defService.SelectedWord.Line;
-        let j: number = this.defService.SelectedWord.Column;
-        for (const letter of this.defService.SelectedWord.Word.split("")) {
-            if (letter.toUpperCase() !== this.letterGrid[i][j].Letter) {
+    private isValidWord(word: Word): boolean {
+        let i: number = word.Line;
+        let j: number = word.Column;
+
+        for (const letter of word.Word.split("")) {
+            if (letter.toUpperCase() !== this.letterGrid[i][j].Letter.toUpperCase()) {
                 return false;
             }
-            i = this.defService.SelectedWord.IsHorizontal ? i : i + 1;
-            j = this.defService.SelectedWord.IsHorizontal ? j + 1 : j;
+            word.IsHorizontal ? j++ : i++;
         }
+        word.Word.toUpperCase();
 
         return true;
     }
 
-    private placeWord(): void {
-        let i: number = this.defService.SelectedWord.Line;
-        let j: number = this.defService.SelectedWord.Column;
-        this.defService.SelectedWord.Word.split("").forEach(() => {
+    private placeWord(word: Word): void {
+        let i: number = word.Line;
+        let j: number = word.Column;
+
+        word.Word.split("").forEach(() => {
             this.letterGrid[i][j].IsPlaced = true;
-            i = this.defService.SelectedWord.IsHorizontal ? i : i + 1;
-            j = this.defService.SelectedWord.IsHorizontal ? j + 1 : j;
+            word.IsHorizontal ? j++ : i++;
         });
 
-        this.defService.SelectedWord.IsPlaced = true;
+        word.IsPlaced = true;
     }
 
     private focusOnWord(word: Word): void {
@@ -191,5 +280,20 @@ export class GridComponent implements OnInit {
             caseFound.nativeElement.focus();
             caseFound.nativeElement.select();
         }
+    }
+
+    public isPlacedByDifferentPlayers(i: number, j: number): boolean {
+        let res: boolean = false;
+
+        this.findWordWithCase(this.defService.HorizontalWords, i, j, (hWord: Word) => {
+            this.findWordWithCase(this.defService.VerticalWords, i, j, (vWord: Word) => {
+                if ((hWord.IsPlaced && vWord.IsPlaced) &&
+                    (hWord.IsFoundByOpponent !== vWord.IsFoundByOpponent)) {
+                    res = true;
+                }
+            });
+        });
+
+        return res;
     }
 }

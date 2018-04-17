@@ -16,12 +16,12 @@ describe("HudService", () => {
     describe("should initialize", () => {
         it("lap time should be at 0", inject([HudService], (service: HudService) => {
             service.initialize();
-            expect(service.lapTime).toEqual(0);
+            expect(service.LapTime).toEqual(0);
         }));
 
         it("race time should be at 0", inject([HudService], (service: HudService) => {
             service.initialize();
-            expect(service.raceTime).toEqual(0);
+            expect(service.RaceTime).toEqual(0);
         }));
     });
 
@@ -30,8 +30,8 @@ describe("HudService", () => {
             service.initialize();
             await new Promise((resolve: Function) => setTimeout(resolve, 100));
             service.update();
-            expect(service.lapTime).not.toEqual(0);
-            expect(service.raceTime).not.toEqual(0);
+            expect(service.LapTime).not.toEqual(0);
+            expect(service.RaceTime).not.toEqual(0);
         }));
 
         it("lap time should be 0 when lap finishes", inject([HudService], async (service: HudService) => {
@@ -39,7 +39,7 @@ describe("HudService", () => {
             await new Promise((resolve: Function) => setTimeout(resolve, 100));
             service.update();
             service.finishLap();
-            expect(service.lapTime).toEqual(0);
+            expect(service.LapTime).toEqual(0);
         }));
     });
 });

@@ -23,21 +23,21 @@ describe("TrackService", () => {
 
     it("addTrack() should return true", inject([TrackService], async (service: TrackService) => {
         const points: THREE.Vector2[] = [];
-        const track: RaceTrack = new RaceTrack("lol", "test", RaceType.Amateur, points);
+        const track: RaceTrack = new RaceTrack("lol", "test", "", RaceType.Amateur, points);
         const added: boolean = await service.addTrack(track);
         expect(added).toEqual(true);
     }));
 
     it("updateTrack() should return true", inject([TrackService], async (service: TrackService) => {
         const points: THREE.Vector2[] = [];
-        const track: RaceTrack = new RaceTrack("lol", "test", RaceType.Amateur, points);
+        const track: RaceTrack = new RaceTrack("lol", "test", "", RaceType.Amateur, points);
         const updated: boolean = await service.updateTrack(track);
         expect(updated).toEqual(true);
     }));
 
     it("updateTrack() should return true", inject([TrackService], async (service: TrackService) => {
         const points: THREE.Vector2[] = [];
-        const track: RaceTrack = new RaceTrack("lol", "test", RaceType.Amateur, points);
+        const track: RaceTrack = new RaceTrack("lol", "test", "", RaceType.Amateur, points);
         const updated: boolean = await service.updateTrack(track);
         expect(updated).toEqual(true);
     }));

@@ -1,0 +1,42 @@
+<h2>Race Results</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Total</th>
+      <th>Lap #1</th>
+      <th>Lap #2</th>
+      <th>Lap #3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{this.raceAdministratorService.youIfPlayer(0)}}</td>
+      <td>{{this.raceAdministratorService.getTotalTime(0) | number :'2.2-2'}}</td>
+      <td>{{this.raceAdministratorService.carsLapsTime[0].lapsTime[0] | number :'2.2-2'}}</td>
+      <td>{{this.raceAdministratorService.carsLapsTime[0].lapsTime[1] | number :'2.2-2'}}</td>
+      <td>{{this.raceAdministratorService.carsLapsTime[0].lapsTime[2] | number :'2.2-2'}}</td>
+    </tr>
+    <tr>
+      <td>{{this.raceAdministratorService.youIfPlayer(1)}}</td>
+      <td>{{this.raceAdministratorService.getTotalTime(1) | number :'2.2-2'}}</td>
+      <td>{{this.raceAdministratorService.carsLapsTime[1].lapsTime[0] | number :'2.2-2'}}</td>
+      <td>{{this.raceAdministratorService.carsLapsTime[1].lapsTime[1] | number :'2.2-2'}}</td>
+      <td>{{this.raceAdministratorService.carsLapsTime[1].lapsTime[2] | number :'2.2-2'}}</td>
+    </tr>
+    <tr>
+      <td>{{this.raceAdministratorService.youIfPlayer(2)}}</td>
+      <td>{{this.raceAdministratorService.getTotalTime(2) | number :'2.2-2'}}</td>
+      <td>{{this.raceAdministratorService.carsLapsTime[2].lapsTime[0] | number :'2.2-2'}}</td>
+      <td>{{this.raceAdministratorService.carsLapsTime[2].lapsTime[1] | number :'2.2-2'}}</td>
+      <td>{{this.raceAdministratorService.carsLapsTime[2].lapsTime[2] | number :'2.2-2'}}</td>
+    </tr>
+    <tr>
+      <td>{{this.raceAdministratorService.youIfPlayer(3)}}</td>
+      <td>{{this.raceAdministratorService.getTotalTime(3) | number :'2.2-2'}}</td>
+      <td>{{this.raceAdministratorService.carsLapsTime[3].lapsTime[0] | number :'2.2-2'}}</td>
+      <td>{{this.raceAdministratorService.carsLapsTime[3].lapsTime[1] | number :'2.2-2'}}</td>
+      <td>{{this.raceAdministratorService.carsLapsTime[3].lapsTime[2] | number :'2.2-2'}}</td>
+    </tr>
+  </tbody>
+</table>

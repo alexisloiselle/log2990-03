@@ -17,6 +17,23 @@ li.thick-border {
     border-width: 4px;
 }
 
+li.border-selectedMultiplayer {
+    border-color: rgb(247, 228, 125);
+}
+
+li.border-selectedByBoth {
+    position: sticky;
+    z-index: 1;
+    outline: 4px dashed rgb(247, 228, 125);
+    box-shadow: 0 0 0 4px rgb(247, 0, 125);
+}
+
+li.border-selectedByOpponent
+{
+    border-width: 4px;
+    border-color: rgb(247, 0, 125);
+}
+
 .whiteCaseInput {
     text-transform: uppercase;
     text-align: center;
@@ -34,6 +51,26 @@ li.thick-border {
     font-weight: bold;
 }
 
+.placedByOpponent {
+    background-color: rgb(42, 60, 219) !important;
+    font-weight: bold;
+}
+
 .selected {
     background-color: rgb(247, 228, 125);
 }
+
+.selectedByOpponent {
+    background-color: rgb(247, 0, 125);
+}
+
+.placedByBoth {
+        background: repeating-linear-gradient(
+          45deg,
+          rgb(121, 209, 121),
+          rgb(121, 209, 121) 10px,
+          rgb(42, 60, 219) 10px,
+          rgb(42, 60, 219) 20px
+        ) !important ;  
+}
+

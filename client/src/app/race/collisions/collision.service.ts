@@ -1,13 +1,16 @@
 import { Injectable } from "@angular/core";
 import { Car } from "../car/car";
 import { LineCurve, Vector2, Vector3, Matrix4, Quaternion } from "three";
+import { SoundsService } from "../../render-service/sounds.service";
+import { CAR_COLLISION_SOUND,
+         WALL_COLLISION_SOUND } from "../../config";
 
 const MIN_SPEED: number = 20;
 
 @Injectable()
 export class CollisionService {
 
-    public constructor() { }
+    public constructor(private soundsService: SoundsService) { }
 
     public checkForCollision(cars: Car[], trackSegments: LineCurve[], trackWidth: number): void {
         for (let i: number = 0; i < cars.length; i++) {
@@ -25,6 +28,7 @@ export class CollisionService {
     }
 
     private handleCarCollision(car1: Car, car2: Car): void {
+        this.soundsService.playSound(CAR_COLLISION_SOUND);
         const initialVelocity1: Vector3 = car1.speed;
         const initialVelocity2: Vector3 = car2.speed;
 
@@ -63,20 +67,20 @@ export class CollisionService {
         let distance: number;
 
         for (let i: number = 0; i < trackSegments.length; i++) {
-            distance = this.distanceToSegment(car.getPosition(), trackSegments[i]);
+            distance = this.distanceToSegment(car.carGPS.getPosition(car.mesh), trackSegments[i]);
             if (distance < smallestDistance) {
                 smallestDistance = distance;
                 index = i;
             }
         }
-        if (this.isBetweenPoints(car.getPosition(), trackSegments[index])) {
+        if (this.isBetweenPoints(car.carGPS.getPosition(car.mesh), trackSegments[index])) {
             if (this.isOnTrackLimit(smallestDistance, trackWidth)) {
                 this.handleTrackCollision(car, trackSegments[index], false);
             }
         } else {
             smallestDistance = Infinity;
             for (let i: number = 0; i < trackSegments.length; i++) {
-                distance = car.getPosition().distanceTo(trackSegments[i].v1);
+                distance = car.carGPS.getPosition(car.mesh).distanceTo(trackSegments[i].v1);
                 if (distance < smallestDistance) {
                     smallestDistance = distance;
                     index = i;
@@ -107,6 +111,7 @@ export class CollisionService {
     }
 
     private handleTrackCollision(car: Car, trackSegment: LineCurve, isCorner: boolean): void {
+        this.soundsService.playSound(WALL_COLLISION_SOUND);
         const segmentDirection: Vector2 = new Vector2((trackSegment.v2.x - trackSegment.v1.x),
                                                       (trackSegment.v2.y - trackSegment.v1.y));
         const angle: number = this.getPositiveAngle(new Vector2(car.direction.z, car.direction.x)) -

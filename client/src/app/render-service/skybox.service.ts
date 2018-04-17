@@ -10,8 +10,8 @@ import {
 } from "three";
 
 import { Injectable } from "@angular/core";
+import { URL_NIGHT_PREFIX, URL_DAY_PREFIX, URL_NIGHT_POSTFIX, URL_DAY_POSTFIX } from "../race/constants";
 
-const URL_PREFIX: string = "../../assets/skybox/";
 const TAILLE_CUBE: number = 1000;
 
 @Injectable()
@@ -22,14 +22,14 @@ export class SkyboxService {
 
     public constructor() { }
 
-    public createSkybox(scene: Scene): void {
+    public async createSkybox(scene: Scene, urlPrefix: string, urlPostFix: string): Promise<void> {
         const urls1: string[] = [
-            URL_PREFIX + "lf.png",
-            URL_PREFIX + "rt.png",
-            URL_PREFIX + "up.png",
-            URL_PREFIX + "dn.png",
-            URL_PREFIX + "ft.png",
-            URL_PREFIX + "bk.png"
+            `${urlPrefix}lf${urlPostFix}`,
+            `${urlPrefix}rt${urlPostFix}`,
+            `${urlPrefix}up${urlPostFix}`,
+            `${urlPrefix}dn${urlPostFix}`,
+            `${urlPrefix}ft${urlPostFix}`,
+            `${urlPrefix}bk${urlPostFix}`
         ];
         const materialArray1: MeshBasicMaterial[] = [];
         for (const img of urls1) {
@@ -42,5 +42,14 @@ export class SkyboxService {
 
     public update(position: Vector3): void {
         this.skybox.position.set(position.x, position.y, position.z);
+    }
+
+    public async changeSkybox(scene: Scene, isNight: boolean): Promise<void> {
+        scene.remove(this.skybox);
+        if (isNight) {
+            this.createSkybox(scene, URL_NIGHT_PREFIX, URL_NIGHT_POSTFIX);
+        } else {
+            this.createSkybox(scene, URL_DAY_PREFIX, URL_DAY_POSTFIX);
+        }
     }
 }

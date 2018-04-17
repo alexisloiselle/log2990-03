@@ -3,8 +3,8 @@ import { InputService } from "../services/crossword/input.service";
 import { DefinitionService } from "../services/crossword/definition.service";
 import { Word } from "../word";
 import { MOCK_LETTERS, MOCK_WORDS_AND_DEFS } from "../../../../../common/mock-constants";
+import { SocketService } from "../services/socket.service";
 
-// to test
 // tslint:disable:no-magic-numbers
 // tslint:disable-next-line:no-any
 const crosswordService: any = {
@@ -18,12 +18,14 @@ describe("GridComponent", () => {
     let component: GridComponent;
     const inputService: InputService = new InputService();
     const defService: DefinitionService = new DefinitionService(crosswordService);
+    const socketService: SocketService = new SocketService();
 
     beforeEach(() => {
         component = new GridComponent(
             crosswordService,
             inputService,
-            defService
+            defService,
+            socketService
         );
         component.ngOnInit();
     });

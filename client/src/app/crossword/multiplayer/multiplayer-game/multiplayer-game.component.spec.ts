@@ -37,7 +37,7 @@ describe("MultiplayerGameComponent", () => {
     let component: MultiplayerGameComponent;
 
     beforeEach(() => {
-        component = new MultiplayerGameComponent(crosswordService, defService, new MockActivatedRoute(), socketService);
+        component = new MultiplayerGameComponent(crosswordService, defService, new MockActivatedRoute(), socketService, null);
     });
 
     it("should create", () => {
