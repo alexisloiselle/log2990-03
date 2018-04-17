@@ -1,4 +1,4 @@
-<h2>Pistes</h2>
+<h2>Tracks</h2>
 <div class="list-group">
   <ul class="tracks">
     <li *ngFor="let track of parsedTracks" [class.selected]="track === selectedTrack" (click)="onSelectTrack(track)">
@@ -12,7 +12,7 @@
   {{selectedTrack.name}} {{selectedTrack.description}}
 </div>
 <div *ngIf="!parsedTracks || parsedTracks.lenght === 0" class="panel panel-danger">
-  <h4>Pas de pistes disponibles pour l'instant. Seul un administrateur peut en créer.</h4>
+  <h4>No available tracks for the moment. Only an administrator can create tracks.</h4>
 </div>
 
 <div *ngIf="error">
@@ -27,17 +27,17 @@
       <app-canvas #trackEditor></app-canvas>
     </div>
     <div *ngIf="selectedTrack" class="col-md">
-      <p> Name:
+      <p>Name:
         <input type="text" [disabled]="!constraintPass()" [value]="selectedTrack.name" class="form-control" #trackNameInput>
       </p>
       <p>Description:
         <input type="text" [disabled]="!constraintPass()" [value]="selectedTrack.description" class="form-control" #trackDescriptionInput>
       </p>
       <div class="niveau">
-        <p> Niveau :
+        <p>Level:
           <select class="form-control" #trackTypeInput>
-            <option value="Amateur" [selected]="selectedTrack.type=='Amateur'"> Amateur</option>
-            <option value="Professionnel" [selected]="selectedTrack.type=='Professionnel'"> Professionnel</option>
+            <option value="Amateur" [selected]="selectedTrack.type=='Amateur'">Beginner</option>
+            <option value="Professionnel" [selected]="selectedTrack.type=='Professionnel'">Professional</option>
           </select>
         </p>
       </div>

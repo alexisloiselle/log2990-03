@@ -52,7 +52,7 @@ export class CreateGameComponent implements OnInit {
         this.isNameAlreadyUsed = await this.crosswordService.isNameAlreadyUsed(this.gameName);
         if (!this.isNameAlreadyUsed) {
             await this.crosswordService.createGame(this.username, this.gameName, this.difficulty);
-            this.socketService.newGame(this.gameName);
+            this.socketService.newGame(this.gameName, this.username);
             this.router.navigate(["multiplayer-game", this.gameName, false]);
         }
     }

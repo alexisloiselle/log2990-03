@@ -15,7 +15,7 @@ describe("RenderTrackService", () => {
     }));
 
     it("should create a random array with numbers from 1 to 4", () => {
-        const renderTrackService: RenderTrackService = new RenderTrackService();
+        const renderTrackService: RenderTrackService = new RenderTrackService(null);
         const positionNumbers: Array<number> = renderTrackService.generateRandomCarPositions(NUMBER_OF_CARS);
 
         // We first check if the size of the arrays is correct
