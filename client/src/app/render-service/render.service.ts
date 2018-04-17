@@ -135,7 +135,7 @@ export class RenderService {
         if (this.raceOnGoing) {
             const timeSinceLastFrame: number = Date.now() - this.lastDate;
             for (const car of this.cars) {
-                car.update(timeSinceLastFrame * 3); // TODO ENLEVER MAGIC NUMBER
+                car.update(timeSinceLastFrame * 6); // TODO ENLEVER MAGIC NUMBER
                 car.carGPS.updatePosition(car.mesh);
             }
             this.raceAdministratorService.controlBots(this.botCars);
@@ -145,6 +145,7 @@ export class RenderService {
             } else if (index !== -1) {
                 this.raceAdministratorService.addWinner(this.cars[index], this.hudService.RaceTime);
             }
+            console.log(this._car.speed.length());
             this.cameraService.update(this._car.Position);
             this.skyboxService.update(this._car.Position);
             this.collisionService.checkForCollision(this.cars, this.track.segments, this.track.width);
@@ -155,6 +156,7 @@ export class RenderService {
 
     private manageRaceEnd(index: number): void {
         this.endRaceSub.next({ track: this.track, time: this.hudService.RaceTime });
+        this.raceAdministratorService.determinePlayersTime(this.cars, this.hudService.RaceTime/*, car*/);
         this.raceAdministratorService.sortPlayersTime();
         this.raceOnGoing = false;
     }
