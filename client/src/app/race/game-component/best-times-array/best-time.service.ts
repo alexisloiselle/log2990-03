@@ -13,7 +13,7 @@ export class BestTimeService {
     private position: number;
     private isPostDone: boolean;
     // private isPlayer: boolean; TODO A ENLEVER SI INUTILE A CONFIRMER
-    private raceTime: number;
+    //private raceTime: number;
 
     public constructor(
         private trackService: TrackService
