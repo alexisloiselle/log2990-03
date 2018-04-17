@@ -10,6 +10,7 @@ import { CollisionService } from "../race/collisions/collision.service";
 import { HudService } from "./hud.service";
 import { RaceAdministratorService } from "../race/race-services/race-administrator.service";
 import { LineCurve } from "three";
+import { SoundsService } from "./sounds.service";
 
 describe("RenderService", () => {
     beforeEach(async () => {
@@ -23,6 +24,7 @@ describe("RenderService", () => {
                 RenderTrackService,
                 HudService,
                 RaceAdministratorService,
+                SoundsService,
                 { provide: Router, useClass: class { public navigate: jasmine.Spy = jasmine.createSpy("navigate"); } }
             ]
         });
