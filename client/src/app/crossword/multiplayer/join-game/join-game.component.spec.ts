@@ -53,6 +53,16 @@ describe("JoinGameComponent", () => {
         expect(component.isFormValid()).toBeTruthy();
     });
 
+    it("background should be gray if it's the selected game", () => {
+        component.selectedGame = "selectedGame";
+        expect(component.getBackgroundColor("selectedGame")).toEqual("lightgray");
+    });
+
+    it("background should be gray if it's the selected game", () => {
+        component.selectedGame = "selectedGame";
+        expect(component.getBackgroundColor("notTheSelectedGame")).toEqual("white");
+    });
+
     it("should update username when there is a new name update", () => {
         const newUsername: string = "new username";
         // tslint:disable-next-line:no-any
@@ -65,38 +75,36 @@ describe("JoinGameComponent", () => {
         expect(component.username).toEqual(newUsername);
     });
 
-    // TODO: Fix this test
-    // const games: any = [{
-    //     userName1: "blabla",
-    //     userName2: "bblbllbl",
-    //     gameName: "game naime",
-    //     difficulty: "easy"
-    // }];
-    // const crosswordService: any = {
-    //     Games: [{
-    //         userName1: "blabla",
-    //         userName2: "bblbllbl",
-    //         gameName: "game naime",
-    //         difficulty: "easy"
-    //     }],
-    //     getGames: () => {},
-    //     updateMultiplayerGame: (user: string, game: string) => {},
-    // };
+    const crosswordService: any = {
+        Games: [{}],
+        getGames: async () => { crosswordService.Games =  [{
+            userName1: "blabla",
+            userName2: "bblbllbl",
+            gameName: "game naime",
+            difficulty: "easy"
+        }]; },
+        updateMultiplayerGame: (user: string, game: string) => {},
+    };
 
-    // const router: any = {
-    //     navigateByUrl: () => {}
-    // };
+    const router: any = {
+        navigateByUrl: () => {}
+    };
 
-    // const socketService: any = {
+    const socketService: any = {
 
-    // };
+    };
 
-    // const newComponent: JoinGameComponent = new JoinGameComponent(crosswordService, router, socketService);
-    // newComponent.ngOnInit();
+    const newComponent: JoinGameComponent = new JoinGameComponent(crosswordService, router, socketService);
+    newComponent.ngOnInit();
 
-    // it("shoud refresh the game list", () => {
-    //     expect(newComponent.games).toEqual([]);
-    //     newComponent.refresh();
-    //     expect(newComponent.games).toEqual(games);
-    // });
+    it("shoud refresh the game list", async () => {
+        expect(newComponent.games).toEqual([]);
+        await newComponent.refresh();
+        expect(newComponent.games).toEqual([{
+            userName1: "blabla",
+            userName2: "bblbllbl",
+            gameName: "game naime",
+            difficulty: "easy"
+        }]);
+    });
 });
