@@ -12,16 +12,14 @@ export class HeadLight {
 
     public constructor() { }
 
-    public initLight(car: Car): THREE.SpotLight {
-
+    public initialize(car: Car): void {
         this.headlight = new THREE.SpotLight(HEADLIGHT_COLOR, 0);
         this.headlight.castShadow = true;
         this.headlight.shadow.mapSize.width = HEADLIGHT_DISTANCE;
         this.headlight.shadow.mapSize.height = HEADLIGHT_DISTANCE;
         this.headlight.angle = HEADLIGHT_ANGLE;
         this.initPosition(car);
-
-        return this.headlight;
+        car.add(this.headlight);
     }
 
     public get Target(): THREE.Object3D {

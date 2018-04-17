@@ -136,7 +136,7 @@ export class Car extends Object3D {
         this._mesh = object;
         this.mesh.setRotationFromEuler(INITIAL_MODEL_ROTATION);
         this.add(this._mesh);
-        this.add(this.headlight.initLight(this));
+        this.headlight.initialize(this);
     }
 
     public steerLeft(): void {
