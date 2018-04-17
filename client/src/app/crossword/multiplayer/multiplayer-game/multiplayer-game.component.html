@@ -19,7 +19,7 @@
 </div>
 
 <div *ngIf="isOpponentFound">
-  <p> Partie : {{gameName}}</p>
+  <p> Partie: {{gameName}}</p>
   <button type="button" class="btn btn-outline-primary" (click)="defService.isCheatModeOn = !defService.isCheatModeOn">
     {{defService.isCheatModeOn ? 'Disable Cheat Mode' : 'Enable Cheat Mode'}}
   </button>
@@ -34,12 +34,12 @@
     </div>
   </div>
     <div>
-      <p> Words Placed : </p>
+      <p> Words Placed: </p>
       <div class = "player">
-      <p> {{playerName}} : {{playerScore}} </p> 
+      <p>{{playerName}}: {{playerScore}}</p> 
       </div>
       <div class = "opponent">
-      <p> {{opponentName}} : {{opponentScore}} </p> 
+      <p>{{opponentName}}: {{opponentScore}}</p> 
     </div>
   </div>
 </div>
