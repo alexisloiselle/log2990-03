@@ -40,8 +40,8 @@ export class RenderTrackService {
         this.segments = track.segments;
         for (const segment of this.segments) {
             const geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(track.width, segment.getLength());
-            const material: THREE.MeshLambertMaterial = new THREE.MeshLambertMaterial(
-                { color: TRACK_COLOR, side: THREE.DoubleSide }
+            const material: THREE.MeshPhongMaterial = new THREE.MeshPhongMaterial(
+                { color: TRACK_COLOR, side: THREE.DoubleSide, reflectivity: 0.5 }
             );
             plane.push(new THREE.Mesh(geometry, material));
             plane[plane.length - 1].rotation.z = -(this.getRotationArcTan(segment));
@@ -87,8 +87,8 @@ export class RenderTrackService {
         const circle: THREE.Mesh[] = [];
         for (let i: number = 0; i < this.segments.length; i++) {
             const geometry: THREE.CircleGeometry = new THREE.CircleGeometry(trackWidth / 2, NUMBER_HUN);
-            const material: THREE.MeshLambertMaterial = new THREE.MeshLambertMaterial(
-                { color: TRACK_COLOR, side: THREE.DoubleSide }
+            const material: THREE.MeshPhongMaterial = new THREE.MeshPhongMaterial(
+                { color: TRACK_COLOR, side: THREE.DoubleSide, reflectivity: 0.5 }
             );
             circle.push(new THREE.Mesh(geometry, material));
             circle[i].rotation.z = Math.PI / 2;
