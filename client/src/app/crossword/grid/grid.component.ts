@@ -118,7 +118,7 @@ export class GridComponent implements OnInit {
 
     private listenSelectedWord(): void {
         this.defService.SelectWordSub.subscribe((res) => {
-            this.socketService.emitWordSelected(SELECTED_WORD, this.defService.SelectedWord);
+            this.socketService.emitWordSignal(SELECTED_WORD, this.defService.SelectedWord);
             this.focusOnWord(res.word);
         });
     }
@@ -146,7 +146,7 @@ export class GridComponent implements OnInit {
     private listenEnterInput(): void {
         this.inputService.EnterInputSub.subscribe((res) => {
             if (this.isValidWord(this.defService.SelectedWord)) {
-                this.socketService.emitWordFound(WORD_CORRECT, this.defService.SelectedWord);
+                this.socketService.emitWordSignal(WORD_CORRECT, this.defService.SelectedWord);
                 this.placeWord(this.defService.SelectedWord);
             }
         });
@@ -190,7 +190,7 @@ export class GridComponent implements OnInit {
             this.letterGrid[i][j].Letter = letter;
         }
         if (!word.IsFoundByOpponent && this.verifyEndOfWord(word, i, j)) {
-            this.socketService.emitWordFound(WORD_CORRECT, word);
+            this.socketService.emitWordSignal(WORD_CORRECT, word);
         }
     }
 

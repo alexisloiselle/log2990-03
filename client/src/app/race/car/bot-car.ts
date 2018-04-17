@@ -4,6 +4,7 @@ import { LineCurve, Vector2 } from "three";
 export class BotCar extends Car {
 
     public MAX_SPEED: number = 65;
+    public id: number;
 
     public static randomAcceleration(): boolean {
         return Math.random() >= (1 / 2);
