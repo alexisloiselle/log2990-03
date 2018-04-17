@@ -75,12 +75,12 @@ export class RaceAdministratorService {
     public calculateRemTimeToCompRestOfRace(car: Car): void {
         for (let i: number = 0; i < this.remainingRace.remainingSegments; i++) {
             this.remainingRace.remTimeToCompRestOfRace +=
-                car.carGPS.trackSegments[i % car.carGPS.NumberOfTrackSegments].getLength() / car.speed.length() //MEAN_CAR_SPEED;
+                car.carGPS.trackSegments[i % car.carGPS.NumberOfTrackSegments].getLength() / car.speed.length(); //MEAN_CAR_SPEED;
         }
     }
     public calculateRemTimeToCompLap(car: Car): void {
         for (let i: number = 1; i + car.carGPS.currentSegmentIndex < car.carGPS.NumberOfTrackSegments; i++) {
-            this.remainingRace.remTimeToCompLap += car.carGPS.trackSegments[i].getLength() / car.speed.length() //MEAN_CAR_SPEED;
+            this.remainingRace.remTimeToCompLap += car.carGPS.trackSegments[i].getLength() / car.speed.length(); //MEAN_CAR_SPEED;
         }
     }
 
@@ -90,7 +90,7 @@ export class RaceAdministratorService {
 
     public calculateRemTimeToCompSeg(car: Car): void {
         this.remainingRace.remTimeToCompSeg = Math.sqrt(Math.pow(car.mesh.position.z - car.carGPS.currentSegment.v2.x, 2) +
-            Math.pow(car.mesh.position.x - car.carGPS.currentSegment.v2.y, 2)) / car.speed.length() //MEAN_CAR_SPEED;
+            Math.pow(car.mesh.position.x - car.carGPS.currentSegment.v2.y, 2)) / car.speed.length(); //MEAN_CAR_SPEED;
     }
     public calculateLapRemaining(car: Car): void {
         this.remainingRace.remainingLaps = (NUMBER_OF_LAPS - car.carGPS.currentLap);
@@ -130,8 +130,7 @@ export class RaceAdministratorService {
         // TODO: reparer, quand un bot reste 1 tour ou plus a faire, ca change tous les tours dudit bot 09.69 (sixtynine) hihihih 
         if (this.remainingRace.remainingLaps > 0) {
             for (let j: number = 0; j <= this.remainingRace.remainingLaps; j++) { // au lieu de this.remainingRace.remainingLaps mettre NUMBER_OF_LAPS - this.remainingRace.remainingLaps
-                this.carsLapsTime[i].lapsTime[j - 1] =
-                    this.remainingRace.remTimeToCompRestOfRace / this.remainingRace.remainingLaps;
+                this.carsLapsTime[i].lapsTime[j - 1] = this.carsLapsTime[i].lapsTime[j - 2];
             }
         }
     }
