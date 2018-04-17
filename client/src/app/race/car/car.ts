@@ -256,7 +256,7 @@ export class Car extends Object3D {
     }
 
     public orientCar(segment: THREE.LineCurve): void {
-        this.mesh.rotation.y = Math.atan((segment.v2.y - segment.v1.y) / (segment.v2.x - segment.v1.x));
+        this.mesh.rotation.y = Math.atan((segment.v2.y - segment.v1.y) / (segment.v2.x - segment.v1.x)) + Math.PI;
     }
 
     private getDragForce(): Vector3 {

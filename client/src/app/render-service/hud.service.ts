@@ -5,7 +5,7 @@ const MILLISECONDS_IN_SECOND: number = 1000;
 @Injectable()
 export class HudService {
 
-    private lapTime: number;
+    private lapTime: number; // TODO ENLEVER SA POOUR LE METTRE DANS RACE ADMINISTRATION SERVICE
     private raceTime: number;
 
     private initialLapTime: number;

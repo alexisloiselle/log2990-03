@@ -1,5 +1,6 @@
 #ignoring .vscode folder but we keep some files for debuging
 /.vscode/*
 /.vs/
-
+/out/
+**/out/*
 package-lock.json
