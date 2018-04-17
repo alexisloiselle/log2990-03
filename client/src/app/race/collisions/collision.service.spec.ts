@@ -5,9 +5,14 @@ import { CollisionService } from "./collision.service";
 import { Car } from "../car/car";
 import { RenderService } from "../../render-service/render.service";
 import { Vector3 } from "three";
+import { SoundsService } from "../../render-service/sounds.service";
 
 // tslint:disable:no-magic-numbers
 describe("CollisionService", () => {
+    // tslint:disable-next-line:no-any
+    const soundsService: any = {
+        playSound: () => {}
+    };
     let collisionService: CollisionService;
     let car1: Car;
     let car2: Car;
@@ -15,9 +20,9 @@ describe("CollisionService", () => {
 
     beforeEach(async (done: () => void) => {
         TestBed.configureTestingModule({
-            providers: [CollisionService]
+            providers: [CollisionService, SoundsService]
         });
-        collisionService = new CollisionService(null);
+        collisionService = new CollisionService(soundsService);
         car1 = new Car();
         car2 = new Car();
         car1.init(await RenderService.loadCar("../../assets/camero/camero-2010-low-poly.json"));
