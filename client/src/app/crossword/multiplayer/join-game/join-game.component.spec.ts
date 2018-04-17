@@ -53,7 +53,7 @@ describe("JoinGameComponent", () => {
         expect(component.isFormValid()).toBeTruthy();
     });
 
-    it("should be a valid form if there is a username and a game name", () => {
+    it("should update username when there is a new name update", () => {
         const newUsername: string = "new username";
         // tslint:disable-next-line:no-any
         const event: any = {
