@@ -36,11 +36,13 @@ export class GridComponent implements OnInit {
         this.numberPlacedWords = 0;
         this.listenSelectedWord();
         this.listenLetterInput();
-        this.listenOpponentSelectsWord();
+        if (this.isMultiplayer()) {
+            this.listenOpponentSelectsWord();
+            this.listenWordCorrect();
+        }
         this.listenBackspaceInput();
         this.listenArrowInput();
         this.listenEnterInput();
-        this.listenWordCorrect();
         this.letterGrid = this.initLetterGrid(this.crosswordService.FormattedGrid.letters.length);
         this.letterGrid.forEach((line) => line.forEach((word) => word.IsPlaced = false));
     }
@@ -162,8 +164,6 @@ export class GridComponent implements OnInit {
                 isCompleted = isCompleted && (this.crosswordService.FormattedGrid.letters[i][j] === ""
                     || this.letterGrid[i][j].IsPlaced);
             }
-
-            return isCompleted;
         }
 
         return isCompleted;
@@ -213,12 +213,12 @@ export class GridComponent implements OnInit {
     private isValidWord(word: Word): boolean {
         let i: number = word.Line;
         let j: number = word.Column;
+
         for (const letter of word.Word.split("")) {
             if (letter.toUpperCase() !== this.letterGrid[i][j].Letter.toUpperCase()) {
                 return false;
             }
-            i = word.IsHorizontal ? i : i + 1;
-            j = word.IsHorizontal ? j + 1 : j;
+            word.IsHorizontal ? j++ : i++;
         }
         word.Word.toUpperCase();
 
@@ -228,10 +228,10 @@ export class GridComponent implements OnInit {
     private placeWord(word: Word): void {
         let i: number = word.Line;
         let j: number = word.Column;
+
         word.Word.split("").forEach(() => {
             this.letterGrid[i][j].IsPlaced = true;
-            i = word.IsHorizontal ? i : i + 1;
-            j = word.IsHorizontal ? j + 1 : j;
+            word.IsHorizontal ? j++ : i++;
         });
 
         word.IsPlaced = true;
@@ -284,6 +284,7 @@ export class GridComponent implements OnInit {
 
     public isPlacedByDifferentPlayers(i: number, j: number): boolean {
         let res: boolean = false;
+
         this.findWordWithCase(this.defService.HorizontalWords, i, j, (hWord: Word) => {
             this.findWordWithCase(this.defService.VerticalWords, i, j, (vWord: Word) => {
                 if ((hWord.IsPlaced && vWord.IsPlaced) &&
@@ -294,9 +295,5 @@ export class GridComponent implements OnInit {
         });
 
         return res;
-    }
-
-    public casePlaced(i: number, j: number): boolean {
-        return this.letterGrid[i][j].IsPlaced;
     }
 }

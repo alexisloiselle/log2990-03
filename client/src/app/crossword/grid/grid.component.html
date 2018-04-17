@@ -24,8 +24,7 @@
                         'placedByOpponent' : letterGrid[i][j].IsPlaced && letterGrid[i][j].IsFoundByOpponent && isMultiplayer(),
                         'placedByBoth' : letterGrid[i][j].isPlaced && isPlacedByDifferentPlayers(i, j)  
                       }" maxlength="1" (keydown)="inputService.handleKey($event.keyCode, i, j ); 
-                      $event.preventDefault();" (click)="selectWordFromCase(i, j)" [(value)]="letterGrid[i][j].Letter" #case
-        />
+                      $event.preventDefault();" (click)="selectWordFromCase(i, j)" [(value)]="letterGrid[i][j].Letter" #case/>
       </li>
     </div>
   </div>
