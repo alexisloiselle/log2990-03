@@ -1,4 +1,4 @@
-import { DefinitionsSorter } from "./definitions-sorter";
+/*import { DefinitionsSorter } from "./definitions-sorter";
 import { IFormattedGrid } from "./formatted-grid";
 import { Word } from "./word";
 import { } from "jasmine";
@@ -65,4 +65,4 @@ describe("DefinitionSorter", () => {
         expect(defitionsSorter.HorizontalDefinitions).toEqual(horizontalWords);
         expect(defitionsSorter.VerticalDefinitions).toEqual(verticalWords);
     });
-});
+});*/

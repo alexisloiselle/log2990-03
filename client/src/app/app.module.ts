@@ -43,7 +43,8 @@ import { AdminComponent } from "./admin/admin/admin.component";
 import { HudService } from "./render-service/hud.service";
 import { BestTimesArrayComponent } from "./race/game-component/best-times-array/best-times-array.component";
 import { BestTimeService } from "./race/game-component/best-times-array/best-time.service";
-import { RaceResultComponent } from './race/game-component/race-result/race-result.component';
+import { RaceResultComponent } from "./race/game-component/race-result/race-result.component";
+import { SoundsService } from "./render-service/sounds.service";
 
 @NgModule({
     declarations: [
@@ -93,7 +94,8 @@ import { RaceResultComponent } from './race/game-component/race-result/race-resu
         RenderTrackService,
         HudService,
         RaceAdministratorService,
-        BestTimeService
+        BestTimeService, 
+        SoundsService
     ],
     bootstrap: [AppComponent]
 })

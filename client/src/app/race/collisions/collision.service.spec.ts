@@ -17,7 +17,7 @@ describe("CollisionService", () => {
         TestBed.configureTestingModule({
             providers: [CollisionService]
         });
-        collisionService = new CollisionService();
+        collisionService = new CollisionService(null);
         car1 = new Car();
         car2 = new Car();
         car1.init(await RenderService.loadCar("../../assets/camero/camero-2010-low-poly.json"));

@@ -1,21 +1,20 @@
-<div class = "container">
-<nav>
-<a class="btn btn-lg btn-info" routerLink="/track-list-game" role="button">Course automobile</a>
+<div class="container">
+  <nav>
+    <a class="btn btn-lg btn-info" routerLink="/track-list-game" role="button">Car race</a>
+    <a class="btn btn-lg btn-warning" routerLink="/track-list" href="#" role="button">Track List</a>
+  </nav>
 
-<a class="btn btn-lg btn-warning"routerLink="/track-list" href="#" role="button">  Track List</a>
+  <h3>Please entrer your username and password:</h3>
+  <p>Username:
+    <input type="text" class="form-control" #userNameInput>
+  </p>
 
-</nav>
+  <p>Password:
+    <input type="password" class="form-control" #passwordInput>
+  </p>
 
-<h3> SVP entrez votre nom d'utilisateur ainsi que votre mot de passe pour l'admin : </h3>
-<p>Nom d'utilisateur :
-<input type="text" class="form-control" #userNameInput>
-</p>
-
-<p>Mot de Passe:
-<input type="password" class="form-control" #passwordInput>
-</p>
-
-<a class="btn btn-lg btn-info" (click)="validate(passwordInput.value, userNameInput.value)" role="button">  Valider </a>
-<div *ngIf="error">
-        <p class="text-danger"> Mauvais nom d'utilisateur et mot de passe!</p>
-    </div>
+  <a class="btn btn-lg btn-info" (click)="validate(passwordInput.value, userNameInput.value)" role="button">Validate</a>
+  <div *ngIf="error">
+    <p class="text-danger">Wrong username or password!</p>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 <div id="container">
   <div id="bouttonRetour">
-    <a class="btn btn-lg btn-info" (click)= "goBack()" role="button">  Retour  </a>
+    <a class="btn btn-lg btn-info" (click)= "goBack()" role="button">Back</a>
   </div>
 
   <div class=row>
@@ -10,36 +10,34 @@
     <div id = "infoColumn" class = "col-md">
       <div class="row">
         <div class="col-xs-12">
-          <h3 class="nouvellePiste"> Nouvelle Piste</h3>
+          <h3 class="nouvellePiste">New Track</h3>
       
           <p> Name:
             <input type="text" [disabled] = "!allConstraintPass()" (keyup)="setTrackName()"
               class="form-control" #trackNameInput>
           </p>
       
-      
           <p>Description:
             <input type="text" [disabled] = "!allConstraintPass()" (keyup)="setTrackDescription()"
             class="form-control" #trackDescriptionInput>
           </p>
           <div class="niveau">
-            <p> Niveau :
+            <p>Level:
               <select class="form-control" #trackTypeInput> 
-                <option value="Amateur"> Amateur</option>
-                <option value="Professionnel"> Professionnel</option>
+                <option value="Amateur">Beginner</option>
+                <option value="Professionnel">Professional</option>
               </select>
             </p>
           </div>
 
           <div class="validation">
             <hr>
-            <div *ngIf = "!(allConstraintPass() && inputTextNotEmpty())" class="alert alert-danger fade in">La piste doit être dessinée et validée avant de pouvoir être enregistrée.</div>
+            <div *ngIf = "!(allConstraintPass() && inputTextNotEmpty())" class="alert alert-danger fade in">The track must be drawn and validated before it can be saved.</div>
             <button class="btn btn-primary" id="validate-button" [disabled] = "!(allConstraintPass() && inputTextNotEmpty())" 
-            (click)="addTrack(trackNameInput.value, trackDescriptionInput.value, trackTypeInput.value)" routerLink="/admin" > Validation </button>
+            (click)="addTrack(trackNameInput.value, trackDescriptionInput.value, trackTypeInput.value)" routerLink="/admin" >Save</button>
           </div>
         </div>
       </div>
-          
     </div>
   </div>
 </div>

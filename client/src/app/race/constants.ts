@@ -5,3 +5,7 @@ export const MS_TO_SECONDS: number = 1000;
 export const GRAVITY: number = -9.81;
 export const RAD_TO_DEG: number = STRAIGHT_ANGLE_DEG / Math.PI;
 export const PI_OVER_2: number = Math.PI / 2;
+export const URL_DAY_PREFIX: string = "../../assets/skybox/day/";
+export const URL_DAY_POSTFIX: string = ".png";
+export const URL_NIGHT_PREFIX: string = "../../assets/skybox/night/";
+export const URL_NIGHT_POSTFIX: string = ".jpg";

@@ -1,9 +1,9 @@
-.btn-primary{
+.btn-primary {
     background-color: transparent;
     border-color: transparent;
 }
 
-img{
+img {
     width: 70%;
     height: 70%;
     position: relative;
@@ -33,24 +33,15 @@ div.btn-group {
     display: inline-block;
 }
 
+.buttonsModeSelector {
+    margin-top: 5%
+}
 
- .buttonsModeSelector{
-     margin-top: 5%
- }
-
- .gameMode:hover {
+.gameMode:hover {
     background-color: #008cff34;
- }
+}
 
- .btn-primary:focus, .btn-primary:active, .btn-primary.active {
-     background-color: transparent;
-     border-color: transparent;
- }
-
- #copyrights {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    font-size: 12pt;
-    text-align: center;
- }
+.btn-primary:focus, .btn-primary:active, .btn-primary.active {
+    background-color: transparent;
+    border-color: transparent;
+}

@@ -12,7 +12,6 @@ const FORMATTED_GRID: IFormattedGrid = {
     words: MOCK_WORDS_AND_DEFS
 };
 
-// to test
 // tslint:disable-next-line:no-any
 const crosswordService: any = {
     generateGrid: () => {
