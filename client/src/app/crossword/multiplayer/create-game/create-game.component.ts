@@ -54,6 +54,8 @@ export class CreateGameComponent implements OnInit {
             await this.crosswordService.createGame(this.username, this.gameName, this.difficulty);
             this.socketService.newGame(this.gameName, this.username);
             this.router.navigate(["multiplayer-game", this.gameName, false]);
+        } else {
+            this.isCreateGameAlreadyClicked = false;
         }
     }
 }
