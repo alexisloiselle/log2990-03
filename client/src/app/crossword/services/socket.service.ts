@@ -59,11 +59,7 @@ export class SocketService {
         });
     }
 
-    public emitWordSelected(signal: string, word: Word): void {
-        this.socket.emit(signal, word);
-    }
-
-    public emitWordFound(signal: string, word: Word): void {
+    public emitWordSignal(signal: string, word: Word): void {
         this.socket.emit(signal, word);
     }
 
