@@ -32,10 +32,8 @@ export class GridComponent implements OnInit {
         private inputService: InputService,
         private defService: DefinitionService,
         private socketService: SocketService
-    ) {
-       
-    }
-    public ngOnInit(): void { 
+    ) { }
+    public ngOnInit(): void {
         this.numberPlacedWords = 0;
         this.listenSelectedWord();
         this.listenLetterInput();
@@ -121,8 +119,9 @@ export class GridComponent implements OnInit {
 
     private listenSelectedWord(): void {
         this.defService.SelectWordSub.subscribe((res) => {
-            if (this.isMultiplayer())
+            if (this.isMultiplayer()) {
                 this.socketService.emitWordSignal(SELECTED_WORD, this.defService.SelectedWord);
+            }
             this.focusOnWord(res.word);
         });
     }
@@ -150,18 +149,20 @@ export class GridComponent implements OnInit {
     private listenEnterInput(): void {
         this.inputService.EnterInputSub.subscribe((res) => {
             if (this.isValidWord(this.defService.SelectedWord)) {
-                if (this.isMultiplayer())
+                if (this.isMultiplayer()) {
                     this.socketService.emitWordSignal(WORD_CORRECT, this.defService.SelectedWord);
+                }
                 this.placeWord(this.defService.SelectedWord);
             }
         });
     }
 
     public isPartOfWord(word: Word, i: number, j: number): boolean {
-        if (word !== null)
+        if (word !== null) {
             return Word.isPartOfWord(word, i, j);
-        else
+        } else {
             return false;
+        }
     }
 
     public isCompleted(): boolean {
@@ -198,14 +199,16 @@ export class GridComponent implements OnInit {
             this.letterGrid[i][j].Letter = letter;
         }
         if (!word.IsFoundByOpponent && this.verifyEndOfWord(word, i, j)) {
-            if (this.isMultiplayer())
+            if (this.isMultiplayer()) {
                 this.socketService.emitWordSignal(WORD_CORRECT, word);
+            }
         }
     }
 
     private verifyEndOfWord(word: Word, i: number, j: number): boolean {
         if (Word.isEndOfWord(word, i, j) && this.isValidWord(word)) {
             this.placeWord(word);
+
             return true;
         }
 
