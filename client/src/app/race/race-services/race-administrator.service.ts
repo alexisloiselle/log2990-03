@@ -3,8 +3,6 @@ import { BotCar } from "../car/bot-car";
 import { Car } from "../car/car";
 import { NUMBER_OF_LAPS } from "../../config";
 
-const MEAN_CAR_SPEED: number = 40;
-
 export interface RemainingRace {
     remTimeToCompRestOfRace: number;
     remTimeToCompLap: number;
@@ -20,8 +18,12 @@ export class RaceAdministratorService {
     private winners: { car: Car, time: number }[];
     public carsLapsTime: { id: number, lapsTime: number[] }[] = [];
     public remainingRace: RemainingRace = {
-        remainingLaps: 0, remainingSegments: 0, remTimeToCompLap: 0,
-        remTimeToCompRestOfRace: 0, remTimeToCompSeg: 0, currentLap: 0
+        remainingLaps: 0,
+        remainingSegments: 0,
+        remTimeToCompLap: 0,
+        remTimeToCompRestOfRace: 0,
+        remTimeToCompSeg: 0,
+        currentLap: 0
     };
 
     public constructor() {
@@ -59,7 +61,7 @@ export class RaceAdministratorService {
         return -1;
     }
 
-    public determinePlayersTime(cars: Array<Car>, raceTime: number/*, winnerCar: Car*/): void {
+    public determinePlayersTime(cars: Array<Car>, raceTime: number): void {
         for (let i: number = 0; i < cars.length; i++) {
             this.calculateRemTimeToCompSeg(cars[i]);
             this.calculateRemTimeToCompLap(cars[i]);
@@ -75,13 +77,12 @@ export class RaceAdministratorService {
     public calculateRemTimeToCompRestOfRace(car: Car): void {
         for (let i: number = 0; i < this.remainingRace.remainingSegments; i++) {
             this.remainingRace.remTimeToCompRestOfRace +=
-                car.carGPS.trackSegments[i % car.carGPS.NumberOfTrackSegments].getLength() / MEAN_CAR_SPEED;
+                car.carGPS.trackSegments[i % car.carGPS.NumberOfTrackSegments].getLength() / car.speed.length();
         }
     }
-
     public calculateRemTimeToCompLap(car: Car): void {
         for (let i: number = 1; i + car.carGPS.currentSegmentIndex < car.carGPS.NumberOfTrackSegments; i++) {
-            this.remainingRace.remTimeToCompLap += car.carGPS.trackSegments[i].getLength() / MEAN_CAR_SPEED;
+            this.remainingRace.remTimeToCompLap += car.carGPS.trackSegments[i].getLength() / car.speed.length();
         }
     }
 
@@ -91,10 +92,10 @@ export class RaceAdministratorService {
 
     public calculateRemTimeToCompSeg(car: Car): void {
         this.remainingRace.remTimeToCompSeg = Math.sqrt(Math.pow(car.mesh.position.z - car.carGPS.currentSegment.v2.x, 2) +
-            Math.pow(car.mesh.position.x - car.carGPS.currentSegment.v2.y, 2)) / MEAN_CAR_SPEED;
+            Math.pow(car.mesh.position.x - car.carGPS.currentSegment.v2.y, 2)) / car.speed.length();
     }
     public calculateLapRemaining(car: Car): void {
-        this.remainingRace.remainingLaps = (NUMBER_OF_LAPS - car.carGPS.currentLap);
+        this.remainingRace.remainingLaps = NUMBER_OF_LAPS - car.carGPS.currentLap;
         this.remainingRace.currentLap = car.carGPS.currentLap;
     }
 
@@ -127,12 +128,10 @@ export class RaceAdministratorService {
                 this.carsLapsTime[i].lapsTime[this.remainingRace.currentLap - 1];
     }
 
-    public simulateBotsUnstardedLapTime(i: number, raceTime: number/*, winnerCar: Car*/): void {
-        // TODO: reparer, quand un bot reste 1 tour ou plus a faire, ca change tous les tours dudit bot 09.69 (sixtynine)
+    public simulateBotsUnstardedLapTime(i: number, raceTime: number): void {
         if (this.remainingRace.remainingLaps > 0) {
-            for (let j: number = NUMBER_OF_LAPS; j >= this.remainingRace.remainingLaps; j--) {
-                this.carsLapsTime[i].lapsTime[j - 1] =
-                    this.remainingRace.remTimeToCompRestOfRace / this.remainingRace.remainingLaps;
+            for (let j: number = NUMBER_OF_LAPS - this.remainingRace.remainingLaps; j < NUMBER_OF_LAPS; j++) {
+                this.carsLapsTime[i].lapsTime[j] = this.carsLapsTime[i].lapsTime[j - 1];
             }
         }
     }
@@ -166,11 +165,7 @@ export class RaceAdministratorService {
 
     public controlBots(botCars: Array<BotCar>): void {
         for (const car of botCars) {
-            if (this.isRaceOnGoing) {
-                car.go();
-            } else {
-                car.stop();
-            }
+            this.isRaceOnGoing ? car.go() : car.stop();
         }
     }
 

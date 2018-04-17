@@ -139,7 +139,7 @@ export class RenderService {
         if (this.raceOnGoing) {
             const timeSinceLastFrame: number = Date.now() - this.lastDate;
             for (const car of this.cars) {
-                car.update(timeSinceLastFrame * 6); // TODO ENLEVER MAGIC NUMBER
+                car.update(timeSinceLastFrame * 3); // TODO ENLEVER MAGIC NUMBER
                 car.carGPS.updatePosition(car.mesh);
             }
             this.raceAdministratorService.controlBots(this.botCars);
