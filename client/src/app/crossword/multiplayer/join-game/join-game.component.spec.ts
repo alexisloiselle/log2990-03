@@ -29,19 +29,50 @@ describe("JoinGameComponent", () => {
         expect(component).toBeTruthy();
     });
 
-    // TODO: isFormValid tu peux le tester en hardcodant le username et le selectedGame
+    it("should not be a valid form if there is no username", () => {
+        component.username = "";
+        component.selectedGame = "gameName";
+        expect(component.isFormValid()).toBeFalsy();
+    });
 
-    // TODO: update username, tu peux l'appeler en hardcodant l'event aussi
-    // let event: any = {
-    //     target: {
-    //         value: "new username"
-    //     }
-    // };
+    it("should not be a valid form if there is no game name", () => {
+        component.username = "username";
+        component.selectedGame = "";
+        expect(component.isFormValid()).toBeFalsy();
+    });
 
-    // TODO: encore une fois, tu peux hardcoder pour tester le background color
+    it("should not be a valid form if there is no username and no game name", () => {
+        component.username = "";
+        component.selectedGame = "";
+        expect(component.isFormValid()).toBeFalsy();
+    });
 
-    // TODO: pour les autres (refresh et joinGame), cest un peut plus tricky, faut injecter un crosswordService hardcoder
-    // let crosswordService: any = {
+    it("should be a valid form if there is a username and a game name", () => {
+        component.username = "username";
+        component.selectedGame = "gameName";
+        expect(component.isFormValid()).toBeTruthy();
+    });
+
+    it("should be a valid form if there is a username and a game name", () => {
+        const newUsername: string = "new username";
+        // tslint:disable-next-line:no-any
+        const event: any = {
+            target: {
+                value: newUsername
+            }
+        };
+        component.updateUsername(event);
+        expect(component.username).toEqual(newUsername);
+    });
+
+    // TODO: Fix this test
+    // const games: any = [{
+    //     userName1: "blabla",
+    //     userName2: "bblbllbl",
+    //     gameName: "game naime",
+    //     difficulty: "easy"
+    // }];
+    // const crosswordService: any = {
     //     Games: [{
     //         userName1: "blabla",
     //         userName2: "bblbllbl",
@@ -50,7 +81,22 @@ describe("JoinGameComponent", () => {
     //     }],
     //     getGames: () => {},
     //     updateMultiplayerGame: (user: string, game: string) => {},
-    //     // etc
     // };
-    // Tu peux faire la meme chose avec le socketService et le router
+
+    // const router: any = {
+    //     navigateByUrl: () => {}
+    // };
+
+    // const socketService: any = {
+
+    // };
+
+    // const newComponent: JoinGameComponent = new JoinGameComponent(crosswordService, router, socketService);
+    // newComponent.ngOnInit();
+
+    // it("shoud refresh the game list", () => {
+    //     expect(newComponent.games).toEqual([]);
+    //     newComponent.refresh();
+    //     expect(newComponent.games).toEqual(games);
+    // });
 });

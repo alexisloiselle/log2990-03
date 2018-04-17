@@ -32,7 +32,8 @@ export class GridComponent implements OnInit {
         private inputService: InputService,
         private defService: DefinitionService,
         private socketService: SocketService
-    ) {
+    ) { }
+    public ngOnInit(): void {
         this.numberPlacedWords = 0;
         this.listenSelectedWord();
         this.listenLetterInput();
@@ -45,9 +46,9 @@ export class GridComponent implements OnInit {
         this.listenEnterInput();
         this.letterGrid = this.initLetterGrid(this.crosswordService.FormattedGrid.letters.length);
         this.letterGrid.forEach((line) => line.forEach((word) => word.IsPlaced = false));
+        this.letterGrid.forEach((line) => line.forEach((word) => word.IsFoundByOpponent = false));
+        this.opponentSelectedWord = null;
     }
-
-    public ngOnInit(): void { }
 
     public get LetterGrid(): Case[][] {
         return this.letterGrid;
@@ -118,7 +119,9 @@ export class GridComponent implements OnInit {
 
     private listenSelectedWord(): void {
         this.defService.SelectWordSub.subscribe((res) => {
-            this.socketService.emitWordSignal(SELECTED_WORD, this.defService.SelectedWord);
+            if (this.isMultiplayer()) {
+                this.socketService.emitWordSignal(SELECTED_WORD, this.defService.SelectedWord);
+            }
             this.focusOnWord(res.word);
         });
     }
@@ -146,14 +149,20 @@ export class GridComponent implements OnInit {
     private listenEnterInput(): void {
         this.inputService.EnterInputSub.subscribe((res) => {
             if (this.isValidWord(this.defService.SelectedWord)) {
-                this.socketService.emitWordSignal(WORD_CORRECT, this.defService.SelectedWord);
+                if (this.isMultiplayer()) {
+                    this.socketService.emitWordSignal(WORD_CORRECT, this.defService.SelectedWord);
+                }
                 this.placeWord(this.defService.SelectedWord);
             }
         });
     }
 
     public isPartOfWord(word: Word, i: number, j: number): boolean {
-        return Word.isPartOfWord(word, i, j);
+        if (word !== null) {
+            return Word.isPartOfWord(word, i, j);
+        } else {
+            return false;
+        }
     }
 
     public isCompleted(): boolean {
@@ -190,7 +199,9 @@ export class GridComponent implements OnInit {
             this.letterGrid[i][j].Letter = letter;
         }
         if (!word.IsFoundByOpponent && this.verifyEndOfWord(word, i, j)) {
-            this.socketService.emitWordSignal(WORD_CORRECT, word);
+            if (this.isMultiplayer()) {
+                this.socketService.emitWordSignal(WORD_CORRECT, word);
+            }
         }
     }
 
@@ -233,7 +244,6 @@ export class GridComponent implements OnInit {
             this.letterGrid[i][j].IsPlaced = true;
             word.IsHorizontal ? j++ : i++;
         });
-
         word.IsPlaced = true;
     }
 
