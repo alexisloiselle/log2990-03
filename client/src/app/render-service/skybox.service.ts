@@ -2,21 +2,21 @@ import {
     Scene,
     Mesh,
     MeshBasicMaterial,
-    ImageUtils,
     DoubleSide,
-    CubeGeometry,
     Vector3,
-    MultiMaterial
+    MultiMaterial,
+    BoxGeometry,
+    Texture
 } from "three";
 
 import { Injectable } from "@angular/core";
 import { URL_NIGHT_PREFIX, URL_DAY_PREFIX, URL_NIGHT_POSTFIX, URL_DAY_POSTFIX } from "../race/constants";
+import THREE = require("three");
 
 const TAILLE_CUBE: number = 1000;
 
 @Injectable()
 export class SkyboxService {
-    // TODO: Gerons nous les warning?
     private skyMaterial: MultiMaterial;
     public skybox: Mesh;
 
@@ -33,10 +33,11 @@ export class SkyboxService {
         ];
         const materialArray1: MeshBasicMaterial[] = [];
         for (const img of urls1) {
-            materialArray1.push(new MeshBasicMaterial({ map: ImageUtils.loadTexture(img), side: DoubleSide }));
+            const texture: Texture = new THREE.TextureLoader().load(img);
+            materialArray1.push(new MeshBasicMaterial({ map: texture, side: DoubleSide }));
         }
         this.skyMaterial = new MultiMaterial(materialArray1);
-        this.skybox = new Mesh(new CubeGeometry(TAILLE_CUBE, TAILLE_CUBE, TAILLE_CUBE), this.skyMaterial);
+        this.skybox = new Mesh(new BoxGeometry(TAILLE_CUBE, TAILLE_CUBE, TAILLE_CUBE), this.skyMaterial);
         scene.add(this.skybox);
     }
 
