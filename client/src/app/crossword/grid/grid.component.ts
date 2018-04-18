@@ -8,11 +8,7 @@ import { Case } from "../case";
 import { WORD_CORRECT, SELECTED_WORD } from "../../../../../common/socket-constants";
 import { SocketService } from "../services/socket.service";
 import { IWord } from "../../../../../common/IWord";
-
-const LEFT_KEYCODE: number = 37;
-const UP_KEYCODE: number = 38;
-const RIGHT_KEYCODE: number = 39;
-const DOWN_KEYCODE: number = 40;
+import {FocusCaseService} from "./focus-case.service";
 
 @Component({
     selector: "app-grid",
@@ -31,8 +27,10 @@ export class GridComponent implements OnInit {
         private crosswordService: CrosswordService,
         private inputService: InputService,
         private defService: DefinitionService,
-        private socketService: SocketService
+        private socketService: SocketService,
+        private focusCaseService: FocusCaseService
     ) { }
+
     public ngOnInit(): void {
         this.numberPlacedWords = 0;
         this.listenSelectedWord();
@@ -122,27 +120,27 @@ export class GridComponent implements OnInit {
             if (this.isMultiplayer()) {
                 this.socketService.emitWordSignal(SELECTED_WORD, this.defService.SelectedWord);
             }
-            this.focusOnWord(res.word);
+            this.focusCaseService.focusOnCase(res.word.Line, res.word.Column, this.cases);
         });
     }
 
     private listenLetterInput(): void {
         this.inputService.LetterInputSub.subscribe((res) => {
             this.addLetter(this.defService.SelectedWord, res.letter, res.i, res.j);
-            this.focusOnNextCase(res.i, res.j);
+            this.focusCaseService.focusOnNextCase(res.i, res.j, this.cases);
         });
     }
 
     private listenBackspaceInput(): void {
         this.inputService.BackspaceInputSub.subscribe((res) => {
             this.removeLetter(res.i, res.j);
-            this.focusOnPreviousCase(res.i, res.j);
+            this.focusCaseService.focusOnPreviousCase(res.i, res.j, this.cases);
         });
     }
 
     private listenArrowInput(): void {
         this.inputService.ArrowInputSub.subscribe((res) => {
-            this.focusOnArrowCase(res.keyCode, res.i, res.j);
+            this.focusCaseService.focusOnArrowCase(res.keyCode, res.i, res.j, this.cases);
         });
     }
 
@@ -245,51 +243,6 @@ export class GridComponent implements OnInit {
             word.IsHorizontal ? j++ : i++;
         });
         word.IsPlaced = true;
-    }
-
-    private focusOnWord(word: Word): void {
-        this.focusOnCase(word.Line, word.Column);
-    }
-
-    private focusOnNextCase(i: number, j: number): void {
-        if (!Word.isEndOfWord(this.defService.SelectedWord, i, j)) {
-            this.defService.SelectedWord.IsHorizontal ?
-                this.focusOnCase(i, j + 1) :
-                this.focusOnCase(i + 1, j);
-        }
-    }
-
-    private focusOnPreviousCase(i: number, j: number): void {
-        if (!Word.isBeginningOfWord(this.defService.SelectedWord, i, j)) {
-            this.defService.SelectedWord.IsHorizontal ?
-                this.focusOnCase(i, j - 1) :
-                this.focusOnCase(i - 1, j);
-        }
-    }
-
-    private focusOnArrowCase(keyCode: number, i: number, j: number): void {
-        switch (keyCode) {
-            case LEFT_KEYCODE:
-            case UP_KEYCODE:
-                this.focusOnPreviousCase(i, j);
-                break;
-            case RIGHT_KEYCODE:
-            case DOWN_KEYCODE:
-                this.focusOnNextCase(i, j);
-                break;
-            default:
-                break;
-        }
-    }
-
-    private focusOnCase(i: number, j: number): void {
-        const caseFound: ElementRef = this.cases.toArray().find((c: ElementRef) => {
-            return c.nativeElement.getAttribute("id") === `${i}${j}`;
-        });
-        if (caseFound !== undefined) {
-            caseFound.nativeElement.focus();
-            caseFound.nativeElement.select();
-        }
     }
 
     public isPlacedByDifferentPlayers(i: number, j: number): boolean {

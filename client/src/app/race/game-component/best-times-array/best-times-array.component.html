@@ -1,9 +1,11 @@
 <h2>Top 5</h2>
-<form *ngIf="bestTimeService.IsTimeBeaten">
-  Your username:
-  <input #inputName type="text" placeholder="JeMigli">
-  <button (click)="bestTimeService.postNewBestTime(inputName.value); $event.preventDefault()">Save</button>
-</form>
+<div *ngIf="bestTimeService.IsTimeBeaten">Congratulations, you're in the top 5
+  <form>
+    Your username:
+    <input #inputName type="text" placeholder="JeMigli">
+    <button (click)="bestTimeService.postNewBestTime(inputName.value); $event.preventDefault()">Save</button>
+  </form>
+</div>
 <button (click)="bestTimeService.replayTrack()">Replay Track</button>
 <table class="table table-striped">
   <thead>
@@ -16,37 +18,32 @@
   <tbody>
     <tr>
       <td>1</td>
-      <td>{{bestTimeService.Position === 0 && !bestTimeService.IsPostDone ?
-        "Type your name above" :
-        bestTimeService.BestTimesArray[0].name}}</td>
+      <td>{{bestTimeService.Position === 0 && !bestTimeService.IsPostDone ? "Type your name above" : bestTimeService.BestTimesArray[0].name}}
+      </td>
       <td>{{bestTimeService.BestTimesArray[0].time === -1 ? "-" : bestTimeService.BestTimesArray[0].time}}</td>
     </tr>
     <tr>
       <td>2</td>
-      <td>{{bestTimeService.Position === 1 && !bestTimeService.IsPostDone ?
-          "Type your name above" :
-          bestTimeService.BestTimesArray[1].name}}</td>
+      <td>{{bestTimeService.Position === 1 && !bestTimeService.IsPostDone ? "Type your name above" : bestTimeService.BestTimesArray[1].name}}
+      </td>
       <td>{{bestTimeService.BestTimesArray[1].time === -1 ? "-" : bestTimeService.BestTimesArray[1].time}}</td>
     </tr>
     <tr>
       <td>3</td>
-      <td>{{bestTimeService.Position === 2 && !bestTimeService.IsPostDone ?
-          "Type your name above" :
-          bestTimeService.BestTimesArray[2].name}}</td>
+      <td>{{bestTimeService.Position === 2 && !bestTimeService.IsPostDone ? "Type your name above" : bestTimeService.BestTimesArray[2].name}}
+      </td>
       <td>{{bestTimeService.BestTimesArray[2].time === -1 ? "-" : bestTimeService.BestTimesArray[2].time}}</td>
     </tr>
     <tr>
       <td>4</td>
-      <td>{{bestTimeService.Position === 3 && !bestTimeService.IsPostDone ?
-          "Type your name above" :
-          bestTimeService.BestTimesArray[3].name}}</td>
+      <td>{{bestTimeService.Position === 3 && !bestTimeService.IsPostDone ? "Type your name above" : bestTimeService.BestTimesArray[3].name}}
+      </td>
       <td>{{bestTimeService.BestTimesArray[3].time === -1 ? "-" : bestTimeService.BestTimesArray[3].time}}</td>
     </tr>
     <tr>
       <td>5</td>
-      <td>{{bestTimeService.Position === 4 && !bestTimeService.IsPostDone ?
-          "Type your name above" :
-          bestTimeService.BestTimesArray[4].name}}</td>
+      <td>{{bestTimeService.Position === 4 && !bestTimeService.IsPostDone ? "Type your name above" : bestTimeService.BestTimesArray[4].name}}
+      </td>
       <td>{{bestTimeService.BestTimesArray[4].time === -1 ? "-" : bestTimeService.BestTimesArray[4].time}}</td>
     </tr>
   </tbody>

@@ -23,7 +23,7 @@ describe("DefinitionsComponent", () => {
         expect(component).toBeTruthy();
     });
     it ("should find that the word is found by opponent",  () => {
-        const word = new Word ("mot", "leMot", false, 0, 0);
+        const word: Word = new Word ("mot", "leMot", false, 0, 0);
         component.addOpponentFoundWord(word);
         expect(component.isWordFoundByOpponent(word)).toBeTruthy();
     });

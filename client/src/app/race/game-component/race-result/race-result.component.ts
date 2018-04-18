@@ -6,7 +6,9 @@ import { BestTimeService } from "../best-times-array/best-time.service";
   selector: "app-race-result",
   templateUrl: "./race-result.component.html",
   styleUrls: ["./race-result.component.css"]
+
 })
+
 export class RaceResultComponent implements OnInit {
 
   public constructor(

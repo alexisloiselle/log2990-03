@@ -1,25 +1,14 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-
+import { async } from "@angular/core/testing";
 import { BestTimesArrayComponent } from "./best-times-array.component";
-import { BestTimeService } from "./best-time.service";
 
+// tslint:disable:no-any
 describe("BestTimesArrayComponent", () => {
     let component: BestTimesArrayComponent;
-    let fixture: ComponentFixture<BestTimesArrayComponent>;
+    const bestTimeService: any = {};
 
     beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            declarations: [BestTimesArrayComponent, BestTimeService]
-        })
-        .compileComponents()
-        .catch((err) => {});
+        component = new BestTimesArrayComponent(bestTimeService);
     }));
-
-    beforeEach(() => {
-        fixture = TestBed.createComponent(BestTimesArrayComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-    });
 
     it("should create", () => {
         expect(component).toBeTruthy();

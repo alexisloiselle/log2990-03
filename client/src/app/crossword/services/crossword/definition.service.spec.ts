@@ -21,8 +21,8 @@ describe("DefinitionService", () => {
     }));
 
     it("should attribut the selected word", inject([DefinitionService], (service: DefinitionService) => {
-        const word = new Word("mot", "leMot", false, 0, 0); 
+        const word: Word = new Word("mot", "leMot", false, 0, 0);
         service.handleClickDef(word);
-        expect(service.SelectedWord == word).toBeTruthy();
+        expect(service.SelectedWord === word).toBeTruthy();
     }));
 });

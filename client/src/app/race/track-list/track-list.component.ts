@@ -68,16 +68,14 @@ export class TrackListComponent implements OnInit {
     public updateTrackParams(updatedTrack: RaceTrack): void {
         updatedTrack.points = this.trackEditor.myTrackEditorModel.PointArray;
         updatedTrack.findSegments();
-        if (this.trackNameInput.nativeElement.value !== "") {
+        this.trackNameInput.nativeElement.value === "" ?
+            updatedTrack.name = "Default name" :
             updatedTrack.name = this.trackNameInput.nativeElement.value;
-        } else {
-            updatedTrack.name = "Default name";
-        }
-        if ( this.trackDescriptionInput.nativeElement.value !== "") {
+
+        this.trackDescriptionInput.nativeElement.value === "" ?
+            updatedTrack.description = "Default description" :
             updatedTrack.description = this.trackDescriptionInput.nativeElement.value;
-        } else {
-            updatedTrack.description = "Default description";
-        }
+
         updatedTrack.type = this.trackTypeInput.nativeElement.value;
     }
 

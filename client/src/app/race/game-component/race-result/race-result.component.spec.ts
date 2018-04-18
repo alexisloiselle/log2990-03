@@ -1,25 +1,15 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-
+import { async } from "@angular/core/testing";
 import { RaceResultComponent } from "./race-result.component";
-import { RaceAdministratorService } from "../../race-services/race-administrator.service";
 
+// tslint:disable:no-any
 describe("RaceResultComponent", () => {
     let component: RaceResultComponent;
-    let fixture: ComponentFixture<RaceResultComponent>;
+    const bestTimeService: any = {};
+    const raceAdminService: any = {};
 
     beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            declarations: [RaceResultComponent, RaceAdministratorService]
-        })
-            .compileComponents()
-            .catch((err) => { });
+        component = new RaceResultComponent(raceAdminService, bestTimeService);
     }));
-
-    beforeEach(() => {
-        fixture = TestBed.createComponent(RaceResultComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-    });
 
     it("should create", () => {
         expect(component).toBeTruthy();
