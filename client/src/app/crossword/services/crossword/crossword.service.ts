@@ -57,13 +57,12 @@ export class CrosswordService {
             .catch(async (error: Error) => this.handleError<boolean>(error));
     }
 
-    // TODO: Handle le any
-    public async getUserNames(gameName: string): Promise<any> {
+    public async getUserNames(gameName: string): Promise<void> {
         await this.http.get(`${API_URL}/${CROSSWORD_PARAM}/getUserNames/${gameName}`)
             .toPromise()
-            .then((userNames: { userNameOne: any, userNameTwo: any }) => {
+            .then((userNames: { userNameOne: string, userNameTwo: string }) => {
                 this.userNamePlayerOne = userNames.userNameOne,
-                    this.userNamePlayerTwo = userNames.userNameTwo;
+                this.userNamePlayerTwo = userNames.userNameTwo;
             })
             .catch(async (error: Error) => this.handleError<boolean>(error));
     }
