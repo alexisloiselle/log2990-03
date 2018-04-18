@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import Stats = require("stats.js");
 import { Car } from "../race/car/car";
 import { BotCar } from "../race/car/bot-car";
 import { CarEventHandlerService } from "./car-event-handler.service";
@@ -32,7 +31,6 @@ export class RenderService {
     private botCars: Array<BotCar> = new Array<BotCar>();
     private renderer: THREE.WebGLRenderer;
     private scene: THREE.Scene;
-    private stats: Stats;
     private lastDate: number;
     private track: RaceTrack;
     private endRaceSub: Subject<{ track: RaceTrack, time: number }>;
@@ -98,18 +96,11 @@ export class RenderService {
         await this.loadTrack(raceTrackId);
         await this.createScene();
         this.hudService.initialize();
-        this.initStats();
         this.startRenderingLoop();
         this.soundsService.playSound(STARTING_SOUND);
         this.listenIncrementLap();
         this.raceAdministratorService.initializeCarsLapsTime(this.cars);
         this.raceOnGoing = true;
-    }
-
-    private initStats(): void {
-        this.stats = new Stats();
-        this.stats.dom.style.position = "absolute";
-        this.container.appendChild(this.stats.dom);
     }
 
     private async initBotCars(): Promise<void> {
@@ -223,7 +214,6 @@ export class RenderService {
         requestAnimationFrame(() => this.render());
         this.update();
         this.cameraService.render(this.scene, this.renderer);
-        this.stats.update();
     }
 
     public onResize(): void {
@@ -264,13 +254,4 @@ export class RenderService {
         this.route.navigateByUrl("/track-list");
     }
 
-    public sleep(miliseconds: number): void {
-        const currentTime: number = new Date().getTime();
-        while (currentTime + miliseconds >= new Date().getTime()) { }
-    }
-
-    public get Track(): RaceTrack {
-        return new RaceTrack(this.track.id, this.track.name, this.track.description,
-                             this.track.type, this.track.points);
-    }
 }
