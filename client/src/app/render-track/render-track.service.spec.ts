@@ -1,12 +1,15 @@
 import { TestBed, inject } from "@angular/core/testing";
 import { RenderTrackService } from "./render-track.service";
+import { TrackService } from "../track.service";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
 
 const NUMBER_OF_CARS: number = 4;
 
 describe("RenderTrackService", () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [RenderTrackService]
+            imports: [ HttpClientTestingModule ],
+            providers: [RenderTrackService, TrackService]
         });
     });
 

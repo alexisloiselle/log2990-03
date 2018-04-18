@@ -30,6 +30,7 @@ class MockActivatedRoute extends ActivatedRoute {
 }
 
 const socketService: SocketService = new SocketService();
+socketService.connect();
 
 const defService: DefinitionService = new DefinitionService(crosswordService);
 

@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { RaceResultComponent } from "./race-result.component";
+import { RaceAdministratorService } from "../../race-services/race-administrator.service";
 
 describe("RaceResultComponent", () => {
     let component: RaceResultComponent;
@@ -8,7 +9,7 @@ describe("RaceResultComponent", () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [RaceResultComponent]
+            declarations: [RaceResultComponent, RaceAdministratorService]
         })
             .compileComponents()
             .catch((err) => { });
