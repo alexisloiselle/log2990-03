@@ -8,8 +8,43 @@
     </li>
   </ul>
 </div>
-<div *ngIf="selectedTrack">
-  {{selectedTrack.name}} {{selectedTrack.description}}
+<div class="row" *ngIf="selectedTrack">
+  <div class="col-sm-4">
+    <div>Name: {{selectedTrack.name}}</div>
+    <div>Description: {{selectedTrack.description}}</div>
+  </div>
+  <div class="col-sm-8">Highscores
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{this.selectedTrack.bestTimes[0].name}}</td>
+          <td>{{this.selectedTrack.bestTimes[0].time === -1 ? "-":this.selectedTrack.bestTimes[0].time}}</td>
+        </tr>
+        <tr>
+          <td>{{this.selectedTrack.bestTimes[1].name}}</td>
+          <td>{{this.selectedTrack.bestTimes[1].time === -1 ? "-":this.selectedTrack.bestTimes[1].time}}</td>
+        </tr>
+        <tr>
+          <td>{{this.selectedTrack.bestTimes[2].name}}</td>
+          <td>{{this.selectedTrack.bestTimes[2].time === -1 ? "-":this.selectedTrack.bestTimes[2].time}}</td>
+        </tr>
+        <tr>
+          <td>{{this.selectedTrack.bestTimes[3].name}}</td>
+          <td>{{this.selectedTrack.bestTimes[3].time === -1 ? "-":this.selectedTrack.bestTimes[3].time}}</td>
+        </tr>
+        <tr>
+          <td>{{this.selectedTrack.bestTimes[4].name}}</td>
+          <td>{{this.selectedTrack.bestTimes[4].time === -1 ? "-":this.selectedTrack.bestTimes[4].time}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 <div *ngIf="!parsedTracks || parsedTracks.lenght === 0" class="panel panel-danger">
   <h4>No available tracks for the moment. Only an administrator can create tracks.</h4>
