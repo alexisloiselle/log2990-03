@@ -15,7 +15,7 @@ export interface RemainingRace {
 @Injectable()
 export class RaceAdministratorService {
     private isRaceOnGoing: boolean;
-    private winners: { car: Car, time: number }[];
+    private  winners: { car: Car, time: number }[]; //private
     public carsLapsTime: { id: number, lapsTime: number[] }[] = [];
     public remainingRace: RemainingRace = {
         remainingLaps: 0,
@@ -41,7 +41,7 @@ export class RaceAdministratorService {
         }
     }
 
-    public get IsWinnerDetermined(): boolean {
+    public isWinnerDetermined(): boolean {
         return this.winners.length > 0;
     }
 

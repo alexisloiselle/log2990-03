@@ -4,7 +4,8 @@ import { BestTimeService } from "./best-time.service";
 @Component({
     selector: "app-best-times-array",
     templateUrl: "./best-times-array.component.html",
-    styleUrls: ["./best-times-array.component.css"]
+    styleUrls: ["./best-times-array.component.css"],
+    providers: [BestTimeService]
 })
 export class BestTimesArrayComponent implements OnInit {
 
