@@ -14,7 +14,8 @@ describe("RaceMainComponent", () => {
             declarations: [RaceMainComponent],
             providers: [AuthService]
         })
-            .compileComponents();
+        .compileComponents()
+        .catch((err) => {});
     }));
 
     beforeEach(() => {

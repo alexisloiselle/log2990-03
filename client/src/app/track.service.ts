@@ -23,14 +23,14 @@ export class TrackService {
 
                 return tracks;
             })
-            .catch((error: Error) => this.handleError<RaceTrack[]>(error));
+            .catch(async (error: Error) => this.handleError<RaceTrack[]>(error));
     }
 
     public async getTrack(id: string): Promise<RaceTrack> {
         return this.http.get(`${this.BASE_URL}/${id}`)
             .toPromise()
             .then((response: {_id: string, track: string}) => JSON.parse(response.track))
-            .catch((error: Error) => this.handleError<RaceTrack>(error));
+            .catch(async (error: Error) => this.handleError<RaceTrack>(error));
     }
 
     public async addTrack(track: RaceTrack): Promise<boolean> {
@@ -39,7 +39,7 @@ export class TrackService {
         return this.http.post(`${this.BASE_URL}/add`, body)
             .toPromise()
             .then((response: boolean) => response)
-            .catch((error: Error) => this.handleError<boolean>(error));
+            .catch(async (error: Error) => this.handleError<boolean>(error));
     }
 
     public async updateTrack(track: RaceTrack): Promise<boolean> {
@@ -51,7 +51,7 @@ export class TrackService {
         return this.http.put(`${this.BASE_URL}/${track.id}`, update)
             .toPromise()
             .then((response: boolean) => response)
-            .catch((error: Error) => this.handleError<boolean>(error));
+            .catch(async (error: Error) => this.handleError<boolean>(error));
     }
 
     public async deleteTrack(id: string): Promise<boolean> {
@@ -62,9 +62,9 @@ export class TrackService {
         return this.http.delete(`${this.BASE_URL}/${id}`)
             .toPromise()
             .then((response: boolean) => response)
-            .catch((error: Error) => this.handleError<boolean>(error));
+            .catch(async (error: Error) => this.handleError<boolean>(error));
     }
-    
+
     private async handleError<T>(error: Error): Promise<T> {
         return Promise.reject(error.message);
     }

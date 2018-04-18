@@ -13,7 +13,8 @@ describe("CrosswordMainComponent", () => {
             imports: [RouterTestingModule],
             declarations: [CrosswordMainComponent]
         })
-            .compileComponents();
+        .compileComponents()
+        .catch((err) => {});
     }));
 
     beforeEach(() => {

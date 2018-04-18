@@ -1,8 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { RaceResultComponent } from './race-result.component';
+import { RaceResultComponent } from "./race-result.component";
 
-describe('RaceResultComponent', () => {
+describe("RaceResultComponent", () => {
   let component: RaceResultComponent;
   let fixture: ComponentFixture<RaceResultComponent>;
 
@@ -10,7 +10,8 @@ describe('RaceResultComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ RaceResultComponent ]
     })
-    .compileComponents();
+    .compileComponents()
+    .catch((err) => {});
   }));
 
   beforeEach(() => {
@@ -19,7 +20,7 @@ describe('RaceResultComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

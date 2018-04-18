@@ -7,6 +7,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { SocketService } from "../../services/socket.service";
 
 describe("JoinGameComponent", () => {
+    // tslint:disable:no-any
     let component: JoinGameComponent;
     let fixture: ComponentFixture<JoinGameComponent>;
 
@@ -16,7 +17,8 @@ describe("JoinGameComponent", () => {
             declarations: [JoinGameComponent],
             providers: [CrosswordService, SocketService]
         })
-            .compileComponents();
+        .compileComponents()
+        .catch((err) => {});
     }));
 
     beforeEach(() => {
@@ -95,7 +97,6 @@ describe("JoinGameComponent", () => {
     };
 
     const newComponent: JoinGameComponent = new JoinGameComponent(crosswordService, router, socketService);
-    newComponent.ngOnInit();
 
     it("shoud refresh the game list", async () => {
         expect(newComponent.games).toEqual([]);

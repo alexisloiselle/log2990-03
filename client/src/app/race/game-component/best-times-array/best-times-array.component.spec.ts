@@ -10,7 +10,8 @@ describe("BestTimesArrayComponent", () => {
         TestBed.configureTestingModule({
             declarations: [BestTimesArrayComponent]
         })
-            .compileComponents();
+        .compileComponents()
+        .catch((err) => {});
     }));
 
     beforeEach(() => {
