@@ -4,6 +4,7 @@ import { DefinitionService } from "../services/crossword/definition.service";
 import { Word } from "../word";
 import { MOCK_LETTERS, MOCK_WORDS_AND_DEFS } from "../../../../../common/mock-constants";
 import { SocketService } from "../services/socket.service";
+import { FocusCaseService } from "./focus-case.service";
 
 // tslint:disable:no-magic-numbers
 // tslint:disable-next-line:no-any
@@ -19,13 +20,15 @@ describe("GridComponent", () => {
     const inputService: InputService = new InputService();
     const defService: DefinitionService = new DefinitionService(crosswordService);
     const socketService: SocketService = new SocketService();
+    const focusCaseService: FocusCaseService = new FocusCaseService(defService);
 
     beforeEach(() => {
         component = new GridComponent(
             crosswordService,
             inputService,
             defService,
-            socketService
+            socketService,
+            focusCaseService
         );
         component.ngOnInit();
     });
