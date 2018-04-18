@@ -1,25 +1,20 @@
-.canvas{
+.canvas {
     border: 3px solid black;
     float: left;
     width: auto;
     margin-left: 3%;
     margin-right: 3%;
 }
-.btn-btn-primary{
+
+.btn-btn-primary {
     background-color: #3742fa;
     text-align: center;
     color: white;
     padding: 14px 40px;
     border: none;
 }
-.validation{
-    /* float: left;
-    height: 100%;
-    width: auto;
-    /margin-top: 2%;
-    margin-left: 5%; */
-}
-input[type=text]{
+
+input[type=text] {
     width: 80%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -33,16 +28,20 @@ input[type=text]{
 input[type=text]:focus {
   border: 3px solid #555;
 }
-.niveau{
+
+.niveau {
     width: 80%;
 }
-.bouttonRetour{
+
+.bouttonRetour {
     margin-left: 3%;
     margin-bottom: 3%;
 }
+
 #canvasColumn {
     margin-left: 100px;
 }
+
 #infoColumn {
     margin-right: 200px;
 }
