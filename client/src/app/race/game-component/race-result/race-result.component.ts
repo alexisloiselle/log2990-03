@@ -5,8 +5,7 @@ import { BestTimeService } from "../best-times-array/best-time.service";
 @Component({
   selector: "app-race-result",
   templateUrl: "./race-result.component.html",
-  styleUrls: ["./race-result.component.css"],
-  providers: [RaceAdministratorService, BestTimeService]
+  styleUrls: ["./race-result.component.css"]
 
 })
 
