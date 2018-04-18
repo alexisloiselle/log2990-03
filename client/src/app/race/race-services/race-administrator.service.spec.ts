@@ -5,6 +5,7 @@ import { Car } from "../car/car";
 import { LineCurve } from "three";
 import { BotCar } from "../car/bot-car";
 
+// tslint:disable:no-magic-numbers
 describe("RaceAdministratorService", () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -60,19 +61,6 @@ describe("RaceAdministratorService", () => {
             car2.initializeGPS(trackSegments, trackWidth);
 
             expect(service.determineWinner(cars)).toEqual(-1); // TODO MOCK OBSERVABLE
-        }));
-
-    });
-
-    describe("resetRemainingRace", () => {
-        it("should reset all service.remainingRace to 0 ", inject([RaceAdministratorService], (service: RaceAdministratorService) => {
-            service.resetRemainingRace();
-            expect(service.remainingRace.currentLap).toEqual(0);
-            expect(service.remainingRace.remainingLaps).toEqual(0);
-            expect(service.remainingRace.remainingSegments).toEqual(0);
-            expect(service.remainingRace.remTimeToCompLap).toEqual(0);
-            expect(service.remainingRace.remTimeToCompRestOfRace).toEqual(0);
-            expect(service.remainingRace.remTimeToCompSeg).toEqual(0);
         }));
 
     });

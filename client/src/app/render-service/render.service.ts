@@ -38,7 +38,6 @@ export class RenderService {
     private track: RaceTrack;
     private endRaceSub: Subject<{ track: RaceTrack, time: number }>;
     private isNight: boolean;
-
     public loader: THREE.ImageLoader;
 
     public get car(): Car {
@@ -58,10 +57,8 @@ export class RenderService {
         private soundsService: SoundsService
     ) {
         this.endRaceSub = new Subject<{ track: RaceTrack, time: number, isPlayer: boolean }>();
-
         this._car = new Car();
         this.cars.push(this._car);
-
         const numberBotCars: number = 3;
         for (let i: number = 0; i < numberBotCars; i++) {
             const botCar: BotCar = new BotCar();
@@ -98,9 +95,7 @@ export class RenderService {
     }
 
     public async initialize(container: HTMLDivElement, raceTrackId: string): Promise<void> {
-        if (container) {
-            this.container = container;
-        }
+        if (container) { this.container = container; }
         await this.loadTrack(raceTrackId);
         await this.createScene();
         this.hudService.initialize();
@@ -122,8 +117,7 @@ export class RenderService {
         const carModelsDirectories: Array<string> = [
             "../../assets/porsche/porsche.json",
             "../../assets/lamborghini/lamborghini.json",
-            "../../assets/porsche/porsche.json"
-        ];
+            "../../assets/porsche/porsche.json"];
         for (let i: number = 0; i < this.botCars.length; i++) {
             this.botCars[i].init(await RenderService.loadCar(carModelsDirectories[i]));
             this.botCars[i].translateOnAxis(new THREE.Vector3(0, 0, 0), 1);
@@ -142,9 +136,7 @@ export class RenderService {
             }
             this.raceAdministratorService.controlBots(this.botCars);
             const index: number = this.raceAdministratorService.determineWinner(this.cars);
-            if (index === 0) {
-                this.manageRaceEnd(index);
-            }
+            if (index === 0) { this.manageRaceEnd(index); }
             this.cameraService.update(this._car.Position);
             this.skyboxService.update(this._car.Position);
             this.collisionService.checkForCollision(this.cars, this.track.segments, this.track.width);
@@ -178,9 +170,7 @@ export class RenderService {
         await this.initBotCars();
         this.skyboxService.createSkybox(this.scene, URL_DAY_PREFIX, URL_DAY_POSTFIX).catch((err) => { console.error(err); });
         await this.createTrack();
-        for (const car of this.cars) {
-            car.initializeGPS(this.track.segments, this.track.width);
-        }
+        for (const car of this.cars) { car.initializeGPS(this.track.segments, this.track.width); }
         await this.orientAndPositionCars();
     }
 
@@ -189,24 +179,18 @@ export class RenderService {
             this.track = await this.renderTrackService.generateDefaultTrack();
         }
         const planes: THREE.Mesh[] = this.renderTrackService.buildTrack(this.track);
-        for (const plane of planes) {
-            this.scene.add(plane);
-        }
+        for (const plane of planes) { this.scene.add(plane); }
 
         this.scene.add(this.renderTrackService.generateOffTrackSurface());
 
-        let circles: THREE.Mesh[] = [];
-        circles = this.renderTrackService.patchTrack(this.track.width);
+        const circles: THREE.Mesh[] = this.renderTrackService.patchTrack(this.track.width);
 
-        for (const circle of circles) {
-            this.scene.add(circle);
-        }
+        for (const circle of circles) { this.scene.add(circle); }
         this.scene.add(this.renderTrackService.createStartingLine(this.track.width));
     }
 
     private async orientAndPositionCars(): Promise<void> {
         this._car.orientCar(this.track.segments[0]);
-
         for (const botCar of this.botCars) {
             botCar.orientCar(this.track.segments[0]);
         }
@@ -282,8 +266,7 @@ export class RenderService {
 
     public handleKeyUp(event: KeyboardEvent): void {
         if (this.raceOnGoing) {
-            const isNightKey: boolean = this.carEventHandlerService.handleKeyUp(event, this._car);
-            if (isNightKey) {
+            if (this.carEventHandlerService.handleKeyUp(event, this._car)) {
                 this.changeMomentOfTheDay().catch((err) => { console.error(err); });
             }
         }
@@ -307,12 +290,7 @@ export class RenderService {
     }
 
     public get Track(): RaceTrack {
-        return new RaceTrack(
-            this.track.id,
-            this.track.name,
-            this.track.description,
-            this.track.type,
-            this.track.points
-        );
+        return new RaceTrack(this.track.id, this.track.name, this.track.description,
+                             this.track.type, this.track.points);
     }
 }
