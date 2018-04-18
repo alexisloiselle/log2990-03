@@ -64,19 +64,6 @@ describe("RaceAdministratorService", () => {
 
     });
 
-    describe("resetRemainingRace", () => {
-        it("should reset all service.remainingRace to 0 ", inject([RaceAdministratorService], (service: RaceAdministratorService) => {
-            service.resetRemainingRace();
-            expect(service.remainingRace.currentLap).toEqual(0);
-            expect(service.remainingRace.remainingLaps).toEqual(0);
-            expect(service.remainingRace.remainingSegments).toEqual(0);
-            expect(service.remainingRace.remTimeToCompLap).toEqual(0);
-            expect(service.remainingRace.remTimeToCompRestOfRace).toEqual(0);
-            expect(service.remainingRace.remTimeToCompSeg).toEqual(0);
-        }));
-
-    });
-
     describe("sortPlayersTime", () => {
         it("should sort carsLapTime in this order car4,car3,car2,car1",
            inject([RaceAdministratorService], (service: RaceAdministratorService) => {

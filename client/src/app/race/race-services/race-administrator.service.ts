@@ -68,32 +68,32 @@ export class RaceAdministratorService {
         }
     }
 
-    public calculateRemTimeToCompRestOfRace(car: Car): void {
+    private calculateRemTimeToCompRestOfRace(car: Car): void {
         for (let i: number = 0; i < this.remainingRace.remainingSegments; i++) {
             this.remainingRace.remTimeToCompRestOfRace +=
                 car.carGPS.trackSegments[i % car.carGPS.NumberOfTrackSegments].getLength() / car.speed.length();
         }
     }
-    public calculateRemTimeToCompLap(car: Car): void {
+    private calculateRemTimeToCompLap(car: Car): void {
         for (let i: number = 1; i + car.carGPS.currentSegmentIndex < car.carGPS.NumberOfTrackSegments; i++) {
             this.remainingRace.remTimeToCompLap += car.carGPS.trackSegments[i].getLength() / car.speed.length();
         }
     }
 
-    public calculateRemainingSegments(car: Car): void {
+    private calculateRemainingSegments(car: Car): void {
         this.remainingRace.remainingSegments = this.remainingRace.remainingLaps * car.carGPS.trackSegments.length;
     }
 
-    public calculateRemTimeToCompSeg(car: Car): void {
+    private calculateRemTimeToCompSeg(car: Car): void {
         this.remainingRace.remTimeToCompSeg = Math.sqrt(Math.pow(car.mesh.position.z - car.carGPS.currentSegment.v2.x, 2) +
             Math.pow(car.mesh.position.x - car.carGPS.currentSegment.v2.y, 2)) / car.speed.length();
     }
-    public calculateLapRemaining(car: Car): void {
+    private calculateLapRemaining(car: Car): void {
         this.remainingRace.remainingLaps = NUMBER_OF_LAPS - car.carGPS.currentLap;
         this.remainingRace.currentLap = car.carGPS.currentLap;
     }
 
-    public simulateBotsLapsTime(i: number, raceTime: number): void {
+    private simulateBotsLapsTime(i: number, raceTime: number): void {
         this.simulateBotsUnfinishedLapTime(i, raceTime);
         this.simulateBotsUnstardedLapTime(i, raceTime);
     }
@@ -114,7 +114,7 @@ export class RaceAdministratorService {
         }
     }
 
-    public simulateBotsUnfinishedLapTime(i: number, raceTime: number): void {
+    private simulateBotsUnfinishedLapTime(i: number, raceTime: number): void {
         if (this.carsLapsTime[i].lapsTime[this.remainingRace.currentLap - 1] === undefined) { return; }
         this.carsLapsTime[i].lapsTime[this.remainingRace.currentLap - 1] =
             this.carsLapsTime[i].lapsTime[this.remainingRace.currentLap - 1] === 0 ?
@@ -122,7 +122,7 @@ export class RaceAdministratorService {
                 this.carsLapsTime[i].lapsTime[this.remainingRace.currentLap - 1];
     }
 
-    public simulateBotsUnstardedLapTime(i: number, raceTime: number): void {
+    private simulateBotsUnstardedLapTime(i: number, raceTime: number): void {
         if (this.remainingRace.remainingLaps > 0) {
             for (let j: number = NUMBER_OF_LAPS - this.remainingRace.remainingLaps; j < NUMBER_OF_LAPS; j++) {
                 this.carsLapsTime[i].lapsTime[j] = this.carsLapsTime[i].lapsTime[j - 1];
@@ -130,7 +130,7 @@ export class RaceAdministratorService {
         }
     }
 
-    public resetRemainingRace(): void {
+    private resetRemainingRace(): void {
         this.remainingRace.remainingLaps = 0;
         this.remainingRace.remainingSegments = 0;
         this.remainingRace.remTimeToCompLap = 0;
