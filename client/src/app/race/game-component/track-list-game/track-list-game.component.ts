@@ -30,6 +30,9 @@ export class TrackListGameComponent implements OnInit {
     public get SelectedTrack(): RaceTrack {
         return this.selectedTrack;
     }
+    public onSelectTrack(track: RaceTrack): RaceTrack {
+        return this.selectedTrack = track;
+    }
 
     public async getTracks(): Promise<void> {
         this.parsedTracks = await this.trackService.getTracks();
