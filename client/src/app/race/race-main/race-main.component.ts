@@ -24,7 +24,7 @@ export class RaceMainComponent implements OnInit {
         }
     }
 
-    private grantAccess(isValid: boolean): void {
+    public grantAccess(isValid: boolean): void {
         if (isValid) {
             this.error = false;
             this.validPassword = true;
