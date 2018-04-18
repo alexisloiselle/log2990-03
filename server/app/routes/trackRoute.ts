@@ -67,7 +67,7 @@ module Route {
         public deleteTrack(req: express.Request, res: express.Response, next: express.NextFunction): void {
             require("mongodb").MongoClient.connect(MONGO_URL, async (err: MongoError, client: MongoClient) => {
                 const db: Db = client.db("log2990-03-db");
-                db.collection("tracks").remove(
+                db.collection("tracks").deleteOne(
                     { _id: new ObjectId(req.params.id) },
                     (deleteErr: MongoError) => {
                         const isOk: boolean = (deleteErr === null);
