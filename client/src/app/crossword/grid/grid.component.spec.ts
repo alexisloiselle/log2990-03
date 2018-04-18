@@ -62,4 +62,13 @@ describe("GridComponent", () => {
         }
         expect(component.isCompleted()).toBe(false);
     });
+
+    it ("should have a completed grid", () => {
+        for (let i: number = 0; i < 10; i++) {
+            for (let j: number = 0; j < 10; j++) {
+                component.LetterGrid[i][j].IsPlaced = true;
+            }
+        }
+        expect(component.isCompleted()).toBe(true);
+    });
 });

@@ -86,18 +86,18 @@ export class GridComponent implements OnInit {
     }
 
     public isPlacedByDifferentPlayers(i: number, j: number): boolean {
-        let res: boolean = false;
+        let result: boolean = false;
 
         this.findWordWithCase(this.defService.HorizontalWords, i, j, (hWord: Word) => {
             this.findWordWithCase(this.defService.VerticalWords, i, j, (vWord: Word) => {
                 if ((hWord.IsPlaced && vWord.IsPlaced) &&
                     (hWord.IsFoundByOpponent !== vWord.IsFoundByOpponent)) {
-                    res = true;
+                        result = true;
                 }
             });
         });
 
-        return res;
+        return result;
     }
 
     private initLetterGrid(length: number): Case[][] {
