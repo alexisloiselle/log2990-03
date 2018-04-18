@@ -5,6 +5,7 @@ import { Car } from "../car/car";
 import { LineCurve } from "three";
 import { BotCar } from "../car/bot-car";
 
+// tslint:disable:no-magic-numbers
 describe("RaceAdministratorService", () => {
     beforeEach(() => {
         TestBed.configureTestingModule({

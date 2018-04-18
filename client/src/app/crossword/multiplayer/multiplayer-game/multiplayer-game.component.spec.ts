@@ -50,8 +50,8 @@ describe("MultiplayerGameComponent", () => {
         expect(component.isGameOver()).toBeFalsy();
     });
 
-    it("restardGame() should empty the current grid", () => {
-        component.rematch();
+    it("restardGame() should empty the current grid", async () => {
+        await component.rematch().catch((err) => {});
         expect(component.isGameOver()).toBeFalsy();
         expect(component.playerScore).toEqual(0);
         expect(component.opponentScore).toEqual(0);
