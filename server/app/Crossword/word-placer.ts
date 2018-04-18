@@ -2,7 +2,7 @@ import { Case } from "./case";
 import { Lexicon } from "../lexicon/lexicon";
 import { Word, Direction } from "./word";
 
-const INDEX_DOES_NOT_EXIST: number = 1;
+const INDEX_DOES_NOT_EXIST: number = -1;
 
 export class WordPlacer {
 
