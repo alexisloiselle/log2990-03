@@ -1,12 +1,12 @@
 import {
     Scene,
-    MeshFaceMaterial,
     Mesh,
     MeshBasicMaterial,
     ImageUtils,
     DoubleSide,
     CubeGeometry,
-    Vector3
+    Vector3,
+    MultiMaterial
 } from "three";
 
 import { Injectable } from "@angular/core";
@@ -17,7 +17,7 @@ const TAILLE_CUBE: number = 1000;
 @Injectable()
 export class SkyboxService {
     // TODO: Gerons nous les warning?
-    private skyMaterial: MeshFaceMaterial;
+    private skyMaterial: MultiMaterial;
     public skybox: Mesh;
 
     public constructor() { }
@@ -35,7 +35,7 @@ export class SkyboxService {
         for (const img of urls1) {
             materialArray1.push(new MeshBasicMaterial({ map: ImageUtils.loadTexture(img), side: DoubleSide }));
         }
-        this.skyMaterial = new MeshFaceMaterial(materialArray1);
+        this.skyMaterial = new MultiMaterial(materialArray1);
         this.skybox = new Mesh(new CubeGeometry(TAILLE_CUBE, TAILLE_CUBE, TAILLE_CUBE), this.skyMaterial);
         scene.add(this.skybox);
     }
