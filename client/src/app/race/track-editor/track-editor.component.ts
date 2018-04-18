@@ -41,8 +41,8 @@ export class TrackEditorComponent implements OnInit {
     public constructor(public trackService: TrackService, private location: Location) {
     }
 
-    public allConstraintPass(): boolean {
-        return this.canvasRef.allConstraintPass();
+    public isAllConstraintPass(): boolean {
+        return this.canvasRef.isAllConstraintPass();
     }
 
     public setTrackName(): void {

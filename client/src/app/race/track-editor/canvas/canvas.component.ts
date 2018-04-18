@@ -73,9 +73,9 @@ export class CanvasComponent implements OnInit {
     public drawPoint(mouseCoordinates: THREE.Vector2): void {
         const MINIMUM_LENGTH: number = 3;
         if (this.myTrackEditorModel.getPointArrayLength() >= MINIMUM_LENGTH &&
-            this.myTrackEditorModel.clickedOnFirstPoint(mouseCoordinates)) {
+            this.myTrackEditorModel.isClickedOnFirstPoint(mouseCoordinates)) {
             this.closeLoop();
-        } else if (!this.myTrackEditorModel.clickedOnExistingPoint(mouseCoordinates)) {
+        } else if (!this.myTrackEditorModel.isClickedOnExistingPoint(mouseCoordinates)) {
             this.myTrackEditorModel.addPoint(mouseCoordinates);
             this.redrawCanvas();
         }
@@ -135,7 +135,7 @@ export class CanvasComponent implements OnInit {
         this.drawingOnCanvas.redrawCanvas(this.myTrackEditorModel, noIntersection, angleOk, lengthOk);
     }
 
-    public allConstraintPass(): boolean {
+    public isAllConstraintPass(): boolean {
         let constraintRespected: boolean = this.myTrackEditorModel.isLoopClosed();
 
         if (constraintRespected) {

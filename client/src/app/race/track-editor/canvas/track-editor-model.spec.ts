@@ -189,35 +189,35 @@ describe("CanvasComponent", () => {
         const pointArray: Vector2[] = [];
         pointArray.push(new Vector2(15, 15));
         trackEditor.PointArray = pointArray;
-        expect(trackEditor.clickedOnExistingPoint(new Vector2(15, 15))).toBeTruthy();
+        expect(trackEditor.isClickedOnExistingPoint(new Vector2(15, 15))).toBeTruthy();
     });
 
     it ("should return true if it cliked in the accepted radius", () => {
         const pointArray: Vector2[] = [];
         pointArray.push(new Vector2(15, 15));
         trackEditor.PointArray = pointArray;
-        expect(trackEditor.clickedOnExistingPoint(new Vector2(10, 10))).toBeTruthy();
+        expect(trackEditor.isClickedOnExistingPoint(new Vector2(10, 10))).toBeTruthy();
     });
 
     it ("should return false if it cliked outside the accepted radius", () => {
         const pointArray: Vector2[] = [];
         pointArray.push(new Vector2(15, 15));
         trackEditor.PointArray = pointArray;
-        expect(trackEditor.clickedOnExistingPoint(new Vector2(45, 45))).toBeFalsy();
+        expect(trackEditor.isClickedOnExistingPoint(new Vector2(45, 45))).toBeFalsy();
     });
 
     it ("should return true if it clicked on the first point", () => {
         const pointArray: Vector2[] = [];
         pointArray.push(new Vector2(15, 15));
         trackEditor.PointArray = pointArray;
-        expect(trackEditor.clickedOnFirstPoint(new Vector2(15, 15))).toBeTruthy();
+        expect(trackEditor.isClickedOnFirstPoint(new Vector2(15, 15))).toBeTruthy();
     });
 
     it ("should return true if it clicked near the first point", () => {
         const pointArray: Vector2[] = [];
         pointArray.push(new Vector2(15, 15));
         trackEditor.PointArray = pointArray;
-        expect(trackEditor.clickedOnFirstPoint(new Vector2(10, 15))).toBeTruthy();
+        expect(trackEditor.isClickedOnFirstPoint(new Vector2(10, 15))).toBeTruthy();
     });
 
     it ("should return false if it clicked on another point", () => {
@@ -225,14 +225,14 @@ describe("CanvasComponent", () => {
         pointArray.push(new Vector2(15, 15));
         pointArray.push(new Vector2(45, 45));
         trackEditor.PointArray = pointArray;
-        expect(trackEditor.clickedOnFirstPoint(new Vector2(45, 45))).toBeFalsy();
+        expect(trackEditor.isClickedOnFirstPoint(new Vector2(45, 45))).toBeFalsy();
     });
 
     it ("should return false if it's not clicked on a point", () => {
         const pointArray: Vector2[] = [];
         pointArray.push(new Vector2(15, 15));
         trackEditor.PointArray = pointArray;
-        expect(trackEditor.clickedOnFirstPoint(new Vector2(45, 45))).toBeFalsy();
+        expect(trackEditor.isClickedOnFirstPoint(new Vector2(45, 45))).toBeFalsy();
     });
 
     it ("should return true if the two points are too close", () => {
