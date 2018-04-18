@@ -56,6 +56,50 @@ export class GridComponent implements OnInit {
         return location.pathname.includes("multiplayer-game");
     }
 
+    public isPartOfWord(word: Word, i: number, j: number): boolean {
+        if (word !== null) {
+            return Word.isPartOfWord(word, i, j);
+        } else {
+            return false;
+        }
+    }
+
+    public isCompleted(): boolean {
+        let isCompleted: boolean = true;
+
+        for (let i: number = 0; i < this.letterGrid.length; i++) {
+            for (let j: number = 0; j < this.letterGrid[0].length; j++) {
+                isCompleted = isCompleted && (this.crosswordService.FormattedGrid.letters[i][j] === ""
+                    || this.letterGrid[i][j].IsPlaced);
+            }
+        }
+
+        return isCompleted;
+    }
+
+    public selectWordFromCase(i: number, j: number): void {
+        for (const word of this.defService.AllWords) {
+            if (Word.isPartOfWord(word, i, j)) {
+                this.defService.handleClickDef(word);
+            }
+        }
+    }
+
+    public isPlacedByDifferentPlayers(i: number, j: number): boolean {
+        let res: boolean = false;
+
+        this.findWordWithCase(this.defService.HorizontalWords, i, j, (hWord: Word) => {
+            this.findWordWithCase(this.defService.VerticalWords, i, j, (vWord: Word) => {
+                if ((hWord.IsPlaced && vWord.IsPlaced) &&
+                    (hWord.IsFoundByOpponent !== vWord.IsFoundByOpponent)) {
+                    res = true;
+                }
+            });
+        });
+
+        return res;
+    }
+
     private initLetterGrid(length: number): Case[][] {
         return Array.apply(null, Array(length)).map(() => {
             return Array.apply(null, Array(length)).map(() => {
@@ -155,35 +199,6 @@ export class GridComponent implements OnInit {
         });
     }
 
-    public isPartOfWord(word: Word, i: number, j: number): boolean {
-        if (word !== null) {
-            return Word.isPartOfWord(word, i, j);
-        } else {
-            return false;
-        }
-    }
-
-    public isCompleted(): boolean {
-        let isCompleted: boolean = true;
-
-        for (let i: number = 0; i < this.letterGrid.length; i++) {
-            for (let j: number = 0; j < this.letterGrid[0].length; j++) {
-                isCompleted = isCompleted && (this.crosswordService.FormattedGrid.letters[i][j] === ""
-                    || this.letterGrid[i][j].IsPlaced);
-            }
-        }
-
-        return isCompleted;
-    }
-
-    public selectWordFromCase(i: number, j: number): void {
-        for (const word of this.defService.AllWords) {
-            if (Word.isPartOfWord(word, i, j)) {
-                this.defService.handleClickDef(word);
-            }
-        }
-    }
-
     private findWordWithCase(words: Word[], i: number, j: number, callback: Function): void {
         for (const word of words) {
             if (Word.isPartOfWord(word, i, j)) {
@@ -243,20 +258,5 @@ export class GridComponent implements OnInit {
             word.IsHorizontal ? j++ : i++;
         });
         word.IsPlaced = true;
-    }
-
-    public isPlacedByDifferentPlayers(i: number, j: number): boolean {
-        let res: boolean = false;
-
-        this.findWordWithCase(this.defService.HorizontalWords, i, j, (hWord: Word) => {
-            this.findWordWithCase(this.defService.VerticalWords, i, j, (vWord: Word) => {
-                if ((hWord.IsPlaced && vWord.IsPlaced) &&
-                    (hWord.IsFoundByOpponent !== vWord.IsFoundByOpponent)) {
-                    res = true;
-                }
-            });
-        });
-
-        return res;
     }
 }
