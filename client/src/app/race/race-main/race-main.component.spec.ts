@@ -27,4 +27,8 @@ describe("RaceMainComponent", () => {
     it("should create", () => {
         expect(component).toBeTruthy();
     });
+    it ("should not grant acces", () => {
+        component.grantAccess(false);
+        expect(component.error).toBeTruthy();
+    });
 });
