@@ -127,7 +127,6 @@ export class CanvasComponent implements OnInit {
         this.drawingOnCanvas.drawPointOnCanvas(point, GREEN, STANDARD_SIZE_CIRCLE);
     }
 
-    /*Bad smell, too much arguments*/
     public redrawCanvas(): void {
         const noIntersection: boolean[] = this.constraintService.intersectionBooleanArray(this.myTrackEditorModel.PointArray);
         const angleOk: boolean[] = this.constraintService.angleBooleanArray(this.myTrackEditorModel.PointArray);
@@ -136,7 +135,6 @@ export class CanvasComponent implements OnInit {
         this.drawingOnCanvas.redrawCanvas(this.myTrackEditorModel, noIntersection, angleOk, lengthOk);
     }
 
-    /*Bad smell, too much arguments*/
     public allConstraintPass(): boolean {
         let constraintRespected: boolean = this.myTrackEditorModel.isLoopClosed();
 
