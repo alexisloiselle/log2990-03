@@ -48,4 +48,18 @@ describe("GridComponent", () => {
         expect(defService.SelectedWord.Word).toEqual("bacon");
         expect(defService.SelectedWord.IsPlaced).toEqual(true);
     });
+
+    it("should check word not null", () => {
+        const word: Word = null;
+        expect(component.isPartOfWord(word, 1, 1)).toEqual(false);
+    });
+
+    it ("should not have a completed grid", () => {
+        for (let i: number = 0; i < 10; i++) {
+            for (let j: number = 0; j < 10; j++) {
+                component.LetterGrid[i][j].IsPlaced = false;
+            }
+        }
+        expect(component.isCompleted()).toBe(false);
+    });
 });
