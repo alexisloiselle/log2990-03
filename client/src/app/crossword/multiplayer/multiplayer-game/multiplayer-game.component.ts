@@ -77,6 +77,13 @@ export class MultiplayerGameComponent implements OnInit {
             if (res.isHost) {
                 this.playerScore++;
             } else {
+                this.definitions.addOpponentFoundWord(new Word(
+                    res.word.word,
+                    res.word.definition,
+                    res.word.isHorizontal,
+                    res.word.line,
+                    res.word.column
+                ));
                 this.opponentScore++;
             }
         });

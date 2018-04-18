@@ -5,7 +5,9 @@
                     'definition': true,
                     'selected': defService.SelectedWord != undefined && word.Word == defService.SelectedWord.Word,
                     'placed': word.IsPlaced,
-                    'selectedByOpponent' : opponentSelectedWord != undefined && word.Word == opponentSelectedWord.Word
+                    'selectedByOpponent' : opponentSelectedWord != undefined && word.Word == opponentSelectedWord.Word,
+                    'placedByOpponent' : isWordFoundByOpponent(word)
+
                   }">
       <p class="canSelect"> {{word.Line + 1}} : {{defService.isCheatModeOn ? word.Word : word.Definition}}</p>
     </div>
@@ -18,7 +20,8 @@
                   'definition': true,
                   'selected': defService.SelectedWord != undefined && word.Word == defService.SelectedWord.Word,
                   'placed': word.IsPlaced,
-                  'selectedByOpponent' : opponentSelectedWord != undefined && word.Word == opponentSelectedWord.Word
+                  'selectedByOpponent' : opponentSelectedWord != undefined && word.Word == opponentSelectedWord.Word,
+                  'placedByOpponent': isWordFoundByOpponent(word)
                 }">
       <p class="canSelect">{{word.Column + 1}} : {{defService.isCheatModeOn ? word.Word : word.Definition}}</p>
     </div>

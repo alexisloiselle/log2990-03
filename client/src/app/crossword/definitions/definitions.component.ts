@@ -9,6 +9,7 @@ import { Word } from "../word";
 })
 export class DefinitionsComponent implements OnInit {
     public opponentSelectedWord: Word;
+    public opponentFoundWords: Array<Word> = [];
 
     public constructor(
         protected defService: DefinitionService
@@ -23,5 +24,19 @@ export class DefinitionsComponent implements OnInit {
 
     public set OpponentSelectedWord(word: Word) {
         this.opponentSelectedWord = word;
+    }
+
+    public addOpponentFoundWord(word: Word): void {
+        this.opponentFoundWords.push(word);
+    }
+
+    public isWordFoundByOpponent(word: Word): boolean {
+        for (const opponentFoundWord of this.opponentFoundWords) {
+            if (word.Word === opponentFoundWord.Word) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
