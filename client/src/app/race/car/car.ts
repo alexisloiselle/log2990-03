@@ -19,8 +19,6 @@ const NUMBER_REAR_WHEELS: number = 2;
 const NUMBER_WHEELS: number = 4;
 
 export class Car extends Object3D {
-    public isAcceleratorPressed: boolean;
-
     private readonly engine: Engine;
     private readonly _mass: number;
     private readonly rearWheel: Wheel;
@@ -32,10 +30,10 @@ export class Car extends Object3D {
     private _mesh: Object3D;
     private steeringWheelDirection: number;
     private weightRear: number;
+    private isLightOpen: boolean;
     public carGPS: CarGPS;
     public headlight: HeadLight;
-
-    private isLightOpen: boolean;
+    public isAcceleratorPressed: boolean;
 
     public get mass(): number {
         return this._mass;
@@ -103,12 +101,10 @@ export class Car extends Object3D {
             console.error("Wheelbase should be greater than 0.");
             wheelbase = DEFAULT_WHEELBASE;
         }
-
         if (mass <= 0) {
             console.error("Mass should be greater than 0.");
             mass = DEFAULT_MASS;
         }
-
         if (dragCoefficient <= 0) {
             console.error("Drag coefficient should be greater than 0.");
             dragCoefficient = DEFAULT_DRAG_COEFFICIENT;
@@ -119,7 +115,6 @@ export class Car extends Object3D {
         this.wheelbase = wheelbase;
         this._mass = mass;
         this.dragCoefficient = dragCoefficient;
-
         this.isBraking = false;
         this.steeringWheelDirection = 0;
         this.weightRear = INITIAL_WEIGHT_DISTRIBUTION;
@@ -162,20 +157,14 @@ export class Car extends Object3D {
     public update(deltaTime: number): void {
         deltaTime = deltaTime / MS_TO_SECONDS;
 
-        // Move to car coordinates
         const rotationMatrix: Matrix4 = new Matrix4();
         rotationMatrix.extractRotation(this._mesh.matrix);
         const rotationQuaternion: Quaternion = new Quaternion();
         rotationQuaternion.setFromRotationMatrix(rotationMatrix);
         this._speed.applyMatrix4(rotationMatrix);
-
-        // Physics calculations
         this.physicsUpdate(deltaTime);
-
-        // Move back to world coordinates
         this._speed = this.speed.applyQuaternion(rotationQuaternion.inverse());
 
-        // Angular rotation of the car
         const R: number = DEFAULT_WHEELBASE / Math.sin(this.steeringWheelDirection * deltaTime);
         const omega: number = this._speed.length() / R;
         this._mesh.rotateY(omega);
@@ -192,7 +181,6 @@ export class Car extends Object3D {
         this._mesh.position.add(this.getDeltaPosition(deltaTime));
         this.rearWheel.update(this._speed.length());
     }
-        // this.scene.add(this._car.headlight);
 
     private getWeightDistribution(): number {
         const acceleration: number = this.getAcceleration().length();
