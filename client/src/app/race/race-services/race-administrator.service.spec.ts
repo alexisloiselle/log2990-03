@@ -45,18 +45,6 @@ describe("RaceAdministratorService", () => {
             }
         }));
     });
-    describe("WinnerIsDetermined", () => {
-        it("should be false", inject([RaceAdministratorService], (service: RaceAdministratorService) => {
-            expect(service.isWinnerDetermined()).toEqual(false);
-        }));
-
-        it("should be false", inject([RaceAdministratorService], (service: RaceAdministratorService) => {
-            const time: number = 10;
-            service.addWinner(car1, time);
-            expect(service.isWinnerDetermined()).toEqual(true);
-        }));
-
-    });
     describe("getCarLap", () => {
         it("should Be equal to 1", inject([RaceAdministratorService], (service: RaceAdministratorService) => {
             expect(service.getCarLap(car1)).toEqual(1);
@@ -89,15 +77,6 @@ describe("RaceAdministratorService", () => {
 
     });
 
-    describe("addWinner", () => {
-        it("should add car1 to winners array", inject([RaceAdministratorService], (service: RaceAdministratorService) => {
-            const time: number = 10;
-            service.addWinner(car1, time);
-            expect(service.winners[0].car = car1); // winners is private in race-administrator.ts
-        }));
-
-    });
-
     describe("sortPlayersTime", () => {
         it("should sort carsLapTime in this order car4,car3,car2,car1",
            inject([RaceAdministratorService], (service: RaceAdministratorService) => {
@@ -119,7 +98,6 @@ describe("RaceAdministratorService", () => {
                 expect(service.carsLapsTime[1].id).toEqual(3);
                 expect(service.carsLapsTime[2].id).toEqual(2);
                 expect(service.carsLapsTime[3].id).toEqual(1);
-                 // winners is private in race-administrator.ts
             }));
 
     });
@@ -133,21 +111,6 @@ describe("RaceAdministratorService", () => {
             }));
 
     });
-
-    // describe("controlBots", () => {
-    //     it("should go() if RaceisGoingOn = true",
-    //        inject([RaceAdministratorService], (service: RaceAdministratorService) => {
-    //         service.controlBots(botCars);
-    //         expect(botCars[0].isAcceleratorPressed).toEqual(true);
-    //         }));
-    //     it("should stop() if raceisGoingOn = false",
-    //        inject([RaceAdministratorService], (service: RaceAdministratorService) => {
-    //         service.isRaceOnGoing = false;
-    //         service.controlBots(botCars);
-    //         expect(botCars[0].isAcceleratorPressed).toEqual(true);
-    //         }));
-
-    // });
 
     describe("youIfPlayer", () => {
         const time1: number = 10;
