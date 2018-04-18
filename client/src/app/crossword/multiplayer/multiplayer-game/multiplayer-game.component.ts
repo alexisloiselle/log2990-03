@@ -73,16 +73,16 @@ export class MultiplayerGameComponent implements OnInit {
     }
 
     private listenOpponentFoundWords(): void {
-        this.socketService.wordCorrect().subscribe((res) => {
-            if (res.isHost) {
+        this.socketService.wordCorrect().subscribe((response) => {
+            if (response.isHost) {
                 this.playerScore++;
             } else {
                 this.definitions.addOpponentFoundWord(new Word(
-                    res.word.word,
-                    res.word.definition,
-                    res.word.isHorizontal,
-                    res.word.line,
-                    res.word.column
+                    response.word.word,
+                    response.word.definition,
+                    response.word.isHorizontal,
+                    response.word.line,
+                    response.word.column
                 ));
                 this.opponentScore++;
             }
@@ -90,13 +90,13 @@ export class MultiplayerGameComponent implements OnInit {
     }
 
     private listenOpponentSelectedWords(): void {
-        this.socketService.selectWord().subscribe((res) => {
+        this.socketService.selectWord().subscribe((response) => {
             this.definitions.opponentSelectedWord = new Word(
-                res.word.word,
-                res.word.definition,
-                res.word.isHorizontal,
-                res.word.line,
-                res.word.column
+                response.word.word,
+                response.word.definition,
+                response.word.isHorizontal,
+                response.word.line,
+                response.word.column
             );
         });
     }
@@ -115,6 +115,8 @@ export class MultiplayerGameComponent implements OnInit {
 
     public async rematch(): Promise<void> {
         this.resetAttributes();
+        this.grid.ngOnInit();
+        this.definitions.ngOnInit();
         if (this.socketService.firstToRematch()) {
             this.socketService.rematch(this.gameName);
             this.socketService.gameBegin().subscribe(async (isOpponentFound) => {
