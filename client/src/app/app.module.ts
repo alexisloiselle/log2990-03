@@ -45,6 +45,7 @@ import { BestTimesArrayComponent } from "./race/game-component/best-times-array/
 import { BestTimeService } from "./race/game-component/best-times-array/best-time.service";
 import { RaceResultComponent } from "./race/game-component/race-result/race-result.component";
 import { SoundsService } from "./render-service/sounds.service";
+import { FocusCaseService } from "./crossword/grid/focus-case.service";
 
 @NgModule({
     declarations: [
@@ -95,7 +96,8 @@ import { SoundsService } from "./render-service/sounds.service";
         HudService,
         RaceAdministratorService,
         BestTimeService,
-        SoundsService
+        SoundsService,
+        FocusCaseService
     ],
     bootstrap: [AppComponent]
 })
