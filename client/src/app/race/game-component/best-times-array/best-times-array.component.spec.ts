@@ -2,6 +2,8 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { BestTimesArrayComponent } from "./best-times-array.component";
 import { BestTimeService } from "./best-time.service";
+import { TrackService } from "../../../track.service";
+// import { HttpClientTestingModule } from "@angular/common/http/testing";
 
 describe("BestTimesArrayComponent", () => {
     let component: BestTimesArrayComponent;
@@ -9,7 +11,10 @@ describe("BestTimesArrayComponent", () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [BestTimesArrayComponent, BestTimeService]
+            // imports: [HttpClientTestingModule],
+            declarations: [BestTimesArrayComponent],
+            providers: [BestTimeService,
+                        TrackService]
         })
         .compileComponents()
         .catch((err) => {});
