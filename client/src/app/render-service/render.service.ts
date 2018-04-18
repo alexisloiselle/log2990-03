@@ -15,13 +15,11 @@ import { Subject } from "rxjs/Subject";
 import { Observable } from "rxjs/Observable";
 import { TrackService } from "../track.service";
 import { URL_DAY_PREFIX, URL_DAY_POSTFIX } from "../race/constants";
-import { Object3D } from "three";
 import THREE = require("three");
 import { SoundsService } from "./sounds.service";
 import { LightManager } from "./light-manager";
-import { STARTING_SOUND, AMBIENT_LIGHT_OPACITY, TIME_SINCE_LAST_UPDATE_COEFFICIENT } from "../config";
+import { STARTING_SOUND, TIME_SINCE_LAST_UPDATE_COEFFICIENT } from "../config";
 
-const WHITE: number = 0xFFFFFF;
 const QUIT_KEYCODE: number = 81;    // q
 
 @Injectable()
