@@ -74,7 +74,7 @@ export class TrackEditorModel {
         }
     }
 
-    public clickedOnExistingPoint(mouseCoordinates: THREE.Vector2): boolean {
+    public isClickedOnExistingPoint(mouseCoordinates: THREE.Vector2): boolean {
         const ACCEPTED_RADIUS: number = 20;
         for (const point of this.pointArray) {
             if (point.distanceTo(mouseCoordinates) <= ACCEPTED_RADIUS) {
@@ -85,7 +85,7 @@ export class TrackEditorModel {
         return false;
     }
 
-    public clickedOnFirstPoint(mouseCoordinates: THREE.Vector2): boolean {
+    public isClickedOnFirstPoint(mouseCoordinates: THREE.Vector2): boolean {
         const ACCEPTED_RADIUS: number = 10;
 
         return this.pointArray[0].distanceTo(mouseCoordinates) <= ACCEPTED_RADIUS;

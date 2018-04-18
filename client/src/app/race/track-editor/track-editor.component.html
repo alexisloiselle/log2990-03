@@ -13,12 +13,12 @@
           <h3 class="nouvellePiste">New Track</h3>
       
           <p> Name:
-            <input type="text" [disabled] = "!allConstraintPass()" (keyup)="setTrackName()"
+            <input type="text" [disabled] = "!isAllConstraintPass()" (keyup)="setTrackName()"
               class="form-control" #trackNameInput>
           </p>
       
           <p>Description:
-            <input type="text" [disabled] = "!allConstraintPass()" (keyup)="setTrackDescription()"
+            <input type="text" [disabled] = "!isAllConstraintPass()" (keyup)="setTrackDescription()"
             class="form-control" #trackDescriptionInput>
           </p>
           <div class="niveau">
@@ -32,8 +32,8 @@
 
           <div class="validation">
             <hr>
-            <div *ngIf = "!(allConstraintPass() && inputTextNotEmpty())" class="alert alert-danger fade in">The track must be drawn and validated before it can be saved.</div>
-            <button class="btn btn-primary" id="validate-button" [disabled] = "!(allConstraintPass() && inputTextNotEmpty())" 
+            <div *ngIf = "!(isAllConstraintPass() && inputTextNotEmpty())" class="alert alert-danger fade in">The track must be drawn and validated before it can be saved.</div>
+            <button class="btn btn-primary" id="validate-button" [disabled] = "!(isAllConstraintPass() && inputTextNotEmpty())" 
             (click)="addTrack(trackNameInput.value, trackDescriptionInput.value, trackTypeInput.value)" routerLink="/admin" >Save</button>
           </div>
         </div>
