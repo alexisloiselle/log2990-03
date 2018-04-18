@@ -16,7 +16,7 @@ const TAILLE_CUBE: number = 1000;
 
 @Injectable()
 export class SkyboxService {
-
+    // TODO: Gerons nous les warning?
     private skyMaterial: MeshFaceMaterial;
     public skybox: Mesh;
 
@@ -47,9 +47,9 @@ export class SkyboxService {
     public async changeSkybox(scene: Scene, isNight: boolean): Promise<void> {
         scene.remove(this.skybox);
         if (isNight) {
-            this.createSkybox(scene, URL_NIGHT_PREFIX, URL_NIGHT_POSTFIX);
+            this.createSkybox(scene, URL_NIGHT_PREFIX, URL_NIGHT_POSTFIX).catch((err) => { console.error(err); });
         } else {
-            this.createSkybox(scene, URL_DAY_PREFIX, URL_DAY_POSTFIX);
+            this.createSkybox(scene, URL_DAY_PREFIX, URL_DAY_POSTFIX).catch((err) => { console.error(err); });
         }
     }
 }

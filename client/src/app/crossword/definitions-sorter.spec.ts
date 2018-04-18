@@ -1,3 +1,5 @@
+// TODO: Pourquoi est-ce commenté?
+
 /*import { DefinitionsSorter } from "./definitions-sorter";
 import { IFormattedGrid } from "./formatted-grid";
 import { Word } from "./word";

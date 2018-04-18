@@ -12,7 +12,8 @@ describe("MultiplayerMenuComponent", () => {
             imports: [RouterTestingModule],
             declarations: [MultiplayerMenuComponent]
         })
-            .compileComponents();
+        .compileComponents()
+        .catch((err) => {});
     }));
 
     beforeEach(() => {

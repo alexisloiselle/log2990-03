@@ -10,7 +10,8 @@ describe("CanvasComponent", () => {
     TestBed.configureTestingModule({
       declarations: [ CanvasComponent ]
     })
-    .compileComponents();
+    .compileComponents()
+    .catch((err) => {});
   }));
 
   beforeEach(() => {

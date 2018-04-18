@@ -15,7 +15,8 @@ describe("PasswordFormComponent", () => {
             declarations: [PasswordFormComponent],
             providers: [AuthService]
         })
-            .compileComponents();
+        .compileComponents()
+        .catch((err) => {});
     }));
 
     beforeEach(() => {

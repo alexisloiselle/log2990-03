@@ -15,7 +15,8 @@ describe("ChangePasswordComponent", () => {
             declarations: [ChangePasswordComponent],
             providers: [AuthService]
         })
-            .compileComponents();
+        .compileComponents()
+        .catch((err) => {});
     }));
 
     beforeEach(() => {

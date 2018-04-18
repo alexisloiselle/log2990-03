@@ -94,7 +94,7 @@ import { SoundsService } from "./render-service/sounds.service";
         RenderTrackService,
         HudService,
         RaceAdministratorService,
-        BestTimeService, 
+        BestTimeService,
         SoundsService
     ],
     bootstrap: [AppComponent]

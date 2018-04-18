@@ -178,7 +178,7 @@ export class RenderService {
         this.scene.add(light);
 
         await this.initBotCars();
-        this.skyboxService.createSkybox(this.scene, URL_DAY_PREFIX, URL_DAY_POSTFIX);
+        this.skyboxService.createSkybox(this.scene, URL_DAY_PREFIX, URL_DAY_POSTFIX).catch((err) => { console.error(err); });
         await this.createTrack();
         for (const car of this.cars) {
             car.initializeGPS(this.track.segments, this.track.width);
@@ -279,14 +279,14 @@ export class RenderService {
         newLight.name = "ambiantLight";
 
         this.scene.add(newLight);
-        this.skyboxService.changeSkybox(this.scene, this.isNight);
+        this.skyboxService.changeSkybox(this.scene, this.isNight).catch((err) => { console.error(err); });
     }
 
     public handleKeyUp(event: KeyboardEvent): void {
         if (this.raceOnGoing) {
             const isNightKey: boolean = this.carEventHandlerService.handleKeyUp(event, this._car);
             if (isNightKey) {
-                this.changeMomentOfTheDay();
+                this.changeMomentOfTheDay().catch((err) => { console.error(err); });
             }
         }
     }

@@ -27,7 +27,8 @@ describe("TrackListGameComponent", () => {
                 CollisionService,
                 RenderTrackService
             ]
-        }).compileComponents();
+        }).compileComponents()
+        .catch((err) => {});
     }));
 
     beforeEach(() => {

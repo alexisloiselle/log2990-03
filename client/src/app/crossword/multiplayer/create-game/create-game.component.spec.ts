@@ -18,7 +18,8 @@ describe("CreateGameComponent", () => {
             providers: [CrosswordService,
                         SocketService]
         })
-            .compileComponents();
+        .compileComponents()
+        .catch((err) => {});
     }));
 
     beforeEach(() => {
@@ -51,7 +52,7 @@ describe("CreateGameComponent", () => {
                 value: newGameName
             }
         };
-        component.updateGameName(event);
+        component.updateGameName(event).catch((err) => {});
         expect(component.gameName).toEqual(newGameName);
     });
 

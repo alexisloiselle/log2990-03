@@ -16,7 +16,7 @@ export class AuthService {
         return this.http.post(this.AUTH_URL, body)
             .toPromise()
             .then((response: boolean) => response)
-            .catch((error: Error) => this.handleError<boolean>(error));
+            .catch(async (error: Error) => this.handleError<boolean>(error));
     }
 
     public async changePassword(newPassword: string): Promise<boolean> {
@@ -25,7 +25,7 @@ export class AuthService {
         return this.http.put(this.PASSWORD_URL, body)
             .toPromise()
             .then((response: boolean) => response)
-            .catch((error: Error) => this.handleError<boolean>(error));
+            .catch(async (error: Error) => this.handleError<boolean>(error));
     }
 
     private async handleError<T>(error: Error): Promise<T> {

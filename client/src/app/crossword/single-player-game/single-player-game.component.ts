@@ -45,6 +45,6 @@ export class SinglePlayerGameComponent implements OnInit {
     }
 
     public restartGame(): void {
-        this.ngOnInit();
+        this.ngOnInit().catch((err) => { console.error(err); });
     }
 }
