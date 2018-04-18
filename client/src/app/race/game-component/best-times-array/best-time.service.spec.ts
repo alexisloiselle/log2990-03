@@ -26,7 +26,7 @@ describe("BestTimeService", () => {
         const time: number = 20;
         track.bestTimes.push(player);
         it("should be true ", inject([BestTimeService], async (service: BestTimeService)  => {
-            service.initialize(track, time);
+            service.initialize(track, time).catch((err) => {});
             expect(service.IsTimeBeaten).toEqual(true);
         }));
 
@@ -38,7 +38,7 @@ describe("BestTimeService", () => {
             { name: "N/A", time: -1 },
             { name: "N/A", time: -1 });
         track.bestTimes = bestTimes;
-        service.initialize(track, time);
+        service.initialize(track, time).catch((err) => {});
         expect(service.BestTimesArray).toEqual(bestTimes);
         }));
 
@@ -57,12 +57,12 @@ describe("BestTimeService", () => {
             { name: "Xie", time: 30 });
         const track: RaceTrack = new RaceTrack("1", "race1", "allo", type, point, bestTimes);
         it("should be true", inject([BestTimeService], (service: BestTimeService)  => {
-            service.initialize(track, time);
+            service.initialize(track, time).catch((err) => {});
             expect(service.IsTimeBeaten).toEqual(true);
         }));
 
         it("should be false", inject([BestTimeService], (service: BestTimeService)  => {
-            service.initialize(track, time1);
+            service.initialize(track, time1).catch((err) => {});
             expect(service.IsTimeBeaten).toEqual(false);
         }));
 
@@ -81,8 +81,8 @@ describe("BestTimeService", () => {
             { name: "Al", time: 25 },
             { name: "Xie", time: 30 });
         const track: RaceTrack = new RaceTrack("1", "race1", "allo", type, point, bestTimes);
-        service.initialize(track, time);
-        service.postNewBestTime("MIGLI THE KING");
+        service.initialize(track, time).catch((err) => {});
+        service.postNewBestTime("MIGLI THE KING").catch((err) => {});
         expect(service.BestTimesArray[0].name).toEqual("MIGLI THE KING");
         expect(service.IsPostDone).toEqual(true);
 

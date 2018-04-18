@@ -60,7 +60,6 @@ export class BestTimeService {
         return false;
     }
 
-    // TODO: Revoir les console.error
     public async postNewBestTime(name: string): Promise<void> {
         this.track.bestTimes[this.position] = { name: name, time: this.track.bestTimes[this.position].time };
         this.trackService.updateTrack(this.track).catch((err) => { console.error(err); });
