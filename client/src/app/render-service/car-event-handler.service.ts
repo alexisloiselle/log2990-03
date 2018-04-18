@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { CameraService } from "./camera.service";
 import { SoundsService } from "./sounds.service";
 import {
-    Command,
+    CarCommand,
     AccelerateCommand,
     SteerLeftCommand,
     SteerRightCommand,
@@ -24,13 +24,13 @@ const NIGHT_KEY: number = 78;       // n
 
 @Injectable()
 export class CarEventHandlerService {
-    private keyMap: Map<number, Command>;
+    private keyMap: Map<number, CarCommand>;
 
     public constructor(
         protected cameraService: CameraService,
         protected soundsService: SoundsService
     ) {
-        this.keyMap = new Map<number, Command>([
+        this.keyMap = new Map<number, CarCommand>([
             [ACCELERATE_KEYCODE, new AccelerateCommand(this.soundsService)],
             [LEFT_KEYCODE, new SteerLeftCommand()],
             [RIGHT_KEYCODE, new SteerRightCommand()],
@@ -42,7 +42,7 @@ export class CarEventHandlerService {
     }
 
     public handleKeyDown(event: KeyboardEvent, _car: Car): void {
-        const command: Command = this.keyMap.get(event.keyCode);
+        const command: CarCommand = this.keyMap.get(event.keyCode);
         if (command !== undefined && event.keyCode !== NIGHT_KEY) {
             command.execute(true, _car);
         }
@@ -52,7 +52,7 @@ export class CarEventHandlerService {
         if (event.keyCode === NIGHT_KEY) {
             return true;
         }
-        const command: Command = this.keyMap.get(event.keyCode);
+        const command: CarCommand = this.keyMap.get(event.keyCode);
         if (command !== undefined) {
             command.execute(false, _car);
         }
