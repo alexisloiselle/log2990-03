@@ -18,7 +18,7 @@ import { URL_DAY_PREFIX, URL_DAY_POSTFIX } from "../race/constants";
 import { Object3D } from "three";
 import THREE = require("three");
 import { SoundsService } from "./sounds.service";
-import { STARTING_SOUND, AMBIENT_LIGHT_OPACITY } from "../config";
+import { STARTING_SOUND, AMBIENT_LIGHT_OPACITY, TIME_SINCE_LAST_UPDATE_COEFFICIENT } from "../config";
 
 const WHITE: number = 0xFFFFFF;
 const QUIT_KEYCODE: number = 81;    // q
@@ -137,7 +137,7 @@ export class RenderService {
         if (this.raceOnGoing) {
             const timeSinceLastFrame: number = Date.now() - this.lastDate;
             for (const car of this.cars) {
-                car.update(timeSinceLastFrame * 3); // TODO ENLEVER MAGIC NUMBER
+                car.update(timeSinceLastFrame * TIME_SINCE_LAST_UPDATE_COEFFICIENT);
                 car.carGPS.updatePosition(car.mesh);
             }
             this.raceAdministratorService.controlBots(this.botCars);

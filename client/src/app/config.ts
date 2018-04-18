@@ -5,6 +5,7 @@ export const CROSSWORD_PARAM: string = "crossword";
 
 export const AMBIENT_LIGHT_OPACITY: number = 0.5;
 export const NUMBER_OF_LAPS: number = 3;
+export const TIME_SINCE_LAST_UPDATE_COEFFICIENT: number = 3;
 export const DEFAULT_TRACK_ID: string = "5ad24ecff36d286a71b51851";
 
 export const STARTING_SOUND: string = "../../assets/sounds/ReadySetGo.ogg";
