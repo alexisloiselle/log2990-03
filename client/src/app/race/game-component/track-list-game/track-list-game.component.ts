@@ -35,10 +35,6 @@ export class TrackListGameComponent implements OnInit {
         this.parsedTracks = await this.trackService.getTracks();
     }
 
-    public onSelectTrack(track: RaceTrack): void {
-        this.selectedTrack = track;
-    }
-
     public async deleteTrack(track: RaceTrack): Promise<void> {
         await this.trackService.deleteTrack(track.id);
         await this.ngOnInit();

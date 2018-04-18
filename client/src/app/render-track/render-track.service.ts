@@ -175,25 +175,25 @@ export class RenderTrackService {
         car.mesh.position.z = ratioY * position - Math.cos(angle) * POSITIONOFFSET;
     }
 
-    private firstSegmentRatioOfXOnHypotenuse(): number {
+    public firstSegmentRatioOfXOnHypotenuse(): number {
         return (this.segments[0].v2.y /
             this.squareRootAddition(this.segments[0].v2.x, this.segments[0].v2.y));
     }
-    private firstSegmentRatioOfZOnHypotenuse(): number {
+    public firstSegmentRatioOfZOnHypotenuse(): number {
         return (this.segments[0].v2.x /
             this.squareRootAddition(this.segments[0].v2.x, this.segments[0].v2.y));
     }
-    private squareRootAddition(firstNumber: number, secondNumber: number): number {
+    public squareRootAddition(firstNumber: number, secondNumber: number): number {
         return (Math.sqrt(Math.pow(firstNumber, 2) +
             Math.pow(secondNumber, 2)));
     }
-    private getAngle(ratio: number): number {
-        return (Math.acos(ratio) + Math.PI);
-    }
-    private getRotationArcTan(segment: THREE.LineCurve): number {
+    public getRotationArcTan(segment: THREE.LineCurve): number {
         return (Math.atan((segment.v2.y - segment.v1.y) / (segment.v2.x - segment.v1.x)));
     }
-    private generateRandomNumber(numberMax: number): number {
+    public generateRandomNumber(numberMax: number): number {
         return (Math.floor(Math.random() * numberMax) + 1);
+    }
+    private getAngle(ratio: number): number {
+        return (Math.acos(ratio) + Math.PI);
     }
 }
