@@ -18,6 +18,7 @@ import { URL_DAY_PREFIX, URL_DAY_POSTFIX } from "../race/constants";
 import { Object3D } from "three";
 import THREE = require("three");
 import { SoundsService } from "./sounds.service";
+import { LightManager } from "./light-manager";
 import { STARTING_SOUND, AMBIENT_LIGHT_OPACITY, TIME_SINCE_LAST_UPDATE_COEFFICIENT } from "../config";
 
 const WHITE: number = 0xFFFFFF;
@@ -101,7 +102,7 @@ export class RenderService {
         this.hudService.initialize();
         this.initStats();
         this.startRenderingLoop();
-        this.playStartingSound();
+        this.soundsService.playSound(STARTING_SOUND);
         this.listenIncrementLap();
         this.raceAdministratorService.initializeCarsLapsTime(this.cars);
         this.raceOnGoing = true;
@@ -162,10 +163,7 @@ export class RenderService {
         this.cameraService.createCameras(this._car.Position, this.getAspectRatio(), this.scene);
         this.scene.add(this._car);
         this.scene.add(this._car.headlight.Target);
-
-        const light: THREE.AmbientLight = new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY);
-        light.name = "ambiantLight";
-        this.scene.add(light);
+        this.scene.add(LightManager.createLight(this.isNight));
 
         await this.initBotCars();
         this.skyboxService.createSkybox(this.scene, URL_DAY_PREFIX, URL_DAY_POSTFIX).catch((err) => { console.error(err); });
@@ -242,25 +240,13 @@ export class RenderService {
         }
     }
 
-    private removeAmbiantLight(): void {
-        const light: Object3D = this.scene.getObjectByName("ambiantLight");
-        this.scene.remove(light);
-    }
-
     private async changeMomentOfTheDay(): Promise<void> {
         this.isNight = !this.isNight;
-        this.removeAmbiantLight();
+        LightManager.removeAmbiantLight(this.scene);
         for (const car of this.cars) {
             car.changeLight();
         }
-
-        let newLight: THREE.AmbientLight;
-        newLight = this.isNight ?
-            new THREE.AmbientLight(WHITE, 0) :
-            new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY);
-        newLight.name = "ambiantLight";
-
-        this.scene.add(newLight);
+        this.scene.add(LightManager.createLight(this.isNight));
         this.skyboxService.changeSkybox(this.scene, this.isNight).catch((err) => { console.error(err); });
     }
 
@@ -278,10 +264,6 @@ export class RenderService {
         this.cars.forEach((car) => { this.cars.pop(); });
         this.scene = new THREE.Scene;
         this.route.navigateByUrl("/track-list");
-    }
-
-    private playStartingSound(): void {
-        this.soundsService.playSound(STARTING_SOUND);
     }
 
     public sleep(miliseconds: number): void {
