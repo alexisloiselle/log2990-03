@@ -13,7 +13,8 @@ describe("SinglePlayerMenuComponent", () => {
             imports: [RouterTestingModule],
             declarations: [SinglePlayerMenuComponent]
         })
-            .compileComponents();
+        .compileComponents()
+        .catch((err) => {});
     }));
 
     beforeEach(() => {

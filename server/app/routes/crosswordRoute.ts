@@ -8,7 +8,6 @@ import { ICrosswordGame, ICrosswordGameInfo, IWord } from "./crossword-game";
 import { IMultiplayerGame } from "../../../common/multiplayer-game";
 import { MongoClient, MongoError, Db, Cursor} from "mongodb";
 import { MOCK_LETTERS, MOCK_WORDS_AND_DEFS } from "../../../common/mock-constants";
-import * as express from "express";
 
 module Route {
     const MONGO_URL: string = "mongodb://admin:password@ds233218.mlab.com:33218/log2990-03-db";
@@ -88,7 +87,7 @@ module Route {
         public async isWordAlreadyUsed(req: Request, res: Response, next: NextFunction): Promise<void> {
             require("mongodb").MongoClient.connect(MONGO_URL, async (err: MongoError, client: MongoClient) => {
                 const db: Db = client.db("log2990-03-db");
-                db.collection("games").find({ "gameInfo.gameName": req.params.gameName }).count().then((size: number) => {
+                await db.collection("games").find({ "gameInfo.gameName": req.params.gameName }).count().then((size: number) => {
                     const isAlreadyUsed: boolean = (size !== 0);
                     res.send(JSON.stringify(isAlreadyUsed));
                 });
@@ -131,7 +130,7 @@ module Route {
 
         public async updateMultiplayerGame(req: Request, res: Response, next: NextFunction): Promise<void> {
             const gameInfo: ICrosswordGameInfo = req.body;
-            require("mongodb").MongoClient.connect(MONGO_URL, (err: MongoError, client: MongoClient) => {
+            require("mongodb").MongoClient.connect(MONGO_URL, async (err: MongoError, client: MongoClient) => {
                 const db: Db = client.db("log2990-03-db");
                 db.collection("games").updateOne(
                     { "gameInfo.gameName": (gameInfo.gameName) },
@@ -139,14 +138,14 @@ module Route {
                         const isOk: boolean = updateErr === null;
                         res.send(JSON.stringify(isOk));
                     });
-                client.close();
+                await client.close();
             });
         }
 
         public async getMockGrid(req: Request, res: Response, next: NextFunction): Promise<void> {
             res.send({ letters: MOCK_LETTERS, words: MOCK_WORDS_AND_DEFS });
         }
-        public async getUserNames(req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> {
+        public async getUserNames(req: Request, res: Response, next: NextFunction): Promise<void> {
             await require("mongodb").MongoClient.connect(MONGO_URL, async(err: MongoError, client: MongoClient) => {
                 const db: Db = client.db("log2990-03-db");
                 const currentGame: ICrosswordGame = await db.collection("games")

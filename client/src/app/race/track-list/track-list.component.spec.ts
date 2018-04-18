@@ -29,7 +29,8 @@ describe("TrackListComponent", () => {
                 CollisionService,
                 RenderTrackService
             ]
-        }).compileComponents();
+        }).compileComponents()
+        .catch((err) => {});
     }));
 
     beforeEach(() => {
@@ -39,6 +40,6 @@ describe("TrackListComponent", () => {
     });
 
     it("should create", () => {
-        // expect(component).toBeTruthy();
+        expect(component).toBeTruthy();
     });
 });

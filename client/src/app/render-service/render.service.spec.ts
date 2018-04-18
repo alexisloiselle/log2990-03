@@ -11,10 +11,13 @@ import { HudService } from "./hud.service";
 import { RaceAdministratorService } from "../race/race-services/race-administrator.service";
 import { LineCurve } from "three";
 import { SoundsService } from "./sounds.service";
+import { TrackService } from "../track.service";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
 
 describe("RenderService", () => {
     beforeEach(async () => {
         TestBed.configureTestingModule({
+            imports: [ HttpClientTestingModule ],
             providers: [
                 RenderService,
                 CarEventHandlerService,
@@ -25,6 +28,7 @@ describe("RenderService", () => {
                 HudService,
                 RaceAdministratorService,
                 SoundsService,
+                TrackService,
                 { provide: Router, useClass: class { public navigate: jasmine.Spy = jasmine.createSpy("navigate"); } }
             ]
         });

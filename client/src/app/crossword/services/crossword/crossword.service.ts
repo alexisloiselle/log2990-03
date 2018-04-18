@@ -26,11 +26,15 @@ export class CrosswordService {
 
     public async createGame(userName: string, gameName: string, difficulty: string): Promise<void> {
         const newGame: IMultiplayerGame = { userName1: userName, userName2: "", gameName: gameName, difficulty: difficulty };
-        this.http.post(`${API_URL}/${CROSSWORD_PARAM}/createNewGame`, newGame).toPromise();
+        this.http.post(`${API_URL}/${CROSSWORD_PARAM}/createNewGame`, newGame)
+            .toPromise()
+            .catch(async (error: Error) => this.handleError<boolean>(error));
     }
 
     public async isNameAlreadyUsed(gameName: string): Promise<boolean> {
-        return this.http.get<boolean>(`${API_URL}/${CROSSWORD_PARAM}/isNameAlreadyUsed/${gameName}`).toPromise();
+        return this.http.get<boolean>(`${API_URL}/${CROSSWORD_PARAM}/isNameAlreadyUsed/${gameName}`)
+            .toPromise()
+            .catch(async (error: Error) => this.handleError<boolean>(error));
     }
 
     public async getGames(): Promise<void> {
@@ -48,17 +52,19 @@ export class CrosswordService {
     public async updateMultiplayerGame(userName: string, gameName: string): Promise<void> {
         const newGameInfo: IMultiplayerGame = { userName1: "", userName2: userName, gameName: gameName, difficulty: "" };
 
-        this.http.post(`${API_URL}/${CROSSWORD_PARAM}/updateMultiplayerGame`, newGameInfo).toPromise();
+        this.http.post(`${API_URL}/${CROSSWORD_PARAM}/updateMultiplayerGame`, newGameInfo)
+            .toPromise()
+            .catch(async (error: Error) => this.handleError<boolean>(error));
     }
 
-    public async getUserNames(gameName: string): Promise<any> {
+    public async getUserNames(gameName: string): Promise<void> {
         await this.http.get(`${API_URL}/${CROSSWORD_PARAM}/getUserNames/${gameName}`)
             .toPromise()
-            .then((userNames: { userNameOne: any, userNameTwo: any }) => {
+            .then((userNames: { userNameOne: string, userNameTwo: string }) => {
                 this.userNamePlayerOne = userNames.userNameOne,
-                    this.userNamePlayerTwo = userNames.userNameTwo;
+                this.userNamePlayerTwo = userNames.userNameTwo;
             })
-            .catch((error: Error) => this.handleError<any>(error));
+            .catch(async (error: Error) => this.handleError<boolean>(error));
     }
 
     public get FormattedGrid(): IFormattedGrid {

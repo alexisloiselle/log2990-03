@@ -18,11 +18,9 @@ import { URL_DAY_PREFIX, URL_DAY_POSTFIX } from "../race/constants";
 import { Object3D } from "three";
 import THREE = require("three");
 import { SoundsService } from "./sounds.service";
-import { STARTING_SOUND } from "../config";
+import { STARTING_SOUND, AMBIENT_LIGHT_OPACITY, TIME_SINCE_LAST_UPDATE_COEFFICIENT } from "../config";
 
 const WHITE: number = 0xFFFFFF;
-const GREY: number = 0x334F66;
-const AMBIENT_LIGHT_OPACITY: number = 0.5;
 const QUIT_KEYCODE: number = 81;    // q
 
 @Injectable()
@@ -130,7 +128,7 @@ export class RenderService {
             this.botCars[i].init(await RenderService.loadCar(carModelsDirectories[i]));
             this.botCars[i].translateOnAxis(new THREE.Vector3(0, 0, 0), 1);
             this.scene.add(this.botCars[i]);
-            // this.scene.add(this.botCars[i].headlight);
+            this.scene.add(this.botCars[i].headlight.Target);
         }
 
     }
@@ -139,7 +137,7 @@ export class RenderService {
         if (this.raceOnGoing) {
             const timeSinceLastFrame: number = Date.now() - this.lastDate;
             for (const car of this.cars) {
-                car.update(timeSinceLastFrame * 3); // TODO ENLEVER MAGIC NUMBER
+                car.update(timeSinceLastFrame * TIME_SINCE_LAST_UPDATE_COEFFICIENT);
                 car.carGPS.updatePosition(car.mesh);
             }
             this.raceAdministratorService.controlBots(this.botCars);
@@ -149,7 +147,6 @@ export class RenderService {
             } else if (index !== -1) {
                 this.raceAdministratorService.addWinner(this.cars[index], this.hudService.RaceTime);
             }
-            console.log(this._car.speed.length());
             this.cameraService.update(this._car.Position);
             this.skyboxService.update(this._car.Position);
             this.collisionService.checkForCollision(this.cars, this.track.segments, this.track.width);
@@ -174,12 +171,14 @@ export class RenderService {
         this._car.init(await RenderService.loadCar("../../assets/camero/camero-2010-low-poly.json"));
         this.cameraService.createCameras(this._car.Position, this.getAspectRatio(), this.scene);
         this.scene.add(this._car);
-        // this.scene.add(this._car.headlight);
+        this.scene.add(this._car.headlight.Target);
+
         const light: THREE.AmbientLight = new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY);
         light.name = "ambiantLight";
         this.scene.add(light);
+
         await this.initBotCars();
-        this.skyboxService.createSkybox(this.scene, URL_DAY_PREFIX, URL_DAY_POSTFIX);
+        this.skyboxService.createSkybox(this.scene, URL_DAY_PREFIX, URL_DAY_POSTFIX).catch((err) => { console.error(err); });
         await this.createTrack();
         for (const car of this.cars) {
             car.initializeGPS(this.track.segments, this.track.width);
@@ -269,20 +268,25 @@ export class RenderService {
     private async changeMomentOfTheDay(): Promise<void> {
         this.isNight = !this.isNight;
         this.removeAmbiantLight();
-        // this.car.changeLight();
+        for (const car of this.cars) {
+            car.changeLight();
+        }
+
         let newLight: THREE.AmbientLight;
-        newLight = this.isNight ? new THREE.AmbientLight(GREY, AMBIENT_LIGHT_OPACITY) :
-                                  new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY);
+        newLight = this.isNight ?
+            new THREE.AmbientLight(WHITE, 0) :
+            new THREE.AmbientLight(WHITE, AMBIENT_LIGHT_OPACITY);
         newLight.name = "ambiantLight";
+
         this.scene.add(newLight);
-        this.skyboxService.changeSkybox(this.scene, this.isNight);
+        this.skyboxService.changeSkybox(this.scene, this.isNight).catch((err) => { console.error(err); });
     }
 
     public handleKeyUp(event: KeyboardEvent): void {
         if (this.raceOnGoing) {
             const isNightKey: boolean = this.carEventHandlerService.handleKeyUp(event, this._car);
             if (isNightKey) {
-                this.changeMomentOfTheDay();
+                this.changeMomentOfTheDay().catch((err) => { console.error(err); });
             }
         }
     }

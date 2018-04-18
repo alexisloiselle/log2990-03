@@ -1,4 +1,4 @@
-/*import { DefinitionsSorter } from "./definitions-sorter";
+import { DefinitionsSorter } from "./definitions-sorter";
 import { IFormattedGrid } from "./formatted-grid";
 import { Word } from "./word";
 import { } from "jasmine";
@@ -10,36 +10,48 @@ describe("DefinitionSorter", () => {
         word: "foo",
         definition: "foo-def",
         isHorizontal: true,
+        line: 3,
+        column: 4,
         position: { x: 3, y: 4 }
     });
     formattedGrid.words.push({
         word: "bar",
         definition: "bar-def",
         isHorizontal: true,
+        line: 1,
+        column: 1,
         position: { x: 1, y: 1 }
     });
     formattedGrid.words.push({
         word: "food",
         definition: "food-def",
         isHorizontal: false,
+        line: 5,
+        column: 6,
         position: { x: 5, y: 6 }
     });
     formattedGrid.words.push({
         word: "Falafel",
         definition: "Falafel-def",
         isHorizontal: true,
+        line: 9,
+        column: 9,
         position: { x: 9, y: 9 }
     });
     formattedGrid.words.push({
         word: "Tofudog",
         definition: "Tofudog-def",
         isHorizontal: false,
+        line: 1,
+        column: 9,
         position: { x: 1, y: 9 }
     });
     formattedGrid.words.push({
         word: "Michel",
         definition: "Michel-def",
         isHorizontal: false,
+        line: 4,
+        column: 5,
         position: { x: 4, y: 5 }
     });
 
@@ -65,4 +77,4 @@ describe("DefinitionSorter", () => {
         expect(defitionsSorter.HorizontalDefinitions).toEqual(horizontalWords);
         expect(defitionsSorter.VerticalDefinitions).toEqual(verticalWords);
     });
-});*/
+});

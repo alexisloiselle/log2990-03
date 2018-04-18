@@ -2,6 +2,8 @@ import { Case } from "./case";
 import { Lexicon } from "../lexicon/lexicon";
 import { Word, Direction } from "./word";
 
+const INDEX_DOES_NOT_EXIST: number = -1;
+
 export class WordPlacer {
 
     private lexicon: Lexicon;
@@ -19,7 +21,7 @@ export class WordPlacer {
                 return true;
             }
             constraintsQueue.push(wordInGrid.filter((word: Word) => {
-                return constraintsQueue.indexOf(word) === -1;
+                return constraintsQueue.indexOf(word) === INDEX_DOES_NOT_EXIST;
             }).sort((a: Word, b: Word) => {
                 return b.NbConstraints - a.NbConstraints;
             })[0]);
@@ -53,7 +55,7 @@ export class WordPlacer {
                 const wordEngendered: Word = wordInGrid.find((word: Word) => {
                     return this.isIntersectingWord(word, line, column, orientation);
                 });
-                if (constraintsQueue.indexOf(wordEngendered) === -1) {
+                if (constraintsQueue.indexOf(wordEngendered) === INDEX_DOES_NOT_EXIST) {
                     constraintsQueue.push(wordEngendered);
                 }
             }
@@ -113,7 +115,7 @@ export class WordPlacer {
         let column: number = gridWord.Column;
         const orientation: Direction = gridWord.Orientation;
 
-        if (this.placedWord.indexOf(wordToAdd) > -1) {
+        if (this.placedWord.indexOf(wordToAdd) > INDEX_DOES_NOT_EXIST) {
             return false;
         }
 

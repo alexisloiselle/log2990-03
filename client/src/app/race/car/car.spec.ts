@@ -18,7 +18,7 @@ describe("Car", () => {
 
     beforeEach(async (done: () => void) => {
         car = new Car(new MockEngine());
-        await car.init(await RenderService.loadCar("../../assets/porsche/porsche.json"));
+        car.init(await RenderService.loadCar("../../assets/porsche/porsche.json"));
 
         car.isAcceleratorPressed = true;
         car.update(MS_BETWEEN_FRAMES);

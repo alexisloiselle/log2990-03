@@ -28,8 +28,7 @@ li.border-selectedByBoth {
     box-shadow: 0 0 0 4px rgb(247, 0, 125);
 }
 
-li.border-selectedByOpponent
-{
+li.border-selectedByOpponent {
     border-width: 4px;
     border-color: rgb(247, 0, 125);
 }
@@ -65,12 +64,12 @@ li.border-selectedByOpponent
 }
 
 .placedByBoth {
-        background: repeating-linear-gradient(
-          45deg,
-          rgb(121, 209, 121),
-          rgb(121, 209, 121) 10px,
-          rgb(42, 60, 219) 10px,
-          rgb(42, 60, 219) 20px
-        ) !important ;  
+    background: repeating-linear-gradient(
+        45deg,
+        rgb(121, 209, 121),
+        rgb(121, 209, 121) 10px,
+        rgb(42, 60, 219) 10px,
+        rgb(42, 60, 219) 20px
+    ) !important ;
 }
 
