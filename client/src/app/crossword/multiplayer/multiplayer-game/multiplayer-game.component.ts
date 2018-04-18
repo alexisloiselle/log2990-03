@@ -41,7 +41,6 @@ export class MultiplayerGameComponent implements OnInit {
         this.playerName = "";
         this.opponentName = "";
         this.initSocket();
-
     }
 
     private initSocket(): void {
@@ -66,6 +65,7 @@ export class MultiplayerGameComponent implements OnInit {
     public async opponentFound(): Promise<void> {
         this.isOpponentFound = true;
         this.defService.IsCheatModeOn = false;
+        this.difficulty = Difficulty.Mock;
         await this.crosswordService.getMultiplayerGrid(this.gameName);
         await this.crosswordService.getUserNames(this.gameName);
         this.defService.configureDefinitions();

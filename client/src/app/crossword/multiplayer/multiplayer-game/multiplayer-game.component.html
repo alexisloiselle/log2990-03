@@ -19,7 +19,8 @@
 </div>
 
 <div *ngIf="isOpponentFound">
-  <p> Partie: {{gameName}}</p>
+  <p> Game: {{gameName}}</p>
+  <div id="difficultyTitle">Difficulty : {{difficulty}}</div>
   <button type="button" class="btn btn-outline-primary" (click)="defService.isCheatModeOn = !defService.isCheatModeOn">
     {{defService.isCheatModeOn ? 'Disable Cheat Mode' : 'Enable Cheat Mode'}}
   </button>

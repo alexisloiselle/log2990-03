@@ -15,7 +15,6 @@ export interface RemainingRace {
 @Injectable()
 export class RaceAdministratorService {
     private isRaceOnGoing: boolean;
-    private winners: { car: Car, time: number }[];
     public carsLapsTime: { id: number, lapsTime: number[] }[] = [];
     public remainingRace: RemainingRace = {
         remainingLaps: 0,
@@ -27,7 +26,6 @@ export class RaceAdministratorService {
     };
 
     public constructor() {
-        this.winners = [];
         this.isRaceOnGoing = true;
     }
 
@@ -39,10 +37,6 @@ export class RaceAdministratorService {
             }
             this.carsLapsTime.push({ id: car.id, lapsTime });
         }
-    }
-
-    public get IsWinnerDetermined(): boolean {
-        return this.winners.length > 0;
     }
 
     public getCarLap(playerCar: Car): number {
@@ -143,13 +137,6 @@ export class RaceAdministratorService {
         this.remainingRace.remTimeToCompRestOfRace = 0;
         this.remainingRace.remTimeToCompSeg = 0;
         this.remainingRace.currentLap = 0;
-    }
-
-    public addWinner(car: Car, time: number): void {
-        for (const winnerCar of this.winners) {
-            if (car.id === winnerCar.car.id) { return; }
-        }
-        this.winners.push({ car, time });
     }
 
     public sortPlayersTime(): void {

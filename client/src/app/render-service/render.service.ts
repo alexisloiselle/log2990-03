@@ -144,8 +144,6 @@ export class RenderService {
             const index: number = this.raceAdministratorService.determineWinner(this.cars);
             if (index === 0) {
                 this.manageRaceEnd(index);
-            } else if (index !== -1) {
-                this.raceAdministratorService.addWinner(this.cars[index], this.hudService.RaceTime);
             }
             this.cameraService.update(this._car.Position);
             this.skyboxService.update(this._car.Position);
