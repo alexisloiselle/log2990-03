@@ -55,7 +55,7 @@ export class TrackListComponent implements OnInit {
     }
 
     public constraintPass(): boolean {
-        return this.trackEditor.allConstraintPass();
+        return this.trackEditor.isAllConstraintPass();
     }
 
     public async updateMyTrack(selectedTrack: RaceTrack): Promise<void> {
