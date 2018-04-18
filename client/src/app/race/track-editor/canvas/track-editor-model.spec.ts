@@ -234,4 +234,12 @@ describe("CanvasComponent", () => {
         trackEditor.PointArray = pointArray;
         expect(trackEditor.clickedOnFirstPoint(new Vector2(45, 45))).toBeFalsy();
     });
+
+    it ("should return true if the two points are too close", () => {
+        expect(trackEditor.isTooClose(new Vector2(0, 0), new Vector2(5, 5))).toBeTruthy();
+    });
+
+    it ("should return true if the two points are too close", () => {
+        expect(trackEditor.isTooClose(new Vector2(0, 0), new Vector2(40, 40))).toBeFalsy();
+    });
 });
