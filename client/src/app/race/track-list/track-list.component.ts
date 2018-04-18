@@ -65,11 +65,17 @@ export class TrackListComponent implements OnInit {
         await this.ngOnInit();
     }
 
-    private updateTrackParams(updatedTrack: RaceTrack): void {
+    public updateTrackParams(updatedTrack: RaceTrack): void {
         updatedTrack.points = this.trackEditor.myTrackEditorModel.PointArray;
         updatedTrack.findSegments();
-        updatedTrack.name = this.trackNameInput.nativeElement.value;
-        updatedTrack.description = this.trackDescriptionInput.nativeElement.value;
+        this.trackNameInput.nativeElement.value === "" ?
+            updatedTrack.name = "Default name" :
+            updatedTrack.name = this.trackNameInput.nativeElement.value;
+
+        this.trackDescriptionInput.nativeElement.value === "" ?
+            updatedTrack.description = "Default description" :
+            updatedTrack.description = this.trackDescriptionInput.nativeElement.value;
+
         updatedTrack.type = this.trackTypeInput.nativeElement.value;
     }
 
