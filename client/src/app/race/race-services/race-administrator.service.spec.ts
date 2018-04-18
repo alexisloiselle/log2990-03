@@ -60,7 +60,7 @@ describe("RaceAdministratorService", () => {
         it("should Be equal to 0", inject([RaceAdministratorService], (service: RaceAdministratorService) => {
             car2.initializeGPS(trackSegments, trackWidth);
 
-            expect(service.determineWinner(cars)).toEqual(-1); // TODO MOCK OBSERVABLE
+            expect(service.determineWinner(cars)).toEqual(-1);
         }));
 
     });
