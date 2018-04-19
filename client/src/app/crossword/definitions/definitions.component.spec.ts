@@ -22,9 +22,15 @@ describe("DefinitionsComponent", () => {
     it("should create", () => {
         expect(component).toBeTruthy();
     });
+
     it ("should find that the word is found by opponent",  () => {
         const word: Word = new Word ("mot", "leMot", false, 0, 0);
         component.addOpponentFoundWord(word);
         expect(component.isWordFoundByOpponent(word)).toBeTruthy();
+    });
+
+    it ("should find that the word is not found by opponent",  () => {
+        const word: Word = new Word ("mot", "leMot", false, 0, 0);
+        expect(component.isWordFoundByOpponent(word)).toBeFalsy();
     });
 });
