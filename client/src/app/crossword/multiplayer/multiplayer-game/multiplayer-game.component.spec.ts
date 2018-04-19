@@ -59,7 +59,6 @@ describe("MultiplayerGameComponent", () => {
 
     it("should be configured after ngoninit()", async () => {
         await component.ngOnInit();
-        expect(component.isConfigured).toEqual(true);
         expect(component.difficulty).toEqual("mock");
         expect(component.playerScore).toEqual(0);
         expect(component.opponentScore).toEqual(0);

@@ -42,7 +42,6 @@ export class MultiplayerGameComponent implements OnInit {
         this.opponentName = "";
         this.difficulty = Difficulty.Mock;
         this.initSocket();
-        this.isConfigured = true;
     }
 
     private initSocket(): void {
@@ -70,6 +69,7 @@ export class MultiplayerGameComponent implements OnInit {
         await this.crosswordService.getMultiplayerGrid(this.gameName);
         await this.crosswordService.getUserNames(this.gameName);
         this.defService.configureDefinitions();
+        this.isConfigured = true;
     }
 
     private listenOpponentFoundWords(): void {
