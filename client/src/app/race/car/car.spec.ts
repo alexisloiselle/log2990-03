@@ -1,4 +1,5 @@
-import { Car, DEFAULT_WHEELBASE, DEFAULT_MASS, DEFAULT_DRAG_COEFFICIENT } from "./car";
+import { Car } from "./car";
+import { DEFAULT_WHEELBASE, DEFAULT_MASS, DEFAULT_DRAG_COEFFICIENT } from "./car-constant";
 import { RenderService } from "../../render-service/render.service";
 import { Engine } from "./engine";
 import { Wheel } from "./wheel";
