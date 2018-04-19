@@ -1,22 +1,19 @@
-import { Vector3, Matrix4, Object3D, Euler, Quaternion, LineCurve, PerspectiveCamera, Box3 } from "three";
+import { Vector3, Matrix4, Object3D, Quaternion, LineCurve, PerspectiveCamera, Box3 } from "three";
 import { Engine } from "./engine";
-import { MS_TO_SECONDS, GRAVITY, PI_OVER_2, RAD_TO_DEG } from "../constants";
+import { MS_TO_SECONDS, GRAVITY, RAD_TO_DEG } from "../constants";
 import { Wheel } from "./wheel";
 import { CarGPS } from "./car-gps";
 import { HeadLight } from "./headlights";
 import THREE = require("three");
-import { HEADLIGHT_NIGHT_INTENSITY } from "./car-constant";
-
-export const DEFAULT_WHEELBASE: number = 2.78;
-export const DEFAULT_MASS: number = 1515;
-export const DEFAULT_DRAG_COEFFICIENT: number = 0.35;
-
-const MAXIMUM_STEERING_ANGLE: number = 0.25;
-const INITIAL_MODEL_ROTATION: Euler = new Euler(0, PI_OVER_2, 0);
-const INITIAL_WEIGHT_DISTRIBUTION: number = 0.5;
-const MINIMUM_SPEED: number = 0.05;
-const NUMBER_REAR_WHEELS: number = 2;
-const NUMBER_WHEELS: number = 4;
+import { HEADLIGHT_NIGHT_INTENSITY,
+         INITIAL_WEIGHT_DISTRIBUTION,
+         INITIAL_MODEL_ROTATION,
+         MAXIMUM_STEERING_ANGLE,
+         MINIMUM_SPEED, NUMBER_REAR_WHEELS,
+         NUMBER_WHEELS,
+         DEFAULT_WHEELBASE,
+         DEFAULT_MASS,
+         DEFAULT_DRAG_COEFFICIENT} from "./car-constant";
 
 export class Car extends Object3D {
     private readonly engine: Engine;
